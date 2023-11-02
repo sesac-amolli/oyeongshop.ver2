@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BoardController {
     @GetMapping("/QnA")
     public String index( ) {
-        return "/board/qna-board-write";
+        return "/board/qna-list";
     }
 }
