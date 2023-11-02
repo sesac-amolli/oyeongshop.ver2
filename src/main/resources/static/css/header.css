@@ -1,0 +1,24 @@
+@import url(reset.css);
+
+
+header {
+	padding: 2em;
+}
+
+header a {
+	font-family: 'Caveat', monospace ;
+}
+
+
+#shopName {
+	text-align: center;
+	font-size: 3em;
+}
+
+#header-button-section {
+	text-align: right;
+}
+
+#welcome-sentence{
+
+}

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
+    <title>Document</title>
+</head>
+<body layout:fragment="content">
+<section class="main"></section>
+<h2>문의 답변 등록</h2>
+<form class="qna-register" action="">
+    <table>
+        <tr>
+            <td class="title">문의 카테고리</td>
+            <td class="content">배송</td>
+        </tr>
+        <tr>
+            <td class="title" id="coltitle">상품명</td>
+            <td class="content">가디건</td>
+        </tr>
+        <tr>
+            <td class="title" id="title">제목</td>
+            <td class="content">배송관련 문의 입니다.</td>
+        </tr>
+        <tr>
+            <td class="title">내용</td>
+            <td class="content"><textarea readonly>주문한 상품이 배송예약 으로만 확인이 되고배송 흐름이 전혀 보이지가 않는데, 언제정도 받을수 있는지 궁금해서 문의 드립니다. 택배사 CJ 대한통운 680942579691운송장 번호는 위에써놓은 번호 입니다.
+            </textarea></td>
+        </tr>
+        <tr>
+            <td class="title">등록일</td>
+            <td class="content">2023.10.11</td>
+        </tr>
+        <tr>
+            <td class="title">작성자</td>
+            <td class="content">yeong1234</td>
+        </tr>
+        <tr>
+            <td class="title">답변</td>
+            <td class="content"><textarea></textarea></td>
+        </tr>
+        
+    </table>
+    <div class="buttons">
+        <button type="button">등록하기</button>
+    </div>
+</form>
+    <!-- <section class="main">
+    <h2 class="h2">Q&A 등록하기</h2>
+
+    <div class="qna-register"></div>
+        <form class="qna-form" action="">
+            <div class="container">
+                <div> -->
+                    <!-- 상품명 불러오는걸로??.. -->
+                    <!-- <span class="title">상품명</span><input class="content" type="text">
+                </div>
+                <div>
+                    <span class="title">문의 카테고리</span><select class="content" id="combo">
+                        <option value="주문">주문</option>
+                        <option value="배송">배송</option>
+                        <option value="환불">환불</option>
+                    </select>
+                </div>
+                <div>
+                    <span class="title">제목</span><input class="content" type="text">
+                </div>
+                <div>
+                    <span class="title">내용</span><textarea class="content" cols="30" rows="10"></textarea>
+                </div>
+                <div>
+                    <span class="title">작성자</span><label class="content">yeong1234</label>
+                </div>
+                <div>
+                    <span class="title">비밀번호</span><input class="content" type="text" placeholder="숫자 4자리">
+                </div>
+                <div>
+                    <span class="title">공개 유무</span>
+                    <label class="content">
+                        <label><input class="radio"type="radio" name="openflag" value="public"> 공개</label>
+                        <label><input class="radio" type="radio" name="openflag" value="private"> 비공개</label>
+                    </label>
+                </div>
+
+                <div class="buttons">
+                    <button type="submit">Write</button>
+                    <button type="button">Cancel</button>
+                </div>
+            </div>
+          
+            
+        </form>
+
+    </section> -->
+
+
+
+
+
+
+
+	<!-- <article>
+		<div class="container" role="main">
+
+			<h2>board Form</h2>
+
+			<form name="form">
+
+				<div class="mb-3">
+
+					<label for="title">제목</label>
+
+					<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요">
+
+				</div>
+
+				
+
+				<div class="mb-3">
+
+					<label for="reg_id">작성자</label>
+
+					<input type="text" class="form-control" name="reg_id" id="reg_id" placeholder="이름을 입력해 주세요">
+
+				</div>
+
+				
+
+				<div class="mb-3">
+
+					<label for="content">내용</label>
+
+					<textarea class="form-control" rows="5" name="content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
+
+				</div>
+
+				
+
+				<div class="mb-3">
+
+					<label for="tag">TAG</label>
+
+					<input type="text" class="form-control" name="tag" id="tag" placeholder="태그를 입력해 주세요">
+
+				</div>
+
+			
+
+			</form>
+
+			<div >
+
+				<button type="button" class="btn btn-sm btn-primary" id="btnSave">저장</button>
+
+				<button type="button" class="btn btn-sm btn-primary" id="btnList">목록</button>
+
+			</div>
+
+		</div>
+
+	</article> -->
+
+
+    
+</body>
+</html>

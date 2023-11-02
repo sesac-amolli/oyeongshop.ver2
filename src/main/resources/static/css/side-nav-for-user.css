@@ -1,0 +1,24 @@
+@import url(reset.css);
+@import url(common.css);
+@import url(header.css);
+@import url(footer.css);
+
+#search-area{
+    border-bottom: 2px black solid;
+    padding-bottom: 0.5em;
+}
+#search-input{
+    width: 80%;
+}
+#search-btn{
+    width: 15%;
+}
+
+.toggle-btn{
+    padding-top: 1em;
+    padding-left: 2em;
+}
+
+.side-menu{
+    font-size: 20px;
+}

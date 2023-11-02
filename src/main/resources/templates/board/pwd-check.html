@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout}">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/board/pwd-check.css">
+</head>
+<body layout:fragment="content">
+    <section>
+        <form class="pwd-form" action="">
+            <div class="content">이 글은 비밀글입니다. 비밀번호를 입력해주세요.</div>
+
+            <div class="pwd">비밀번호<input class="input-pwd" type="text"></div>
+
+            <div class="btn"><button class="list-btn" type="button">목록으로</button>
+                <button type="submit">확인</button></div>
+
+        </form>
+    </section>
+</body>
+</html>

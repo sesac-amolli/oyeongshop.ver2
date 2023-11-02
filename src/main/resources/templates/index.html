@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OyeongShop</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body layout:fragment="content">
+    <div>
+        <img alt="" src="/images/banner.png">
+    </div>
+    <h3 id="title">New Arrivals</h3>
+       <table>
+           <!-- 상품 출력 반복문 작성(행 반복) -->
+               <tr>
+                   <!--상품 출력 반복문 작성(열 반복)-->
+                       <td>
+                           <div onclick="location.href='/product-detail?productNo=#';">
+                               <img class="product_img" alt="" src="#">
+                               <p>상품명</p>
+                               <p>₩ 3000</p>
+                            </div>
+                       </td>
+                   <td>
+                       <div onclick="location.href='/oyeongshop/product-detail?productNo=#';">
+                        <img class="product_img" alt="" src="#">
+                        <p>상품명</p>
+                        <p>₩ 3000</p>
+
+                        </div>
+                    </td>
+                    <td>
+                        <div onclick="location.href='/oyeongshop/product-detail?productNo=#';">
+                            <img class="product_img" alt="" src="#">
+                            <p>상품명</p>
+                            <p>₩ 3000</p>
+
+                        </div>
+                    </td>
+                </tr>
+        </table>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lagn="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8" />
+    <title>thymeleaf layout</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap">
+    <style>
+        .row{
+               justify-content: center;
+           }
+    </style>
+</head>
+<body>
+    <!-- header -->
+    <div>
+        <th:block th:replace="fragments/header :: header"></th:block>
+    </div>
+
+    <!-- content -->
+    <div>
+        <th:block layout:fragment="content"></th:block>
+    </div>
+
+    <!-- footer -->
+    <div>
+        <th:block th:replace="fragments/footer :: footer"> </th:block>
+    </div>
+</body>
+
+</html>

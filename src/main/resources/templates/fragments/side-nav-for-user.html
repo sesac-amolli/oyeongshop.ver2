@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lagn="ko"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body th:fragment="menu">
+	<nav>
+		<div class="toggle-btn" id="search-area">
+			<input type="text" id="search-input" placeholder="상품 검색"/>
+			<button type="button" id="search-btn" onclick="alert('클릭!')">
+				<img src="/images/돋보기.svg"/>
+			</button>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="#">BEST 100</a>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="#">New</a>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="#">Sale</a>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="#">Top</a>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="#">Bottom</a>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="#">Outer</a>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="#">Dress</a>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="#">Shoes</a>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="#">Bag</a>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="#">Community</a>
+		</div>
+	</nav>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제품 정보 페이지</title>
+    <style>
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        .main-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .main-section img {
+            max-width: 45%;
+        }
+        .product-info {
+            width: 50%;
+        }
+        .details-section {
+            margin-top: 20px;
+        }
+        .details {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .product-info span {
+            white-space: nowrap; /* 공백 무시 */
+        }
+    </style>
+</head>
+<body layout:fragment="content">
+<div class="container">
+    <div class="main-section">
+        <img src="no_image.png" alt="Person wearing yellow sweater">
+        <div class="product-info">
+            <h2>상품명 : {Product name} here</h2>
+            <div>상품코드</div><div>{Product code} here</div>
+            <div>판매가</div><div>{price} here</div>
+            <div>색상</div>
+            <select>
+                <option>Red</option>
+                <option>Blue</option>
+                <option>Green</option>
+                <option>Yellow</option>
+            </select>
+        </div>
+    </div>
+    <div class="details-section">
+
+        <div class="details">
+            <p>상품정보 1</p>
+            <p>#P1DSNE</p>
+            <p>첫번째 상품 설명 글</p>
+        </div>
+        <img src="no_image.png" alt="Person wearing yellow sweater">
+        <div class="details">
+            <p>상품정보 2</p>
+            <p>#P2DSNE</p>
+            <p>두번째 상품 설명 글</p>
+        </div>
+        <!-- 추가로 상세 정보를 넣으실 경우, 이 부분에 .details 블록을 계속 추가하시면 됩니다. -->
+    </div>
+</div>
+</body>
+</html>

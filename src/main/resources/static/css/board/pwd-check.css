@@ -1,0 +1,24 @@
+.pwd-form {
+    margin: auto;
+    text-align: center;
+}
+
+.content {
+    padding: 2rem;
+}
+
+.pwd {
+    padding: 2rem;
+}
+
+.btn {
+    padding: 2rem;
+}
+
+.list-btn {
+    margin-right: 5px;
+}
+
+.input-pwd {
+    margin-left: 1rem;
+}

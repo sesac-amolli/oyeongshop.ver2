@@ -1,0 +1,30 @@
+h2{
+    font-size: 24px;
+    padding: 1em;
+}
+
+button{
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+input{
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+input:focus {
+    outline: none;
+}
+
+img{
+    width: 100%;
+    object-fit: cover;
+}
+
+a {
+	text-decoration-line: none;
+	color: black;
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OyeongShop</title>
+    <link rel="stylesheet" href="css/product-list.css">
+</head>
+<body layout:fragment="content">
+    <div id="right">
+        <h2>BEST100</h2>
+        <table>
+            <!--무한스크롤 구현시 상품 반복출력 코드(행)-->
+                <tr>
+                    <!--무한스크롤 구현시 상품 반복출력 코드(열)-->
+                        <td>
+                            <div onclick="location.href='/oyeongshop/product-detail?productNo=#';">
+                                <div id="img_cover">
+                                    <img id="product_img" alt="" src="#">
+                                </div>
+                                <p>상품명</p>
+                                <p>₩ 30000</p>
+                            </div>
+                        </td>
+
+                </tr>
+
+        </table>
+    </div>
+</body>
+</html>
