@@ -1,0 +1,271 @@
+@import url(../reset.css);
+@import url(../common.css);
+@import url(../header.css);
+@import url(../footer.css);
+@import url(../side-nav-for-user.css);
+
+#orderList {
+	width: 65em;
+}
+
+div {
+    word-break: break-all;
+    display: block;
+    margin : 0;
+    padding : 0;
+}
+
+#titleArea{
+    margin : 20 0 30px;
+    min-height: 30px;
+}
+
+h2{
+    display: inline-block;
+    padding: 0 0;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#baseTap{
+    position: relative;
+}
+
+#baseTap .menu:after{
+    content: "";
+    display: block;
+    clear: both;
+}
+
+#baseTap .menu {
+    margin: 0 0 20px;
+    padding : 12px 0px;
+    border-left: 0;
+    background: #fff;
+    -webkit-box-sizing: border-box;
+}
+
+#baseTap .menu li {
+    float: left;
+    background: #fff;
+}
+
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+    padding : 0;
+    margin : 0;
+}
+
+li {
+    margin : 0 3px;
+    display: list-item;
+    text-align: -webkit-match-parent;
+    list-style: none;
+}
+
+#baseTap .menu li.orderHistory a {
+    position: relative;
+    display: block;
+    min-width: 187px;
+    margin: 0 0 0 -1px;
+    padding: 12px 5px 11px;
+    border: 1px solid #202020;
+    color: #fff;
+    text-decoration: none;
+    outline: 0;
+    text-align: center;
+    background: #333;
+}
+
+#baseTap .menu li.orderCs a {
+    position: relative;
+    display: block;
+    min-width: 187px;
+    margin: 0 0 0 -1px;
+    padding: 12px 5px 11px;
+    border: 1px solid #202020;
+    color: #707070;
+    text-decoration: none;
+    outline: 0;
+    text-align: center;
+}
+
+legend {
+    visibility: hidden;
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 0;
+    height: 0;
+    line-height: 0;
+}
+
+form {
+    display :block;
+}
+
+fieldset {
+    display: block;
+    margin-inline-start: 2px;
+    margin-inline-end: 2px;
+    padding-block-start: 0.35em;
+    padding-inline-start: 0.75em;
+    padding-inline-end: 0.75em;
+    padding-block-end: 0.625em;
+    min-inline-size: min-content;
+}
+
+img, fieldset{
+    vertical-align: middle;
+}
+
+.baseBox {
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid #ddd;
+    color: #777;
+}
+
+.orderHistoryHead .stateSelect {
+    display: inline-block;
+    padding: 0 12px 0 0;
+    margin: 0 5px 0 2px;
+}
+
+select {
+    height: 24px;
+    border: 1px solid #d5d5d5;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: auto;
+    box-sizing: border-box;
+    white-space-collapse: preserve;
+    text-wrap: nowrap;
+    -webkit-rtl-ordering: logical;
+    background-color: field;
+    cursor: default;
+    margin: 0em;
+    border-radius: 0px;
+    font-weight: 300;
+    color: #353535;
+    vertical-align: middle;
+}
+
+option{
+    font-weight: normal;
+    display: block;
+    white-space-collapse: collapse;
+    text-wrap: nowrap;
+    min-height: 1.2em;
+    padding: 0px 2px 1px;
+}
+
+.orderHistoryHead fieldset .period {
+    margin: 0 7px;
+}
+
+.orderHistoryHead fieldset .period a {
+    margin: 0 0 0 -5px;
+    text-decoration : none;
+}
+
+#history_end_date, #history_start_date, #order_history_search {
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: auto;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    background-color: field;
+    color: #353535;
+}
+
+input[type="text" i] {
+    writing-mode: horizontal-tb !important;
+    padding-block: 1px;
+    padding-inline: 2px;
+    vertical-align: middle;
+    font-weight: 300;
+}
+
+.ipDate{
+    width: 72px;
+    height: 22px;
+    margin: 0 0 0 2px;
+    padding: 0 6px;
+    border: 1px solid #d5d5d5;
+    line-height: 22px;
+    font-size: 12px;
+}
+
+.ui_calendar .ui_search {
+    appearance: auto;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    padding-block: px;
+    padding-inline: 6px;
+    cursor: pointer;
+    border: 1px solid #d5d5d5;
+    background-color: #f3f3f3;
+    color : #777;
+}
+
+img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+    border: none;
+    width : 1.8em;
+    object-fit : cover;
+}
+
+#calendarImg {
+    width : 1.2em;
+}
+
+
+#searchImg {
+    width : 1.2em;
+}
+
+#order_history_search {
+    width : 1.2em;
+    margin : 0 0 0 3px;
+    vertical-align: middle;
+}
+
+.orderHistoryHead ul {
+    margin : 0.8em 0;
+}
+
+.orderHistoryHead li {
+    margin : 0.2em;
+    color: #777;
+    font-size: 0.9em;
+}
