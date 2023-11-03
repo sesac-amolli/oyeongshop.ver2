@@ -8,8 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/order")
 public class OrderController {
 
-    @GetMapping("/list")
+    @GetMapping("/orderlist")
     public String orderList(){
         return "/order/order-list";
+    }
+
+    @GetMapping("/returnlist")
+    public String returnList(){
+        return "/order/return-list";
     }
 }

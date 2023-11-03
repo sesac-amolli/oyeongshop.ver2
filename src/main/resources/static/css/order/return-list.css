@@ -217,7 +217,7 @@ input[type="text" i] {
     font-size: 12px;
 }
 
-button {
+.baseBox button {
     appearance: auto;
     text-rendering: auto;
     letter-spacing: normal;
@@ -246,6 +246,10 @@ img {
 }
 
 #calendarImg {
+    width : 1.2em;
+}
+
+#searchImg {
     width : 1.2em;
 }
 
