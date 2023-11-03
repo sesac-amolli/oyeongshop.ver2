@@ -14,7 +14,7 @@
 <body layout:fragment="content">
 <div class="container">
     <div class="main-section">
-        <img src="/images/product/product-img1.png" alt="Person wearing yellow sweater">
+        <img src="1.png" alt="이미지 수정1과 연동됨">
         <div class="product-info">
             <div style="font-size: 18px; font-weight: bold;">상품명 : {Product name} here</div><br>
             <ul class="flex-container">
@@ -38,7 +38,7 @@
                     <li>재고</li>
                 </div>
                 <div class="flex-items">
-                    <li>{amount EA} here</li>
+                    <li><input type="text"></li>
                 </div>
             </ul>
             <ul class="flex-container">
@@ -47,12 +47,10 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <select style="width: 100px;">
-                            <option>Red</option>
-                            <option>Blue</option>
-                            <option>Green</option>
-                            <option>Yellow</option>
-                        </select>
+                        <div><input type="text"></div>
+                        <div><input type="text"></div>
+                        <div><input type="text"></div>
+                        <div><button>메뉴 추가</button><button>메뉴 저장</button></div>
                     </li>
                 </div>
             </ul>
@@ -62,35 +60,27 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <select style="width: 100px;">
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                            <option>XL</option>
-                            <option>XXL</option>
-                        </select>
+                        <div><input type="text"></div>
+                        <div><input type="text"></div>
+                        <div><input type="text"></div>
+                        <div><button>메뉴 추가</button><button>메뉴 저장</button></div>
                     </li>
                 </div>
             </ul>
         </div>
     </div>
     <div class="details-section">
-
         <div class="details">
-            <p>상품정보 1</p>
-            <p>#P1DSNE</p>
-            <p>첫번째 상품 설명 글</p>
+            <textarea></textarea>
         </div>
-        <img src="/images/product/product-img1.png" alt="Person wearing yellow sweater">
+        <img src="1.png" alt="이미지 수정1">
         <div class="details">
-            <p>상품정보 2</p>
-            <p>#P2DSNE</p>
-            <p>두번째 상품 설명 글</p>
+            <textarea></textarea>
         </div>
         <!-- 추가로 상세 정보를 넣으실 경우, 이 부분에 .details 블록을 계속 추가하시면 됩니다. -->
     </div>
     <div class="buttons">
-        <button class="btn-sell" onclick="location.href='#';">판매 등록하기</button>
+        <button class="btn-sell" onclick="location.href='#';">수정하기</button>
         <button class="btn-back" onclick="history.back();">뒤로가기</button>
     </div>
 </div>
