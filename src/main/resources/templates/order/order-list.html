@@ -1,14 +1,17 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OyeongShop</title>
-    <link href="orderList.css" rel="stylesheet" type="text/css" />
-    <script src="orderList.js"></script>
+    <link href="/css/order/order-list.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body>
+<body layout:fragment="content">
 <div id="container">
     <div id="right">
         <!-- Right Content - 주문내역 폼 -->
@@ -67,7 +70,7 @@
                             <img id="calendarImg" src="/images/order/calendar.png" alt="달력">
                         </button>
                         <input alt="조회" id="order_history_search" type="image"
-                               src="./img/iconmonstr-magnifier-3.svg">
+                               src="/images/돋보기.svg">
                     </fieldset>
                     <ul>
                         <li>기본적으로 최근 3개월 간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>

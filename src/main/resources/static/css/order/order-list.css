@@ -1,4 +1,8 @@
-@import "reset.css";
+@import url(../reset.css);
+@import url(../common.css);
+@import url(../header.css);
+@import url(../footer.css);
+@import url(../side-nav-for-user.css);
 
 #orderList {
 	width: 65em;
@@ -79,7 +83,7 @@ li {
     background: #333;
 }
 
-#baseTap .menu li.orderCS a {
+#baseTap .menu li.orderCs a {
     position: relative;
     display: block;
     min-width: 187px;
@@ -179,7 +183,7 @@ option{
     text-decoration : none;
 }
 
-input {
+#history_end_date, #history_start_date, #order_history_search {
     text-rendering: auto;
     letter-spacing: normal;
     word-spacing: normal;
@@ -196,13 +200,11 @@ input {
 }
 
 input[type="text" i] {
-    border: 1px solid #d5d5d5;
     writing-mode: horizontal-tb !important;
     padding-block: 1px;
     padding-inline: 2px;
     vertical-align: middle;
     font-weight: 300;
-    color: #353535;
 }
 
 .ipDate{
