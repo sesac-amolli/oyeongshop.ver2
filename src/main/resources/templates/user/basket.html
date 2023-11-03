@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OyeongShop</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="/css/user/mypage.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body layout:fragment="content">
+  <section class="wrapper">
+
+    <div class="row">
+        <blockquote><p>장바구니</p></blockquote>
+        <!-- <div class="col-md-1"><strong>장바구니</strong></div> -->
+    </div>
+    <div class="row" style="background-color: beige;">
+        <div class="col-md-2">선택</div>
+        <div class="col-md-2"></div>
+        <div class="col-md-4">상품명</div>
+        <div class="col-md-2">가격</div> 
+        <div class="col-md-2">수량</div>
+        <div class="col-md-2">합계 금액</div>
+    </div>
+    <form>
+        <div class="row">
+            <div class="col-md-1">선택</div>
+            <div class="col-md-1">
+                <img src="login_img.png" class="img-responsive" alt="Responsive image">
+            </div>
+            <div class="col-md-1">상품명<br>색상<br>사이즈</div>
+            <div class="col-md-2">32,000원</div>
+            <div class="col-md-1">1개</div>
+            <div class="col-md-1">32,000원</div>
+        </div>
+    </form>
+    <button class="btn btn-default" type="button">선택 삭제</button>
+    <button class="btn btn-default" type="button">장바구니 비우기</button>
+    &emsp;&emsp;&emsp;&emsp;&emsp;
+    <button class="btn btn-default" type="submit">주문하기</button>
+  </section>
+</body>
+</html>

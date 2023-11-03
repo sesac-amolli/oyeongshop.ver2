@@ -1,0 +1,49 @@
+@import url(../reset.css);
+@import url(../header.css);
+@import url(../footer.css);
+@import url(../common.css);
+
+#sginup-content{
+    justify-content: center;
+    min-height: 32em;
+    display: flex;
+}
+
+#sginup-content-left{
+    width: 45%;
+    height: 100%;
+    position : relative;
+}
+
+#sginup-content-right{
+    padding: 1em;
+    width: 45%;
+    height: 100%;
+    overflow:hidden;
+}
+
+.signup-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.signup-where{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+table{
+    margin: auto;
+    vertical-align: middle;
+}
+
+td{
+    text-align: center;
+}
+
+#submit-btn{
+    text-align: right;
+}
