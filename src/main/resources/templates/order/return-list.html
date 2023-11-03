@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OyeongShop</title>
+    <link href="/css/order/order-list.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body layout:fragment="content">
+<div id="container">
+    <div id="right">
+        <!-- Right Content - 주문내역 폼 -->
+        <div id="orderList">
+            <!-- 페이지 이름 -->
+            <div id="titleArea">
+                <h2> ORDER LIST </h2>
+            </div>
+            <div id="baseTap">
+                <ul class="menu">
+                    <li class="orderHistory">
+                        <a href="~~주문조회페이지 경로">주문내역조회 (
+                            <span id="totalOrder">0</span>
+                            )
+                        </a>
+                    </li>
+                    <li class="orderCs">
+                        <a href="~반품조회페이지 경로">취소/반품 내역(
+                            <span id="totalOrderCs">0</span>
+                            )
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <form method="GET" id="OrderHistoryForm" name="OrderHistoryForm">
+                <div class="orderHistoryHead">
+                    <fieldset class="baseBox">
+                        <legend>검색기간설정</legend>
+                        <div class="stateSelect">
+                            <select id="order_status" name="order_status" class="osSelect">
+                                <option value="all">전체 주문처리상태</option>
+                                <option value="completed_payment">결제 완료</option>
+                                <option value="shipped_standby">출고 준비중</option>
+                                <option value="shipped_begin">출고 완료</option>
+                                <option value="shipping">상품 배송중</option>
+                                <option value="delivered">배송 완료</option>
+                                <option value="canceled">주문 취소</option>
+                                <option value="return_processing">반품 진행중</option>
+                                <option value="refuned">반품 완료</option>
+                            </select>
+                        </div>
+                        <span class="period">
+                                <button type="button" class="dateBtn" value="0">오늘</button>
+                                <button type="button" class="dateBtn" value="7">일주일</button>
+                                <button type="button" class="dateBtn" value="90">3개월</button>
+                            </span>
+                        <input id="history_end_date" name="history_end_date" class="ipDate" value="2023-10-30"
+                               type="text">
+                        <button type="button" class="ui_calendar">
+                            <img id="calendarImg" src="/images/order/calendar.png" alt="달력">
+                        </button>
+                        ~
+                        <input id="history_start_date" name="history_start_date" class="ipDate" value="2023-10-30"
+                               type="text">
+                        <button type="button" class="ui_calendar">
+                            <img id="calendarImg" src="/images/order/calendar.png" alt="달력">
+                        </button>
+                        <input alt="조회" id="order_history_search" type="image"
+                               src="/images/돋보기.svg">
+                    </fieldset>
+                    <ul>
+                        <li>기본적으로 최근 3개월 간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>
+                        <li>주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.</li>
+                    </ul>
+                </div>
+            </form>
+            <div class="HistoryBaseTable">
+                <div class="HItitle">
+                    <h3>주문 상품 정보</h3>
+                </div>
+                <table border="1" summary>
+                    <caption>주문 상품 정보</caption>
+                    <colgroup>
+                        <col style="width:7em">
+                        <col style="width:10em">
+                        <col style="width:23em">
+                        <col style="width:3em">
+                        <col style="width:7em">
+                        <col style="width:7em">
+                        <col style="width:7em">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th scope="col">
+                            주문일자
+                            <br>
+                            [주문번호]
+                        </th>
+                        <th scope="col">이미지</th>
+                        <th scope="col">상품정보</th>
+                        <th scope="col">수량</th>
+                        <th scope="col">상품구매금액</th>
+                        <th scope="col">주문처리상태</th>
+                        <th scope="col">취소/교환/반품</th>
+                    </tr>
+                    </thead>
+                    <tbody class="center">
+                    <tr class="OrderProdLine">
+                        <td rowspan="2" class="number">
+                            2023-10-30
+                            <p>
+                                <a href="주문상세내역링크" class="line">[20231030-0000137]</a>
+                            </p>
+                            <!-- 주문취소 가능시 : -->
+                            <button type="button" onclick="주문취소기능추가">주문취소</button>
+                            <!-- 반품 가능시 : -->
+                            <button type="button" onclick="반품신청기능추가">반품신청</button>
+                        </td>
+                        <td class="Thumb">
+                            <a href="해당 제품 경로">
+                                <img src="/images/order/woman_skirt.jpg"
+                                     onerror="this.src='/images/order/ErrorImage/png'">
+                            </a>
+                        </td>
+                        <td class="ProductLeftTop">
+                            <a href="해당 제품 경로">
+                                <strong> 여성 스커트</strong>
+                            </a>
+                            <div class="Option">
+                                [옵션 : 네이비/m]
+                            </div>
+                        </td>
+                        <td>1</td>
+                        <td class="rignt">
+                            <strong> 48,000 원 </strong>
+                        </td>
+                        <td class="State">
+                            <p class="TxtState">배송완료</p>
+                            <p class>
+                                <a href="배송사 연동 링크" target="_blank">우체국택배(연동)</a>
+                            </p>
+                            <p class>
+                                <a href="#none" class="line"
+                                   onclick="window.open('배송정보링크', '', 'scrollbars=yes, resezeable=0, status=0, directories=0, toolbar=0'); return false;">[50506060666]</a>
+                            </p>
+                            <button>구매후기</button>
+                        </td>
+                        <td>
+                            -
+                        </td>
+                    </tr>
+                    <tr class="OrderProdLine">
+                        <td class="Thumb">
+                            <a href="해당 제품 경로">
+                                <img src="/images/order/woman_knit.jpg" onerror="this.src='/images/order/ErrorImage/png'">
+                            </a>
+                        </td>
+                        <td class="ProductLeftTop">
+                            <a href="해당 제품 경로">
+                                <strong> 여성니트 </strong>
+                            </a>
+                        </td>
+                        <td>1</td>
+                        <td class="rignt">
+                            <strong> 57,500 원 </strong>
+                        </td>
+                        <td class="State">
+                            <p class="TxtState">배송완료</p>
+                            <p class>
+                                <a href="배송사 연동 링크" target="_blank">우체국택배(연동)</a>
+                            </p>
+                            <p class>
+                                <a href="#none" class="line"
+                                   onclick="window.open('배송정보링크', '', 'scrollbars=yes, resezeable=0, status=0, directories=0, toolbar=0'); return false;">[50506060666]</a>
+                            </p>
+                            <button>구매후기</button>
+                        </td>
+                        <td>
+                            -
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class = "paginate">
+                <a href= "맨 앞페이지 링크" class="first">
+                    <img src = "/images/order/prepre.gif">
+                </a>
+                <a href= "앞페이지 링크">
+                    <img src = "/images/order/pre.gif">
+                </a>
+                <ol>
+                    <li class="record">
+                        <a href="페이지마다 링크" class = "this">1</a>
+                    </li>
+                </ol>
+                <a href= "뒷페이지 링크" class="first">
+                    <img src = "/images/order/nex.gif">
+                </a>
+                <a href= "맨 뒤페이지 링크" class="first">
+                    <img src = "/images/order/nexnex.gif">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
