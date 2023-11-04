@@ -1,11 +1,11 @@
 package com.amolli.oyeongshop.ver2.product.model;
 
+import com.amolli.oyeongshop.ver2.user.model.Cart;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -27,4 +27,10 @@ public class ProductOption {
 //    @ManyToOne
 //    @JoinColumn(name ="prod_id")
 //    private Product product;
+
+    @OneToOne(mappedBy = "tblProductOption")
+    private OrderDetail orderDetail;
+
+    @OneToMany(mappedBy = "tblProductOption")
+    private Cart cart;
 }
