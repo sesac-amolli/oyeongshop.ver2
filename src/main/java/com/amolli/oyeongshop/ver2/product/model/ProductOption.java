@@ -28,9 +28,9 @@ public class ProductOption {
 //    @JoinColumn(name ="prod_id")
 //    private Product product;
 
-    @OneToOne(mappedBy = "tblProductOption")
+    @OneToOne(mappedBy = "productOption")
     private OrderDetail orderDetail;
 
-    @OneToMany(mappedBy = "tblProductOption")
+    @OneToMany(mappedBy = "productOption")
     private Cart cart;
 }

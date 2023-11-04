@@ -40,16 +40,16 @@ public class Product {
 
     private LocalDate prodEditdate;
 
-    @OneToMany(mappedBy = "tblProduct")
+    @OneToMany(mappedBy = "product")
     private List<ProductImage> productImages = new ArrayList<ProductImage>();
 
-    @OneToMany(mappedBy = "tblProduct")
+    @OneToMany(mappedBy = "product")
     private List<ProductOption> productOptions = new ArrayList<ProductOption>();
 
-    @OneToMany(mappedBy = "tblProduct")
+    @OneToMany(mappedBy = "product")
     private List<Question> questions = new ArrayList<Question>();
 
-    @OneToMany(mappedBy = "tblProduct")
+    @OneToMany(mappedBy = "product")
     private List<Review> reviews = new ArrayList<Review>();
 
 //    @OneToMany(mappedBy = "tblProduct")
