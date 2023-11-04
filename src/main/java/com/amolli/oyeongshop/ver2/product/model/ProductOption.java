@@ -1,5 +1,6 @@
 package com.amolli.oyeongshop.ver2.product.model;
 
+import com.amolli.oyeongshop.ver2.order.model.OrderDetail;
 import com.amolli.oyeongshop.ver2.user.model.Cart;
 import lombok.AccessLevel;
 import lombok.Getter;

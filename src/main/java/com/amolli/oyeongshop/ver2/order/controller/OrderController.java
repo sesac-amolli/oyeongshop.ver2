@@ -1,4 +1,4 @@
-package com.amolli.oyeongshop.ver2.order;
+package com.amolli.oyeongshop.ver2.order.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
