@@ -8,40 +8,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OyeongShop</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link href="/css/user/mypage.css" rel="stylesheet" type="text/css" />
+    <link href="/css/user/basket.css" rel="stylesheet" type="text/css" />
 
 </head>
 <body layout:fragment="content">
-  <section class="wrapper">
 
-    <div class="row">
-        <blockquote><p>장바구니</p></blockquote>
-        <!-- <div class="col-md-1"><strong>장바구니</strong></div> -->
-    </div>
-    <div class="row" style="background-color: beige;">
-        <div class="col-md-2">선택</div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4">상품명</div>
-        <div class="col-md-5">가격</div>
-        <div class="col-md-2">수량</div>
-        <div class="col-md-5">합계 금액</div>
-    </div>
-    <form>
-        <div class="row">
-            <div class="col-md-2">선택</div>
-            <div class="col-md-4">
-                <img src="login_img.png" class="img-responsive" alt="Responsive image">
-            </div>
-            <div class="col-md-4">상품명<br>색상<br>사이즈</div>
-            <div class="col-md-5">32,000원</div>
-            <div class="col-md-2">1개</div>
-            <div class="col-md-5">32,000원</div>
+<div id="content2">
+    <div  id="content3">
+        <div>
+            <h2>장바구니</h2>
         </div>
-    </form>
-    <button class="btn btn-default" type="button">선택 삭제</button>
-    <button class="btn btn-default" type="button">장바구니 비우기</button>
-    &emsp;&emsp;&emsp;&emsp;&emsp;
-    <button class="btn btn-default" type="submit">주문하기</button>
-  </section>
+        <form>
+            <table id="signup" class="table table-bordered">
+                <tbody id="test_tbody">
+                <tr>
+                    <td><label for="prod-check">선택</label></td>
+                    <td><div class="col-md-4"></div></td>
+                    <td><label for="prod-id">상품명</label></td>
+                    <td><label for="prod-price">가격</label></td>
+                    <td><label for="prod-amount">수량</label></td>
+                    <td><label for="prod-allprice">합계 금액</label></td>
+                </tr>
+                <tr>
+                    <td><div class="checkbox-wrapper-1">
+                        <input id="prod-check" class="substituted" type="checkbox" aria-hidden="true" />
+                    </div></td>
+                    <td><div class="col-md-4">
+                        <img src="login_img.png" class="img-responsive" alt="Responsive image">
+                    </div></td>
+                    <td><input type="text" class="form-control" id="prod-id" name="prodOptId" placeholder="상품상세명" disabled></td>
+                    <td><input type="number" class="form-control" id="prod-price" name="price" placeholder="가격" disabled></td>
+                    <td><input type="number" class="form-control" id="prod-amount" name="amount" placeholder="개수" disabled></td>
+                    <td><input type="number" class="form-control" id="prod-allprice" name="allprice" placeholder="총가격" disabled></td>
+                </tr>
+                </tbody>
+            </table>
+            <div id="submit-btn">
+<!--                <button type="submit" onclick="" class="my-btn">회원가입</button>-->
+<!--                <button type="button" onclick="" class="my-btn">취소</button>-->
+                <button class="btn btn-default" type="button">선택 삭제</button>
+                <button class="btn btn-default" type="button">장바구니 비우기</button>
+                &emsp;&emsp;&emsp;&emsp;&emsp;
+                <button class="btn btn-default" type="submit">주문하기</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
 </body>
 </html>
