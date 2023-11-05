@@ -23,15 +23,8 @@ public class ProductOption {
 
     private Long prodOptAmount;
 
-    private Long prodId;
+    @ManyToOne
+    @JoinColumn(name ="prod_id")
+    private Product product;
 
-//    @ManyToOne
-//    @JoinColumn(name ="prod_id")
-//    private Product product;
-
-    @OneToOne(mappedBy = "productOption")
-    private OrderDetail orderDetail;
-
-    @OneToMany(mappedBy = "productOption")
-    private Cart cart;
 }

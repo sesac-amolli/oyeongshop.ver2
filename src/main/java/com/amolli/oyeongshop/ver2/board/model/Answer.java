@@ -9,23 +9,22 @@ import java.time.LocalDate;
 
 @Getter
 @Entity
-@Table(name = "tblAnswer")
+@Table(name = "tbl_answer")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Answer {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
-
-    // 문의게시판id를 외래키로 참조
-    @OneToOne
-    @JoinColumn(name="questionId")
-    private Question question;
 
     private String answerContents;
 
     private LocalDate answerDate;
 
     private String answerUserId;
-    
+
+    // 문의게시판id를 외래키로 참조
+    @OneToOne
+    @JoinColumn(name="question_id")
+    private Question question;
 }

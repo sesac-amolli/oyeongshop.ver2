@@ -1,5 +1,6 @@
 package com.amolli.oyeongshop.ver2.board.model;
 
+import com.amolli.oyeongshop.ver2.product.model.Product;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +12,12 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "tblReview")
+@Table(name = "tbl_review")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
     // 추후 외래키 연결(user테이블의 userId와)
@@ -24,14 +25,16 @@ public class Review {
 
     private String reviewContent;
 
+    private Long reviewRate;
+
     private LocalDate reviewWriteDate;
 
     // 상품id가 외래키라서 선언
+    @ManyToOne
+    @JoinColumn(name = "prod_id")
     private Product product;
 
-    private Long reviewRate;
-
-    @OneToMany(mappedBy = "tblReview")
+    @OneToMany(mappedBy = "review")
     private List<ReviewImg> reviewImgs = new ArrayList<ReviewImg>();
 
 }
