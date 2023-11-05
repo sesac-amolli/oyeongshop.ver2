@@ -5,17 +5,21 @@
       layout:decorate="~{/fragments/side-layout}">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/board/pwd-check.css">
 </head>
 <body layout:fragment="content">
-    <section>
+    <section class="pwd-section">
         <form class="pwd-form" action="">
             <div class="content">이 글은 비밀글입니다. 비밀번호를 입력해주세요.</div>
 
             <div class="pwd">비밀번호<input class="input-pwd" type="text"></div>
 
-            <div class="btn"><button class="list-btn" type="button">목록으로</button>
-                <button type="submit">확인</button></div>
+            <input class="btn btn-default" type="button" value="목록으로">
+            <input class="btn btn-default" type="submit" value="확인">
+
+<!--            <div class="btn"><button class="list-btn" type="button">목록으로</button></div>-->
+<!--            <div class="btn"><button type="submit">확인</button></div>-->
 
         </form>
     </section>

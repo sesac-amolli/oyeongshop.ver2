@@ -13,20 +13,6 @@
     font-size: 17px;
 }
 
-.headerQna {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 30px;
-}
-
-
-.menu-item {
-    display: flex;
-    font-size: 15px;
-    /* justify-content: flex-end; */
-    gap: 40px;
-}
-
 
 table {
     border: 1px #a39485 solid;
@@ -67,10 +53,3 @@ a {
     text-decoration-line: none;
 }
 
-button {
-    width: auto;
-    height: auto;
-    padding: 5px;
-    padding-left: 7px;
-    padding-right: 7px;
-}
