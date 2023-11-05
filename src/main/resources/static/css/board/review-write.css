@@ -1,0 +1,57 @@
+@import url(../reset.css);
+@import url(../common.css);
+@import url(../header.css);
+@import url(../footer.css);
+@import url(../side-nav-for-user.css);
+
+* {
+    box-sizing: border-box;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.main {
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 100px;
+    justify-content: center;
+}
+
+body {
+    margin: auto;
+}
+
+table {
+    border: 1px #a39485 solid;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    width: 45rem;
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 20%;
+}
+
+.title {
+    padding-left: 2rem;
+}
+
+.content {
+    padding-left: 2rem;
+}
+
+td{
+    padding: 12px 20px;
+    vertical-align: middle;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

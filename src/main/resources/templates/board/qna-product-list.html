@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/board/qna-product-list.css">
+</head>
+<body layout:fragment="content">
+    <section id="main">
+
+        <h2 class="h2">상품 Q&A</h2>
+
+        <table>
+            <tr>
+                <th>NO</th>
+                <th>구분</th>
+                <th>제목</th>
+                <th>등록일</th>
+                <th>작성자</th>
+                <th>답변상태</th>
+                <th>수정 / 삭제</th>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>상품</td>
+                <td>(공개)상품관련 문의</td>
+                <td>2023.10.29</td>
+                <td>yeo****</td>
+                <td>NO</td>
+                <td>
+                    <button type="button" class="btn btn-default">수정</button>
+                    <button type="button" class="btn btn-default">삭제</button></td>
+                <!-- 비밀번호 확인페이지-> 수정페이지
+                    비밀번호 확인페이지-> 상세조회페이지 하단에 삭제 버튼 배치 -->
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>상품</td>
+                <td>(비공개)상품 문의</td>
+                <td>2023.10.29</td>
+                <td>asd****</td>
+                <td>NO</td>
+                <td><button type="button" class="btn btn-default">수정</button>
+                    <button type="button" class="btn btn-default">삭제</button></td></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>상품</td>
+                <td>(비공개)상품 언제</td>
+                <td>2023.10.28</td>
+                <td>qwe****</td>
+                <td>NO</td>
+                <td><button type="button" class="btn btn-default">수정</button>
+                    <button type="button" class="btn btn-default">삭제</button></td></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>상품</td>
+                <td>(비공개)상품 문의</td>
+                <td>2023.10.27</td>
+                <td>trewq***</td>
+                <td>NO</td>
+                <td><button type="button" class="btn btn-default">수정</button>
+                    <button type="button" class="btn btn-default">삭제</button></td></td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>상품</td>
+                <td>(비공개)니트 문의</td>
+                <td>2023.10.26</td>
+                <td>ohdud***</td>
+                <td>YES</td>
+                <td><button type="button" class="btn btn-default">수정</button>
+                    <button type="button" class="btn btn-default">삭제</button></td></td>
+            </tr>
+
+            <!-- <c:forEach var="review" items="${reviews}" varStatus="status">
+                <tr>
+                    <td>${status.count}</td>
+                    <td>${review.content}</td>
+                    <td>${review.userId}</td>
+                    <td>${review.uploadDate}</td>
+                    <td><button type="button" onclick="location.href='/oyeongshop/product-detail?productNo=${review.productId}';">상품보러가기</button></td>
+                    <td><c:if
+                            test="${sessionScope.user.userId eq review.userId}">
+                            <button id="modifyBtn" class="my-btn" type="button"
+                                onclick="location.href = 'pwdCheck?reviewId=${review.reviewId}'">수정</button>
+                            <button id="deleteBtn" class="my-btn" type="button"
+                                onclick="location.href = 'pwdCheckDel?reviewId=${review.reviewId}'">삭제</button>
+                        </c:if></td>
+                </tr>
+            </c:forEach> -->
+        </table>
+        <nav class="page">
+            <ul class="pagination">
+                <li>
+                    <a href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">5</a></li>
+                <li>
+                    <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+
+</body>
+</html>

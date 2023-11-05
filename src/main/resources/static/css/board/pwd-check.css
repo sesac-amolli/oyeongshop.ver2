@@ -1,3 +1,13 @@
+@import url(../reset.css);
+@import url(../common.css);
+@import url(../header.css);
+@import url(../footer.css);
+@import url(../side-nav-for-user.css);
+
+body {
+    margin: auto;
+}
+
 .pwd-form {
     margin: auto;
     text-align: center;
@@ -9,14 +19,6 @@
 
 .pwd {
     padding: 2rem;
-}
-
-.btn {
-    padding: 2rem;
-}
-
-.list-btn {
-    margin-right: 5px;
 }
 
 .input-pwd {
