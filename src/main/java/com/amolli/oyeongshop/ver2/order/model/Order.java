@@ -1,6 +1,7 @@
 package com.amolli.oyeongshop.ver2.order.model;
 
 import com.amolli.oyeongshop.ver2.user.model.Cart;
+import com.amolli.oyeongshop.ver2.user.model.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "tblOrder")
+@Table(name = "tbl_order")
 public class Order {
 
     @Id
@@ -45,14 +46,12 @@ public class Order {
 
     private Date orderDate;
 
-    @OneToMany(mappedBy = "orderDetail")
+    @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
-    //@ManyToOne - User 테이블 외래키 사용
+    @ManyToOne // User 테이블 외래키 사용
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(mappedBy = "order")
-    private Payment payment;
 
 }

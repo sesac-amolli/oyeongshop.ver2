@@ -22,7 +22,7 @@ public class OrderDetail {
 
     private Long orderDetailPrice;
 
-    //@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 

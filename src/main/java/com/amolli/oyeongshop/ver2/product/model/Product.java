@@ -2,6 +2,7 @@ package com.amolli.oyeongshop.ver2.product.model;
 
 import com.amolli.oyeongshop.ver2.board.model.Question;
 import com.amolli.oyeongshop.ver2.board.model.Review;
+import com.amolli.oyeongshop.ver2.user.model.Wishlist;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@Table(name = "tblProduct")
+@Table(name = "tbl_product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
     @Id
@@ -42,17 +43,15 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<ProductImage> productImages = new ArrayList<ProductImage>();
-
     @OneToMany(mappedBy = "product")
     private List<ProductOption> productOptions = new ArrayList<ProductOption>();
-
     @OneToMany(mappedBy = "product")
     private List<Question> questions = new ArrayList<Question>();
 
     @OneToMany(mappedBy = "product")
     private List<Review> reviews = new ArrayList<Review>();
 
-//    @OneToMany(mappedBy = "tblProduct")
-//    private List<WishList> wishLists = new ArrayList<WishList>();
+    @OneToMany(mappedBy = "product")
+    private List<Wishlist> wishLists = new ArrayList<Wishlist>();
 
 }

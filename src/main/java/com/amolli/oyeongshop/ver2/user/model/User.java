@@ -31,16 +31,12 @@ public class User{
     private Long userPoint;
 
     private String userStatus;
-
     @OneToMany(mappedBy = "user")
     private List<Cart> carts = new ArrayList<>();
-
     @OneToMany(mappedBy = "user")
     private List<UserAddr> userAddrs = new ArrayList<>();
-
     @OneToMany(mappedBy = "user")
     private List<Wishlist> wishlists = new ArrayList<>();
-
     @OneToMany(mappedBy = "user")
     private List<Point> points = new ArrayList<>();
 }
