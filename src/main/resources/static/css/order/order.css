@@ -1,0 +1,33 @@
+@import url(../reset.css);
+@import url(../common.css);
+@import url(../header.css);
+@import url(../footer.css);
+@import url(../side-nav-for-user.css);
+
+table{
+	margin: 3em 0;
+	width: 90%;
+}
+
+#order_info{
+	text-align: center;
+}
+
+tr {
+	padding: 1em 0;
+}
+
+.non {
+border: 0;
+text-align: center;
+}
+
+input {
+	width: 85%;
+	height: 2em;
+	font-size: large;
+}
+
+.my-btn{
+	margin-right: 10%;
+}
