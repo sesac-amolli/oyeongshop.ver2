@@ -6,6 +6,8 @@ import com.amolli.oyeongshop.ver2.user.model.Wishlist;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -37,8 +39,10 @@ public class Product {
 
     private String prodMainImgName;
 
+    @CreationTimestamp
     private LocalDate prodRegdate;
 
+    @UpdateTimestamp
     private LocalDate prodEditdate;
 
     @OneToMany(mappedBy = "product")

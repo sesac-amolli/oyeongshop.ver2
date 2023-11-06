@@ -3,8 +3,11 @@ package com.amolli.oyeongshop.ver2.user.model;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.bytebuddy.asm.Advice;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +29,8 @@ public class User{
 
     private String userPhone;
 
-    private Date userRegdate;
+    @CreationTimestamp
+    private LocalDate userRegdate;
 
     private Long userPoint;
 

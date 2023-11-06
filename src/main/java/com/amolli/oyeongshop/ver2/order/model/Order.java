@@ -5,7 +5,10 @@ import com.amolli.oyeongshop.ver2.user.model.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +45,8 @@ public class Order {
 
     private Long orderTotalPrice;
 
-    private Date orderDate;
+    @CreationTimestamp
+    private LocalDate orderDate;
 
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails = new ArrayList<>();
