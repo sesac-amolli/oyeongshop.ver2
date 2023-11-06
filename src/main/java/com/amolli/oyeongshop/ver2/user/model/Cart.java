@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "tblCart")
+@Table(name = "tbl_cart")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cart extends BaseEntity{

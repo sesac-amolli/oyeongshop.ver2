@@ -36,8 +36,6 @@ public class Order {
 
     private String orderAttnAddr2;
 
-    private String orderAttnAddr3;
-
     private String orderAttnDetail;
 
     private String orderAttnRequest;
