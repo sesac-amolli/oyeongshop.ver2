@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "tblUser")
+@Table(name = "tbl_user")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User{

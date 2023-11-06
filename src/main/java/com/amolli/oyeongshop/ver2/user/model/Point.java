@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
-@Table(name = "tblPoint")
+@Table(name = "tbl_point")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Point extends BaseEntity{
