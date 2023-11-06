@@ -56,7 +56,7 @@ public class Order {
     private User user;
 
     @Builder
-    public Order(Long orderId, Long orderNumber, String orderStatus, String orderAttnName, String orderAttnPhone, String orderAttnEmail, Long orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest, Long orderTotalPrice, Date orderDate, List<OrderDetail> orderDetails, User user) {
+    public Order(Long orderId, Long orderNumber, String orderStatus, String orderAttnName, String orderAttnPhone, String orderAttnEmail, Long orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest, Long orderTotalPrice, LocalDate orderDate, List<OrderDetail> orderDetails, User user) {
         this.orderId = orderId;
         this.orderNumber = orderNumber;
         this.orderStatus = orderStatus;
