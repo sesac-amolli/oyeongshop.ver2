@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tblUserAddr")
+@Table(name = "tbl_user_addr")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserAddr extends BaseEntity{

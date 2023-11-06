@@ -19,9 +19,27 @@ public class UserController {
         return "/user/mypage";
     }
 
-    @GetMapping("/basket")
-    public String basket( ) {
+    @GetMapping("/cart")
+    public String cart( ) {
 
-        return "/user/basket";
+        return "/user/cart";
+    }
+
+    @GetMapping("/myinfo")
+    public String myinfo(){
+
+        return "/user/myinfo";
+    }
+
+    @GetMapping("/signup")
+    public String signup(){
+
+        return "/user/signup";
+    }
+
+    @GetMapping("/wishlist")
+    public String wishlist(){
+
+        return "/user/wishlist";
     }
 }
