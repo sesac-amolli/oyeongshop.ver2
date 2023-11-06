@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OyeongShop</title>
+    <link href="/css/order/order.css" rel="stylesheet" type="text/css"/>
+    <script
+            src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+<body layout:fragment="content">
+<div id="container">
+    <!-- right :: 주문페이지 -->
+    <div id="right">
+        <table id="orderInfo">
+            <th>
+            <td>주문정보</td>
+            </th>
+            <th>
+            <td>주문번호</td>
+            <td>5202020020</td>
+            </th>
+            <th>
+            <td>주문일자</td>
+            <td>2023/10/30</td>
+            </th>
+            <th>
+            <td>주문자</td>
+            <td>OOO</td>
+            </th>
+            <th>
+            <td>주문처리상태</td>
+            <td>배송완료</td>
+            </th>
+            <th>
+            <td>결제정보</td>
+            </th>
+            <th>
+            <td>총 주문금액</td>
+            <td>105,500 원</td>
+            </th>
+            <th>
+            <td>총 할인금액 (할인금액 + 적립금 사용)</td>
+            <td>5,280 원</td>
+            </th>
+            <th>
+            <td>총 결제금액</td>
+            <td>97,220원</td>
+            </th>
+            <th>
+            <td>주문상품정보</td>
+            </th>
+            <th>
+            <td>이미지</td>
+            <td>상품명</td>
+            <td>판매가</td>
+            <td>수량</td>
+            <td>색상</td>
+            <td>사이즈</td>
+            <td>합계</td>
+            </th>
+            <th>
+            <td><img alt="이미지" src="upload/${mainImg}"></td>
+            <td>${productName}</td>
+            <td><input type="text" name="price" value="${price}" readonly="readonly" class="non"></td>
+            <td><input type="text" name="orderQuantity" value="${quantity}" readonly="readonly" class="non"></td>
+            <td><input type="text" name="orderColor" value="${color}" readonly="readonly" class="non"></td>
+            <td><input type="text" name="orderSize" value="${size}" readonly="readonly" class="non"></td>
+            <td>${price*quantity}</td>
+            </th>
+            <th>
+            <td>배송지정보</td>
+            </th>
+            <th>
+            <td>받으시는 분</td>
+            <td>아몰리</td>
+            </th>
+            <th>
+            <td>우편번호</td>
+            <td>08888</td>
+            </th>
+            <th>
+                <td>주소</td>
+                <td>서울시 ~!</td>
+            </th>
+            <th>
+                <td>휴대전화</td>
+                <td>010-0000-0000</td>
+            </th>
+            <th>
+            <td>배송메시지</td>
+            <td>빠른 배송 부탁드립니다.</td>
+            </th>
+        </table>
+        <button type="button">주문목록보기</button>
+    </div>
+</div>
+</body>
+</html>
