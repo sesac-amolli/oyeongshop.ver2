@@ -3,19 +3,18 @@ package com.amolli.oyeongshop.ver2.order.controller;
 import com.amolli.oyeongshop.ver2.order.model.Order;
 import com.amolli.oyeongshop.ver2.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping("/order")
+@RestController
+@RequestMapping("/order/api")
 @RequiredArgsConstructor
-public class OrderController {
+public class OrderRestController {
 
     private final OrderService orderService;
 
@@ -43,9 +42,10 @@ public class OrderController {
 
             return "/login";
         }else {
+            System.out.println(order);
             Order savedOrder = orderService.save(order);
 
-            System.out.println(order);
+            System.out.println("saved:" +  savedOrder);
             System.out.println(result);
             return "/";
         }
