@@ -16,8 +16,10 @@ public class ReviewImg {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewImageId;
 
+    // 파일 이름
     private String reviewUserFileName;
 
+    // s3에서 사용할 url
     private String reviewServerFileName;
 
     @ManyToOne

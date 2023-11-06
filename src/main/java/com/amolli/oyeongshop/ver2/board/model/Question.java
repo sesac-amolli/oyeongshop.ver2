@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -31,6 +32,7 @@ public class Question {
 
     private Long questionPwd;
 
+    @CreationTimestamp
     private LocalDate questionWriteDate;
 
     private String questionOpenFlag;

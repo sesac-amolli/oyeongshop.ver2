@@ -3,6 +3,7 @@ package com.amolli.oyeongshop.ver2.board.model;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class Answer {
 
     private String answerContents;
 
+    @CreationTimestamp
     private LocalDate answerDate;
 
     private String answerUserId;

@@ -4,11 +4,13 @@ import com.amolli.oyeongshop.ver2.product.model.ProductOption;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -25,7 +27,8 @@ public class Cart extends BaseEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Date cartDate;
+    @CreationTimestamp
+    private LocalDate cartDate;
 
     private Long cartAmount;
 }

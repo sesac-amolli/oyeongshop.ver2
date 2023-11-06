@@ -4,6 +4,7 @@ import com.amolli.oyeongshop.ver2.product.model.Product;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -27,6 +28,7 @@ public class Review {
 
     private Long reviewRate;
 
+    @CreationTimestamp
     private LocalDate reviewWriteDate;
 
     // 상품id가 외래키라서 선언
