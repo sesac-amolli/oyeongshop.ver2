@@ -22,7 +22,8 @@ public class BoardController {
     @GetMapping("/modify")
     public String qnaModify() { return "/board/qna-product-modify"; }
 
-    @GetMapping("/review-lists")
+    // review list 조회(해당 페이지의 상품 id 가져와서)@GetMapping("/review-lists/{id}")
+    @GetMapping("/review-lists/{id}")
     public String reviewList() { return "/board/review-list"; }
 
     @GetMapping("/review-write")

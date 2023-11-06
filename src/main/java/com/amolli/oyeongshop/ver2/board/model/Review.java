@@ -37,6 +37,6 @@ public class Review {
     private Product product;
 
     @OneToMany(mappedBy = "review")
-    private List<ReviewImg> reviewImgs = new ArrayList<ReviewImg>();
+    private List<ReviewImg> reviewImgs = new ArrayList<>();
 
 }

@@ -1,15 +1,15 @@
 package com.amolli.oyeongshop.ver2.board.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Builder
 @Getter
 @Entity
 @Table(name = "tbl_review_img")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class ReviewImg {
 
     @Id
