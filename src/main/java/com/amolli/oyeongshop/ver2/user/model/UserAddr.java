@@ -23,8 +23,6 @@ public class UserAddr extends BaseEntity{
 
     private String userAddr2;
 
-    private String userAddr3;
-
     private String userAddrDetail;
 
     @ManyToOne

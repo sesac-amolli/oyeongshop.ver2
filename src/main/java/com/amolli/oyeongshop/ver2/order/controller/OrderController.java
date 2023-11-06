@@ -17,4 +17,14 @@ public class OrderController {
     public String returnList(){
         return "/order/return-list";
     }
+
+    @GetMapping("/toroder")
+    public String toOrder(){
+        return "/order/order";
+    }
+
+    @GetMapping("/orderDetail")
+    public String orderDetail(){
+        return "/order/order-detail";
+    }
 }
