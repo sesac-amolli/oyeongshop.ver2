@@ -1,18 +1,14 @@
 package com.amolli.oyeongshop.ver2.board.s3;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amolli.oyeongshop.ver2.board.dto.AddReviewDTO;
+import com.amolli.oyeongshop.ver2.board.dto.ReviewDTO;
+import com.amolli.oyeongshop.ver2.board.dto.ReviewImgDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,14 +17,19 @@ public class AwsS3Controller {
 
     @ResponseBody
     @PostMapping(value = "/board/review-write", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadFile(@RequestParam("image1")MultipartFile file, AddReviewDTO addReviewDTO) {
+    public String uploadFile(@RequestParam("image1") List<MultipartFile> file, ReviewDTO reviewDTO, ReviewImgDTO reviewImgDTO) {
 
-        System.out.println("Controller addReviewDTO:: " + addReviewDTO);
-
+        System.out.println("Controller addReviewDTO:: " + reviewDTO);
         System.out.println("Controller file:: " + file);
-        String imagepath = awsS3Service.uploadPhoto(file);
-        System.out.println("imageurl@!!!!"+imagepath);
-        return "board/pwd-check";
+
+        List<String> imagepath = awsS3Service.uploadS3(file);
+
+        awsS3Service.uploadDB(imagepath, reviewDTO, reviewImgDTO);
+
+//        System.out.println("imageurl@!!!!"+imagepath);
+
+
+        return "redirect:/board/review-list";
 
     }
 }

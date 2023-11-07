@@ -1,7 +1,9 @@
 package com.amolli.oyeongshop.ver2.board.model;
 
+import com.amolli.oyeongshop.ver2.board.dto.ReviewDTO;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -38,5 +40,19 @@ public class Review {
 
     @OneToMany(mappedBy = "review")
     private List<ReviewImg> reviewImgs = new ArrayList<>();
+
+    @Builder
+    public Review(ReviewDTO reviewDTO) {
+        final String userId = reviewDTO.getUserId();
+        final String prodName = reviewDTO.getProdName();
+        final String reviewContent = reviewDTO.getReviewContent();
+        final Long reviewRate = reviewDTO.getReviewRate();
+        final LocalDate reviewWriteDate = reviewDTO.getReviewWriteDate();
+
+    }
+    public void addReview(ReviewImg reviewImg) {
+        reviewImgs.add(reviewImg);
+        reviewImg.setReview(this);
+    }
 
 }

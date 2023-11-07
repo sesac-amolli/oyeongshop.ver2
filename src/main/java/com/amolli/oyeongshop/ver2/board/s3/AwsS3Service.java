@@ -5,7 +5,12 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amolli.oyeongshop.ver2.board.dto.ReviewDTO;
+import com.amolli.oyeongshop.ver2.board.dto.ReviewImgDTO;
+import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.model.ReviewImg;
+import com.amolli.oyeongshop.ver2.board.repository.ReviewImgRepository;
+import com.amolli.oyeongshop.ver2.board.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -15,6 +20,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,46 +32,49 @@ public class AwsS3Service {
 
     private final AmazonS3 amazonS3;
 
-    private final PhotoRepository photoRepository; // 가정: MediaRepository가 PhotoRepository로 변경되었다고 가정
+    private final ReviewRepository reviewRepository;
 
-    public String uploadPhoto(MultipartFile photo) { // Photo 객체로 변경
+    private final ReviewImgRepository reviewImgRepository;
 
-        String photoName = createFileName(photo.getOriginalFilename()); // 파일 이름을 생성
+    public List<String> uploadS3(List<MultipartFile> multipartlist) {
+        // 이미지 url 받아올 리스트
+        List<String> imageUrls = new ArrayList<>();
 
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(photo.getSize());
-        objectMetadata.setContentType(photo.getContentType());
+        for (MultipartFile file : multipartlist) {
+            String fileName = createFileName(file.getOriginalFilename()); // 파일 이름을 생성
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentLength(file.getSize());
+            objectMetadata.setContentType(file.getContentType());
 
-        System.out.println("Uploading photo: " + photoName);
+            System.out.println("Uploading photo: " + fileName);
 
-        try (InputStream inputStream = photo.getInputStream()) {
-            // S3에 업로드
-            amazonS3.putObject(new PutObjectRequest(bucket+"/Review", photoName, inputStream, objectMetadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
-        } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Photo upload failed.");
+            try (InputStream inputStream = file.getInputStream()) {
+                // S3에 업로드
+                amazonS3.putObject(new PutObjectRequest(bucket + "/Review", fileName, inputStream, objectMetadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+            } catch (IOException e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Photo upload failed.");
+            }
+
+            // Accessible URL을 가져온다
+            imageUrls.add(amazonS3.getUrl(bucket + "/Review", fileName).toString());
+
+        }return imageUrls;
+    }
+
+    public void uploadDB(List<String> imageUrls, ReviewDTO reviewDTO, ReviewImgDTO reviewImgDTO) {
+        Review review = Review.builder().reviewDTO(reviewDTO).build();
+        System.out.println("Review정보"+review.toString());
+
+        for(String url : imageUrls) {
+            ReviewImg img = ReviewImg.builder().reviewServerFileName(url).build();
+            review.addReview(img);
         }
 
-        // Accessible URL을 가져온다
-        String photoUrl = amazonS3.getUrl(bucket+"/Review", photoName).toString();
-
-//        // 데이터베이스에 사진 정보 저장
-//        String uploadedPhoto = ReviewImg.builder()
-//                .reviewServerFileName(photoUrl)
-//                .build();
-
-//        Photo uploadedPhoto = Photo.builder()
-//                .originalName(photo.getOriginalFilename())
-//                .uniqueName(photoName)
-//                .type(photo.getContentType())
-//                .url(photoUrl)
-//                .purpose(photoPurpose)
-//                .build();
-
-//        photoRepository.save(uploadedPhoto);
-
-        return photoUrl;
+        reviewRepository.save(review);
     }
+
+
 
     // S3에 저장되어있는 미디어 파일 삭제
     public void deleteFile(String fileName) {
