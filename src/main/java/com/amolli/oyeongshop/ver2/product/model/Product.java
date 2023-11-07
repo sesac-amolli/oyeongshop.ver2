@@ -17,27 +17,20 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "tbl_product")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long prodId;
-
     private String prodCode;
-
     private String prodName;
-
     private Long prodOriginPrice;
-
-    private Long prodDiscount;
-
+    private Long prodSalesPrice;
     private String prodCategory;
-
     private String prodCategoryDetail;
-
     private String prodDesc;
-
-    private String prodMainImgName;
+    private String prodMainImgPath;
+    private String prodSalesDist;
 
     @CreationTimestamp
     private LocalDate prodRegdate;

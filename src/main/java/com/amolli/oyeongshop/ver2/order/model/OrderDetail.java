@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Getter
 @Entity
-@Table(name="tblOrderDetail")
+@Table(name="tbl_order_detail")
 @NoArgsConstructor
 public class OrderDetail {
 

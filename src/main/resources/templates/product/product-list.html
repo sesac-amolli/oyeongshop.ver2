@@ -6,29 +6,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OyeongShop</title>
-    <link rel="stylesheet" href="/css/product/product-list.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/product/product-list.css">
+    <title>상품 리스트 페이지</title>
 </head>
 <body layout:fragment="content">
-    <div id="right">
-        <h2>BEST100</h2>
-        <table>
-            <!--무한스크롤 구현시 상품 반복출력 코드(행)-->
+<h2>BEST100</h2>
+<div id="right">
+    <table>
+        <tbody>
+            <th:block th:each="product, iterStat : ${productList}">
                 <tr>
-                    <!--무한스크롤 구현시 상품 반복출력 코드(열)-->
-                        <td>
-                            <div onclick="location.href='/oyeongshop/product-detail?productNo=#';">
-                                <div id="img_cover">
-                                    <img id="product_img" alt="" src="#">
-                                </div>
-                                <p>상품명</p>
-                                <p>₩ 30000</p>
-                            </div>
-                        </td>
-
+                <td>
+                    <div th:onclick="'location.href=\'/oyeongshop/product-detail?prodId=\' + ${product.prodId}'">
+                        <div id="img_cover">
+                            <img id="product_img" alt="" th:src="${product.prodMainImgPath}">
+                            <p th:text="${product.prodName}"></p>
+                            <p th:text="${product.prodOriginPrice}"></p>
+                        </div>
+                    </div>
+                </td>
                 </tr>
-
-        </table>
-    </div>
+            </th:block>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

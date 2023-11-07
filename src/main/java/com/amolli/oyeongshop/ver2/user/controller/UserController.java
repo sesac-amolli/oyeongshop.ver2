@@ -14,7 +14,6 @@ import java.util.List;
 //@RestController
 //@RequestMapping("/api/user")
 public class UserController {
-
     private final List<User> users = new ArrayList<>();
 
     @GetMapping("/sign-up")
@@ -39,12 +38,6 @@ public class UserController {
     public String myinfo(){
 
         return "/user/myinfo";
-    }
-
-    @GetMapping("/signup")
-    public String signup(){
-
-        return "/user/signup";
     }
 
     @GetMapping("/wishlist")
