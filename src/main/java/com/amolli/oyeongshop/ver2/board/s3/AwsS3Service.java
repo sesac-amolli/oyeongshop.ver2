@@ -11,6 +11,8 @@ import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.model.ReviewImg;
 import com.amolli.oyeongshop.ver2.board.repository.ReviewImgRepository;
 import com.amolli.oyeongshop.ver2.board.repository.ReviewRepository;
+import com.amolli.oyeongshop.ver2.product.model.Product;
+import com.amolli.oyeongshop.ver2.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -32,9 +34,11 @@ public class AwsS3Service {
 
     private final AmazonS3 amazonS3;
 
+    private final ReviewImgRepository reviewImgRepository;
+
     private final ReviewRepository reviewRepository;
 
-    private final ReviewImgRepository reviewImgRepository;
+    private final ProductRepository productRepository;
 
     public List<String> uploadS3(List<MultipartFile> multipartlist) {
         // 이미지 url 받아올 리스트
@@ -63,12 +67,24 @@ public class AwsS3Service {
     }
 
     public void uploadDB(List<String> imageUrls, ReviewDTO reviewDTO, ReviewImgDTO reviewImgDTO) {
-        Review review = Review.builder().reviewDTO(reviewDTO).build();
+//        Review review = Review.builder().reviewDTO(reviewDTO).build();
+//        Product product = productRepository.findById(reviewDTO.getProdName());
+        Review review = Review.builder()
+                        .reviewId(reviewDTO.getReviewId())
+                        .userId(reviewDTO.getUserId())
+                        .reviewContent(reviewDTO.getReviewContent())
+                        .reviewRate(reviewDTO.getReviewRate())
+                        .reviewWriteDate(reviewDTO.getReviewWriteDate())
+            //상품이름..
+                        .build();
+
         System.out.println("Review정보"+review.toString());
 
         for(String url : imageUrls) {
-            ReviewImg img = ReviewImg.builder().reviewServerFileName(url).build();
-            review.addReview(img);
+//            ReviewImg img = ReviewImg.builder().reviewServerFileName(url).build();
+            ReviewImg reviewimg = ReviewImg.builder()
+                            .reviewServerFileName(reviewImgDTO.getReviewServerFileName()).build();
+            review.addReviewImg(reviewimg);
         }
 
         reviewRepository.save(review);

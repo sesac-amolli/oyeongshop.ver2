@@ -28,10 +28,10 @@ public class ReviewImg {
     @JoinColumn(name = "review_id")
     private Review review;
 
-    @Builder
-    public ReviewImg(ReviewImgDTO reviewImgDTO){
-        final String reviewServerFileName = reviewImgDTO.getReviewServerFileName();
+//    @Builder
+//    public ReviewImg(ReviewImgDTO reviewImgDTO){
+//        final String reviewServerFileName = reviewImgDTO.getReviewServerFileName();
+//    }
 
-    }
 
 }
