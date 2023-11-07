@@ -4,3 +4,7 @@
 @import url(footer.css);
 @import url(side-nav-for-user.css);
 
+#index_main_img{
+    width: 80%;
+}
+

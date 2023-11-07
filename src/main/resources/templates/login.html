@@ -13,7 +13,7 @@
   <div id="login-content">
     <div id="login-content-left">
       <h2>Login</h2>
-        <form id="login-form" action="#"  method="post">
+        <form id="login-form" action="/login"  method="POST">
           <table>
             <tr>
               <td>
@@ -30,14 +30,14 @@
             </tr>
             <tr>
               <td colspan="2" class="btn-cover">
-                <button type="button" class="btn" onclick="location.href='/oyeongshop/join';" >네이버</button>
+                <button type="button" class="btn" onclick="location.href='#';" >네이버</button>
                 <button type="button" class="btn" onclick="" >카카오</button>
-                <button type="button" class="btn" onclick="" >구글</button>
+                <button type="button" class="btn" onclick="location.href='/oauth2/authorization/google';" ><img src="/images/google.png"></button>
               </td>
             </tr>
             <tr>
               <td colspan="2" class="btn-cover">
-                <button type="button" class="btn" onclick="location.href='/oyeongshop/join';" >회원가입</button> |
+                <button type="button" class="btn" onclick="location.href='/sign-up';" >회원가입</button> |
                 <button type="button" class="btn" onclick="" >ID 찾기</button> |
                 <button type="button" class="btn" onclick="" >비밀번호 찾기</button>
               </td>
