@@ -13,85 +13,85 @@
 <body layout:fragment="content">
 
 <section class="main">
-    <form class="form-review-write" action="">
+    <form class="form-review-write" method="POST" action="/board/review-write" enctype="multipart/form-data">
         <table class="table-review-write">
             <h2>리뷰 작성하기</h2>
             <tr>
                 <td class="title">작성자</td>
-                <td class="content">yeong1234</td>
+                <td class="content"><input type="text" value="yeong1234" name="userId"></td>
             </tr>
             <tr>
                 <td class="title">상품명</td>
-                <td class="content">브이넥 니트</td>
+                <td class="content"><input type="text" value="브이넥 니트" name="productName"></td>
             </tr>
             <tr>
                 <td class="title">별점</td>
                 <td class="content">
                     <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 1
+                        <input type="radio" name="reviewRate" id="inlineRadio1" value="1"> 1
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 2
+                        <input type="radio" name="reviewRate" id="inlineRadio2" value="2"> 2
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3"> 3
+                        <input type="radio" name="reviewRate" id="inlineRadio3" value="3"> 3
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option4"> 4
+                        <input type="radio" name="reviewRate" id="inlineRadio4" value="4"> 4
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option5"> 5
+                        <input type="radio" name="reviewRate" id="inlineRadio5" value="5"> 5
                     </label>
                 </td>
             </tr>
             <tr>
                 <td class="title">내용</td>
                 <td class="content">
-                    <textarea class="form-control" rows="10"></textarea>
+                    <textarea name="reviewContent" class="form-control" rows="10"></textarea>
                 </td>
             </tr>
             <tr>
                 <td class="title">첨부파일1</td>
                 <td class="content">
                     <div class="form-group">
-                        <input type="file" id="exampleInputFile">
+                        <input type="file" name="image1" id="exampleInputFile1">
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td class="title">첨부파일2</td>
-                <td class="content">
-                    <div class="form-group">
-                        <input type="file" id="exampleInputFile">
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="title">첨부파일3</td>
-                <td class="content">
-                    <div class="form-group">
-                        <input type="file" id="exampleInputFile">
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="title">첨부파일4</td>
-                <td class="content">
-                    <div class="form-group">
-                        <input type="file" id="exampleInputFile">
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="title">첨부파일5</td>
-                <td class="content">
-                    <div class="form-group">
-                        <input type="file" id="exampleInputFile">
-                    </div>
-                </td>
-            </tr>
+<!--            <tr>-->
+<!--                <td class="title">첨부파일2</td>-->
+<!--                <td class="content">-->
+<!--                    <div class="form-group">-->
+<!--                        <input type="file" id="exampleInputFile2">-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td class="title">첨부파일3</td>-->
+<!--                <td class="content">-->
+<!--                    <div class="form-group">-->
+<!--                        <input type="file" id="exampleInputFile3">-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td class="title">첨부파일4</td>-->
+<!--                <td class="content">-->
+<!--                    <div class="form-group">-->
+<!--                        <input type="file" id="exampleInputFile4">-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <td class="title">첨부파일5</td>-->
+<!--                <td class="content">-->
+<!--                    <div class="form-group">-->
+<!--                        <input type="file" id="exampleInputFile5">-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
         </table>
-        <div class="button"><button type="submit" class="btn btn-default">작성하기</button></div>
+        <div class="button"><input type="submit" class="btn btn-default">작성하기</input></div>
     </form>
 </section>
     
