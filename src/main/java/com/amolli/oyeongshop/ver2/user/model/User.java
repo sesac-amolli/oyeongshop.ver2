@@ -44,8 +44,8 @@ public class User {
     private String userPwd;
 
     // 23.11.06 스프링 시큐리티 확인용 userEmail > email 로 정정
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
+//    @Column(name = "userEmail", nullable = false, unique = true)
+//    private String email;
 
     private String userPhone;
 

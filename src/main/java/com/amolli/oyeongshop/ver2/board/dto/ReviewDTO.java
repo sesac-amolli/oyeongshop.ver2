@@ -16,17 +16,11 @@ import java.util.stream.Collectors;
 public class ReviewDTO {
 
     private Long reviewId;
-
     private String userId;
-
     private String prodName;
-
     private String reviewContent;
-
     private Long reviewRate;
-
     private LocalDate reviewWriteDate;
-
 
     public ReviewDTO(Long reviewId, String userId, String prodName, String reviewContent,
                      Long reviewRate, LocalDate reviewWriteDate) {
@@ -37,6 +31,15 @@ public class ReviewDTO {
         this.reviewContent = reviewContent;
         this.reviewRate = reviewRate;
         this.reviewWriteDate = reviewWriteDate;
+    }
+
+    public Review toEntity() {
+        return Review.builder()
+                .reviewId(reviewId)
+                .userId(userId)
+                .reviewContent(reviewContent)
+                .reviewRate(reviewRate)
+                .reviewWriteDate(reviewWriteDate).build();
     }
 
 //    @Builder

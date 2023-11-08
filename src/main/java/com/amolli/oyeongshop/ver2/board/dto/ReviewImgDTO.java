@@ -20,6 +20,10 @@ public class ReviewImgDTO {
         this.reviewServerFileName = reviewServerFileName;
     }
 
+    public ReviewImg toEntity() {
+        return ReviewImg.builder()
+                .reviewServerFileName(reviewServerFileName).build();
+    }
 //    @Builder
 //    public ReviewImgDTO(ReviewImg reviewImg) {
 //        final String reviewServerFileName = reviewImg.getReviewServerFileName();

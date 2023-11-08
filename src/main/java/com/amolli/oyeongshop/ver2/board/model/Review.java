@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 @Getter
 @Builder
 @Entity
@@ -37,7 +38,8 @@ public class Review {
     @JoinColumn(name = "prod_id")
     private Product product;
 
-    @OneToMany(mappedBy = "review")
+    @Builder.Default
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<ReviewImg> reviewImgs = new ArrayList<>();
 
 //    @Builder

@@ -5,12 +5,13 @@ import lombok.*;
 
 import javax.persistence.*;
 
+@ToString
 @Builder
 @Getter
 @Setter
 @Entity
 @Table(name = "tbl_review_img")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 public class ReviewImg {
 

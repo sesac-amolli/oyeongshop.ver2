@@ -66,28 +66,40 @@ public class AwsS3Service {
         }return imageUrls;
     }
 
-    public void uploadDB(List<String> imageUrls, ReviewDTO reviewDTO, ReviewImgDTO reviewImgDTO) {
+    public void uploadDB(List<String> imageUrls, ReviewDTO reviewDTO, Long prodId) {
 //        Review review = Review.builder().reviewDTO(reviewDTO).build();
 //        Product product = productRepository.findById(reviewDTO.getProdName());
-        Review review = Review.builder()
-                        .reviewId(reviewDTO.getReviewId())
-                        .userId(reviewDTO.getUserId())
-                        .reviewContent(reviewDTO.getReviewContent())
-                        .reviewRate(reviewDTO.getReviewRate())
-                        .reviewWriteDate(reviewDTO.getReviewWriteDate())
-            //상품이름..
-                        .build();
 
-        System.out.println("Review정보"+review.toString());
+//        Review review = Review.builder()
+//                        .reviewId(reviewDTO.getReviewId())
+//                        .userId(reviewDTO.getUserId())
+//                        .reviewContent(reviewDTO.getReviewContent())
+//                        .reviewRate(reviewDTO.getReviewRate())
+//                        .reviewWriteDate(reviewDTO.getReviewWriteDate())
+//            //상품이름..
+//                        .build();
+
+        // productrepo.findbyid(prodid)
+//        Product product = productRepository.findById();
+
+        Review review = reviewDTO.toEntity();
+
+
 
         for(String url : imageUrls) {
 //            ReviewImg img = ReviewImg.builder().reviewServerFileName(url).build();
-            ReviewImg reviewimg = ReviewImg.builder()
-                            .reviewServerFileName(reviewImgDTO.getReviewServerFileName()).build();
+//            ReviewImg reviewimg = ReviewImg.builder()
+//                            .reviewServerFileName(reviewImgDTO.getReviewServerFileName()).build();
+            ReviewImg reviewimg = new ReviewImg();
+            reviewimg.setReviewServerFileName(url);
+
+            System.out.println("reviewimg!!!"+reviewimg);
             review.addReviewImg(reviewimg);
+
         }
 
         reviewRepository.save(review);
+//        System.out.println("Review정보"+review);
     }
 
 
