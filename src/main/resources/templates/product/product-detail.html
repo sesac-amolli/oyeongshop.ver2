@@ -6,39 +6,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/product/product-detail.css">
-    <title>제품 정보 페이지</title>
+    <title>상품 정보 페이지</title>
 </head>
-<body layout:fragment="content">
+<body layout:fragment="content" th:object="${product}">
 <div class="container">
     <div class="main-section">
-        <img src="/images/product/product-img1.png" alt="Person wearing yellow sweater">
-        <div class="product-info">
-            <div style="font-size: 18px; font-weight: bold;">상품명 : {Product name} here</div><br>
+        <img th:src="${product.prodMainImgPath}" alt="">
+        <div class="product-info" th:object="${product.productOptions}">
+            <div style="font-size: 18px; font-weight: bold;">상품명 : <span th:text="${product.prodName}"></span></div><br>
             <ul class="flex-container">
                 <div class="flex-items">
                     <li>상품코드</li>
                 </div>
                 <div class="flex-items">
-                    <li>{Product code} here</li>
+                    <li><div th:text="${product.prodCode}"></div></li>
                 </div>
             </ul>
             <ul class="flex-container">
                 <div class="flex-items">
                     <li>판매가</li>
                 </div>
-                <div class="flex-items">
-                    <li>{price} here</li>
-                </div>
-            </ul>
-            <ul class="flex-container">
-                <div class="flex-items">
-                    <li>재고</li>
-                </div>
-                <div class="flex-items">
-                    <li>{amount EA} here</li>
+                <div class="flex-items"> <!-- Sales로 변경해야 함 -->
+                    <li><div th:text="${product.prodOriginPrice}"></div></li>
                 </div>
             </ul>
             <ul class="flex-container">
@@ -47,11 +38,11 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <select style="width: 100px;">
-                            <option>Red</option>
-                            <option>Blue</option>
-                            <option>Green</option>
-                            <option>Yellow</option>
+                        <select style="width: 100px;" id="colorSelect">
+                            <option th:each="productOption : ${product.productOptions}"
+                                    th:value="${productOption.prodOptColor}"
+                                    th:text="${productOption.prodOptColor}"
+                                    th:data-color="${productOption.prodOptColor}"></option>
                         </select>
                     </li>
                 </div>
@@ -62,16 +53,20 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <select style="width: 100px;">
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                            <option>XL</option>
-                            <option>XXL</option>
+                        <select style="width: 100px;" id="sizeSelect">
+                            <option th:each="productOption : ${product.productOptions}"
+                                    th:value="${productOption.prodOptSize}"
+                                    th:text="${productOption.prodOptSize}"
+                                    th:data-size="${productOption.prodOptSize}"></option>
                         </select>
                     </li>
                 </div>
             </ul>
+            <br>
+            <br>
+            <button onclick="location.href='#';">바로 구매</button>
+            <button onclick="history.back();">장바구니</button>
+            <button onclick="history.back();">찜하기</button>
         </div>
     </div>
     <div class="details-section">
@@ -88,10 +83,6 @@
             <p>두번째 상품 설명 글</p>
         </div>
         <!-- 추가로 상세 정보를 넣으실 경우, 이 부분에 .details 블록을 계속 추가하시면 됩니다. -->
-    </div>
-    <div class="buttons">
-        <button class="btn-sell" onclick="location.href='#';">판매 등록하기</button>
-        <button class="btn-back" onclick="history.back();">뒤로가기</button>
     </div>
 </div>
 </body>

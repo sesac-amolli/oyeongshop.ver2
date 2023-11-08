@@ -6,29 +6,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OyeongShop</title>
-    <link rel="stylesheet" href="/css/product/product-list.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/product/product-list.css">
+    <title>상품 리스트 페이지</title>
 </head>
 <body layout:fragment="content">
-    <div id="right">
-        <h2>BEST100</h2>
-        <table>
-            <!--무한스크롤 구현시 상품 반복출력 코드(행)-->
-                <tr>
-                    <!--무한스크롤 구현시 상품 반복출력 코드(열)-->
-                        <td>
-                            <div onclick="location.href='/oyeongshop/product-detail?productNo=#';">
-                                <div id="img_cover">
-                                    <img id="product_img" alt="" src="#">
-                                </div>
-                                <p>상품명</p>
-                                <p>₩ 30000</p>
-                            </div>
-                        </td>
-
-                </tr>
-
-        </table>
-    </div>
+<div style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">BEST100</div>
+<div id="right">
+    <table>
+        <tbody>
+            <tr th:each="product, iterStat : ${productList}" th:if="${iterStat.index%3==0}">
+                <td th:if="${iterStat.index < iterStat.size}">
+                    <a th:href="'/product/detail/' + ${productList[iterStat.index].prodId}">
+                        <div class="img_cover">
+                            <img class="product_img" alt="" th:src="${productList[iterStat.index].prodMainImgPath}">
+                            <p th:text="${productList[iterStat.index].prodName}"></p>
+                            <p th:text="${productList[iterStat.index].prodOriginPrice + '원'}"></p>
+                        </div>
+                    </a>
+                </td>
+                <td th:if="${iterStat.index+1 < iterStat.size}">
+                    <a th:href="'/product/detail/' + ${productList[iterStat.index+1].prodId}">
+                        <div class="img_cover">
+                            <img class="product_img" alt="" th:src="${productList[iterStat.index+1].prodMainImgPath}">
+                            <p th:text="${productList[iterStat.index+1].prodName}"></p>
+                            <p th:text="${productList[iterStat.index+1].prodOriginPrice + '원'}"></p>
+                        </div>
+                    </a>
+                </td>
+                <td th:if="${iterStat.index+2 < iterStat.size}">
+                    <a th:href="'/product/detail/' + ${productList[iterStat.index+2].prodId}">
+                        <div class="img_cover">
+                            <img class="product_img" alt="" th:src="${productList[iterStat.index+2].prodMainImgPath}">
+                            <p th:text="${productList[iterStat.index+2].prodName}"></p>
+                            <p th:text="${productList[iterStat.index+2].prodOriginPrice + '원'}"></p>
+                        </div>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
