@@ -7,12 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-//@RestController
 @Controller
 @RequestMapping("/product")
 @RequiredArgsConstructor
@@ -21,42 +21,28 @@ public class ProductController {
 
     @GetMapping("/list")
     public String productList(Model model) {
-        List<Product> results = productService.findAll();
-        List<ProductResponse> productList = new ArrayList<>();
-        for (Product product : results) { // 이게 무슨 for문이라고 했지? 보고 무슨 코드이겠다 짐작하는 것으로는 부족하다. 공부 필요.
-            productList.add(ProductResponse.from(product));
-            System.out.println(productList);
-        }
+        List<ProductResponse> productList = productService.findProductAll();
 
         model.addAttribute("productList",productList);
         return "product/product-list";
     }
-//    @GetMapping("/list")
-//    public String productList( ) {
-//        return "/product/product-list";
-//    }
+
+    @GetMapping("/detail/{prodId}")
+    public ModelAndView productDetail(@PathVariable Long prodId, Model model) {
+        // 중복 옵션 제거
+        Product product = productService.findById(prodId);
+        product = productService.removeDuplicateOptions(product);
+//        product = productService.removeDuplicateSizes(product);
+
+        //productId를 사용하여 필요한 데이터를 데이터베이스에서 가져온다.
+        ModelAndView mav = new ModelAndView("product/product-detail");
+        // Thymeleaf에 데이터를 전달
+        mav.addObject(productService.findById(prodId));
+        return mav;
+    }
     @GetMapping("/register")
     public String productRegister( ) {
-        return "/product/product-register";
-    }
-
-//    @GetMapping("/management")
-//    public List<Product> productMagnagement( ) {
-//        List<Product> results = productService.findAll();
-//
-//        return results;
-//    }
-
-    @GetMapping("/management")
-    public String productMagnagement( ) {
-        List<Product> results = productService.findAll();
-
-        return "/product/product-management";
-    }
-
-    @GetMapping("/detail")
-    public String productDetail( ) {
-        return "/product/product-detail";
+        return "product/product-register";
     }
 
     @GetMapping("/detail/edit")
