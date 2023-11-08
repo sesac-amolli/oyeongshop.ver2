@@ -43,18 +43,10 @@ public class Review {
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<ReviewImg> reviewImgs = new ArrayList<>();
 
-//    @Builder
-//    public Review(ReviewDTO reviewDTO) {
-//        final String userId = reviewDTO.getUserId();
-//        final String prodName = reviewDTO.getProdName();
-//        final String reviewContent = reviewDTO.getReviewContent();
-//        final Long reviewRate = reviewDTO.getReviewRate();
-//        final LocalDate reviewWriteDate = reviewDTO.getReviewWriteDate();
-//
-//    }
+
     public void addReviewImg(ReviewImg reviewImg) {
         reviewImgs.add(reviewImg);
         reviewImg.setReview(this);
-    }
 
+    }
 }
