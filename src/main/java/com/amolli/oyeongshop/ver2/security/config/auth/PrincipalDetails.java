@@ -1,4 +1,4 @@
-package com.amolli.oyeongshop.ver2.security.config.auth;
+package com.amolli.oyeongshop.ver2.Security.config.auth;
 
 import com.amolli.oyeongshop.ver2.user.model.User;
 import org.springframework.security.core.GrantedAuthority;

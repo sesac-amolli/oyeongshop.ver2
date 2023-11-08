@@ -1,11 +1,9 @@
-package com.amolli.oyeongshop.ver2.security.config.oauth;
+package com.amolli.oyeongshop.ver2.Security.config.oauth;
 
-import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
+import com.amolli.oyeongshop.ver2.Security.config.auth.PrincipalDetails;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;

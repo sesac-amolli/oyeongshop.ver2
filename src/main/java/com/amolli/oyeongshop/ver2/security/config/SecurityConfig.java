@@ -1,6 +1,6 @@
-package com.amolli.oyeongshop.ver2.security.config;
+package com.amolli.oyeongshop.ver2.Security.config;
 
-import com.amolli.oyeongshop.ver2.security.config.oauth.PrincipalOauth2UserService;
+import com.amolli.oyeongshop.ver2.Security.config.oauth.PrincipalOauth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
