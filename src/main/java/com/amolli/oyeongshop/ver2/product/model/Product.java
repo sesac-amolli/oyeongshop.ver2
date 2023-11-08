@@ -3,9 +3,7 @@ package com.amolli.oyeongshop.ver2.product.model;
 import com.amolli.oyeongshop.ver2.board.model.Question;
 import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.user.model.Wishlist;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,9 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "tbl_product")
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@ToString
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,16 +39,27 @@ public class Product {
     private LocalDate prodEditdate;
 
     @OneToMany(mappedBy = "product")
-    private List<ProductImage> productImages = new ArrayList<ProductImage>();
+    private List<ProductImage> productImages = new ArrayList<>();
     @OneToMany(mappedBy = "product")
-    private List<ProductOption> productOptions = new ArrayList<ProductOption>();
+    private List<ProductOption> productOptions = new ArrayList<>();
     @OneToMany(mappedBy = "product")
-    private List<Question> questions = new ArrayList<Question>();
+    private List<Question> questions = new ArrayList<>();
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews = new ArrayList<>();
+    @OneToMany(mappedBy = "product")
+    private List<Wishlist> wishLists = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product")
-    private List<Review> reviews = new ArrayList<Review>();
+    @Builder
+    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, List<ProductOption> productOptions) {
+        this.prodId = prodId;
+        this.prodCode = prodCode;
+        this.prodName = prodName;
+        this.prodOriginPrice = prodOriginPrice;
+        this.prodSalesPrice = prodSalesPrice;
+        this.productOptions = productOptions;
+    }
 
-    @OneToMany(mappedBy = "product")
-    private List<Wishlist> wishLists = new ArrayList<Wishlist>();
-
+    public void setProdId(Long prodId) {
+        this.prodId = prodId;
+    }
 }

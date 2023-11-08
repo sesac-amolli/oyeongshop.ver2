@@ -5,10 +5,6 @@
 @import url(../side-nav-for-user.css);
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
-* {
-    box-sizing: border-box;
-}
-
 .main {
     display: flex;
     width: 1000px;
@@ -122,7 +118,7 @@ input {
     margin-bottom: 20px;
 }
 .main-section img {
-    max-width: 45%;
+    max-width: 60%;
 }
 .product-info {
     width: 50%;
