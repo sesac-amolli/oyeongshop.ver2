@@ -3,6 +3,7 @@ package com.amolli.oyeongshop.ver2.board.dto;
 import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.model.ReviewImg;
 
+import com.amolli.oyeongshop.ver2.product.model.Product;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,8 +40,10 @@ public class ReviewDTO {
                 .userId(userId)
                 .reviewContent(reviewContent)
                 .reviewRate(reviewRate)
-                .reviewWriteDate(reviewWriteDate).build();
+                .reviewWriteDate(reviewWriteDate)
+                .build();
     }
+
 
 //    @Builder
 //    public ReviewDTO(Review review) {

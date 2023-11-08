@@ -12,6 +12,7 @@ import java.util.List;
 
 @ToString
 @Getter
+@Setter
 @Builder
 @Entity
 @Table(name = "tbl_review")

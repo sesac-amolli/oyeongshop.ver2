@@ -1,4 +1,4 @@
-package com.amolli.oyeongshop.ver2.board.s3;
+package com.amolli.oyeongshop.ver2.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -67,29 +68,16 @@ public class AwsS3Service {
     }
 
     public void uploadDB(List<String> imageUrls, ReviewDTO reviewDTO, Long prodId) {
-//        Review review = Review.builder().reviewDTO(reviewDTO).build();
-//        Product product = productRepository.findById(reviewDTO.getProdName());
 
-//        Review review = Review.builder()
-//                        .reviewId(reviewDTO.getReviewId())
-//                        .userId(reviewDTO.getUserId())
-//                        .reviewContent(reviewDTO.getReviewContent())
-//                        .reviewRate(reviewDTO.getReviewRate())
-//                        .reviewWriteDate(reviewDTO.getReviewWriteDate())
-//            //상품이름..
-//                        .build();
-
-        // productrepo.findbyid(prodid)
-//        Product product = productRepository.findById();
+        Optional<Product> optionalProduct = productRepository.findById(prodId);
+        if(!optionalProduct.isPresent()) {
+            throw new RuntimeException("Category id: " + prodId + " can not found!!");
+        }
 
         Review review = reviewDTO.toEntity();
-
-
+        review.setProduct(optionalProduct.get());
 
         for(String url : imageUrls) {
-//            ReviewImg img = ReviewImg.builder().reviewServerFileName(url).build();
-//            ReviewImg reviewimg = ReviewImg.builder()
-//                            .reviewServerFileName(reviewImgDTO.getReviewServerFileName()).build();
             ReviewImg reviewimg = new ReviewImg();
             reviewimg.setReviewServerFileName(url);
 
@@ -97,9 +85,7 @@ public class AwsS3Service {
             review.addReviewImg(reviewimg);
 
         }
-
         reviewRepository.save(review);
-//        System.out.println("Review정보"+review);
     }
 
 

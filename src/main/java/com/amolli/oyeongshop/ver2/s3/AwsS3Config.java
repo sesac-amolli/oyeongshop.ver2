@@ -1,4 +1,4 @@
-package com.amolli.oyeongshop.ver2.board.s3;
+package com.amolli.oyeongshop.ver2.s3;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

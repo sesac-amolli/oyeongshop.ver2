@@ -1,8 +1,6 @@
-package com.amolli.oyeongshop.ver2.board.s3;
+package com.amolli.oyeongshop.ver2.s3;
 
 import com.amolli.oyeongshop.ver2.board.dto.ReviewDTO;
-import com.amolli.oyeongshop.ver2.board.dto.ReviewImgDTO;
-import com.amolli.oyeongshop.ver2.product.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -25,7 +23,7 @@ public class AwsS3Controller {
 
         List<String> imagepath = awsS3Service.uploadS3(file);
 
-        awsS3Service.uploadDB(imagepath, reviewDTO, prodId);
+        awsS3Service.uploadDB(imagepath, reviewDTO, 1L);
 
 //        System.out.println("imageurl@!!!!"+imagepath);
 
