@@ -33,10 +33,10 @@ public class Product {
     private String prodSalesDist;
 
     @CreationTimestamp
-    private LocalDate prodRegdate;
+    private LocalDate prodRegDate;
 
     @UpdateTimestamp
-    private LocalDate prodEditdate;
+    private LocalDate prodEditDate;
 
     @OneToMany(mappedBy = "product")
     private List<ProductImage> productImages = new ArrayList<>();
@@ -50,12 +50,13 @@ public class Product {
     private List<Wishlist> wishLists = new ArrayList<>();
 
     @Builder
-    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, List<ProductOption> productOptions) {
+    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, LocalDate prodRegDate, List<ProductOption> productOptions) {
         this.prodId = prodId;
         this.prodCode = prodCode;
         this.prodName = prodName;
         this.prodOriginPrice = prodOriginPrice;
         this.prodSalesPrice = prodSalesPrice;
+        this.prodRegDate = prodRegDate;
         this.productOptions = productOptions;
     }
 

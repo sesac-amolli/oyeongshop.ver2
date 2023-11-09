@@ -26,22 +26,10 @@ public class ProductServiceImpl implements ProductService {
         return productList;
     }
 
-    public Product save(Product product, Long prodId) {
-        if (prodId != null) {
-            Product existingProduct = this.findById(prodId);
-
-            if(existingProduct != null) {
-                product.setProdId(existingProduct.getProdId());
-
-                return productRepository.save(product);
-            }
-            else {
-                return null;
-            }
-        }
-        else{
-            return productRepository.save(product);
-        }
+    @Override
+    public Product save(Product product) {
+        System.out.println("상품이 등록되었습니다.");
+        return productRepository.save(product);
     }
 
 
@@ -122,11 +110,6 @@ public class ProductServiceImpl implements ProductService {
         for (ProductOption option : productOptions) {
             // 색상 중복 확인
             if (uniqueColors.add(option.getProdOptColor())) {
-                uniqueProductOptions.add(option);
-            }
-
-            // 사이즈 중복 확인
-            if (uniqueSizes.add(option.getProdOptSize())) {
                 uniqueProductOptions.add(option);
             }
         }

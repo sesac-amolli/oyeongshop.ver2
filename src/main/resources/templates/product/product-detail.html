@@ -9,8 +9,34 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/product/product-detail.css">
     <title>상품 정보 페이지</title>
+
+
 </head>
 <body layout:fragment="content" th:object="${product}">
+<script>
+    function updateSizeOptions() {
+        var colorSelect = document.getElementById('colorSelect');
+        var sizeSelect = document.getElementById('sizeSelect');
+        var selectedColor = colorSelect.value;
+
+        // 크기 선택 옵션 초기화
+        sizeSelect.innerHTML = '<option value="">선택하세요</option>';
+
+        // 선택된 색상과 일치하는 크기 옵션 추가
+        var productOptions = /* Thymeleaf로부터 가져온 크기 정보 데이터 */;
+
+        for (var i = 0; i < productOptions.length; i++) {
+            var option = productOptions[i];
+
+            if (option.prodOptColor === selectedColor) {
+                var sizeOption = document.createElement('option');
+                sizeOption.value = option.prodOptSize;
+                sizeOption.text = option.prodOptSize;
+                sizeSelect.appendChild(sizeOption);
+            }
+        }
+    }
+</script>
 <div class="container">
     <div class="main-section">
         <img th:src="${product.prodMainImgPath}" alt="">
@@ -38,7 +64,7 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <select style="width: 100px;" id="colorSelect">
+                        <select style="width: 100px;" id="colorSelect" onchange="updateSizeSelect(this)">
                             <option th:each="productOption : ${product.productOptions}"
                                     th:value="${productOption.prodOptColor}"
                                     th:text="${productOption.prodOptColor}"

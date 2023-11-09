@@ -14,34 +14,50 @@
 <body layout:fragment="content">
 <section class="main"></section>
 <h2>상품 등록</h2>
-<form class="qna-register" action="">
+<form action="/product/register" th:object="${product}" class="qna-register" method="post">
     <table>
         <tr>
             <td class="title">상품명</td>
-            <td class="content"><input type="text"></td>
+            <td class="content">
+                <input type="text" th:field="*{prodName}" />
+            </td>
         </tr>
         <tr>
             <td class="title">상품코드</td>
-            <td class="content"><input type="text"></td>
+            <td class="content">
+                <input type="text" th:field="*{prodCode}" />
+            </td>
+        </tr>
+        <tr>
+            <td class="title">원가</td>
+            <td class="content">
+                <input type="text" th:field="*{prodOriginPrice}" />
+            </td>
         </tr>
         <tr>
             <td class="title">판매가격</td>
-            <td class="content"><input type="text"></td>
+            <td class="content">
+                <input type="text" th:field="*{prodSalesPrice}" />
+            </td>
         </tr>
         <tr>
-            <td class="title">상품분류</td>
-            <td class="content"><input type="text"></td>
+            <td class="title">상품대분류</td>
+            <td class="content">
+                <input type="text" th:field="*{prodCategory}" />
+            </td>
+        </tr>
+        <tr>
+            <td class="title">상품상세분류</td>
+            <td class="content">
+                <input type="text" th:field="*{prodCategoryDetail}" />
+            </td>
         </tr>
         <tr>
             <td class="title">상품설명</td>
-            <td class="content"><textarea></textarea></td>
+            <td class="content">
+                <input type="text" th:field="*{prodDesc}" />
+            </td>
         </tr>
-        <tr>
-            <td class="title">상품이미지</td>
-            <td><button href="" target="right"><img src="이미지 파일 경로" alt="+"></button></td>
-        </tr>
-        
-        
     </table>
     <div class="buttons">
         <button type="submit">등록하기</button>
