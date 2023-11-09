@@ -1,5 +1,6 @@
 package com.amolli.oyeongshop.ver2;
 
+import com.amolli.oyeongshop.ver2.user.dto.UserDto;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import com.amolli.oyeongshop.ver2.user.service.UserService;
@@ -27,8 +28,9 @@ public class IndexController {
     }
 
     @PostMapping("/sign-up")
-    public String signUp(User user){
-        userService.signUp(user);
+    public String signUp(UserDto userDto){
+        System.out.println("controller user :: "+userDto);
+        userService.signUp(userDto);
         return "redirect:/login";
     }
 
