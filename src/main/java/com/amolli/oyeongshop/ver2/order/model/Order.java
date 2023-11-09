@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Builder
 @Entity
 @Getter
 @NoArgsConstructor
@@ -58,7 +57,26 @@ public class Order {
 
     public void setUser(User user){
         this.user = user;
-        user.getOrders().add(this);
+        //user.getOrders().add(this);
+    }
+
+    @Builder
+    public Order(Long orderId, Long orderNumber, String orderStatus, String orderAttnName, String orderAttnPhone, String orderAttnEmail, Long orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest, Long orderTotalPrice, LocalDate orderDate, List<OrderDetail> orderDetails, User user) {
+        this.orderId = orderId;
+        this.orderNumber = orderNumber;
+        this.orderStatus = orderStatus;
+        this.orderAttnName = orderAttnName;
+        this.orderAttnPhone = orderAttnPhone;
+        this.orderAttnEmail = orderAttnEmail;
+        this.orderAttnPostcode = orderAttnPostcode;
+        this.orderAttnAddr1 = orderAttnAddr1;
+        this.orderAttnAddr2 = orderAttnAddr2;
+        this.orderAttnDetail = orderAttnDetail;
+        this.orderAttnRequest = orderAttnRequest;
+        this.orderTotalPrice = orderTotalPrice;
+        this.orderDate = orderDate;
+        this.orderDetails = orderDetails;
+        this.user = user;
     }
 
     @Override

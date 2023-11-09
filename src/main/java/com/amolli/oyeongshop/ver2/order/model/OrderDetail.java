@@ -15,7 +15,6 @@ import java.util.Date;
 @Entity
 @Table(name="tbl_order_detail")
 @NoArgsConstructor
-@Builder
 public class OrderDetail {
 
 
