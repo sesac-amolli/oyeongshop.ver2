@@ -16,7 +16,9 @@ import java.util.List;
 @Table(name = "tbl_user")
 @DynamicInsert
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
+@Builder
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class User{
 
     @Id
@@ -50,21 +52,25 @@ public class User{
     @OneToMany(mappedBy = "user")
     private List<Cart> carts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserAddr> userAddrs = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Wishlist> wishlists = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Point> points = new ArrayList<>();
 
     public void encPwd(String userPwd){
         this.userPwd = userPwd;
     }
 
-    public void givePoint(Long point){
-        userPoint=point;
+    public void givePoint(Long userPoint, Point point) {
+        this.userPoint=userPoint;
+        points.add(point);
+        point.setPoint(this);
     }
 
     public void giveGrade(String grade){
@@ -91,22 +97,4 @@ public class User{
         this.points = points;
     }
 
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId='" + userId + '\'' +
-                ", userGrade='" + userGrade + '\'' +
-                ", userName='" + userName + '\'' +
-                ", userPwd='" + userPwd + '\'' +
-                ", userPhone='" + userPhone + '\'' +
-                ", userRegdate=" + userRegdate +
-                ", userPoint=" + userPoint +
-                ", userStatus='" + userStatus + '\'' +
-                ", carts=" + carts +
-                ", userAddrs=" + userAddrs +
-                ", wishlists=" + wishlists +
-                ", points=" + points +
-                '}';
-    }
 }
