@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @Table(name = "tbl_answer")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Answer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long answerId;
