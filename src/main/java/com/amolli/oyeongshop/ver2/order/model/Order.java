@@ -10,7 +10,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -48,12 +47,17 @@ public class Order {
     @CreationTimestamp
     private LocalDate orderDate;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @ManyToOne // User 테이블 외래키 사용
     @JoinColumn(name = "user_id")
     private User user;
+
+    public void setUser(User user){
+        this.user = user;
+        //user.getOrders().add(this);
+    }
 
     @Builder
     public Order(Long orderId, Long orderNumber, String orderStatus, String orderAttnName, String orderAttnPhone, String orderAttnEmail, Long orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest, Long orderTotalPrice, LocalDate orderDate, List<OrderDetail> orderDetails, User user) {

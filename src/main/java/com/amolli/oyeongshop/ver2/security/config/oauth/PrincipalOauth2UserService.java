@@ -1,6 +1,7 @@
 package com.amolli.oyeongshop.ver2.security.config.oauth;
 
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
+import com.amolli.oyeongshop.ver2.user.model.Point;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                             .userName(name)
                             .userSnsDist(provider)
                             .build());
+            Point point = new Point("적립", "회원가입 축하 적립금", 1000L);
+            userEntity.get().givePoint(1000L, point);
             userRepository.save(userEntity.get());
         }
 
