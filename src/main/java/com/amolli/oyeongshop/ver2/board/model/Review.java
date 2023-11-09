@@ -1,9 +1,8 @@
 package com.amolli.oyeongshop.ver2.board.model;
 
+import com.amolli.oyeongshop.ver2.board.dto.ReviewDTO;
 import com.amolli.oyeongshop.ver2.product.model.Product;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,9 +10,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 @Getter
+@Setter
+@Builder
 @Entity
 @Table(name = "tbl_review")
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review {
 
@@ -36,7 +39,14 @@ public class Review {
     @JoinColumn(name = "prod_id")
     private Product product;
 
-    @OneToMany(mappedBy = "review")
-    private List<ReviewImg> reviewImgs = new ArrayList<ReviewImg>();
+    @Builder.Default
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    private List<ReviewImg> reviewImgs = new ArrayList<>();
 
+
+    public void addReviewImg(ReviewImg reviewImg) {
+        reviewImgs.add(reviewImg);
+        reviewImg.setReview(this);
+
+    }
 }

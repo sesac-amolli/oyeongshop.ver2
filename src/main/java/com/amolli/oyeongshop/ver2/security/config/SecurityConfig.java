@@ -1,6 +1,6 @@
-package com.amolli.oyeongshop.ver2.Security.config;
+package com.amolli.oyeongshop.ver2.security.config;
 
-import com.amolli.oyeongshop.ver2.Security.config.oauth.PrincipalOauth2UserService;
+import com.amolli.oyeongshop.ver2.security.config.oauth.PrincipalOauth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터(=SecurityConfig)가 스프링 필터체인에 등록이 된다.

@@ -1,25 +1,25 @@
 package com.amolli.oyeongshop.ver2.board.model;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.amolli.oyeongshop.ver2.board.dto.ReviewImgDTO;
+import lombok.*;
 
 import javax.persistence.*;
 
+@ToString
+@Builder
 @Getter
+@Setter
 @Entity
 @Table(name = "tbl_review_img")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor
 public class ReviewImg {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewImageId;
 
-    // 파일 이름
-    private String reviewUserFileName;
-
-    // s3에서 사용할 url
+    // s3 url
     private String reviewServerFileName;
 
     @ManyToOne
