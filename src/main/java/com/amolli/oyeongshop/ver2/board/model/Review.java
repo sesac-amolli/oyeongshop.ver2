@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@ToString
+//@ToString(exclude = "product")
 @Getter
 @Setter
 @Builder
@@ -35,18 +35,17 @@ public class Review {
     private LocalDate reviewWriteDate;
 
     // 상품id가 외래키라서 선언
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "prod_id")
     private Product product;
 
     @Builder.Default
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ReviewImg> reviewImgs = new ArrayList<>();
 
 
     public void addReviewImg(ReviewImg reviewImg) {
         reviewImgs.add(reviewImg);
         reviewImg.setReview(this);
-
     }
 }
