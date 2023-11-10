@@ -22,23 +22,28 @@ public class OrderDetail {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long orderDetailId;
 
-    private Long ordeDetailAmount;
+    private Long orderDetailAmount;
 
     private Long orderDetailPrice;
 
-    @ManyToOne(fetch =  FetchType.EAGER)
+    @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @OneToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "prod_opt_id")
     private ProductOption productOption;
 
     public static OrderDetail createOrderDetail(ProductOption productOption, long count){
         OrderDetail orderDetail = new OrderDetail();
+
         orderDetail.setProductOption(productOption);
-        orderDetail.setOrdeDetailAmount(count);
-        //orderDetail.setOrderDetailPrice(productOption.getProduct().getProdSalesPrice);
+        orderDetail.setOrderDetailAmount(count);
+        orderDetail.setOrderDetailPrice(productOption.getProduct().getProdSalesPrice());
         return orderDetail;
+    }
+
+    public long getTotalPrice(){
+        return orderDetailPrice*orderDetailAmount;
     }
 }

@@ -1,16 +1,18 @@
 package com.amolli.oyeongshop.ver2.order.controller;
 
-import com.amolli.oyeongshop.ver2.order.model.Order;
+import com.amolli.oyeongshop.ver2.order.dto.OrderDeliveryDTO;
+import com.amolli.oyeongshop.ver2.order.dto.OrderDetailsDTO;
 import com.amolli.oyeongshop.ver2.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/order")
@@ -31,26 +33,58 @@ public class OrderController {
 
     @GetMapping("/orderadd")
     public String orderAdd(Model model){
-        model.addAttribute("order", Order.builder().build());
+        OrderFormDTO orderForm = new OrderFormDTO();
+
+        model.addAttribute("productId", 1);
+        model.addAttribute("productName", "Your Product");
+        model.addAttribute("price", 10000);
+        model.addAttribute("quantity", 2);
+        model.addAttribute("color", "Red");
+        model.addAttribute("size", "M");
+
+        int totalPrice = 10000 * 2; // 가격 * 수량
+        model.addAttribute("totalPrice", totalPrice);
+
+        model.addAttribute("receiveName", "John Doe");
+        model.addAttribute("receivePhone", "123-456-7890");
+
+        model.addAttribute("totalAmount", totalPrice);
+        model.addAttribute("discountAmount", 0);
+        model.addAttribute("totalPaymentAmount", totalPrice);
+
+        model.addAttribute("orderForm", orderForm);
+
         return "/order/order";
     }
 
-    @PostMapping("/orderadd")
-    public String orderSave(@Validated Order order, BindingResult result){
-        if(result.hasErrors()){
-            System.out.println(order);
-            System.out.println(result);
-
-            return "/login";
-        }else {
-            Order savedOrder = orderService.save(order);
-
-            System.out.println(order);
-            System.out.println(result);
-            return "/";
+    @PostMapping(value = "/crOrder")
+    public String order(@ModelAttribute @Valid OrderDetailsDTO orderDetailsDTO,
+                        @ModelAttribute @Valid OrderDeliveryDTO orderDeliveryDTO,
+                        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            // 유효성 검사 오류 처리
+            StringBuilder sb = new StringBuilder();
+            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+            for (FieldError fieldError : fieldErrors) {
+                sb.append(fieldError.getDefaultMessage());
+            }
+            redirectAttributes.addFlashAttribute("error", sb.toString());
+            return "redirect:/main";
         }
-        //결제랑 연결하기 전에 우선 테스트하는 동안은 메인으로 이동
+
+        String userId = "guest";
+        Long orderId;
+        try {
+            orderId = orderService.order(orderDetailsDTO, orderDeliveryDTO, userId);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/main";
+        }
+
+        redirectAttributes.addFlashAttribute("success", "Order placed successfully! Order ID: " + orderId);
+        return "redirect:/main";
     }
+
 
     @GetMapping("/orderDetail")
     public String orderDetail(){
