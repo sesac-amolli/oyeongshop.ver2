@@ -1,6 +1,9 @@
 package com.amolli.oyeongshop.ver2.board.controller;
 
+
 import com.amolli.oyeongshop.ver2.board.dto.ReviewDTO;
+import com.amolli.oyeongshop.ver2.board.dto.ReviewResponseDTO;
+import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.service.ReviewService;
 import com.amolli.oyeongshop.ver2.s3.AwsS3Service;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,11 +39,19 @@ public class BoardController {
 
 
     // 리뷰 게시판
-    // GET 리뷰 리스트 조회(해당 페이지의 상품 id 가져와서)@GetMapping("/review-lists/{id}")
-    @GetMapping("/review-lists")
-    public String reviewList() { return "/board/review-list"; }
+    // GET 리뷰 페이지 조회(상품ID에 따른 리뷰들)
+    @GetMapping("/review-list")    //("/review-list/{prodId}") 로 변경
+    public List<ReviewResponseDTO> findAllReview(Long prodId) {
 
-    // GET 리뷰 작성 페이지 조회
+        List<Review> allreviews = reviewService.findByProdId(1L);
+
+        List<ReviewResponseDTO> reviewdto = allreviews.stream().map(ReviewResponseDTO::from).collect(Collectors.toList());
+        System.out.println("!!allReviewDTO!!" + reviewdto);
+
+        return reviewdto;
+    }
+
+    // GET 리뷰 리스트 조회(해당 페이지의 상품 id 가져와서)
     @GetMapping("/review-write")
     public String reviewWrite() { return "/board/review-write"; }
 
