@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,22 +27,10 @@ public class ProductServiceImpl implements ProductService {
         return productList;
     }
 
-    public Product save(Product product, Long prodId) {
-        if (prodId != null) {
-            Product existingProduct = this.findById(prodId);
-
-            if(existingProduct != null) {
-                product.setProdId(existingProduct.getProdId());
-
-                return productRepository.save(product);
-            }
-            else {
-                return null;
-            }
-        }
-        else{
-            return productRepository.save(product);
-        }
+    @Override
+    public Product save(Product product) {
+        System.out.println("상품이 등록되었습니다.");
+        return productRepository.save(product);
     }
 
 
@@ -56,62 +45,21 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-//    public Product removeDuplicateOptions(Product product) {
-//        List<ProductOption> productOptions = product.getProductOptions();
-//        Set<String> uniqueOptions = new HashSet<>();
-//        List<ProductOption> uniqueProductOptions = new ArrayList<>();
-//
-//        for (ProductOption option : productOptions) {
-//            // 색상과 사이즈를 결합하여 고유한 옵션으로 간주
-//            String uniqueOption = option.getProdOptColor() + option.getProdOptSize();
-//
-//            if (uniqueOptions.add(uniqueOption)) {
-//                uniqueProductOptions.add(option);
-//            }
-//        }
-//
-//        product.setProductOptions(uniqueProductOptions);
-//        return product;
-//    }
-
-//    public Product removeDuplicateOptions(Product product) {
-//        List<ProductOption> productOptions = product.getProductOptions();
-//        Set<String> uniqueColors = new HashSet<>();
-//        Set<String> uniqueSizes = new HashSet<>();
-//        List<ProductOption> uniqueProductColors = new ArrayList<>();
-//        List<ProductOption> uniqueProductSizes = new ArrayList<>();
-//
-//        for (ProductOption option : productOptions) {
-//            if (uniqueColors.add(option.getProdOptColor())) {
-//                uniqueProductColors.add(option);
-//            }
-//            if (uniqueSizes.add(option.getProdOptSize())) {
-//                uniqueProductSizes.add(option);
-//            }
-//        }
-//
-//        product.setProductOptions(uniqueProductColors);
-//        product.setProductOptions(uniqueProductSizes);
-//        return product;
-//    }
-
-//    public Product removeDuplicateOptions(Product product) {
-//        List<ProductOption> productOptions = product.getProductOptions();
-//        Set<String> uniqueOptions = new HashSet<>();
-//        List<ProductOption> uniqueProductOptions = new ArrayList<>();
-//
-//        for (ProductOption option : productOptions) {
-//            // 색상과 사이즈를 결합하여 고유한 옵션으로 간주
-//            String uniqueOption = option.getProdOptColor() + option.getProdOptSize();
-//
-//            if (uniqueOptions.add(uniqueOption)) {
-//                uniqueProductOptions.add(option);
-//            }
-//        }
-//
-//        product.setProductOptions(uniqueProductOptions);
-//        return product;
-//    }
+    public List<ProductResponse> getProductsByCategory(String prodCategory) {
+        List<Product> products = productRepository.findByProdCategoryJPQL(prodCategory);
+        return products.stream()
+                .map(product -> {
+                    ProductResponse dto = new ProductResponse();
+                    dto.setProdId(product.getProdId());
+                    dto.setProdName(product.getProdName());
+                    dto.setProdCategory(product.getProdCategory());
+                    dto.setProdSalesPrice(product.getProdSalesPrice());
+                    dto.setProdMainImgPath(product.getProdMainImgPath());
+                    // 다른 필드들 설정...
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
 
     public Product removeDuplicateOptions(Product product) {
         List<ProductOption> productOptions = product.getProductOptions();
@@ -122,11 +70,6 @@ public class ProductServiceImpl implements ProductService {
         for (ProductOption option : productOptions) {
             // 색상 중복 확인
             if (uniqueColors.add(option.getProdOptColor())) {
-                uniqueProductOptions.add(option);
-            }
-
-            // 사이즈 중복 확인
-            if (uniqueSizes.add(option.getProdOptSize())) {
                 uniqueProductOptions.add(option);
             }
         }
