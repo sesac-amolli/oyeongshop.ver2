@@ -2,6 +2,8 @@ package com.amolli.oyeongshop.ver2.product.dto;
 
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
@@ -9,7 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@Setter
 @ToString
+@NoArgsConstructor
 public class ProductResponse {
     private Long prodId;
     private String prodCode;

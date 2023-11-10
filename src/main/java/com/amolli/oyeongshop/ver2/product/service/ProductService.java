@@ -11,4 +11,5 @@ public interface ProductService {
     Product findById(Long prodId);
     List<ProductResponse> findProductAll();
     Product removeDuplicateOptions(Product product);
+    List<ProductResponse> getProductsByCategory(String prodCategory);
 }

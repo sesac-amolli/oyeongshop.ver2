@@ -20,7 +20,9 @@ public class ProductRegisterRequest {
     private int prodSalesPrice;
     @NotBlank
     private String prodCategory;
+
     private String prodCategoryDetail;
+
     @NotBlank
     private String prodDesc;
 }
