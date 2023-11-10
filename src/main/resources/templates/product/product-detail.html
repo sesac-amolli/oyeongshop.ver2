@@ -13,30 +13,6 @@
 
 </head>
 <body layout:fragment="content" th:object="${product}">
-<script>
-    function updateSizeOptions() {
-        var colorSelect = document.getElementById('colorSelect');
-        var sizeSelect = document.getElementById('sizeSelect');
-        var selectedColor = colorSelect.value;
-
-        // 크기 선택 옵션 초기화
-        sizeSelect.innerHTML = '<option value="">선택하세요</option>';
-
-        // 선택된 색상과 일치하는 크기 옵션 추가
-        var productOptions = /* Thymeleaf로부터 가져온 크기 정보 데이터 */;
-
-        for (var i = 0; i < productOptions.length; i++) {
-            var option = productOptions[i];
-
-            if (option.prodOptColor === selectedColor) {
-                var sizeOption = document.createElement('option');
-                sizeOption.value = option.prodOptSize;
-                sizeOption.text = option.prodOptSize;
-                sizeSelect.appendChild(sizeOption);
-            }
-        }
-    }
-</script>
 <div class="container">
     <div class="main-section">
         <img th:src="${product.prodMainImgPath}" alt="">
@@ -54,8 +30,8 @@
                 <div class="flex-items">
                     <li>판매가</li>
                 </div>
-                <div class="flex-items"> <!-- Sales로 변경해야 함 -->
-                    <li><div th:text="${product.prodOriginPrice}"></div></li>
+                <div class="flex-items">
+                    <li><div th:text="${product.prodSalesPrice}"></div></li>
                 </div>
             </ul>
             <ul class="flex-container">
@@ -102,7 +78,7 @@
             <p>#P1DSNE</p>
             <p>첫번째 상품 설명 글</p>
         </div>
-        <img src="/images/product/product-img1.png" alt="Person wearing yellow sweater">
+        <img th:src="${product.prodMainImgPath}" alt="">
         <div class="details">
             <p>상품정보 2</p>
             <p>#P2DSNE</p>

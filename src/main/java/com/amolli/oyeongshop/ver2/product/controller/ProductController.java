@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product")
@@ -28,11 +29,24 @@ public class ProductController {
         return "product/product-list";
     }
 
+    @GetMapping("/list/{prodCategory}")
+    public String getProductsByCategory(@PathVariable String prodCategory, Model model) {
+        List<ProductResponse> productList = productService.getProductsByCategory(prodCategory);
+
+        // 모델에 데이터 추가
+        model.addAttribute("productList", productList);
+        model.addAttribute("category", prodCategory);
+
+        // 뷰 이름 반환 (타임리프 템플릿 이름)
+        return "product/product-list";
+    }
+
     // 상품 상세정보
     @GetMapping("/detail/{prodId}")
     public ModelAndView productDetail(@PathVariable Long prodId, Model model) {
-        // 중복 옵션 제거
         Product product = productService.findById(prodId);
+
+        // 중복 옵션 제거
         product = productService.removeDuplicateOptions(product);
 //        product = productService.removeDuplicateSizes(product);
 
