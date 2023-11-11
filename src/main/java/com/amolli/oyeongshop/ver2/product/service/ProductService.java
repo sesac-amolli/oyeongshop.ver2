@@ -12,4 +12,7 @@ public interface ProductService {
     List<ProductResponse> findProductAll();
     Product removeDuplicateOptions(Product product);
     List<ProductResponse> getProductsByCategory(String prodCategory);
+    List<ProductResponse> findProductPaged(int page, int itemsPerPage);
+    int getTotalProductCount();
+
 }
