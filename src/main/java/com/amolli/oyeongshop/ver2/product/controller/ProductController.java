@@ -7,12 +7,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product")
@@ -78,37 +78,53 @@ public class ProductController {
         }
     }
 
-    // 상품 관리 리스트
-    @GetMapping("/management")
-    public String productManagement(Model model) {
-        List<ProductResponse> productList = productService.findProductAll();
-
-        model.addAttribute("productList",productList);
-        return "product/product-management";
-    }
-
+    // 상품 관리 리스트(삭제 X 전체 테이블 출력용 코드)
 //    @GetMapping("/management")
-//    public List<ProductResponse> productManagement(Model model) {
+//    public String productManagement(Model model) {
 //        List<ProductResponse> productList = productService.findProductAll();
 //
-//        return productList;
+//        model.addAttribute("productList",productList);
+//        return "product/product-management";
 //    }
 
-//    @PostMapping(value = {"/register"})
-//    public String processCreationForm(@Validated Product product, BindingResult result, @PathVariable Long prodId) {
-//        if (result.hasErrors()) {
-//            return "product/product-register";
-//        }
-//        else {
-//            // OwnerService 생성 후 등록 처리 로직 구현, 완성
-//            Product savedProduct = productService.save(product, prodId);
-//            return "redirect:/product/" + savedProduct.getProdId();
-//        }
+    // 상품 관리 리스트 with Paging Navigation
+    @GetMapping("/management")
+    public String productManagement(Model model, @RequestParam(name = "page", defaultValue = "1") int currentPage) {
+        // 페이지당 항목 수
+        int itemsPerPage = 10;
+        // 전체 상품 수
+        int totalItems = productService.getTotalProductCount();
+        // 전체 페이지 수 계산
+        int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+
+        // 여기에서 currentPage를 모델에 추가
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
+
+        // 현재 페이지의 상품 목록 조회 (페이징된 결과)
+        List<ProductResponse> productList = productService.findProductPaged(currentPage, itemsPerPage);
+        model.addAttribute("productList", productList);
+
+        return "product/product-management";
+    }
+//    @GetMapping("/detail/edit")
+//    public String productDetailEdit( ) {
+//        return "/product/product-detail-edit";
 //    }
 
-    @GetMapping("/detail/edit")
-    public String productDetailEdit( ) {
-        return "/product/product-detail-edit";
+
+    @GetMapping("/edit/{prodId}")
+    public String initUpdateOwnerForm(@PathVariable Long prodId, Model model) {
+
+        model.addAttribute(productService.findById(prodId));
+
+        return "/product/product-register";
+    }
+    @PostMapping("/edit/{prodId}")
+    public String initUpdateForm(@Validated Product product, @PathVariable Long prodId) {
+        product.setProdId(prodId);
+        Product savedProduct = productService.save(product);
+        return "redirect:/product/management";
     }
 }
 

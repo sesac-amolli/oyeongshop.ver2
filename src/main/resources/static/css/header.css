@@ -9,6 +9,11 @@ header a {
 	font-family: 'Caveat', monospace ;
 }
 
+.hearder-btn{
+    margin-top: 10px;
+    margin-right: 10px;
+    width: 2.5em;
+}
 
 #shopName {
 	text-align: center;
