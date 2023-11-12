@@ -1,5 +1,6 @@
 package com.amolli.oyeongshop.ver2.user.model;
 
+import com.amolli.oyeongshop.ver2.order.model.Order;
 import lombok.*;
 import net.bytebuddy.asm.Advice;
 import org.hibernate.annotations.ColumnDefault;
@@ -17,8 +18,7 @@ import java.util.List;
 @DynamicInsert
 @Getter
 @ToString
-@Builder
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User{
 
     @Id
@@ -49,8 +49,9 @@ public class User{
     @ColumnDefault("'YES'") // default
     private String userStatus;
 
-    @OneToMany(mappedBy = "user")
-    private List<Cart> carts = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -62,6 +63,9 @@ public class User{
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Point> points = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders = new ArrayList<>();
 
     public void encPwd(String userPwd){
         this.userPwd = userPwd;
@@ -79,7 +83,7 @@ public class User{
 
     @Builder
     public User(String userId, String userGrade, String userName, String userPwd, String userPhone, String userEmail,
-                String userSnsDist, LocalDate userRegdate, Long userPoint, String userStatus, List<Cart> carts,
+                String userSnsDist, LocalDate userRegdate, Long userPoint, String userStatus, Cart cart,
                 List<UserAddr> userAddrs, List<Wishlist> wishlists, List<Point> points) {
         this.userId = userId;
         this.userGrade = userGrade;
@@ -91,7 +95,7 @@ public class User{
         this.userRegdate = userRegdate;
         this.userPoint = userPoint;
         this.userStatus = userStatus;
-        this.carts = carts;
+        this.cart = cart;
         this.userAddrs = userAddrs;
         this.wishlists = wishlists;
         this.points = points;
