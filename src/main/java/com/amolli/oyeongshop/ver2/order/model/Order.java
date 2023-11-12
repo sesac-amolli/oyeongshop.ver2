@@ -47,7 +47,7 @@ public class Order {
 
     private String orderAttnEmail;
 
-    private Long orderAttnPostcode;
+    private String orderAttnPostcode;
 
     private String orderAttnAddr1;
 
@@ -107,7 +107,7 @@ public class Order {
 
 
     @Builder
-    public Order(Long orderId, Long orderNumber, OrderStatus orderStatus, String orderAttnName, String orderAttnPhone, String orderAttnEmail, Long orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest, Long orderTotalPrice, LocalDateTime orderDate, List<OrderDetail> orderDetails, User user) {
+    public Order(Long orderId, Long orderNumber, OrderStatus orderStatus, String orderAttnName, String orderAttnPhone, String orderAttnEmail, String orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest, Long orderTotalPrice, LocalDateTime orderDate, List<OrderDetail> orderDetails, User user) {
         this.orderId = orderId;
         this.orderNumber = orderNumber;
         this.orderStatus = orderStatus;

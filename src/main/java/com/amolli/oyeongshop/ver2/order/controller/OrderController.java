@@ -1,7 +1,6 @@
 package com.amolli.oyeongshop.ver2.order.controller;
 
-import com.amolli.oyeongshop.ver2.order.dto.OrderDeliveryDTO;
-import com.amolli.oyeongshop.ver2.order.dto.OrderDetailsDTO;
+import com.amolli.oyeongshop.ver2.order.dto.*;
 import com.amolli.oyeongshop.ver2.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -33,7 +32,7 @@ public class OrderController {
 
     @GetMapping("/orderadd")
     public String orderAdd(Model model){
-        OrderFormDTO orderForm = new OrderFormDTO();
+        OrderDTO orderDTO = new OrderDTO();
 
         model.addAttribute("productId", 1);
         model.addAttribute("productName", "Your Product");
@@ -41,18 +40,14 @@ public class OrderController {
         model.addAttribute("quantity", 2);
         model.addAttribute("color", "Red");
         model.addAttribute("size", "M");
-
         int totalPrice = 10000 * 2; // 가격 * 수량
         model.addAttribute("totalPrice", totalPrice);
-
-        model.addAttribute("receiveName", "John Doe");
-        model.addAttribute("receivePhone", "123-456-7890");
 
         model.addAttribute("totalAmount", totalPrice);
         model.addAttribute("discountAmount", 0);
         model.addAttribute("totalPaymentAmount", totalPrice);
 
-        model.addAttribute("orderForm", orderForm);
+        model.addAttribute("orderItem", orderDTO);
 
         return "/order/order";
     }

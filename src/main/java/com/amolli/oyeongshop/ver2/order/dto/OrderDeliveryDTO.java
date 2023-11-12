@@ -2,17 +2,21 @@ package com.amolli.oyeongshop.ver2.order.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
 @Data
+@Getter
+@Setter
 public class OrderDeliveryDTO {
 
     private String orderAttnName;
 
     private String orderAttnPhone;
 
-    private Long orderAttnPostcode;
+    private String orderAttnPostcode;
 
     private String orderAttnAddr1;
 
@@ -23,7 +27,7 @@ public class OrderDeliveryDTO {
     private String orderAttnRequest;
 
     @Builder
-    public OrderDeliveryDTO(String orderAttnName, String orderAttnPhone, Long orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest) {
+    public OrderDeliveryDTO(String orderAttnName, String orderAttnPhone, String orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest) {
         this.orderAttnName = orderAttnName;
         this.orderAttnPhone = orderAttnPhone;
         this.orderAttnPostcode = orderAttnPostcode;

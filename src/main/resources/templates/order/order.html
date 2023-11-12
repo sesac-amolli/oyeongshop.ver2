@@ -24,7 +24,7 @@
         </div>
     </div>
 </div>
-<form action="/crOrder" method="post" th:object="${orderForm}">
+<form action="/crOrder" method="post" th:object="${orderDTO}">
     <input type="hidden" name="productId" value="${productId}">
     <h3>[주문정보]</h3>
     <table id="order_info">
@@ -57,22 +57,22 @@
     <table>
         <tr>
             <td>배송지 선택</td>
-            <td><input type = "radio" name = "addrType" value = "home" checked>집</td>
+            <td><input type = "radio" name = "addrType" value = "newPlace" checked>새로운 배송지</td>
+            <td><input type = "radio" name = "addrType" value = "home" >집</td>
             <td><input type = "radio" name = "addrType" value = "office">사무실</td>
-            <td><input type = "radio" name = "addrType" value = "newPlace">새로운 배송지</td>
         </tr>
         <tr>
             <td>받으시는 분</td>
-            <td><input type="text" th:field="*{orderAttnName}" /></td>
+            <td><input type="text" th:value="${orderAttnName}" /></td>
         </tr>
         <tr>
             <td>휴대폰</td>
-            <td><input type="tel" th:field="*{orderAttnPhone}" /></td>
+            <td><input type="tel" th:value="${orderAttnPhone}" /></td>
         </tr>
         <tr>
             <td>우편번호</td>
             <td>
-                <input type="text" th:field="*{orderAttnPostcode}" id="sample6_postcode"
+                <input type="text" th:value="${orderAttnPostcode}" id="sample6_postcode"
                        placeholder="우편번호" readonly>
             </td>
             <td>
@@ -83,23 +83,23 @@
 
         <tr>
             <td>주소</td>
-            <td colspan="2"><input type="text" th:field="*{orderAttnAddr1}" id="sample6_address"
+            <td colspan="2"><input type="text" th:value="${orderAttnAddr1}" id="sample6_address"
                                    placeholder="주소"></td>
         </tr>
 
         <tr>
             <td>참고주소</td>
-            <td colspan="2"><input type="text" th:field="*{orderAttnAddr2}"
+            <td colspan="2"><input type="text" th:value="${orderAttnAddr2}"
                                    id="sample6_extraAddress" placeholder="참고주소" readonly></td>
         </tr>
         <tr>
             <td>상세주소</td>
-            <td colspan="2"><input type="text" th:field="*{orderAttnDetail}"
+            <td colspan="2"><input type="text" th:value="${orderAttnDetail}"
                                    id="sample6_detailAddress" placeholder="상세주소"></td>
         </tr>
         <tr>
             <td>배송 요청사항</td>
-            <td colspan="2"><input type="text" th:field="*{orderAttnRequest}" placeholder="배송 요청사항"></td>
+            <td colspan="2"><input type="text" th:value="${orderAttnRequest}" placeholder="배송 요청사항"></td>
         </tr>
     </table>
     <table>
@@ -120,7 +120,7 @@
     </table>
     <div id="paymentBox">
         신용카드 결제 가능 금액 <br/>
-        51,000 원
+        <div th:text="' ' + ${totalPaymentAmount} + ' 원'"></div>
         <button type="submit" class="my-btn">결제하기</button>
     </div>
 </form>
