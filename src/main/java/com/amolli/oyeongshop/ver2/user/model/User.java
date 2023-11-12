@@ -18,7 +18,7 @@ import java.util.List;
 @DynamicInsert
 @Getter
 @ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class User{
 
     @Id
@@ -34,6 +34,7 @@ public class User{
 
     private String userPhone;
 
+    @Column(unique = true)
     private String userEmail;
 
     @Column(nullable = false)

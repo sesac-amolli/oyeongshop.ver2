@@ -12,16 +12,16 @@ import java.time.LocalDate;
 public class CartDTO {
 
     private Long cartItemId;
-    private LocalDate cartItemDate;
+//    private LocalDate cartItemDate;
     private Long cartItemAmount;
     private Long cartId;
     private Long prodOptId;
 
 
-    public CartDTO(Long cartItemId, LocalDate cartItemDate, Long cartItemAmount, Long cartId, Long prodOptId) {
+    public CartDTO(Long cartItemId, /*LocalDate cartItemDate,*/ Long cartItemAmount, Long cartId, Long prodOptId) {
         super();
         this.cartItemId = cartItemId;
-        this.cartItemDate = cartItemDate;
+//        this.cartItemDate = cartItemDate;
         this.cartItemAmount = cartItemAmount;
         this.cartId = cartId;
         this.prodOptId = prodOptId;
@@ -29,7 +29,7 @@ public class CartDTO {
 
     public CartItem toEntity(){
         return CartItem.builder()
-                .cartItemDate(getCartItemDate())
+//                .cartItemDate(getCartItemDate())
                 .cartItemAmount(getCartItemAmount())
                 .build();
     }

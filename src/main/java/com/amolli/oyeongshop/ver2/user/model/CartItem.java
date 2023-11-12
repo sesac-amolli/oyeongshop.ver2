@@ -31,4 +31,16 @@ public class CartItem extends BaseEntity{
     private LocalDate cartItemDate;
 
     private Long cartItemAmount;
+
+    public static CartItem createCartItem(Cart cart, ProductOption productOption, Long cartItemAmount){
+        CartItem cartItem = new CartItem();
+        cartItem.setCart(cart);
+        cartItem.setProductOption(productOption);
+        cartItem.setCartItemAmount(cartItemAmount);
+        return cartItem;
+    }
+
+    public void addCartItemAmount(long cartItemAmount){
+        this.cartItemAmount += cartItemAmount;
+    }
 }
