@@ -10,41 +10,94 @@
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
     <title>상품 등록 페이지</title>
+<style>
+    tr.hidden {
+    display: none;
+}
+</style>
 </head>
 <body layout:fragment="content">
 <section class="main"></section>
-<h2>상품 등록</h2>
-<form class="qna-register" action="">
+
+<div th:if="${product.prodId == null}" style="font-size: 18px; font-weight: bold;">상품 등록</div>
+<div th:if="${product.prodId != null}" style="font-size: 18px; font-weight: bold;">상품 정보 수정</div>
+
+<form th:action="${product.prodId != null} ? '/product/edit/' + ${product.prodId} : '/product/register'"
+      th:object="${product}" class="qna-register" method="post">
     <table>
         <tr>
             <td class="title">상품명</td>
-            <td class="content"><input type="text"></td>
+            <td class="content">
+                <input type="text" th:field="*{prodName}" />
+            </td>
         </tr>
         <tr>
             <td class="title">상품코드</td>
-            <td class="content"><input type="text"></td>
+            <td class="content">
+                <input type="text" th:field="*{prodCode}" />
+            </td>
+        </tr>
+        <tr>
+            <td class="title">원가</td>
+            <td class="content">
+                <input type="text" th:field="*{prodOriginPrice}" />
+            </td>
         </tr>
         <tr>
             <td class="title">판매가격</td>
-            <td class="content"><input type="text"></td>
+            <td class="content">
+                <input type="text" th:field="*{prodSalesPrice}" />
+            </td>
         </tr>
         <tr>
-            <td class="title">상품분류</td>
-            <td class="content"><input type="text"></td>
+            <td class="title">상품대분류</td>
+            <td class="content">
+                <select th:field="*{prodCategory}" style="width: 100px;">
+                    <option value="Top">Top</option>
+                    <option value="Bottom">Bottom</option>
+                    <option value="Outer">Outer</option>
+                    <option value="Dress">Dress</option>
+                    <option value="Shoes">Shoes</option>
+                    <option value="Bag">Bag</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="title">상품상세분류</td>
+            <td class="content">
+                <input type="text" th:field="*{prodCategoryDetail}" />
+            </td>
         </tr>
         <tr>
             <td class="title">상품설명</td>
-            <td class="content"><textarea></textarea></td>
+            <td class="content">
+                <input type="text" th:field="*{prodDesc}" />
+            </td>
         </tr>
-        <tr>
-            <td class="title">상품이미지</td>
-            <td><button href="" target="right"><img src="이미지 파일 경로" alt="+"></button></td>
+        <!-- 등록일 숨김 처리 -->
+        <tr class="hidden">
+            <td class="title">등록일</td>
+            <td class="content">
+                <input type="text" th:field="*{prodRegDate}" readonly />
+            </td>
         </tr>
-        
-        
+        <!-- 상품메인이지미경로 숨김 처리 -->
+        <tr class="hidden">
+            <td class="title">상품메인이지미경로</td>
+            <td class="content">
+                <input type="text" th:field="*{prodMainImgPath}" readonly />
+            </td>
+        </tr>
+        <!-- 상품판매등록여부 숨김 처리 -->
+        <tr class="hidden">
+            <td class="title">상품판매등록여부</td>
+            <td class="content">
+                <input type="text" th:field="*{prodSalesDist}" readonly />
+            </td>
+        </tr>
     </table>
     <div class="buttons">
-        <button type="submit">등록하기</button>
+        <button type="submit" th:text="${product.prodId != null} ? '수정하기' : '등록하기'">등록하기</button>
     </div>
 </form>
     

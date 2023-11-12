@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/product/product-detail.css">
     <title>상품 정보 페이지</title>
+
+
 </head>
 <body layout:fragment="content" th:object="${product}">
 <div class="container">
@@ -28,8 +30,8 @@
                 <div class="flex-items">
                     <li>판매가</li>
                 </div>
-                <div class="flex-items"> <!-- Sales로 변경해야 함 -->
-                    <li><div th:text="${product.prodOriginPrice}"></div></li>
+                <div class="flex-items">
+                    <li><div th:text="${product.prodSalesPrice}"></div></li>
                 </div>
             </ul>
             <ul class="flex-container">
@@ -38,7 +40,7 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <select style="width: 100px;" id="colorSelect">
+                        <select style="width: 100px;" id="colorSelect" onchange="updateSizeSelect(this)">
                             <option th:each="productOption : ${product.productOptions}"
                                     th:value="${productOption.prodOptColor}"
                                     th:text="${productOption.prodOptColor}"
@@ -76,7 +78,7 @@
             <p>#P1DSNE</p>
             <p>첫번째 상품 설명 글</p>
         </div>
-        <img src="/images/product/product-img1.png" alt="Person wearing yellow sweater">
+        <img th:src="${product.prodMainImgPath}" alt="">
         <div class="details">
             <p>상품정보 2</p>
             <p>#P2DSNE</p>

@@ -1,11 +1,10 @@
 package com.amolli.oyeongshop.ver2.board.model;
 
-import com.amolli.oyeongshop.ver2.board.dto.ReviewImgDTO;
 import lombok.*;
 
 import javax.persistence.*;
 
-@ToString
+//@ToString
 @Builder
 @Getter
 @Setter
@@ -22,7 +21,7 @@ public class ReviewImg {
     // s3 url
     private String reviewServerFileName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "review_id")
     private Review review;
 
