@@ -54,14 +54,14 @@ public class User{
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @Builder.Default
+//    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserAddr> userAddrs = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Wishlist> wishlists = new ArrayList<>();
 
-    @Builder.Default
+//    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Point> points = new ArrayList<>();
 
