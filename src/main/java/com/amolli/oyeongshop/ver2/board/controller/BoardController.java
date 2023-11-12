@@ -2,6 +2,7 @@ package com.amolli.oyeongshop.ver2.board.controller;
 
 
 import com.amolli.oyeongshop.ver2.board.dto.ReviewDTO;
+import com.amolli.oyeongshop.ver2.board.dto.ReviewImgResponseDTO;
 import com.amolli.oyeongshop.ver2.board.dto.ReviewResponseDTO;
 import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.service.ReviewService;
@@ -9,6 +10,7 @@ import com.amolli.oyeongshop.ver2.s3.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,17 +43,19 @@ public class BoardController {
     // 리뷰 게시판
     // GET 리뷰 페이지 조회(상품ID에 따른 리뷰들)
     @GetMapping("/review-list")    //("/review-list/{prodId}") 로 변경
-    public List<ReviewResponseDTO> findAllReview(Long prodId) {
+    public String findAllReview(Long prodId, Model model) {
 
-        List<Review> allreviews = reviewService.findByProdId(1L);
+        List<Review> reviews = reviewService.findByProdId(1L);
 
-        List<ReviewResponseDTO> reviewdto = allreviews.stream().map(ReviewResponseDTO::from).collect(Collectors.toList());
-        System.out.println("!!allReviewDTO!!" + reviewdto);
+        List<ReviewResponseDTO> reviewdto = reviews.stream().map(ReviewResponseDTO::from).collect(Collectors.toList());
 
-        return reviewdto;
+        model.addAttribute("reviewdto", reviewdto);
+        System.out.println("!@!@!@!@reviewdto:::" + reviewdto);
+
+        return "board/review-list";
     }
 
-    // GET 리뷰 리스트 조회(해당 페이지의 상품 id 가져와서)
+    // GET 리뷰 작성 페이지 조회(해당 페이지의 상품 id 가져와서)
     @GetMapping("/review-write")
     public String reviewWrite() { return "/board/review-write"; }
 
@@ -65,7 +69,7 @@ public class BoardController {
 
         // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
         // 추후 변경 1L -> prodId 로
-        reviewService.uploadDB(imagepath, reviewDTO, 1L);
+        reviewService.uploadDB(imagepath, reviewDTO, 2L);
 
         return "redirect:/board/review-list";
 
