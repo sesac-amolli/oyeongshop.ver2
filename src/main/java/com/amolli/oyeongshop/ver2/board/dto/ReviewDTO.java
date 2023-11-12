@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Builder
 @Data
 @NoArgsConstructor
 public class ReviewDTO {
@@ -43,17 +44,5 @@ public class ReviewDTO {
                 .reviewWriteDate(reviewWriteDate)
                 .build();
     }
-
-
-//    @Builder
-//    public ReviewDTO(Review review) {
-//        final Long reviewId = review.getReviewId();
-//        final String userId = review.getUserId();
-//        final String prodName = review.getProduct().getProdName();
-//        final String reviewContent = review.getReviewContent();
-//        final Long reviewRate = review.getReviewRate();
-//        final LocalDate reviewWriteDate = review.getReviewWriteDate();
-//
-//    }
 
 }
