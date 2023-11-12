@@ -34,9 +34,9 @@ public class OrderServiceImpl implements OrderService{
 
         List<OrderDetail> orderDetailList = new ArrayList<>();
         for(OrderItemDTO itemDTO : orderDetailsDTO.getOrderDetails()){
-            ProductOption productOption = productOptionRepository.findById(itemDTO.getProductOption().getProdOptId())
+            ProductOption productOption = productOptionRepository.findById(itemDTO.getProductOptId())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-            OrderDetail orderDetail = OrderDetail.createOrderDetail(productOption, itemDTO.getOrdeDetailAmount());
+            OrderDetail orderDetail = OrderDetail.createOrderDetail(productOption, itemDTO.getQuantity(), itemDTO.getPrice());
             orderDetailList.add(orderDetail);
         }
 

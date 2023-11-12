@@ -53,31 +53,22 @@ public class OrderController {
     }
 
     @PostMapping(value = "/crOrder")
-    public String order(@ModelAttribute @Valid OrderDetailsDTO orderDetailsDTO,
-                        @ModelAttribute @Valid OrderDeliveryDTO orderDeliveryDTO,
-                        BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            // 유효성 검사 오류 처리
-            StringBuilder sb = new StringBuilder();
-            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-            for (FieldError fieldError : fieldErrors) {
-                sb.append(fieldError.getDefaultMessage());
-            }
-            redirectAttributes.addFlashAttribute("error", sb.toString());
-            return "redirect:/main";
-        }
+    public String order(@ModelAttribute("orderDetailsDTO") OrderDetailsDTO orderDetailsDTO,
+                        @ModelAttribute("orderDeliveryDTO") OrderDeliveryDTO orderDeliveryDTO,
+                        Model model) {
 
         String userId = "guest";
-        Long orderId;
-        try {
-            orderId = orderService.order(orderDetailsDTO, orderDeliveryDTO, userId);
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-            return "redirect:/main";
-        }
 
-        redirectAttributes.addFlashAttribute("success", "Order placed successfully! Order ID: " + orderId);
-        return "redirect:/main";
+        // 여기에서 필요한 유효성 검사 및 비즈니스 로직 수행
+        // orderDTO와 orderDeliveryDTO를 사용하여 주문을 처리
+
+        // 주문 서비스를 호출하여 주문 처리
+        Long orderId = orderService.order(orderDetailsDTO, orderDeliveryDTO, userId);
+
+        // 주문 완료 페이지로 이동 또는 추가적인 작업 수행
+        model.addAttribute("orderId", orderId);
+        return "/main";
+
     }
 
 

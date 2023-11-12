@@ -16,6 +16,8 @@ public class OrderDeliveryDTO {
 
     private String orderAttnPhone;
 
+    private String orderAttnEmail;
+
     private String orderAttnPostcode;
 
     private String orderAttnAddr1;
@@ -26,10 +28,10 @@ public class OrderDeliveryDTO {
 
     private String orderAttnRequest;
 
-    @Builder
-    public OrderDeliveryDTO(String orderAttnName, String orderAttnPhone, String orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest) {
+    public OrderDeliveryDTO(String orderAttnName, String orderAttnPhone, String orderAttnEmail, String orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest) {
         this.orderAttnName = orderAttnName;
         this.orderAttnPhone = orderAttnPhone;
+        this.orderAttnEmail = orderAttnEmail;
         this.orderAttnPostcode = orderAttnPostcode;
         this.orderAttnAddr1 = orderAttnAddr1;
         this.orderAttnAddr2 = orderAttnAddr2;

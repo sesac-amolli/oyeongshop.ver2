@@ -34,12 +34,12 @@ public class OrderDetail {
     @JoinColumn(name = "prod_opt_id")
     private ProductOption productOption;
 
-    public static OrderDetail createOrderDetail(ProductOption productOption, long count){
+    public static OrderDetail createOrderDetail(ProductOption productOption, Long count, Long price){
         OrderDetail orderDetail = new OrderDetail();
 
         orderDetail.setProductOption(productOption);
         orderDetail.setOrderDetailAmount(count);
-        orderDetail.setOrderDetailPrice(productOption.getProduct().getProdSalesPrice());
+        orderDetail.setOrderDetailPrice(price);
         return orderDetail;
     }
 

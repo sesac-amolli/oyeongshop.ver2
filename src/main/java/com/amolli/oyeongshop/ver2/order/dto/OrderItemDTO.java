@@ -9,15 +9,12 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
+
 public class OrderItemDTO {
 
-    private Long orderDetailId;
 
-    private Long ordeDetailAmount;
+    private Long productOptId; // 상품 옵션 ID
+    private Long price; // 상품 가격
+    private Long quantity; // 주문 수량
 
-    private Long orderDetailPrice;
-
-    private Order order;
-
-    private ProductOption productOption;
 }
