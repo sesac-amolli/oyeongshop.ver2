@@ -1,6 +1,10 @@
 package com.amolli.oyeongshop.ver2.security.config.oauth;
 
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
+import com.amolli.oyeongshop.ver2.security.config.oauth.provider.GoogleUserInfo;
+import com.amolli.oyeongshop.ver2.security.config.oauth.provider.KaKaoUserInfo;
+import com.amolli.oyeongshop.ver2.security.config.oauth.provider.NaverUserInfo;
+import com.amolli.oyeongshop.ver2.security.config.oauth.provider.OAuth2UserInfo;
 import com.amolli.oyeongshop.ver2.user.model.Point;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
@@ -27,18 +31,33 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 //    @Autowired
 //    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    //구글로 부터 받은 userRequest 데이터에 대한 후처리되는 함수
+    //소셜로 부터 받은 userRequest 데이터에 대한 후처리되는 함수
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         //회원 프로필 받기
         OAuth2User oAuth2User = super.loadUser(userRequest);
         System.out.println("getAttributes:: "+oAuth2User.getAttributes());
+        //정보 제공 회사 별로 구분
+        String provider = userRequest.getClientRegistration().getRegistrationId();
+        OAuth2UserInfo oAuth2UserInfo = null;
 
-        String provider = userRequest.getClientRegistration().getClientName();
-        String providedId = oAuth2User.getAttribute("sub");
+        switch (provider){
+            case "google":
+                oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+                break;
+            case "naver" :
+                oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
+                break;
+            case "kakao" :
+                oAuth2UserInfo = new KaKaoUserInfo(oAuth2User.getAttributes());
+                break;
+        }
+
+        String providedId = oAuth2UserInfo.getProviderId();
         String userId = provider+"_"+providedId;
-        String email = oAuth2User.getAttribute("email");
-        String name = oAuth2User.getAttribute("name");
+        String email = oAuth2UserInfo.getEmail();
+        String phone = oAuth2UserInfo.getPhone();
+        String name = oAuth2UserInfo.getName();
         String pwd = "OyeongShop";
 
         Optional<User> userEntity = userRepository.findById(userId);
@@ -49,6 +68,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                             .userPwd(pwd)
                             .userEmail(email)
                             .userName(name)
+                            .userPhone(phone)
                             .userSnsDist(provider)
                             .build());
             Point point = new Point("적립", "회원가입 축하 적립금", 1000L);

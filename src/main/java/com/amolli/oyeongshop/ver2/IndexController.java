@@ -3,17 +3,18 @@ package com.amolli.oyeongshop.ver2;
 import com.amolli.oyeongshop.ver2.user.dto.UserDTO;
 import com.amolli.oyeongshop.ver2.user.service.UserService;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@NoArgsConstructor
+
 @Controller
+@RequiredArgsConstructor
 public class IndexController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
 
     @GetMapping("/sign-up")
