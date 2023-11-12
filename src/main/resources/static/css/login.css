@@ -61,3 +61,7 @@ td{
 .btn-cover{
     padding-top: 0.5em;
 }
+
+.btn{
+    width: 10em;
+}

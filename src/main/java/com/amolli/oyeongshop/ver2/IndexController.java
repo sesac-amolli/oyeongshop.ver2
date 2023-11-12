@@ -5,6 +5,7 @@ import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import com.amolli.oyeongshop.ver2.user.service.UserService;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,12 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@NoArgsConstructor
+
 @Controller
+@RequiredArgsConstructor
 public class IndexController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
 
     @GetMapping("/sign-up")
