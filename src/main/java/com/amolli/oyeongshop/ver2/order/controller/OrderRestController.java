@@ -53,8 +53,8 @@ public class OrderRestController {
 //    public ResponseEntity<String> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
 //        try {
 //            OrderUserDTO orderUserDTO = orderRequestDTO.getOrderUserDTO();
-//            List<OrderDetailsDTO> orderDetailsDTOS = orderRequestDTO.getOrderDetailsDTOS();
-//            OrderDeliveryDTO orderDeliveryDTO = orderRequestDTO.getOrderDeliveryDTO();
+//            List<OrderDetailsDto> orderDetailsDTOS = orderRequestDTO.getOrderDetailsDTOS();
+//            OrderDeliveryDto orderDeliveryDTO = orderRequestDTO.getOrderDeliveryDTO();
 //
 //            List<OrderDetail> orderDetails = orderService.convertToOrderDetails(orderDetailsDTOS);
 //

@@ -1,7 +1,5 @@
 package com.amolli.oyeongshop.ver2.order.dto;
 
-import com.amolli.oyeongshop.ver2.order.model.Order;
-import com.amolli.oyeongshop.ver2.product.model.ProductOption;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class OrderItemDTO {
+public class OrderItemDto {
 
 
     private Long productOptId; // 상품 옵션 ID

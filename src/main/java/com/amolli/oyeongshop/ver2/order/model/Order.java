@@ -1,6 +1,6 @@
 package com.amolli.oyeongshop.ver2.order.model;
 
-import com.amolli.oyeongshop.ver2.order.dto.OrderDeliveryDTO;
+import com.amolli.oyeongshop.ver2.order.dto.OrderDeliveryDto;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -74,7 +74,7 @@ public class Order {
         orderDetail.setOrder(this);
     }
 
-    public void addOrderAddress(OrderDeliveryDTO orderDeliveryDTO){
+    public void addOrderAddress(OrderDeliveryDto orderDeliveryDTO){
         this.orderAttnName = orderDeliveryDTO.getOrderAttnName();
         this.orderAttnPhone = orderDeliveryDTO.getOrderAttnPhone();
         this.orderAttnPostcode = orderDeliveryDTO.getOrderAttnPostcode();
@@ -92,7 +92,7 @@ public class Order {
         return totalPrice;
     }
 
-    public static Order createOrder(User user, List<OrderDetail> orderDetails, OrderDeliveryDTO orderDeliveryDTO){
+    public static Order createOrder(User user, List<OrderDetail> orderDetails, OrderDeliveryDto orderDeliveryDTO){
         Order order = new Order();
         order.setUser(user);
         for(OrderDetail orderDetail : orderDetails){

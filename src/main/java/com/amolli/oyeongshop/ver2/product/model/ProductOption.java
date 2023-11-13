@@ -1,6 +1,5 @@
 package com.amolli.oyeongshop.ver2.product.model;
 
-import com.amolli.oyeongshop.ver2.order.dto.ItemDTO;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

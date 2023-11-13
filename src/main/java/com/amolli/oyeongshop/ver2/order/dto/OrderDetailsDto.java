@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Getter
 @Setter
-public class OrderDetailsDTO {
+public class OrderDetailsDto {
 
-    private List<OrderItemDTO> orderDetails;
+    private List<OrderItemDto> orderDetails;
 }

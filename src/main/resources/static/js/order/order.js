@@ -54,7 +54,7 @@ function sample6_execDaumPostcode() {
 
 // 라디오 버튼 요소들을 가져옵니다.
 const radioButtons = document.querySelectorAll('input[name="addrType"]');
-const receiveNameInput = document.getElementById('receiveName');
+const receiveNameInput = document.getElementById('orderAttnName');
 
 // 라디오 버튼의 변경 이벤트에 대한 리스너를 추가합니다.
 radioButtons.forEach(radioButton => {

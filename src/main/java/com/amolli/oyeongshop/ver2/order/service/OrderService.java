@@ -1,14 +1,11 @@
 package com.amolli.oyeongshop.ver2.order.service;
 
-import com.amolli.oyeongshop.ver2.order.dto.OrderDeliveryDTO;
-import com.amolli.oyeongshop.ver2.order.dto.OrderDetailsDTO;
+import com.amolli.oyeongshop.ver2.order.dto.OrderDeliveryDto;
+import com.amolli.oyeongshop.ver2.order.dto.OrderDetailsDto;
 import com.amolli.oyeongshop.ver2.order.model.Order;
-import com.amolli.oyeongshop.ver2.order.model.OrderDetail;
-
-import java.util.List;
 
 public interface OrderService {
 
-    public Long order(OrderDetailsDTO orderDetailsDTO, OrderDeliveryDTO orderDeliveryDTO, String userId);
+    public Long order(OrderDetailsDto orderDetailsDTO, OrderDeliveryDto orderDeliveryDTO, String userId);
     Order save(Order order);
 }
