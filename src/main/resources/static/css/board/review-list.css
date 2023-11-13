@@ -13,17 +13,19 @@ body {
 }
 
 .review {
-  width: 60%; /* 리뷰 영역의 가로 폭을 조정할 수 있습니다. */
-  margin: 0 auto; /* 화면 가운데로 위치시킵니다. */
-  padding: 20px; /* 내용과 가장자리 사이의 간격을 조정할 수 있습니다. */
-  border-radius: 10px; /* 모서리를 둥글게 만듭니다. */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자 효과를 추가합니다. */
+    width: 90%;
+    margin: 0 auto; /* 화면 가운데로 위치. */
+    padding: 10px;
+}
+
+.review-item {
+    width:100%;
+    object-fit:cover;
 }
 
 .content {
-  font-size: 18px; /* 리뷰 내용의 글꼴 크기를 조정할 수 있습니다. */
-  line-height: 1.5; /* 줄 간격을 조정할 수 있습니다. */
-  color: #333; /* 글자 색상을 지정합니다. */
+    line-height: 1.5; /* 줄 간격 조정 */
+    color: #333; /* 글자 색상을 지정 */
 }
 
 .container {
@@ -32,20 +34,32 @@ body {
 }
 
 div {
+    width: 100%;
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-left: 10px;
+    display: inline-block;
 }
 
 .img {
-  display: inline-block;
-  width: 150px; /* 가로 폭 설정 */
-  height: 200px; /* 세로 높이 설정 */
-  background-image: url('https://static.zarahome.net/8/photos4/2023/I/4/1/p/8125/544/712/8125544712_7_1_2.jpg?t=1697189814807&imformat=chrome&imwidth=768');
-  background-size: cover; /* 이미지를 div에 맞게 조정 */
-  background-position: center; /* 이미지를 가운데 정렬 */
-  border: 1px solid #ccc; /* 테두리 추가 */
+    overflow: hidden;
+    display: inline-block;
+    width: 150px; /* 가로 폭 설정 */
+    height: 200px; /* 세로 높이 설정 */
+    /*  background-size: cover;*/ /* 이미지를 div에 맞게 조정 */
+    background-position: center; /* 이미지를 가운데 정렬 */
+    border: 1px solid #ccc; /* 테두리 추가 */
+    float: left;
 }
 
-.review .img {
-    float: left;
+tr {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
 }

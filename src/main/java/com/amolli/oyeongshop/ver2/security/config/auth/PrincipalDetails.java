@@ -1,6 +1,7 @@
 package com.amolli.oyeongshop.ver2.security.config.auth;
 
 import com.amolli.oyeongshop.ver2.user.model.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -13,6 +14,8 @@ import java.util.Map;
 // 로그인을 진행이 완료가 되면 시큐리티 session을 만들어준다. > Security ContextHolder라는 키에 세션 정보를 저장시킨다.
 // 시큐리티가 가진 세션에 들어갈 수 있는 오브젝트는 정해져있다. > Authentication 타입의 객체
 // Authentication 안에는 User 정보가 있어야되는데, 이 User 정보는 UserDatils타입의 객체여야 한다.
+
+@Getter
 public class PrincipalDetails implements UserDetails, OAuth2User {
     private User user;
     private Map<String, Object> attributes;

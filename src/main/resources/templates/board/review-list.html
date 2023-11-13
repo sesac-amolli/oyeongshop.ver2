@@ -14,14 +14,48 @@
 
     <div class="title">Review</div>
     <!-- 리뷰 id 개수만큼 반복 -->
-    <div class="review">
-        <div class="id">yeong****</div>
-        <div class="content">옷이 너무너무 예쁘고 사이즈도 잘맞고 사진도 잘나와요 짱~!!</div>
-        <div class="container">
-            <div class="img"></div>
-            <div class="img"></div>
-        </div>
-    </div>
+        <div class="review">
+            <tr th:each="reviews : ${reviewdto}">
+                <div class="review-item">
+                    <td>
+                        <div class="id" th:text="${reviews.userId}">yeong1111</div>
+                    </td>
+                    <td>
+                        <div th:if="${reviews.reviewRate.toString().equals('1')}">
+                            <p>★☆☆☆☆</p>
+                        </div>
+                        <div th:if="${reviews.reviewRate.toString().equals('2')}">
+                            <p>★★☆☆☆</p>
+                        </div>
+                        <div th:if="${reviews.reviewRate.toString().equals('3')}">
+                            <p>★★★☆☆</p>
+                        </div>
+                        <div th:if="${reviews.reviewRate.toString().equals('4')}">
+                            <p>★★★★☆</p>
+                        </div>
+                        <div th:if="${reviews.reviewRate.toString().equals('5')}">
+                            <p>★★★★★</p>
+                        </div>
+                    </td>
 
+                    <td>
+                        <div class="content" th:text="${reviews.reviewContent}">내용</div>
+                    </td>
+                    <td>
+                        <div class="date" th:text="${reviews.reviewWriteDate}">2023.11.11</div>
+                    </td>
+                    <td>
+                        <div th:if="${#lists.isEmpty(reviews.imgs)}">
+                            <p>첨부한 이미지가 없습니다.</p>
+                        </div>
+                        <div th:if="${!#lists.isEmpty(reviews.imgs)}">
+                            <div class="img" th:each="imgs : ${reviews.imgs}">
+                                <img th:src="${imgs.reviewImgUrl}"/>
+                            </div>
+                        </div>
+                    </td>
+                </div>
+            </tr>
+        </div>
 </body>
 </html>
