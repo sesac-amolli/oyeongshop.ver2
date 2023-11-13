@@ -30,7 +30,7 @@ public class Product {
     private String prodCategoryDetail;
     private String prodDesc;
     private String prodMainImgPath;
-    private String prodSalesDist;
+    private String prodSalesDist ="NO";
 
     @CreationTimestamp
     private LocalDate prodRegDate;
@@ -38,10 +38,11 @@ public class Product {
     @UpdateTimestamp
     private LocalDate prodEditDate;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<ProductImage> productImages = new ArrayList<>();
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<ProductOption> productOptions = new ArrayList<>();
+
     @OneToMany(mappedBy = "product")
     private List<Question> questions = new ArrayList<>();
     @OneToMany(mappedBy = "product")
@@ -50,13 +51,14 @@ public class Product {
     private List<Wishlist> wishLists = new ArrayList<>();
 
     @Builder
-    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, LocalDate prodRegDate, List<ProductOption> productOptions) {
+    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, LocalDate prodRegDate, String prodSalesDist, List<ProductOption> productOptions) {
         this.prodId = prodId;
         this.prodCode = prodCode;
         this.prodName = prodName;
         this.prodOriginPrice = prodOriginPrice;
         this.prodSalesPrice = prodSalesPrice;
         this.prodRegDate = prodRegDate;
+        this.prodSalesDist = prodSalesDist;
         this.productOptions = productOptions;
     }
 
