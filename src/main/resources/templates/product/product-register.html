@@ -88,11 +88,12 @@
                 <input type="text" th:field="*{prodMainImgPath}" readonly />
             </td>
         </tr>
-        <!-- 상품판매등록여부 숨김 처리 -->
         <tr class="hidden">
+            <!-- prod_sales_dist가 null이면 'NO'로 출력, 그렇지 않으면 현재 값으로 출력 -->
             <td class="title">상품판매등록여부</td>
             <td class="content">
-                <input type="text" th:field="*{prodSalesDist}" readonly />
+                <input type="text" th:if="${product.prodSalesDist == null}">NO</input>
+                <input type="text" th:unless="${product.prodSalesDist == null}" th:field="${product.prodSalesDist}"></input>
             </td>
         </tr>
     </table>
