@@ -58,7 +58,13 @@
                 </div>
             </tr>
             <!--<button th:onclick="|location.href='@{view(uid=${data.uid})}'|">View page</button>-->
-            <button class="reviewWriteBtn" type="button" th:onclick="|location.href='@{/board/review-write}'|">리뷰 쓰기</button>
+<!--            <input type="text" name="prodId" th:value="${product.prodId}">-->
+<!--            th:onclick="|location.href='@{/board/review-write/{prodId}(prodId=${product.prodId})}'|"-->
+
+<!--            th:onclick="|location.href='@{/basic/items/{itemId}/edit(itemId=${item.id})}'|" type="button"-->
+<!--            - th:href="@{/basic/items/{itemId}(itemId=${item.id},query='test')}"-->
+
+            <button class="reviewWriteBtn" type="button" th:onclick="|location.href='@{/board/review-write/{prodId}(prodId=${product.prodId})}'|">리뷰 쓰기</button>
         </div>
 </body>
 </html>

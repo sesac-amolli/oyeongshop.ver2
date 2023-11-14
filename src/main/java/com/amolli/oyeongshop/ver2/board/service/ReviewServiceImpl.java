@@ -74,6 +74,7 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.findByProduct_ProdId(prodId);
     }
 
+
     public List<Review> findByUserId(String userId) {
         return reviewRepository.findByUser_UserId(userId);
     }
