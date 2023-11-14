@@ -16,6 +16,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +48,7 @@ public class BoardController {
     @GetMapping("/review-list")    //("/review-list/{prodId}") 로 변경
     public String findAllReview(Long prodId, Model model) {
 
-        List<Review> reviews = reviewService.findByProdId(1L);
+        List<Review> reviews = reviewService.findByProdId(prodId);
 
         List<ReviewResponseDTO> reviewdto = reviews.stream().map(ReviewResponseDTO::from).collect(Collectors.toList());
 
@@ -56,16 +57,36 @@ public class BoardController {
         return "board/review-list";
     }
 
+    // GET MY리뷰 페이지 조회(유저ID에 따른 리뷰들)
+    @GetMapping("/my-review-list")
+    public String findMyReview(@AuthenticationPrincipal PrincipalDetails userDetails, Model model) {
+
+        String userId = userDetails.getUser().getUserId();
+        System.out.println("CONTROLLER~!~!~!~~!"+userId);
+
+        List<Review> reviews = reviewService.findByUserId(userId);
+        System.out.println("review"+reviews.toString());
+
+        List<ReviewResponseDTO> reviewdto = reviews.stream().map(ReviewResponseDTO::from).collect(Collectors.toList());
+
+        model.addAttribute("reviewdto", reviewdto);
+
+        return "board/my-review-list";
+    }
+
     // GET 리뷰 작성 페이지 조회(해당 페이지의 상품 id 가져와서)
     @GetMapping("/review-write")
-    public String reviewWrite() {
+    public String reviewWrite(@AuthenticationPrincipal PrincipalDetails details, Model model) {
+        String userId = details.getUser().getUserId();
+        model.addAttribute("userId", userId);
+
         return "/board/review-write";
     }
 
     // POST 리뷰 작성 (INSERT)
-
     @PostMapping(value = "/review-write", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadFile(@RequestParam(value = "image1", required = false) List<MultipartFile> files, ReviewDTO reviewDTO, Long prodId) {
+    public String uploadFile(@RequestParam(value = "image1", required = false) List<MultipartFile> files, ReviewDTO reviewDTO
+                             , Long prodId, @AuthenticationPrincipal PrincipalDetails details) {
 
         List<String> imagepath = null;
 
@@ -76,14 +97,16 @@ public class BoardController {
 
         // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
         // 추후 변경 1L -> prodId 로
-        reviewService.uploadDB(imagepath, reviewDTO, 2L);
+        reviewService.uploadDB(imagepath, reviewDTO, 1L, details);
 
         return "redirect:/board/review-list";
     }
 
-    @GetMapping("/review-delete")
-    public void deleteReview(@AuthenticationPrincipal PrincipalDetails details) {
-        String userId = details.getUser().getUserId();
-        System.out.println("UserId::" + userId);
+    @PostMapping("/my-review-delete")
+    public String deleteReview(@RequestParam("deleteId") Long reviewId) {
+
+        reviewService.deleteMyReview(reviewId);
+
+        return "redirect:/board/my-review-list";
     }
 }

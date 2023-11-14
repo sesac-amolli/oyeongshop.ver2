@@ -8,10 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/board/review-list.css">
+    <link rel="stylesheet" href="/css/board/my-review-list.css">
 </head>
 <!--<body layout:fragment="reviewlist">-->
-<body th:fragment="reviewlist">
+<body layout:fragment="content">
 
     <div class="title">Review</div>
     <!-- 리뷰 id 개수만큼 반복 -->
@@ -55,10 +55,15 @@
                             </div>
                         </div>
                     </td>
+                    <td>
+                        <form id="deleteForm" th:action="@{'/board/my-review-delete'}" method="POST">
+                            <input type="hidden" name="deleteId" th:value="${reviews.reviewId}"/>
+                            <button type="submit" class="btn btn-default">삭제</button>
+                        </form>
+                    </td>
                 </div>
             </tr>
-            <!--<button th:onclick="|location.href='@{view(uid=${data.uid})}'|">View page</button>-->
-            <button class="reviewWriteBtn" type="button" th:onclick="|location.href='@{/board/review-write}'|">리뷰 쓰기</button>
         </div>
+
 </body>
 </html>
