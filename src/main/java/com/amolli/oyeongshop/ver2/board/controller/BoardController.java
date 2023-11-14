@@ -84,7 +84,6 @@ public class BoardController {
     }
 
     // POST 리뷰 작성 (INSERT)
-
     @PostMapping(value = "/review-write", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadFile(@RequestParam(value = "image1", required = false) List<MultipartFile> files, ReviewDTO reviewDTO
                              , Long prodId, @AuthenticationPrincipal PrincipalDetails details) {
@@ -105,7 +104,6 @@ public class BoardController {
 
     @PostMapping("/my-review-delete")
     public String deleteReview(@RequestParam("deleteId") Long reviewId) {
-        System.out.println("path@~!~!~"+reviewId);
 
         reviewService.deleteMyReview(reviewId);
 

@@ -57,7 +57,7 @@
                     </td>
                     <td>
                         <form id="deleteForm" th:action="@{'/board/my-review-delete'}" method="POST">
-                            <input type="text" name="deleteId" th:value="${reviews.reviewId}"/>
+                            <input type="hidden" name="deleteId" th:value="${reviews.reviewId}"/>
                             <button type="submit" class="btn btn-default">삭제</button>
                         </form>
                     </td>
