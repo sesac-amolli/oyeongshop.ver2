@@ -38,7 +38,6 @@ public class ReviewDTO {
     public Review toEntity() {
         return Review.builder()
                 .reviewId(reviewId)
-                .userId(userId)
                 .reviewContent(reviewContent)
                 .reviewRate(reviewRate)
                 .reviewWriteDate(reviewWriteDate)
