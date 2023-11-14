@@ -63,7 +63,7 @@ public class BoardController {
     }
 
     // POST 리뷰 작성 (INSERT)
-    @ResponseBody
+
     @PostMapping(value = "/review-write", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadFile(@RequestParam(value = "image1", required = false) List<MultipartFile> files, ReviewDTO reviewDTO, Long prodId) {
 
@@ -78,13 +78,12 @@ public class BoardController {
         // 추후 변경 1L -> prodId 로
         reviewService.uploadDB(imagepath, reviewDTO, 2L);
 
-        return "redirect:/review-list";
+        return "redirect:/board/review-list";
     }
 
     @GetMapping("/review-delete")
     public void deleteReview(@AuthenticationPrincipal PrincipalDetails details) {
-
+        String userId = details.getUser().getUserId();
+        System.out.println("UserId::" + userId);
     }
-
-
 }

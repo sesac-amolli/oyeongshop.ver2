@@ -93,7 +93,15 @@
             <p>두번째 상품 설명 글</p>
         </div>
         <!-- 추가로 상세 정보를 넣으실 경우, 이 부분에 .details 블록을 계속 추가하시면 됩니다. -->
+
+        <div>
+            <th:block th:replace="board/review-list :: reviewlist"> </th:block>
+        </div>
+
     </div>
+
+
+
 </div>
 </body>
 </html>
