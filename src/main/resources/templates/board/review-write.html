@@ -18,11 +18,11 @@
             <h2>리뷰 작성하기</h2>
             <tr>
                 <td class="title">작성자</td>
-                <td class="content" th:text="${userId}"></td>
+                <td class="content" th:text="${userId}" name="userId"></td>
             </tr>
             <tr>
                 <td class="title">상품명</td>
-                <td class="content"><input type="text" value="브이넥 니트" name="prodName"></td>
+                <td class="content" th:text="${product.prodName}" name="prodName"></td>
             </tr>
             <tr>
                 <td class="title">별점</td>
@@ -59,6 +59,7 @@
                 </td>
             </tr>
         </table>
+        <input type="hidden" th:value="${product.prodId}" name="prodId">
         <div class="button"><input type="submit" class="btn btn-default"></input></div>
     </form>
 </section>

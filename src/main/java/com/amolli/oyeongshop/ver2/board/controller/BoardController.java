@@ -5,6 +5,8 @@ import com.amolli.oyeongshop.ver2.board.dto.ReviewDTO;
 import com.amolli.oyeongshop.ver2.board.dto.ReviewResponseDTO;
 import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.service.ReviewService;
+import com.amolli.oyeongshop.ver2.product.model.Product;
+import com.amolli.oyeongshop.ver2.product.service.ProductService;
 import com.amolli.oyeongshop.ver2.s3.AwsS3Service;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class BoardController {
 
     private final AwsS3Service awsS3Service;
     private final ReviewService reviewService;
+    private final ProductService productService;
 
     @GetMapping("/lists")
     public String qnaList( ) {
@@ -75,10 +78,16 @@ public class BoardController {
     }
 
     // GET 리뷰 작성 페이지 조회(해당 페이지의 상품 id 가져와서)
-    @GetMapping("/review-write")
-    public String reviewWrite(@AuthenticationPrincipal PrincipalDetails details, Model model) {
+    @GetMapping("/review-write/{prodId}")
+    public String reviewWrite(@AuthenticationPrincipal PrincipalDetails details, @PathVariable Long prodId , Model model) {
+
+        Product product = productService.findById(prodId);
+//        String prodName = product.getProdName();
+
         String userId = details.getUser().getUserId();
+
         model.addAttribute("userId", userId);
+        model.addAttribute("product", product);
 
         return "/board/review-write";
     }
@@ -86,7 +95,7 @@ public class BoardController {
     // POST 리뷰 작성 (INSERT)
     @PostMapping(value = "/review-write", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadFile(@RequestParam(value = "image1", required = false) List<MultipartFile> files, ReviewDTO reviewDTO
-                             , Long prodId, @AuthenticationPrincipal PrincipalDetails details) {
+                             , @RequestParam("prodId") Long prodId, @AuthenticationPrincipal PrincipalDetails details) {
 
         List<String> imagepath = null;
 
@@ -97,11 +106,12 @@ public class BoardController {
 
         // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
         // 추후 변경 1L -> prodId 로
-        reviewService.uploadDB(imagepath, reviewDTO, 1L, details);
+        reviewService.uploadDB(imagepath, reviewDTO, prodId, details);
 
         return "redirect:/board/review-list";
     }
 
+    // POST 리뷰 삭제 (DELETE)
     @PostMapping("/my-review-delete")
     public String deleteReview(@RequestParam("deleteId") Long reviewId) {
 
