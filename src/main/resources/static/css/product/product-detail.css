@@ -3,6 +3,7 @@
 @import url(../header.css);
 @import url(../footer.css);
 @import url(../side-nav-for-user.css);
+@import url(../board/review-list.css);
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
 .main {
