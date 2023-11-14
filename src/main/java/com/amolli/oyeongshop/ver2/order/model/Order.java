@@ -10,9 +10,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 import org.hibernate.annotations.Parameter;
 
 @Entity
@@ -25,18 +29,7 @@ public class Order {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long orderId;
 
-    @Column(name = "order_number", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "order_number_generator")
-    @GenericGenerator(
-            name = "order_number_generator",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @Parameter(name = "sequence_name", value = "order_number_sequence"),
-                    @Parameter(name = "initial_value", value = "10000"),
-                    @Parameter(name = "increment_size", value = "1")
-            }
-    )
-    private Long orderNumber;
+    private String orderNumber;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -69,6 +62,18 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public void setOrderNumbers(){
+        // 오더 넘버 생성: 알파벳 2개 + 오늘 날짜 + UUID
+        UUID uuid = UUID.randomUUID();
+        // UUID를 문자열로 변환 후 알파벳 2개만 추출
+        String alphaPrefix = uuid.toString().replaceAll("[^a-zA-Z]", "").substring(0, 2);
+        // UUID를 문자열로 변환 후 5자리 숫자만 추출
+        String uuidNumber = uuid.toString().replaceAll("[^0-9]", "").substring(0, 5);
+        String todayDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
+
+        this.orderNumber = alphaPrefix + todayDate + uuidNumber;;
+    }
+
     public void addOrderDetail(OrderDetail orderDetail){
         orderDetails.add(orderDetail);
         orderDetail.setOrder(this);
@@ -98,6 +103,7 @@ public class Order {
         for(OrderDetail orderDetail : orderDetails){
             order.addOrderDetail(orderDetail);
         }
+        order.setOrderNumbers();
         order.addOrderAddress(orderDeliveryDTO);
         order.setOrderDate(LocalDateTime.now());
         order.setOrderStatus(OrderStatus.PAYMENT_ACCEPTED);
@@ -107,7 +113,7 @@ public class Order {
 
 
     @Builder
-    public Order(Long orderId, Long orderNumber, OrderStatus orderStatus, String orderAttnName, String orderAttnPhone, String orderAttnEmail, String orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest, Long orderTotalPrice, LocalDateTime orderDate, List<OrderDetail> orderDetails, User user) {
+    public Order(Long orderId, String orderNumber, OrderStatus orderStatus, String orderAttnName, String orderAttnPhone, String orderAttnEmail, String orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest, Long orderTotalPrice, LocalDateTime orderDate, List<OrderDetail> orderDetails, User user) {
         this.orderId = orderId;
         this.orderNumber = orderNumber;
         this.orderStatus = orderStatus;

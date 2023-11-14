@@ -11,7 +11,7 @@ import lombok.Setter;
 public class OrderItemDto {
 
 
-    private Long productOptId; // 상품 옵션 ID
+    private Long prodOptId; // 상품 옵션 ID
     private Long price; // 상품 가격
     private Long quantity; // 주문 수량
 

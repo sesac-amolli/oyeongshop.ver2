@@ -39,13 +39,12 @@
         </tr>
         <!-- 이미지 및 상품 정보 -->
         <tr>
-            <td><img alt="이미지" src="orderItem.prodMainImgPath"></td>
+            <td><img alt="이미지" th:src="${orderItem.prodMainImgPath}"></td>
             <td th:text="${orderItem.productName}"></td>
             <td><input type="text" name="orderDetails[0].price" th:value="${orderItem.price}" readonly="readonly" class="non"></td>
             <td><input type="text" name="orderDetails[0].quantity" th:value="${orderItem.quantity}" readonly="readonly" class="non"></td>
             <td><input type="text" name="color" th:value="${orderItem.color}" readonly="readonly" class="non"></td>
             <td><input type="text" name="size" th:value="${orderItem.size}" readonly="readonly" class="non"></td>
-            <td th:text="12"></td>
             <td th:text="${orderItem.itemAmount}"></td>
         </tr>
 
@@ -68,12 +67,12 @@
         </tr>
         <tr>
             <td>휴대폰</td>
-            <td><input type="tel" th:value="${orderAttnPhone}" /></td>
+            <td><input type="tel" id = "orderAttnPhone" name = "orderAttnPhone" th:value="${orderAttnPhone}" /></td>
         </tr>
         <tr>
             <td>우편번호</td>
             <td>
-                <input type="text" th:value="${orderAttnPostcode}" id="sample6_postcode"
+                <input type="text" id = "orderAttnPostcode" name = "orderAttnPostcode" th:value="${orderAttnPostcode}"
                        placeholder="우편번호" readonly>
             </td>
             <td>
@@ -84,23 +83,23 @@
 
         <tr>
             <td>주소</td>
-            <td colspan="2"><input type="text" th:value="${orderAttnAddr1}" id="sample6_address"
+            <td colspan="2"><input type="text" id = "orderAttnAddr1" name = "orderAttnAddr1" th:value="${orderAttnAddr1}"
                                    placeholder="주소"></td>
         </tr>
 
         <tr>
             <td>참고주소</td>
-            <td colspan="2"><input type="text" th:value="${orderAttnAddr2}"
-                                   id="sample6_extraAddress" placeholder="참고주소" readonly></td>
+            <td colspan="2"><input type="text"  id = "orderAttnAddr2" name = "orderAttnAddr2" th:value="${orderAttnAddr2}"
+                                   placeholder="참고주소" readonly></td>
         </tr>
         <tr>
             <td>상세주소</td>
-            <td colspan="2"><input type="text" th:value="${orderAttnDetail}"
-                                   id="sample6_detailAddress" placeholder="상세주소"></td>
+            <td colspan="2"><input type="text" id = "orderAttnDetail" name = "orderAttnDetail" th:value="${orderAttnDetail}"
+                                   placeholder="상세주소"></td>
         </tr>
         <tr>
             <td>배송 요청사항</td>
-            <td colspan="2"><input type="text" th:value="${orderAttnRequest}" placeholder="배송 요청사항"></td>
+            <td colspan="2"><input type="text" id = "orderAttnRequest" name = "orderAttnRequest" th:value="${orderAttnRequest}" placeholder="배송 요청사항"></td>
         </tr>
     </table>
     <table>
@@ -117,6 +116,10 @@
         <tr>
             <td>총 할인금액</td>
             <td th:text="' ' + ${discountAmount} + ' 원'"></td>
+        </tr>
+        <tr>
+            <td>적립금</td>
+            <td><input type="number" th:name="point"></td><td th:text="'총 사용 적립금 : ' + ${point} + ' 원'"></td>
         </tr>
     </table>
     <div id="paymentBox">

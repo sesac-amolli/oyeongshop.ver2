@@ -26,21 +26,8 @@ public class OrderController {
 
     @GetMapping("/to-order")
     public String orderAdd(Model model){
-        OrderDto orderDTO = new OrderDto();
-//
-//        model.addAttribute("prodOptId", 1);
-//        model.addAttribute("productName", "Your Product");
-//        model.addAttribute("price", 10000);
-//        model.addAttribute("quantity", 2);
-//        model.addAttribute("color", "Red");
-//        model.addAttribute("size", "M");
-//        int totalPrice = 10000 * 2; // 가격 * 수량
-//        model.addAttribute("totalPrice", totalPrice);
-//
-//        model.addAttribute("totalAmount", totalPrice);
-//        model.addAttribute("discountAmount", 0);
-//        model.addAttribute("totalPaymentAmount", totalPrice);
 
+        OrderDto orderDTO = new OrderDto();
 
         model.addAttribute("orderItem", orderDTO);
 
@@ -65,7 +52,7 @@ public class OrderController {
 //
 //        // 주문 완료 페이지로 이동 또는 추가적인 작업 수행
 //        model.addAttribute("orderId", orderId);
-        return "/order/create-order";
+        return "/order/order-detail";
 
     }
 
