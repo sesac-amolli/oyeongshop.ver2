@@ -8,7 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +33,10 @@ public class Product {
     private String prodSalesDist ="NO";
 
     @CreationTimestamp
-    private LocalDate prodRegDate;
+    private LocalDateTime prodRegDate;
 
     @UpdateTimestamp
-    private LocalDate prodEditDate;
+    private LocalDateTime prodEditDate;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<ProductImage> productImages = new ArrayList<>();
@@ -51,13 +51,16 @@ public class Product {
     private List<Wishlist> wishLists = new ArrayList<>();
 
     @Builder
-    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, LocalDate prodRegDate, String prodSalesDist, List<ProductOption> productOptions) {
+    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, String prodCategory, String prodCategoryDetail, LocalDateTime prodRegDate, LocalDateTime prodEditDate, String prodSalesDist, List<ProductOption> productOptions) {
         this.prodId = prodId;
         this.prodCode = prodCode;
         this.prodName = prodName;
         this.prodOriginPrice = prodOriginPrice;
         this.prodSalesPrice = prodSalesPrice;
+        this.prodCategory = prodCategory;
+        this.prodCategoryDetail = prodCategoryDetail;
         this.prodRegDate = prodRegDate;
+        this.prodEditDate = prodEditDate;
         this.prodSalesDist = prodSalesDist;
         this.productOptions = productOptions;
     }

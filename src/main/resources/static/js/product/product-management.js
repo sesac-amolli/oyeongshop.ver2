@@ -1,4 +1,4 @@
-// 판매등록 버튼 class를
+// 판매등록 버튼 색깔 변경
 $(document).ready(function () {
     // Click event listener for elements with class 'toggleButton'
     $('.toggleButton').click(function () {
@@ -22,18 +22,18 @@ function toggleProductStatus(button) {
 //    console.log(button,"button");
     var productId = $(button).data('product-id');
 
-    // Send Ajax request to update product status
-//    console.log("id", productId);
+//     Send Ajax request to update product status
+    console.log("id", productId);
     $.ajax({
         type: 'POST',
         url: '/product/editor/' + productId,
         data: {productId: productId}
-//        ,success: function (result) {
-//            console.log("result",result);
-//            // Update button text and class based on the new status
-//        },
-//        error: function () {
-//            console.log('Error updating product status');
-//        }
+        ,success: function (result) {
+            console.log("result",result);
+            // Update button text and class based on the new status
+        },
+        error: function () {
+            console.log('Error updating product status');
+        }
     });
 }
