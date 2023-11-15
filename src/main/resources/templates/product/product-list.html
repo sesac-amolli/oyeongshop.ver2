@@ -11,11 +11,27 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>상품 리스트 페이지</title>
 </head>
-<body layout:fragment="content">
+<body layout:fragment="content" th:object="${productList}">
 <div style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">BEST100</div>
 <div id="right">
-    <button>가격 낮은 순</button>
-    <button>가격 높은 순</button>
+    <form id="sortForm" action="/product/list" method="get" style="margin-bottom:10px;">
+        <div class="toggle-btn">
+            <label for="sort">정렬</label>
+            <select id="sort" name="sort" onchange="handleChange()">
+                <option th:data-select-sort="${prodCategory} + '/regdate'" th:value="${prodCategory} + '/regdate'">최근 등록일 순</option>
+                <option th:data-select-sort="${prodCategory} + '/pricelow'" th:value="${prodCategory} + '/pricelow'">가격 낮은 순</option>
+                <option th:data-select-sort="${prodCategory} + '/pricehigh'" th:value="${prodCategory} + '/pricehigh'">가격 높은 순</option>
+            </select>
+        </div>
+<!--                <div th:text="'카테고리: ' + ${prodCategory}"></div>-->
+        <script th:inline="javascript">
+            $(document).ready(function(){
+                let sort = [[${sort}]];
+                $("#sort").val(sort);
+            })
+        </script>
+    </form>
+
     <table>
         <tbody>
             <tr th:each="product, iterStat : ${productList}" th:if="${iterStat.index%3==0}">
@@ -50,5 +66,7 @@
         </tbody>
     </table>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="/js/product/product-list.js"></script> <!-- 외부 JavaScript 파일 연결 -->
 </body>
 </html>

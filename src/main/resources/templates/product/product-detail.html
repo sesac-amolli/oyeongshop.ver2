@@ -49,6 +49,7 @@
                 <div class="flex-items">
                     <li>
                         <select style="width: 100px;" id="colorSelect">
+                            <option selected disabled>색상</option>
                             <option th:each="productOption : ${product.productOptions}"
                                     th:value="${productOption.prodOptColor}"
                                     th:text="${productOption.prodOptColor}"
@@ -64,6 +65,7 @@
                 <div class="flex-items">
                     <li>
                         <select  style="width: 100px;" id="sizeSelect">
+                            <option selected disabled>사이즈</option>
                             <option th:each="productOption : ${product.productOptions}"
                                     th:value="${productOption.prodOptSize}"
                                     th:text="${productOption.prodOptSize}"
@@ -73,11 +75,11 @@
                 </div>
             </ul>
             <ul class="flex-container">
-                <div class="flex-items">
+                <div class="flex-items" >
                     <li>개수</li>
                 </div>
                 <div class="flex-items">
-                    <li><input name="quantity" type="number"></li>
+                    <li><input name="quantity" type="number" style="width: 100px;"></li>
                 </div>
             </ul>
 

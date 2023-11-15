@@ -7,6 +7,7 @@ import com.amolli.oyeongshop.ver2.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -50,23 +51,70 @@ ProductServiceImpl implements ProductService {
     }
 
     // 상품을 카테고리별로 분류
-    public List<ProductResponse> getProductsByCategory(String prodCategory) {
-        List<Product> products = productRepository.findByProdCategoryJPQL(prodCategory);
+//    public List<ProductResponse> getProductsByCategory(String prodCategory) {
+//        List<Product> products = productRepository.findByProdCategoryJPQL(prodCategory);
+//        return products.stream()
+//                .map(product -> {
+//                    ProductResponse dto = new ProductResponse();
+//                    dto.setProdId(product.getProdId());
+//                    dto.setProdName(product.getProdName());
+//                    dto.setProdCategory(product.getProdCategory());
+//                    dto.setProdSalesPrice(product.getProdSalesPrice());
+//                    dto.setProdMainImgPath(product.getProdMainImgPath());
+//                    return dto;
+//                })
+//                .collect(Collectors.toList());
+//    }
+    public List<ProductResponse> findByProdCategoryJPQL(String prodCategory, String value) {
+        List<Product> products;
+        if (value.equals("pricelow")) {
+            Sort sort = Sort.by(Sort.Direction.ASC, "prodSalesPrice");
+            products = productRepository.findByProdCategoryJPQL(prodCategory, sort);
+        } else if (value.equals("pricehigh")) {
+            Sort sort = Sort.by(Sort.Direction.DESC, "prodSalesPrice");
+            products = productRepository.findByProdCategoryJPQL(prodCategory, sort);
+        } else {
+            Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
+            products = productRepository.findByProdCategoryJPQL(prodCategory, sort);
+        }
         return products.stream()
-            .map(product -> {
-                ProductResponse dto = new ProductResponse();
-                dto.setProdId(product.getProdId());
-                dto.setProdName(product.getProdName());
-                dto.setProdCategory(product.getProdCategory());
-                dto.setProdSalesPrice(product.getProdSalesPrice());
-                dto.setProdMainImgPath(product.getProdMainImgPath());
-                // 다른 필드들 설정...
-                return dto;
-            })
-            .collect(Collectors.toList());
+                .map(product -> {
+                    ProductResponse dto = new ProductResponse();
+                    dto.setProdId(product.getProdId());
+                    dto.setProdName(product.getProdName());
+                    dto.setProdCategory(product.getProdCategory());
+                    dto.setProdSalesPrice(product.getProdSalesPrice());
+                    dto.setProdMainImgPath(product.getProdMainImgPath());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+    public List<ProductResponse> findByProdCategoryJPQL(String value) {
+        List<Product> products;
+        if (value.equals("pricelow")) {
+            Sort sort = Sort.by(Sort.Direction.ASC, "prodSalesPrice");
+            products = productRepository.findByProdJPQL(sort);
+        } else if (value.equals("pricehigh")) {
+            Sort sort = Sort.by(Sort.Direction.DESC, "prodSalesPrice");
+            products = productRepository.findByProdJPQL(sort);
+        } else {
+            Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
+            products = productRepository.findByProdJPQL(sort);
+        }
+        return products.stream()
+                .map(product -> {
+                    ProductResponse dto = new ProductResponse();
+                    dto.setProdId(product.getProdId());
+                    dto.setProdName(product.getProdName());
+                    dto.setProdCategory(product.getProdCategory());
+                    dto.setProdSalesPrice(product.getProdSalesPrice());
+                    dto.setProdMainImgPath(product.getProdMainImgPath());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
-    // 상품 옵션의 중복 제거
+        // 상품 옵션의 중복 제거
     public Product removeDuplicateOptions(Product product) {
         List<ProductOption> productOptions = product.getProductOptions();
         Set<String> uniqueColors = new HashSet<>();
