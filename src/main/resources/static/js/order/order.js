@@ -55,6 +55,12 @@ function sample6_execDaumPostcode() {
 // 라디오 버튼 요소들을 가져옵니다.
 const radioButtons = document.querySelectorAll('input[name="addrType"]');
 const receiveNameInput = document.getElementById('orderAttnName');
+const orderAttnPhoneInput = document.getElementById('orderAttnPhone');
+const orderAttnEmailInput = document.getElementById('orderAttnEmail');
+const orderAttnPostcodeInput = document.getElementById('orderAttnPostcode');
+const orderAttnAddr1Input = document.getElementById('orderAttnAddr1');
+const orderAttnAddr2Input = document.getElementById('orderAttnAddr2');
+const orderAttnDetailInput = document.getElementById('orderAttnDetail');
 
 // 라디오 버튼의 변경 이벤트에 대한 리스너를 추가합니다.
 radioButtons.forEach(radioButton => {
@@ -63,16 +69,25 @@ radioButton.addEventListener('change', function() {
 const selectedValue = document.querySelector('input[name="addrType"]:checked').value;
 
 console.log(selectedValue);
-// 주소 상세 정보를 보여주거나 초기화합니다.
-if (selectedValue === 'home') {
-receiveNameInput.value = '김윤설';
-} else if (selectedValue === 'office') {
-receiveNameInput.value = '신은영바보';
-//addressDetailsDiv.textContent = '사무실 주소: 회원의 사무실 주소 정보';
-} else if (selectedValue === 'newPlace') {
-
-receiveNameInput.value = '';
-//addressDetailsDiv.textContent = ''; // 새로운 배송지를 선택하면 주소 정보를 초기화합니다.
-}
-});
+// 집을 선택했을 때, orderUserDto의 값으로 input 요소들의 값을 변경합니다.
+        if (selectedValue === 'home') {
+            const orderUserDto = { /* orderUserDto의 값을 여기에 할당하면 됩니다. */ };
+            orderAttnNameInput.value = orderUserDto.userAttnName;
+            orderAttnPhoneInput.value = orderUserDto.userAttnPhone;
+            orderAttnEmailInput.value = orderUserDto.userAttnEmail;
+            orderAttnPostcodeInput.value = orderUserDto.userAttnPostcode;
+            orderAttnAddr1Input.value = orderUserDto.userAttnAddr1;
+            orderAttnAddr2Input.value = orderUserDto.userAttnAddr2;
+            orderAttnDetailInput.value = orderUserDto.userAttnDetail;
+        } else {
+            // 다른 값을 선택했을 때, input 요소들의 값을 초기화합니다.
+            orderAttnNameInput.value = '';
+            orderAttnPhoneInput.value = '';
+            orderAttnEmailInput.value = '';
+            orderAttnPostcodeInput.value = '';
+            orderAttnAddr1Input.value = '';
+            orderAttnAddr2Input.value = '';
+            orderAttnDetailInput.value = '';
+        }
+    });
 });

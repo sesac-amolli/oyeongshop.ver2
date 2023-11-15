@@ -2,7 +2,9 @@ package com.amolli.oyeongshop.ver2.order.controller;
 
 import com.amolli.oyeongshop.ver2.order.dto.*;
 import com.amolli.oyeongshop.ver2.order.service.OrderService;
+import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,28 +26,36 @@ public class OrderController {
         return "/order/return-list";
     }
 
-    @GetMapping("/to-order")
-    public String orderAdd(Model model){
+    @PostMapping(value = "/to-order")
+    //public String orderAdd(Model model, @RequestBody OrderItemDto orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails){
+    public String orderAdd(Model model, OrderItemDto orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails){
+        System.out.println("ddd = "+orderItemDto);
 
-        OrderDto orderDTO = new OrderDto();
 
-        model.addAttribute("orderItem", orderDTO);
+        OrderDto preparedOrderDTO = orderService.setPreparedOrderDto(orderItemDto);
 
-        return "/order/order";
+        String userId = userDetails.getUser().getUserId();
+        OrderUserDto orderUserDto = orderService.setOrderUserDto(userId);
+        System.out.println("PreparedOrderDTO : "+preparedOrderDTO);
+
+        model.addAttribute("orderUser", orderUserDto);
+        model.addAttribute("orderItem", preparedOrderDTO);
+
+       // return "forward:/order/create-order";
+       return "/order/order";
     }
 
-    @PostMapping(value = "/create-order")
-    public String order(@ModelAttribute("orderDetailsDTO") OrderDetailsDto orderDetailsDTO,
-                        @ModelAttribute("orderDeliveryDTO") OrderDeliveryDto orderDeliveryDTO,
-                        Model model) {
+    @RequestMapping(value = "/create-order")
+    public String order(OrderDetailsDto orderDetailsDTO,
+                        OrderDeliveryDto orderDeliveryDTO,
+                        Model model, @AuthenticationPrincipal PrincipalDetails userDetails) {
 
-        String userId = "guest";
+        String userId = userDetails.getUser().getUserId();
 
-        System.out.println(orderDetailsDTO);
-        System.out.println(orderDeliveryDTO);
+        System.out.println("orderDetailsDTO" + orderDetailsDTO);
+        System.out.println("orderDeliveryDTO" + orderDeliveryDTO);
 
         // 여기에서 필요한 유효성 검사 및 비즈니스 로직 수행
-        // orderDTO와 orderDeliveryDTO를 사용하여 주문을 처리
 
         // 주문 서비스를 호출하여 주문 처리
         Long orderId = orderService.order(orderDetailsDTO, orderDeliveryDTO, userId);

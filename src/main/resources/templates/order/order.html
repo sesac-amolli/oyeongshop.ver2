@@ -41,7 +41,7 @@
         <tr>
             <td><img alt="이미지" th:src="${orderItem.prodMainImgPath}"></td>
             <td th:text="${orderItem.productName}"></td>
-            <td><input type="text" name="orderDetails[0].price" th:value="${orderItem.price}" readonly="readonly" class="non"></td>
+            <td><input type="text" name="orderDetails[0].price" th:value="${orderItem.prodSalesPrice}" readonly="readonly" class="non"></td>
             <td><input type="text" name="orderDetails[0].quantity" th:value="${orderItem.quantity}" readonly="readonly" class="non"></td>
             <td><input type="text" name="color" th:value="${orderItem.color}" readonly="readonly" class="non"></td>
             <td><input type="text" name="size" th:value="${orderItem.size}" readonly="readonly" class="non"></td>
@@ -59,7 +59,6 @@
             <td>배송지 선택</td>
             <td><input type = "radio" name = "addrType" value = "newPlace" checked>새로운 배송지</td>
             <td><input type = "radio" name = "addrType" value = "home" >집</td>
-            <td><input type = "radio" name = "addrType" value = "office">사무실</td>
         </tr>
         <tr>
             <td>받으시는 분</td>
@@ -68,6 +67,10 @@
         <tr>
             <td>휴대폰</td>
             <td><input type="tel" id = "orderAttnPhone" name = "orderAttnPhone" th:value="${orderAttnPhone}" /></td>
+        </tr>
+        <tr>
+            <td>이메일</td>
+            <td><input type="email" id = "orderAttnEmail" name = "orderAttnEmail" th:value="${orderAttnEmail}" /></td>
         </tr>
         <tr>
             <td>우편번호</td>

@@ -31,23 +31,22 @@ public class OrderRestController {
         return "/order/order";
     }
 
-    @PostMapping("/orderadd")
-    public String orderSave(@Validated Order order, BindingResult result){
-        if(result.hasErrors()){
-            System.out.println(order);
-            System.out.println(result);
-
-            return "/login";
-        }else {
-            System.out.println(order);
-            Order savedOrder = orderService.save(order);
-
-            System.out.println("saved:" +  savedOrder);
-            System.out.println(result);
-            return "/";
-        }
-        //결제랑 연결하기 전에 우선 테스트하는 동안은 메인으로 이동
-    }
+//    @PostMapping("/orderadd")
+//    public String orderSave(@Validated Order order, BindingResult result){
+//        if(result.hasErrors()){
+//            System.out.println(result);
+//
+//            return "/login";
+//        }else {
+//            System.out.println(result);
+//            Order savedOrder = orderService.save(order);
+//
+//            System.out.println("saved:" +  savedOrder);
+//            System.out.println(result);
+//            return "/";
+//        }
+//        //결제랑 연결하기 전에 우선 테스트하는 동안은 메인으로 이동
+//    }
 
 //    @PostMapping("/crOrder")
 //    public ResponseEntity<String> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {

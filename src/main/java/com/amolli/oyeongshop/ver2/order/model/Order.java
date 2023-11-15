@@ -105,7 +105,7 @@ public class Order {
         }
         order.setOrderNumbers();
         order.addOrderAddress(orderDeliveryDTO);
-        order.setOrderDate(LocalDateTime.now());
+        order.setOrderDate(LocalDateTime.now().withNano(0));
         order.setOrderStatus(OrderStatus.PAYMENT_ACCEPTED);
         order.setOrderTotalPrice(order.getTotalPrice());
         return order;
