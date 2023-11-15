@@ -1,0 +1,93 @@
+<!-- order-test.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Test</title>
+</head>
+<body>
+<form id="orderForm">
+    <!-- 주문 상세 정보 입력 폼 -->
+    <label for="orderDetails">Order Details (JSON):</label>
+    <textarea id="orderDetails" name="orderDetails" rows="4" cols="50">
+{
+  "orderDetails": [
+    {
+      "orderDetailId": 1,
+      "ordeDetailAmount": 2,
+      "orderDetailPrice": 30,
+      "order": null,
+      "productOption": {
+        "prodOptId": 1,
+        "product": null,
+        "optionName": "Size",
+        "optionValue": "M",
+        "additionalPrice": 0
+      }
+    },
+    {
+      "orderDetailId": 2,
+      "ordeDetailAmount": 1,
+      "orderDetailPrice": 25,
+      "order": null,
+      "productOption": {
+        "prodOptId": 2,
+        "product": null,
+        "optionName": "Color",
+        "optionValue": "Blue",
+        "additionalPrice": 5
+      }
+    }
+  ],
+  "orderDelivery": {
+    "orderAttnName": "John Doe",
+    "orderAttnPhone": "123-456-7890",
+    "orderAttnPostcode": 12345,
+    "orderAttnAddr1": "123 Main St",
+    "orderAttnAddr2": "Apt 4B",
+    "orderAttnDetail": "Near the park",
+    "orderAttnRequest": "Handle with care"
+  }
+}
+        </textarea>
+
+    <!-- 제출 버튼 -->
+    <button type="button" onclick="submitOrder()">Submit Order</button>
+</form>
+
+<script>
+    function submitOrder() {
+        // 입력된 JSON 데이터 가져오기
+        var orderDetailsJson = document.getElementById('orderDetails').value;
+
+        // JSON 데이터를 JavaScript 객체로 파싱
+        var orderDetails = JSON.parse(orderDetailsJson);
+
+        // 서버로 전송할 데이터
+        var requestData = {
+            orderDetails: orderDetails
+        };
+
+        // 서버로 POST 요청 보내기
+        fetch('/crOrder', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Server Response:', data);
+            alert('Order placed successfully! Order ID: ' + data.orderId);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error placing order.');
+        });
+    }
+</script>
+</body>
+</html>

@@ -24,8 +24,8 @@
         </div>
     </div>
 </div>
-<form action="/oyeongshop/orderSuccess.do" method="GET">
-    <input type="hidden" name="productId" value="${productId}">
+<form action="/order/create-order" method="post" >
+    <input type="hidden" name="orderDetails[0].prodOptId" th:value="${orderItem.prodOptId}">
     <h3>[주문정보]</h3>
     <table id="order_info">
         <tr>
@@ -37,41 +37,45 @@
             <td>사이즈</td>
             <td>합계</td>
         </tr>
+        <!-- 이미지 및 상품 정보 -->
         <tr>
-            <td><img alt="이미지" src="upload/${mainImg}"></td>
-            <td>${productName}</td>
-            <td><input type="text" name="price" value="${price}" readonly="readonly" class="non"></td>
-            <td><input type="text" name="orderQuantity" value="${quantity}" readonly="readonly" class="non"></td>
-            <td><input type="text" name="orderColor" value="${color}" readonly="readonly" class="non"></td>
-            <td><input type="text" name="orderSize" value="${size}" readonly="readonly" class="non"></td>
-            <td>${price*quantity}</td>
+            <td><img alt="이미지" th:src="${orderItem.prodMainImgPath}"></td>
+            <td th:text="${orderItem.productName}"></td>
+            <td><input type="text" name="orderDetails[0].price" th:value="${orderItem.prodSalesPrice}" readonly="readonly" class="non"></td>
+            <td><input type="text" name="orderDetails[0].quantity" th:value="${orderItem.quantity}" readonly="readonly" class="non"></td>
+            <td><input type="text" name="color" th:value="${orderItem.color}" readonly="readonly" class="non"></td>
+            <td><input type="text" name="size" th:value="${orderItem.size}" readonly="readonly" class="non"></td>
+            <td th:text="${orderItem.itemAmount}"></td>
         </tr>
+
+        <!-- 합계 정보 -->
         <tr>
-            <td>
-            합계 : 51,000 원
-            </td>
+            <td th:text="'합계: ' + ${orderItem.itemAmount} + ' 원'"></td>
         </tr>
     </table>
     <h3>[배송정보]</h3>
     <table>
         <tr>
             <td>배송지 선택</td>
-            <td><input type = "radio" name = "addrType" value = "home" checked>집</td>
-            <td><input type = "radio" name = "addrType" value = "office">사무실</td>
-            <td><input type = "radio" name = "addrType" value = "newPlace">새로운 배송지</td>
+            <td><input type = "radio" name = "addrType" value = "newPlace" checked>새로운 배송지</td>
+            <td><input type = "radio" name = "addrType" value = "home" >집</td>
         </tr>
         <tr>
             <td>받으시는 분</td>
-            <td><input type="text" id="receiveName"></td>
+            <td><input type="text" id = "orderAttnName" name = "orderAttnName" th:value="${orderAttnName}" /></td>
         </tr>
         <tr>
             <td>휴대폰</td>
-            <td><input type="tel" id="receivePhone"></td>
+            <td><input type="tel" id = "orderAttnPhone" name = "orderAttnPhone" th:value="${orderAttnPhone}" /></td>
+        </tr>
+        <tr>
+            <td>이메일</td>
+            <td><input type="email" id = "orderAttnEmail" name = "orderAttnEmail" th:value="${orderAttnEmail}" /></td>
         </tr>
         <tr>
             <td>우편번호</td>
             <td>
-                <input type="text" name="zonecode" id="sample6_postcode"
+                <input type="text" id = "orderAttnPostcode" name = "orderAttnPostcode" th:value="${orderAttnPostcode}"
                        placeholder="우편번호" readonly>
             </td>
             <td>
@@ -82,23 +86,23 @@
 
         <tr>
             <td>주소</td>
-            <td colspan="2"><input type="text" name="address" id="sample6_address"
+            <td colspan="2"><input type="text" id = "orderAttnAddr1" name = "orderAttnAddr1" th:value="${orderAttnAddr1}"
                                    placeholder="주소"></td>
         </tr>
 
         <tr>
             <td>참고주소</td>
-            <td colspan="2"><input type="text" name="addressExtra"
-                                   id="sample6_extraAddress" placeholder="참고주소" readonly></td>
+            <td colspan="2"><input type="text"  id = "orderAttnAddr2" name = "orderAttnAddr2" th:value="${orderAttnAddr2}"
+                                   placeholder="참고주소" readonly></td>
         </tr>
         <tr>
             <td>상세주소</td>
-            <td colspan="2"><input type="text" name="addressDetail"
-                                   id="sample6_detailAddress" placeholder="상세주소"></td>
+            <td colspan="2"><input type="text" id = "orderAttnDetail" name = "orderAttnDetail" th:value="${orderAttnDetail}"
+                                   placeholder="상세주소"></td>
         </tr>
         <tr>
             <td>배송 요청사항</td>
-            <td colspan="2"><input type="text" id="addressRequest" placeholder="배송 요청사항"></td>
+            <td colspan="2"><input type="text" id = "orderAttnRequest" name = "orderAttnRequest" th:value="${orderAttnRequest}" placeholder="배송 요청사항"></td>
         </tr>
     </table>
     <table>
@@ -108,24 +112,22 @@
             <td>총 결제예정 금액</td>
         </tr>
         <tr>
-            <td> 51,000 원 </td>
-            <td> 0원 </td>
-            <td> 51,000 원 </td>
+            <td th:text="' ' + ${totalAmount} + ' 원'"></td>
+            <td th:text="' ' + ${discountAmount} + ' 원'"></td>
+            <td th:text="' ' + ${totalPaymentAmount} + ' 원'"></td>
         </tr>
         <tr>
             <td>총 할인금액</td>
-            <td> 0 원 </td>
+            <td th:text="' ' + ${discountAmount} + ' 원'"></td>
         </tr>
         <tr>
             <td>적립금</td>
-            <td><input type="text" id="pointBox" />원 (총 사용 가능 적립금 : 2000원)<br/>
-                - 적립금은 최소 2,000원 이상일 때 사용이 가능합니다.
-            </td>
+            <td><input type="number" th:name="point"></td><td th:text="'총 사용 적립금 : ' + ${point} + ' 원'"></td>
         </tr>
     </table>
     <div id="paymentBox">
         신용카드 결제 가능 금액 <br/>
-        51,000 원
+        <div th:text="' ' + ${totalPaymentAmount} + ' 원'"></div>
         <button type="submit" class="my-btn">결제하기</button>
     </div>
 </form>

@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 // Impl"은 "implementation"의 줄임말로 사용되며, 일반적으로 어떤 인터페이스(interface)나
 // 추상 클래스(abstract class)를 구체적으로 구현한 클래스를 가리킬 때 사용
-public class ProductServiceImpl implements ProductService {
+public class
+ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     // 상품 판매등록 컬럼의 필드값이 YES인 경우의 리스트를 출력

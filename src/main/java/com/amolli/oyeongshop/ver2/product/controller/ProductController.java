@@ -1,5 +1,8 @@
 package com.amolli.oyeongshop.ver2.product.controller;
 
+import com.amolli.oyeongshop.ver2.board.dto.ReviewResponseDTO;
+import com.amolli.oyeongshop.ver2.board.model.Review;
+import com.amolli.oyeongshop.ver2.board.service.ReviewService;
 import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
@@ -16,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product")
@@ -23,6 +27,7 @@ import java.util.List;
 @Slf4j
 public class ProductController {
     private final ProductService productService;
+    private final ReviewService reviewService;
 
     @GetMapping("/list/all/{sort}")
     public String productList(@PathVariable String sort, Model model) {
@@ -80,6 +85,14 @@ public class ProductController {
         ModelAndView mav = new ModelAndView("product/product-detail");
         // Thymeleaf에 데이터를 전달
         mav.addObject(productService.findById(prodId));
+
+        // 리뷰 List 불러오기
+        List<Review> reviews = reviewService.findByProdId(prodId);
+
+        List<ReviewResponseDTO> reviewdto = reviews.stream().map(ReviewResponseDTO::from).collect(Collectors.toList());
+
+        model.addAttribute("reviewdto", reviewdto);
+
         return mav;
     }
 

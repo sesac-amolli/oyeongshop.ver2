@@ -84,7 +84,7 @@
             </ul>
 
             <!-- prodId hidden -->
-            <div th:data-prod-id="${product.prodId}" th:text="${product.prodId}" class="hidden"></div>
+            <div th:data-prod-id="${product.prodId}" th:name = "prodId" th:text="${product.prodId}" class="hidden"></div>
             <br>
             <br>
             <button onclick="sendDataToDirectOrder(this)">바로 구매</button>
@@ -105,8 +105,21 @@
             <p>두번째 상품 설명 글</p>
         </div>
         <!-- 추가로 상세 정보를 넣으실 경우, 이 부분에 .details 블록을 계속 추가하시면 됩니다. -->
+
+        <div>
+            <th:block th:replace="board/review-list :: reviewlist"> </th:block>
+        </div>
+
     </div>
 </div>
+<form id="orderSubForm" action="/order/to-order" method="post">
+    <input type="hidden" name="prodId" value="">
+    <input type="hidden" name="color" value="">
+    <input type="hidden" name="size" value="">
+    <input type="hidden" name="quantity" value="">
+    <input type="hidden" name="prodSalesPrice" value="">
+
+</form>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="/js/product/product-detail.js"></script> <!-- 외부 JavaScript 파일 연결 -->
 </body>

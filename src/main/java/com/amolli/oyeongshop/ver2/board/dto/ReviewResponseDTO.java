@@ -21,7 +21,10 @@ public class ReviewResponseDTO {
     private List<ReviewImgResponseDTO> imgs;
 
     // 생성자
-    public ReviewResponseDTO(Long reviewId, String userId, String reviewContent, Long reviewRate, LocalDate reviewWriteDate, List<ReviewImgResponseDTO> imgs) {
+
+
+    public ReviewResponseDTO(Long reviewId, String userId, String reviewContent,
+                             Long reviewRate, LocalDate reviewWriteDate, List<ReviewImgResponseDTO> imgs) {
         this.reviewId = reviewId;
         this.userId = userId;
         this.reviewContent = reviewContent;
@@ -33,7 +36,7 @@ public class ReviewResponseDTO {
     // 이펙티브 자바 item - 정적(static) 팩토리 메서드
     public static ReviewResponseDTO from (Review review) {
         final Long reviewId = review.getReviewId();
-        final String userId = review.getUserId();
+        final String userId = review.getUser().getUserId();
         final String reviewContent = review.getReviewContent();
         final Long reviewRate = review.getReviewRate();
         final LocalDate reviewWriteDate = review.getReviewWriteDate();
