@@ -1,6 +1,5 @@
 package com.amolli.oyeongshop.ver2.user.model;
 
-import com.amolli.oyeongshop.ver2.order.model.Order;
 import lombok.*;
 import net.bytebuddy.asm.Advice;
 import org.hibernate.annotations.ColumnDefault;
@@ -18,6 +17,7 @@ import java.util.List;
 @DynamicInsert
 @Getter
 @ToString
+@Builder
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class User{
 
@@ -34,7 +34,6 @@ public class User{
 
     private String userPhone;
 
-    @Column(unique = true)
     private String userEmail;
 
     @Column(nullable = false)
@@ -50,23 +49,19 @@ public class User{
     @ColumnDefault("'YES'") // default
     private String userStatus;
 
-    @OneToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @OneToMany(mappedBy = "user")
+    private List<Cart> carts = new ArrayList<>();
 
-//    @Builder.Default
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserAddr> userAddrs = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Wishlist> wishlists = new ArrayList<>();
 
-//    @Builder.Default
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Point> points = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders = new ArrayList<>();
 
     public void encPwd(String userPwd){
         this.userPwd = userPwd;
@@ -84,7 +79,7 @@ public class User{
 
     @Builder
     public User(String userId, String userGrade, String userName, String userPwd, String userPhone, String userEmail,
-                String userSnsDist, LocalDate userRegdate, Long userPoint, String userStatus, Cart cart,
+                String userSnsDist, LocalDate userRegdate, Long userPoint, String userStatus, List<Cart> carts,
                 List<UserAddr> userAddrs, List<Wishlist> wishlists, List<Point> points) {
         this.userId = userId;
         this.userGrade = userGrade;
@@ -96,7 +91,7 @@ public class User{
         this.userRegdate = userRegdate;
         this.userPoint = userPoint;
         this.userStatus = userStatus;
-        this.cart = cart;
+        this.carts = carts;
         this.userAddrs = userAddrs;
         this.wishlists = wishlists;
         this.points = points;

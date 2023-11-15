@@ -13,12 +13,12 @@ public class CartDTO {
 
     private Long cartItemId;
 //    private LocalDate cartItemDate;
-    private Long cartItemAmount;
+    private int cartItemAmount;
     private Long cartId;
     private Long prodOptId;
 
 
-    public CartDTO(Long cartItemId, /*LocalDate cartItemDate,*/ Long cartItemAmount, Long cartId, Long prodOptId) {
+    public CartDTO(Long cartItemId, /*LocalDate cartItemDate,*/ int cartItemAmount, Long cartId, Long prodOptId) {
         super();
         this.cartItemId = cartItemId;
 //        this.cartItemDate = cartItemDate;

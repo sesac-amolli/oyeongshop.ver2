@@ -71,8 +71,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                             .userPhone(phone)
                             .userSnsDist(provider)
                             .build());
-            Point point = new Point("적립", "회원가입 축하 적립금", 1000L);
-            userEntity.get().givePoint(1000L, point);
+//            Point point = new Point("적립", "회원가입 축하 적립금", 1000L);
+            userEntity.get().givePoint(1000L, new Point("적립", "회원가입 축하 적립금", 1000L));
             userRepository.save(userEntity.get());
         }
 

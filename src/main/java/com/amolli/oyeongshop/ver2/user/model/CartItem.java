@@ -30,9 +30,9 @@ public class CartItem extends BaseEntity{
     @CreationTimestamp
     private LocalDate cartItemDate;
 
-    private Long cartItemAmount;
+    private int cartItemAmount;
 
-    public static CartItem createCartItem(Cart cart, ProductOption productOption, Long cartItemAmount){
+    public static CartItem createCartItem(Cart cart, ProductOption productOption, int cartItemAmount){
         CartItem cartItem = new CartItem();
         cartItem.setCart(cart);
         cartItem.setProductOption(productOption);

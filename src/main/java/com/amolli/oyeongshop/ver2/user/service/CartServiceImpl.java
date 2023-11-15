@@ -14,11 +14,14 @@ import com.amolli.oyeongshop.ver2.user.repository.CartItemRepository;
 import com.amolli.oyeongshop.ver2.user.repository.CartRepository;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.nio.file.ProviderNotFoundException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,70 +33,31 @@ public class CartServiceImpl implements CartService{
     private final CartItemRepository cartItemRepository;
     private final UserRepository userRepository;
     private final ProductOptionRepository productOptionRepository;
-//    private final ProductRepository productRepository;
 
     @Override
-    public void uploadDB(Cart cart, CartDTO cartDTO, Long prodOptId) {
-//        Optional<ProductOption> optionalProductOption = productOptionRepository.findById(prodOptId);
-//
-//        if(!optionalProductOption.isPresent()) {
-//            throw new RuntimeException("Category id: " + prodOptId + " can not found!");
-//        }
-//        CartItem cartItem = cartDTO.toEntity();
-//
-//        cartItem.setProductOption(optionalProductOption.get());
-//
-//        cart.addCartItem(cartItem);
-//        cartItemRepository.save(cartItem);
-    }
-
-//    @Override
-//    @Transactional
-//    public void create(CartCreateRequestDTO req, User user) {
-////        Product product = productRepository.findById(req.getProdOptId());
-//
-////        if(product.getP) DB 수량 체크 후 넣기
-//
-//        if (cartRepository.findCartByUser(user).isEmpty()){
-//            Cart cart = new Cart(user);
-//            cartRepository.save(cart);
-//        }
-//
-//        ProductOption productOption = cartItemRepository.findById(req.getProdOptId()).get().getProductOption();
-//        Cart cart = cartRepository.findCartByUser(user).get().getCart();
-//
-//        CartItem cartItem = new CartItem(productOption, cart, req.getCartItemDate(), req.getQuantity());
-//
-//        cartItemRepository.save(cartItem);
-//    }
-
-    @Override
-    public Long addCart(CartItemDTO cartItemDTO, String userEmail) {
-
-        User user = userRepository.findByUserEmail(userEmail);
-        Cart cart = cartRepository.findByUserId(user.getUserId());
+    public void addCart(Long prodOptId, int amount, UserDetails userDetails) {
 
 
-        // 장바구니가 존재하지 않는다면 생성
-        if (cart == null){
-            cart = Cart.createCart(user);
-            cartRepository.save(cart);
-        }
+        Cart cart = cartRepository.findByUser_UserId(userDetails.getUsername());
+        ProductOption productOption = productOptionRepository.findById(prodOptId);
+//        User user = cartRepository.findByUser_UserId(userId);
+//        Cart cart = cartItemRepository.findByCart_IdAndProductOption_ProdOptId(user.getCart(), prodOptId);
+//        ProductOption productOption = cartItemRepository.findByProductOption_ProdOptId(prodOptId);
 
-        ProductOption productOption = productOptionRepository.findById(cartItemDTO.getCartItemId()).orElseThrow(EntityNotFoundException::new);
-        CartItem cartItem = cartItemRepository.findByCartIdAndProdOptId(cart.getId(), productOption.getProdOptId());
 
-        // 해당 상품이 장바구니에 존재하지 않는다면 생성 후 추가
-        if (cartItem == null) {
-            cartItem = CartItem.createCartItem(cart, productOption, cartItemDTO.getCartItemAmount());
-            cartItemRepository.save(cartItem);
+        CartItem cartItem = CartItem
+                .builder()
+                .cart(cart)
+                .productOption(productOption)
+                .cartItemAmount(amount)
+                .build();
 
-            // 해당 상품이 장바구니에 이미 존재한다면 수량을 증가
-        } else {
-            cartItem.addCartItemAmount(cartItemDTO.getCartItemAmount());
-        }
-        return cartItem.getId();
+        cartItemRepository.save(cartItem);
 
+//        CartItem cartItem = new CartItem();
+//        cartItem.setCart(cart);
+//        cartItem.setProductOption(productOption);
+//        cartItem.setCartItemAmount(amount);
 
     }
 }

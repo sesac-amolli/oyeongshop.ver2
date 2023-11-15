@@ -16,7 +16,6 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 @ToString
 public class Point extends BaseEntity{
 
@@ -34,6 +33,15 @@ public class Point extends BaseEntity{
     private User user;
 
     public void setPoint(User user) {
+        this.user = user;
+    }
+    @Builder
+    public Point(Long id, String pointDist, String pointHistory, Long pointAmount, LocalDate pointDate, User user) {
+        super(id);
+        this.pointDist = pointDist;
+        this.pointHistory = pointHistory;
+        this.pointAmount = pointAmount;
+        this.pointDate = pointDate;
         this.user = user;
     }
 
