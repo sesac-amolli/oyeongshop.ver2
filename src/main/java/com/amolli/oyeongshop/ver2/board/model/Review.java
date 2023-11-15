@@ -2,8 +2,10 @@ package com.amolli.oyeongshop.ver2.board.model;
 
 import com.amolli.oyeongshop.ver2.board.dto.ReviewDTO;
 import com.amolli.oyeongshop.ver2.product.model.Product;
+import com.amolli.oyeongshop.ver2.user.model.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,15 +26,17 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewId;
 
-    // 추후 외래키 연결(user테이블의 userId와)
-    private String userId;
-
     private String reviewContent;
 
     private Long reviewRate;
 
     @CreationTimestamp
     private LocalDate reviewWriteDate;
+
+    // 유저id가 외래키라서 연결
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // 상품id가 외래키라서 선언
     @ManyToOne(fetch = FetchType.EAGER)
