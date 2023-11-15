@@ -22,6 +22,10 @@ border: 0;
 text-align: center;
 }
 
+input[type="radio"] {
+    transform: scale(0.8); /* 라디오 버튼 크기 조절 */
+}
+
 input {
 	width: 85%;
 	height: 2em;

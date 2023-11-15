@@ -1,5 +1,6 @@
 package com.amolli.oyeongshop.ver2.user.service;
 
+import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.user.dto.UserDto;
 import com.amolli.oyeongshop.ver2.user.model.Point;
 import com.amolli.oyeongshop.ver2.user.model.User;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -17,6 +19,10 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public User getUserById(String userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
 
     @Override
     @Transactional
