@@ -1,6 +1,8 @@
 package com.amolli.oyeongshop.ver2.board.model;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -23,6 +25,7 @@ public class ReviewImg {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "review_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Review review;
 
 }

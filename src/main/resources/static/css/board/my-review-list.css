@@ -63,10 +63,3 @@ td {
     width: 100%;
     box-sizing: border-box;
 }
-
-.reviewWriteBtn {
-    display: flex;
-   /* justify-content: flex-end;*/
-    align-self: flex-end;
-    margin-left: auto;
-}

@@ -17,7 +17,11 @@ public class UserAddr extends BaseEntity{
 
     private String userAddrPostcode;
 
+    private String userAddrCategory;
+
     private String userAddr1;
+
+    private String userAddr2;
 
     private String userAddrDetail;
 

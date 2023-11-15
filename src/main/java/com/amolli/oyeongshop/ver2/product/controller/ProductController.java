@@ -1,9 +1,15 @@
 package com.amolli.oyeongshop.ver2.product.controller;
 
+import com.amolli.oyeongshop.ver2.board.dto.ReviewResponseDTO;
+import com.amolli.oyeongshop.ver2.board.model.Review;
+import com.amolli.oyeongshop.ver2.board.service.ReviewService;
 import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,32 +19,57 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product")
 @RequiredArgsConstructor
+@Slf4j
 public class ProductController {
     private final ProductService productService;
+    private final ReviewService reviewService;
 
-    // 상품 리스트
-    @GetMapping("/list")
-    public String productList(Model model) {
-        List<ProductResponse> productList = productService.findProductAll();
+    @GetMapping("/list/all/{sort}")
+    public String productList(@PathVariable String sort, Model model) {
+        //todo : 익숙해 지기
+        log.info("sort"+sort);
+        List<ProductResponse> productList = productService.findByProdCategoryJPQL(sort);
+        model.addAttribute("productList", productList);
 
-        model.addAttribute("productList",productList);
         return "product/product-list";
     }
 
-    @GetMapping("/list/{prodCategory}")
-    public String getProductsByCategory(@PathVariable String prodCategory, Model model) {
-        List<ProductResponse> productList = productService.getProductsByCategory(prodCategory);
+    // side-nav-for-user.html 에서 a태그 클릭 시 category 정보를 전달해주는 컨트롤러
+    @RequestMapping(value="/list/{prodCategory}", method=RequestMethod.GET)
+    public String productCategoryFromViewToList(@PathVariable String prodCategory, Model model) {
+        // category 값을 모델에 추가
+        model.addAttribute("category", prodCategory);
+        // 다른 필요한 작업 수행
+        System.out.println(prodCategory);
+
+        // product-list.html 뷰로 이동
+        return "product/product-list";
+    }
+
+    // 상품 리스트(카테고리 별)
+    @GetMapping("/list/{prodCategory}/{sort}")
+    public String getProductsByCategory(@PathVariable String prodCategory, @PathVariable String sort, Model model) {
+        List<ProductResponse> productList = productService.findByProdCategoryJPQL(prodCategory, sort);
 
         // 모델에 데이터 추가
-        model.addAttribute("productList", productList);
         model.addAttribute("category", prodCategory);
+        model.addAttribute("productList", productList);
 
+        System.out.println(prodCategory);
         // 뷰 이름 반환 (타임리프 템플릿 이름)
         return "product/product-list";
+    }
+
+    @GetMapping("/load-more")
+    @ResponseBody
+    public ResponseEntity<List<ProductResponse>> loadMoreProducts(@RequestParam(name = "page", defaultValue = "1") int page) {
+        List<ProductResponse> additionalProducts = productService.findProductPaged(page, 9);
+        return new ResponseEntity<>(additionalProducts, HttpStatus.OK);
     }
 
     // 상품 상세정보
@@ -54,6 +85,14 @@ public class ProductController {
         ModelAndView mav = new ModelAndView("product/product-detail");
         // Thymeleaf에 데이터를 전달
         mav.addObject(productService.findById(prodId));
+
+        // 리뷰 List 불러오기
+        List<Review> reviews = reviewService.findByProdId(prodId);
+
+        List<ReviewResponseDTO> reviewdto = reviews.stream().map(ReviewResponseDTO::from).collect(Collectors.toList());
+
+        model.addAttribute("reviewdto", reviewdto);
+
         return mav;
     }
 
@@ -78,15 +117,6 @@ public class ProductController {
         }
     }
 
-    // 상품 관리 리스트(삭제 X 전체 테이블 출력용 코드)
-//    @GetMapping("/management")
-//    public String productManagement(Model model) {
-//        List<ProductResponse> productList = productService.findProductAll();
-//
-//        model.addAttribute("productList",productList);
-//        return "product/product-management";
-//    }
-
     // 상품 관리 리스트 with Paging Navigation
     @GetMapping("/management")
     public String productManagement(Model model, @RequestParam(name = "page", defaultValue = "1") int currentPage) {
@@ -107,12 +137,10 @@ public class ProductController {
 
         return "product/product-management";
     }
-//    @GetMapping("/detail/edit")
-//    public String productDetailEdit( ) {
-//        return "/product/product-detail-edit";
-//    }
 
 
+
+    // 상품 수정 화면
     @GetMapping("/edit/{prodId}")
     public String initUpdateOwnerForm(@PathVariable Long prodId, Model model) {
 
@@ -120,11 +148,58 @@ public class ProductController {
 
         return "/product/product-register";
     }
+    
+    // 상품 수정 화면 데이터 보내기
     @PostMapping("/edit/{prodId}")
     public String initUpdateForm(@Validated Product product, @PathVariable Long prodId) {
         product.setProdId(prodId);
         Product savedProduct = productService.save(product);
+
         return "redirect:/product/management";
     }
+
+    // 상품판매구분 컬럼 YES, NO 업데이트
+    @ResponseBody
+    @PostMapping("/editor/{prodId}")
+    public void UpdataSalesStatusYesNo(@PathVariable Long prodId) {
+        productService.UpdataSalesStatusYesNo(prodId);
+    }
+
+    //    @GetMapping("/detail/edit")
+//    public String productDetailEdit( ) {
+//        return "/product/product-detail-edit";
+//    }
+
+    //    @ResponseBody
+//    @PostMapping(value = "/review-write", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public String uploadFile(@RequestParam("image1") List<MultipartFile> file, ReviewDTO reviewDTO, Long prodId) {
+//
+//        // 멀티파트파일->S3에 업로드 하고 imageUrls 리스트로 받아옴
+//        List<String> imagepath = awsS3Service.uploadS3(file);
+//
+//        // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
+//        // 추후 변경 1L -> prodId 로
+//        reviewService.uploadDB(imagepath, reviewDTO, 2L);
+//
+//        return "redirect:/board/review-list";
+//
+//    }
+    // 상품 관리 리스트(삭제 X 전체 테이블 출력용 코드)
+//    @GetMapping("/management")
+//    public String productManagement(Model model) {
+//        List<ProductResponse> productList = productService.findProductAll();
+//
+//        model.addAttribute("productList",productList);
+//        return "product/product-management";
+//    }
+
+    // 상품 리스트
+//    @GetMapping("/list/all")
+//    public String productList(Model model) {
+//        List<ProductResponse> productList = productService.findProductBySalesDist("YES");
+//
+//        model.addAttribute("productList", productList);
+//        return "product/product-list";
+//    }
 }
 

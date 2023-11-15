@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "tbl_user")
 @DynamicInsert
-@Getter
+@Getter @Setter
 @ToString
 @Builder
 @NoArgsConstructor(access = AccessLevel.PUBLIC)

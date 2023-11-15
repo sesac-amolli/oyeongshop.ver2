@@ -25,4 +25,6 @@ public class ProductRegisterRequest {
 
     @NotBlank
     private String prodDesc;
+    @NotBlank
+    private String prodSalesDist;
 }

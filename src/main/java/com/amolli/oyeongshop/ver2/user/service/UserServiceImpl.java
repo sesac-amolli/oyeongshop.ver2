@@ -18,6 +18,10 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    public User getUserById(String userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
+
     @Override
     @Transactional
     public void signUp(UserDTO userDto){
