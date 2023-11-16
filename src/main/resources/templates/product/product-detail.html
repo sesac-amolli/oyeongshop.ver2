@@ -89,7 +89,9 @@
             <br>
             <button onclick="sendDataToDirectOrder(this)">바로 구매</button>
             <button onclick="history.back();">장바구니</button>
-            <button onclick="history.back();">찜하기</button>
+            <button type = "submit"
+                    formaction = "/user/wishlist"
+                    formmethod = "POST"/>찜하기</button>
         </div>
     </div>
     <div class="details-section">

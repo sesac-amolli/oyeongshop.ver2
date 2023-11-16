@@ -17,7 +17,7 @@ public class Wishlist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long wishList;
+    private Long wishListId;
 
     @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne
