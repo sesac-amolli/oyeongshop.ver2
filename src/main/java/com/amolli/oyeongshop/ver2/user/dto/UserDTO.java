@@ -3,21 +3,16 @@ package com.amolli.oyeongshop.ver2.user.dto;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.model.UserAddr;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @ToString
 @Data
 @NoArgsConstructor
-public class UserDto {
+public class UserDTO {
     private String userId;
 
     private String userName;

@@ -88,11 +88,13 @@
             <br>
             <br>
             <button onclick="sendDataToDirectOrder(this)">바로 구매</button>
-            <button onclick="history.back();">장바구니</button>
+<!--            <button onclick="history.back();">장바구니</button>-->
+            <button onclick="sendDataToCart(this)">장바구니</button>
             <form class="form-wishlist" method="POST" action="/user/wishlist">
                 <input type="hidden" name="wishProdId" th:value="${product.prodId}">
                 <button type="submit">찜하기</button>
             </form>
+
         </div>
     </div>
     <div class="details-section">
@@ -116,6 +118,15 @@
     </div>
 </div>
 <form id="orderSubForm" action="/order/to-order" method="post">
+    <input type="hidden" name="prodId" value="">
+    <input type="hidden" name="color" value="">
+    <input type="hidden" name="size" value="">
+    <input type="hidden" name="quantity" value="">
+    <input type="hidden" name="prodSalesPrice" value="">
+
+</form>
+
+<form id="cartSubForm" action="/user/cart/add" method="post">
     <input type="hidden" name="prodId" value="">
     <input type="hidden" name="color" value="">
     <input type="hidden" name="size" value="">

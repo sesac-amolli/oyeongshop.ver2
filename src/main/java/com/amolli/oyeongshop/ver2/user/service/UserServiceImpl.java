@@ -1,10 +1,12 @@
 package com.amolli.oyeongshop.ver2.user.service;
 
+
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.repository.ProductRepository;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
-import com.amolli.oyeongshop.ver2.user.dto.UserDto;
 import com.amolli.oyeongshop.ver2.user.dto.WishListDTO;
+import com.amolli.oyeongshop.ver2.user.dto.UserDTO;
+import com.amolli.oyeongshop.ver2.user.model.Cart;
 import com.amolli.oyeongshop.ver2.user.model.Point;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.model.Wishlist;
@@ -37,11 +39,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void signUp(UserDto userDto){
+    public void signUp(UserDTO userDto){
         User user = userDto.toEntity();
         System.out.println(user);
         Point point = new Point("적립", "회원가입 축하 적립금", 1000L);
         user.givePoint(1000L, point);
+        user.setCart(new Cart(user));
         String rawPwd = user.getUserPwd();
         String encPwd = bCryptPasswordEncoder.encode(rawPwd);
         user.encPwd(encPwd);
