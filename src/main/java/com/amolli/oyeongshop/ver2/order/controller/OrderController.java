@@ -35,6 +35,7 @@ public class OrderController {
         OrderDto preparedOrderDTO = orderService.setPreparedOrderDto(orderItemDto);
 
         String userId = userDetails.getUser().getUserId();
+
         OrderUserDto orderUserDto = orderService.setOrderUserDto(userId);
         System.out.println("PreparedOrderDTO : "+preparedOrderDTO);
 

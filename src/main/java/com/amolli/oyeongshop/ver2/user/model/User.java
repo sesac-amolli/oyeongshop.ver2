@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "tbl_user")
@@ -77,6 +78,10 @@ public class User{
 
     public void giveGrade(String grade){
         userGrade=grade;
+    }
+
+    public Optional<List<UserAddr>> getUserAddrs(){
+        return Optional.ofNullable(userAddrs);
     }
 
     @Builder
