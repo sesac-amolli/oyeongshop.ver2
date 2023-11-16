@@ -67,6 +67,7 @@ public class OrderServiceImpl implements OrderService{
         return orderUserDto;
     }
 
+
     @Override
     public OrderDto setPreparedOrderDto(OrderItemDto orderItemDto) {
 
@@ -79,7 +80,11 @@ public class OrderServiceImpl implements OrderService{
         preparedOrderDto.setColor(orderItemDto.getColor());
         preparedOrderDto.setSize(orderItemDto.getSize());
         preparedOrderDto.setProdMainImgPath(product.getProdMainImgPath());
-        preparedOrderDto.setItemAmount(orderItemDto.getQuantity()*orderItemDto.getProdSalesPrice());
+        preparedOrderDto.setProdOriginPrice(product.getProdOriginPrice());
+        preparedOrderDto.setItemAmount(product.getProdOriginPrice()*orderItemDto.getQuantity());
+        preparedOrderDto.setTotalAmount(product.getProdOriginPrice()*orderItemDto.getQuantity());
+        preparedOrderDto.setDiscountAmount((product.getProdOriginPrice()-product.getProdSalesPrice())*orderItemDto.getQuantity());
+        preparedOrderDto.setTotalPaymentAmount(preparedOrderDto.getTotalAmount()-preparedOrderDto.getDiscountAmount());
 
         return preparedOrderDto;
     }
