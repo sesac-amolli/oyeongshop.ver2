@@ -1,34 +1,43 @@
 package com.amolli.oyeongshop.ver2.user.model;
 
 import com.amolli.oyeongshop.ver2.product.model.ProductOption;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+@Builder
 @Entity
 @Table(name = "tbl_cart")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Cart extends BaseEntity{
 
-    @ManyToOne
-    @JoinColumn(name = "prod_opt_id")
-    private ProductOption productOption;
-
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @CreationTimestamp
-    private LocalDate cartDate;
+    @Builder.Default
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    private List<CartItem> cartItems = new ArrayList<>();
 
-    private Long cartAmount;
+    public Cart(User user) {
+        this.user = user;
+    }
+
+    public void setCart(User user) {
+        this.user = user;
+    }
+
+    public void addCartItem(CartItem cartItem){
+        cartItems.add(cartItem);
+        cartItem.setCart(this);
+    }
+
 }

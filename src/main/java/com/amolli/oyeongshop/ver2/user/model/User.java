@@ -50,8 +50,8 @@ public class User{
     @ColumnDefault("'YES'") // default
     private String userStatus;
 
-    @OneToMany(mappedBy = "user")
-    private List<Cart> carts = new ArrayList<>();
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart cart;
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -74,6 +74,11 @@ public class User{
         point.setPoint(this);
     }
 
+    public void createCart(Cart cart){
+        this.cart=cart;
+        cart.setCart(this);
+    }
+
     public void giveGrade(String grade){
         userGrade=grade;
     }
@@ -84,7 +89,7 @@ public class User{
 
     @Builder
     public User(String userId, String userGrade, String userName, String userPwd, String userPhone, String userEmail,
-                String userSnsDist, LocalDate userRegdate, Long userPoint, String userStatus, List<Cart> carts,
+                String userSnsDist, LocalDate userRegdate, Long userPoint, String userStatus, Cart cart,
                 List<UserAddr> userAddrs, List<Wishlist> wishlists, List<Point> points) {
         this.userId = userId;
         this.userGrade = userGrade;
@@ -96,7 +101,7 @@ public class User{
         this.userRegdate = userRegdate;
         this.userPoint = userPoint;
         this.userStatus = userStatus;
-        this.carts = carts;
+        this.cart = cart;
         this.userAddrs = userAddrs;
         this.wishlists = wishlists;
         this.points = points;
