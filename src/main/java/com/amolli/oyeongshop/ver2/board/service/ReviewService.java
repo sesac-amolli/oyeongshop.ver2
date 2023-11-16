@@ -19,6 +19,6 @@ public interface ReviewService {
 
     List<Review> findByUserId(String userId);
 
-    void deleteMyReview(Long ReviewId);
+    void deleteMyReview(Long reviewId);
 
 }

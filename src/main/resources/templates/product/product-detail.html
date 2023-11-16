@@ -89,9 +89,10 @@
             <br>
             <button onclick="sendDataToDirectOrder(this)">바로 구매</button>
             <button onclick="history.back();">장바구니</button>
-            <button type = "submit"
-                    formaction = "/user/wishlist"
-                    formmethod = "POST"/>찜하기</button>
+            <form class="form-wishlist" method="POST" action="/user/wishlist">
+                <input type="hidden" name="wishProdId" th:value="${product.prodId}">
+                <button type="submit">찜하기</button>
+            </form>
         </div>
     </div>
     <div class="details-section">
