@@ -49,8 +49,10 @@ public class User{
     @ColumnDefault("'YES'") // default
     private String userStatus;
 
-    @OneToMany(mappedBy = "user")
-    private List<Cart> carts = new ArrayList<>();
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
+//    @OneToMany(mappedBy = "user")
+//    private List<Cart> carts = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -79,7 +81,7 @@ public class User{
 
     @Builder
     public User(String userId, String userGrade, String userName, String userPwd, String userPhone, String userEmail,
-                String userSnsDist, LocalDate userRegdate, Long userPoint, String userStatus, List<Cart> carts,
+                String userSnsDist, LocalDate userRegdate, Long userPoint, String userStatus, Cart cart,
                 List<UserAddr> userAddrs, List<Wishlist> wishlists, List<Point> points) {
         this.userId = userId;
         this.userGrade = userGrade;
@@ -91,7 +93,7 @@ public class User{
         this.userRegdate = userRegdate;
         this.userPoint = userPoint;
         this.userStatus = userStatus;
-        this.carts = carts;
+        this.cart = cart;
         this.userAddrs = userAddrs;
         this.wishlists = wishlists;
         this.points = points;

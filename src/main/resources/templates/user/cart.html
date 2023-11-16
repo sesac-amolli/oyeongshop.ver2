@@ -29,6 +29,34 @@
                     <td><label for="prod-amount">수량</label></td>
                     <td><label for="prod-allprice">합계 금액</label></td>
                 </tr>
+                <div class="title">Review</div>
+                <!-- 리뷰 id 개수만큼 반복 -->
+                <div class="review">
+                <tr th:each="cartitems : ${cartitemdto}">
+                    <div class="cartitem-item">
+                        <td>
+                            <div class="id" th:text="${cartitems.prodOptId}">상품상세명</div>
+                        </td>
+                        <td>
+                            <div class="content" th:text="${cartitems.price}">가격</div>
+                        </td>
+                        <td>
+                            <div class="date" th:text="${cartitems.cartItemAmount}">개수</div>
+                        </td>
+                        <td>
+                            <div th:if="${#lists.isEmpty(reviews.imgs)}">
+                                <p>첨부한 이미지가 없습니다.</p>
+                            </div>
+                            <div th:if="${!#lists.isEmpty(reviews.imgs)}">
+                                <div class="img" th:each="imgs : ${reviews.imgs}">
+                                    <img th:src="${imgs.reviewImgUrl}"/>
+                                </div>
+                            </div>
+                        </td>
+                    </div>
+                </tr>
+                <button class="reviewWriteBtn" type="button" th:onclick="|location.href='@{/board/review-write/{prodId}(prodId=${product.prodId})}'|">리뷰 쓰기</button>
+                </div>
                 <tr>
                     <td><div class="checkbox-wrapper-1">
                         <input id="prod-check" class="substituted" type="checkbox" aria-hidden="true" />

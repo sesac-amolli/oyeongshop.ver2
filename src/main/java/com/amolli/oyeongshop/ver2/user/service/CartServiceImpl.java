@@ -7,6 +7,7 @@ import com.amolli.oyeongshop.ver2.product.repository.ProductRepository;
 //import com.amolli.oyeongshop.ver2.user.dto.CartCreateRequestDTO;
 import com.amolli.oyeongshop.ver2.user.dto.CartDTO;
 import com.amolli.oyeongshop.ver2.user.dto.CartItemDTO;
+import com.amolli.oyeongshop.ver2.user.dto.CartItemRequestDTO;
 import com.amolli.oyeongshop.ver2.user.model.Cart;
 import com.amolli.oyeongshop.ver2.user.model.CartItem;
 import com.amolli.oyeongshop.ver2.user.model.User;
@@ -35,29 +36,54 @@ public class CartServiceImpl implements CartService{
     private final ProductOptionRepository productOptionRepository;
 
     @Override
-    public void addCart(Long prodOptId, int amount, UserDetails userDetails) {
+    public void addCart(CartItemRequestDTO cartItemRequestDTO, String userId) {
 
 
-        Cart cart = cartRepository.findByUser_UserId(userDetails.getUsername());
-        ProductOption productOption = productOptionRepository.findById(prodOptId);
-//        User user = cartRepository.findByUser_UserId(userId);
-//        Cart cart = cartItemRepository.findByCart_IdAndProductOption_ProdOptId(user.getCart(), prodOptId);
-//        ProductOption productOption = cartItemRepository.findByProductOption_ProdOptId(prodOptId);
+        Optional<User> user = userRepository.findById(userId);
+        if(user.get().getCart()==null) {
+            Cart cart = Cart.createCart(user.get());
+        }
+        Cart cart = cartRepository.findByUser_UserId(userId);
+        Long prodOptId = productOptionRepository.findProdOptIdByProdIdAndProdOptColorAndProdOptSize(
+                cartItemRequestDTO.getProdId(),
+                cartItemRequestDTO.getColor(),
+                cartItemRequestDTO.getSize()
+        );
+        Optional<ProductOption> productOption = productOptionRepository.findById(prodOptId);
 
+        if (productOption.isPresent()) {
 
-        CartItem cartItem = CartItem
-                .builder()
-                .cart(cart)
-                .productOption(productOption)
-                .cartItemAmount(amount)
-                .build();
+            CartItem cartItem = CartItem
+                    .builder()
+                    .cart(cart)
+                    .productOption(productOption.get())
+                    .cartItemAmount(Math.toIntExact(cartItemRequestDTO.getQuantity()))
+                    .build();
 
-        cartItemRepository.save(cartItem);
+            cartItemRepository.save(cartItem);
+        } else {
+            // productOption이 존재하지 않는 경우의 처리
+            // 예를 들면, 에러 메시지를 반환하거나 기본값을 설정
+        }
 
-//        CartItem cartItem = new CartItem();
-//        cartItem.setCart(cart);
-//        cartItem.setProductOption(productOption);
-//        cartItem.setCartItemAmount(amount);
+//        Cart cart1 = new Cart();
 
+//        Optional<ProductOption> productOption1 = productOptionRepository.findById(2l);
+//
+//        CartItem cartItem2 = CartItem
+//                .builder()
+//                .cart(cart)
+//                .productOption(productOption1.get())
+//                .cartItemAmount(2)
+//                .build();
+//
+//        cartItemRepository.save(cartItem2);
+    }
+
+    @Override
+    public void viewCartList(User user) {
+
+        Cart cart = cartRepository.findByUser_UserId(user.getUserId());
+        List<CartItem> cartItems = cart.getCartItems();
     }
 }
