@@ -43,12 +43,12 @@ public class UserController {
         String userId = userDetails.getUser().getUserId();
         cartService.addCart(cartItemRequestDTO, userId);
 
-        return "/user/cart/list";
+        return "redirect:/user/cart/list";
     }
 
     // 장바구니 담긴 상품 보여주기
     @GetMapping("/cart/list")
-    public void viewCartList(@AuthenticationPrincipal PrincipalDetails userDetails, Model model) {
+    public String viewCartList(@AuthenticationPrincipal PrincipalDetails userDetails, Model model) {
         String userId = userDetails.getUser().getUserId();
 //        User user = userService.getUserById(userId);
         Cart cart = cartService.viewCartList(userId);
@@ -75,6 +75,7 @@ public class UserController {
 //                .map(CartItemResponseDTO::from)
 //                .collect(Collectors.toList());
 
+        return "/user/cart";
 
 
 
