@@ -1,6 +1,7 @@
 package com.amolli.oyeongshop.ver2.user.service;
 
 import com.amolli.oyeongshop.ver2.user.dto.UserDTO;
+import com.amolli.oyeongshop.ver2.user.model.Cart;
 import com.amolli.oyeongshop.ver2.user.model.Point;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService{
         System.out.println(user);
         Point point = new Point("적립", "회원가입 축하 적립금", 1000L);
         user.givePoint(1000L, point);
+        user.setCart(new Cart(user));
         String rawPwd = user.getUserPwd();
         String encPwd = bCryptPasswordEncoder.encode(rawPwd);
         user.encPwd(encPwd);

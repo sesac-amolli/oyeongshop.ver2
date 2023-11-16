@@ -31,10 +31,8 @@ public class Cart extends BaseEntity{
         this.user = user;
     }
 
-    public static Cart createCart(User user) {
-        Cart cart = new Cart();
-        cart.user = user;
-        return cart;
+    public void setCart(User user) {
+        this.user = user;
     }
 
     public void addCartItem(CartItem cartItem){

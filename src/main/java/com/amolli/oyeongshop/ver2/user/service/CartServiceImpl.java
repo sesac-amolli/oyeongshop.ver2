@@ -32,9 +32,7 @@ public class CartServiceImpl implements CartService{
 
 
         Optional<User> user = userRepository.findById(userId);
-        if(user.get().getCart()==null) {
-            Cart cart = Cart.createCart(user.get());
-        }
+
         Cart cart = cartRepository.findByUser_UserId(userId);
         Long prodOptId = productOptionRepository.findProdOptIdByProdIdAndProdOptColorAndProdOptSize(
                 cartItemRequestDTO.getProdId(),
