@@ -32,11 +32,12 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 // user가 포함된 주소로 들어오면, 인증이 필요
                 .antMatchers("/user/**").authenticated()
                 // manager가 포함된 주소로 들어오면, 인증+권한이 필요 (권한은 ROLE_ADMIN 혹은 ROLE_MANAGER 이면 가능하다.)
-                .antMatchers("/manager/**").access("hasRole('ADMIN') or hasRole('MANAGER')")
+//                .antMatchers("/manager/**").access("hasRole('ADMIN') or hasRole('MANAGER')")
                 // admin이 포함된 주소로 들어오면, 인증+권한이 필요 (권한은 ROLE_ADMIN만 가능하다.)
                 .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 // 다른 요청은 모두 허용
                 .anyRequest().permitAll()
+
                 .and()
                 .formLogin()
                 // login 주소가 호출이 되면 시큐리티가 낚아채서 대신 로그인을 진행해준다.
@@ -44,6 +45,11 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .usernameParameter("userId")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/")
+
+                .and()
+                .logout()
+                .deleteCookies()
+
                 .and()
                 .oauth2Login()
                 .loginPage("/login")
