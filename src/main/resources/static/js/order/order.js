@@ -72,13 +72,13 @@ console.log(selectedValue);
 // 집을 선택했을 때, orderUserDto의 값으로 input 요소들의 값을 변경합니다.
         if (selectedValue === 'home') {
             const orderUserDto = { /* orderUserDto의 값을 여기에 할당하면 됩니다. */ };
-            orderAttnNameInput.value = orderUserDto.userAttnName;
-            orderAttnPhoneInput.value = orderUserDto.userAttnPhone;
-            orderAttnEmailInput.value = orderUserDto.userAttnEmail;
-            orderAttnPostcodeInput.value = orderUserDto.userAttnPostcode;
-            orderAttnAddr1Input.value = orderUserDto.userAttnAddr1;
-            orderAttnAddr2Input.value = orderUserDto.userAttnAddr2;
-            orderAttnDetailInput.value = orderUserDto.userAttnDetail;
+            orderAttnNameInput.value = orderUser.userAttnName;
+            orderAttnPhoneInput.value = orderUser.userAttnPhone;
+            orderAttnEmailInput.value = orderUser.userAttnEmail;
+            orderAttnPostcodeInput.value = orderUser.userAttnPostcode;
+            orderAttnAddr1Input.value = orderUser.userAttnAddr1;
+            orderAttnAddr2Input.value = orderUser.userAttnAddr2;
+            orderAttnDetailInput.value = orderUser.userAttnDetail;
         } else {
             // 다른 값을 선택했을 때, input 요소들의 값을 초기화합니다.
             orderAttnNameInput.value = '';
