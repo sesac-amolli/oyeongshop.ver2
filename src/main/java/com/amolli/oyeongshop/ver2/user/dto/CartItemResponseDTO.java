@@ -1,5 +1,6 @@
 package com.amolli.oyeongshop.ver2.user.dto;
 
+import com.amolli.oyeongshop.ver2.user.model.CartItem;
 import lombok.*;
 
 @Setter
@@ -8,20 +9,31 @@ import lombok.*;
 public class CartItemResponseDTO {
 
     private Long prodId;
-    private String prodOptColor;
-    private String prodOptSize;
-    private Long prodOptAmount;
+    private String color;
+    private String size;
+    private int quantity;
     private Long prodSalesPrice;
-    private Long prodOptId;
     private String prodName;
 
-    public CartItemResponseDTO(Long prodId, String prodOptColor, String prodOptSize, Long prodOptAmount, Long prodSalesPrice, Long prodOptId, String prodName) {
+    public CartItemResponseDTO(Long prodId, String color, String size, int quantity, Long prodSalesPrice, String prodName) {
         this.prodId = prodId;
-        this.prodOptColor = prodOptColor;
-        this.prodOptSize = prodOptSize;
-        this.prodOptAmount = prodOptAmount;
+        this.color = color;
+        this.size = size;
+        this.quantity = quantity;
         this.prodSalesPrice = prodSalesPrice;
-        this.prodOptId = prodOptId;
         this.prodName = prodName;
+
     }
+
+    public static CartItemResponseDTO from(CartItem cartItem){
+        final Long id = cartItem.getProductOption().getProdOptId();
+        final String color = cartItem.getProductOption().getProdOptColor();
+        final String size = cartItem.getProductOption().getProdOptSize();
+        final int quantity = cartItem.getCartItemAmount();
+        final Long prodSalesPrice = cartItem.getProductOption().getProduct().getProdSalesPrice();
+        final String prodName = cartItem.getProductOption().getProduct().getProdName();
+        return new CartItemResponseDTO(id, color, size, quantity, prodSalesPrice, prodName);
+    }
+
+
 }

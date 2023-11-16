@@ -12,11 +12,11 @@ public class CartItemRequestDTO {
     private Long prodId;
     private String color;
     private String size;
-    private Long quantity;
+    private int quantity;
     private Long prodSalesPrice;
     private Long userId;
 
-    public CartItemRequestDTO(Long prodId, String color, String size, Long quantity, Long prodSalesPrice, Long userId) {
+    public CartItemRequestDTO(Long prodId, String color, String size, int quantity, Long prodSalesPrice, Long userId) {
         this.prodId = prodId;
         this.color = color;
         this.size = size;

@@ -1,13 +1,10 @@
 package com.amolli.oyeongshop.ver2.user.service;
 
-import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.model.ProductOption;
 import com.amolli.oyeongshop.ver2.product.repository.ProductOptionRepository;
-import com.amolli.oyeongshop.ver2.product.repository.ProductRepository;
 //import com.amolli.oyeongshop.ver2.user.dto.CartCreateRequestDTO;
-import com.amolli.oyeongshop.ver2.user.dto.CartDTO;
-import com.amolli.oyeongshop.ver2.user.dto.CartItemDTO;
 import com.amolli.oyeongshop.ver2.user.dto.CartItemRequestDTO;
+import com.amolli.oyeongshop.ver2.user.dto.CartItemResponseDTO;
 import com.amolli.oyeongshop.ver2.user.model.Cart;
 import com.amolli.oyeongshop.ver2.user.model.CartItem;
 import com.amolli.oyeongshop.ver2.user.model.User;
@@ -15,16 +12,11 @@ import com.amolli.oyeongshop.ver2.user.repository.CartItemRepository;
 import com.amolli.oyeongshop.ver2.user.repository.CartRepository;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
-import java.nio.file.ProviderNotFoundException;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -81,9 +73,18 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public void viewCartList(User user) {
+    public Cart viewCartList(String userId) {
 
-        Cart cart = cartRepository.findByUser_UserId(user.getUserId());
-        List<CartItem> cartItems = cart.getCartItems();
+        return cartRepository.findByUser_UserId(userId);
+
+//        Cart cart = cartRepository.findByUser_UserId(userId);
+//        List<CartItem> cartItems = cartItemRepository.findByCart_Id(cart.getId());
+
+        // 모던 자바 1 액션 8~10버전 변화 흐름을 공부해야함
+//        List<CartItemResponseDTO> cartItemResponseDTOS = cartItems.stream()
+//                .map(CartItemResponseDTO::from)
+//                .collect(Collectors.toList());
+
+//        return cartItemResponseDTOS;
     }
 }
