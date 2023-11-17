@@ -9,6 +9,7 @@ import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.model.ProductOption;
 import com.amolli.oyeongshop.ver2.product.repository.ProductOptionRepository;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
+import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.model.UserAddr;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
@@ -57,15 +58,19 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public OrderUserDto setOrderUserDto(String userId) {
+    public OrderUserDto setOrderUserDto(PrincipalDetails userDetails) {
+
+        String userId = userDetails.getUser().getUserId();
 
         User user = userRepository.findByIdWithUserAddrs(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
+        System.out.println("user Info : " + user.getUserId());
 
         OrderUserDto orderUserDto = new OrderUserDto(user);
 
         return orderUserDto;
     }
+
 
     @Override
     public OrderDto setPreparedOrderDto(OrderItemDto orderItemDto) {
@@ -79,7 +84,11 @@ public class OrderServiceImpl implements OrderService{
         preparedOrderDto.setColor(orderItemDto.getColor());
         preparedOrderDto.setSize(orderItemDto.getSize());
         preparedOrderDto.setProdMainImgPath(product.getProdMainImgPath());
-        preparedOrderDto.setItemAmount(orderItemDto.getQuantity()*orderItemDto.getProdSalesPrice());
+        preparedOrderDto.setProdOriginPrice(product.getProdOriginPrice());
+        preparedOrderDto.setItemAmount(product.getProdOriginPrice()*orderItemDto.getQuantity());
+        preparedOrderDto.setTotalAmount(product.getProdOriginPrice()*orderItemDto.getQuantity());
+        preparedOrderDto.setDiscountAmount((product.getProdOriginPrice()-product.getProdSalesPrice())*orderItemDto.getQuantity());
+        preparedOrderDto.setTotalPaymentAmount(preparedOrderDto.getTotalAmount()-preparedOrderDto.getDiscountAmount());
 
         return preparedOrderDto;
     }

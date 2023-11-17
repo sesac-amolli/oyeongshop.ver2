@@ -3,6 +3,7 @@ package com.amolli.oyeongshop.ver2.order.controller;
 import com.amolli.oyeongshop.ver2.order.dto.*;
 import com.amolli.oyeongshop.ver2.order.service.OrderService;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
+import com.amolli.oyeongshop.ver2.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -29,13 +30,12 @@ public class OrderController {
     @PostMapping(value = "/to-order")
     //public String orderAdd(Model model, @RequestBody OrderItemDto orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails){
     public String orderAdd(Model model, OrderItemDto orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails){
-        System.out.println("ddd = "+orderItemDto);
-
 
         OrderDto preparedOrderDTO = orderService.setPreparedOrderDto(orderItemDto);
 
         String userId = userDetails.getUser().getUserId();
-        OrderUserDto orderUserDto = orderService.setOrderUserDto(userId);
+
+        OrderUserDto orderUserDto = orderService.setOrderUserDto(userDetails);
         System.out.println("PreparedOrderDTO : "+preparedOrderDTO);
 
         model.addAttribute("orderUser", orderUserDto);

@@ -48,7 +48,7 @@ public class BoardController {
 
     // 리뷰 게시판
     // GET 리뷰 페이지 조회(상품ID에 따른 리뷰들)
-    @GetMapping("/review-list")    //("/review-list/{prodId}") 로 변경
+    @GetMapping("/review-list")    //product-detail 하단에 위치
     public String findAllReview(Long prodId, Model model) {
 
         List<Review> reviews = reviewService.findByProdId(prodId);
@@ -105,10 +105,9 @@ public class BoardController {
         }
 
         // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
-        // 추후 변경 1L -> prodId 로
         reviewService.uploadDB(imagepath, reviewDTO, prodId, details);
 
-        return "redirect:/board/review-list";
+        return "redirect:/product/detail/" + prodId;
     }
 
     // POST 리뷰 삭제 (DELETE)

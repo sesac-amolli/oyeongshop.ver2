@@ -2,7 +2,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/fragments/non-side-layout}">
+      layout:decorate="~{/fragments/side-layout}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,20 +10,17 @@
     <link rel="stylesheet" href="rest.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/user/myinfo.css">
-    <style>
-        .row{
-            display: flex;
-        }
-    </style>
+<!--    <style>-->
+<!--        .row{-->
+<!--            display: flex;-->
+<!--        }-->
+<!--    </style>-->
 </head>
 <body layout:fragment="content">
     <div class="myinfo-title">
-        <!-- <blockquote><p>회원정보</p></blockquote> -->
-        <div class="col-md-3"><strong>회원정보</strong></div>
+        <h2>회원정보</h2>
     </div>
     <div class="myinfo-where">
-        
-    <div class="table-responsive">
         <table id="myinfo" class="table table-bordered">
             <!-- <table  id="signup" class="table table-sm"> -->
             <tbody id="test_tbody">
@@ -65,13 +62,40 @@
               </tbody>
      
         </table>
-        <label for="updateanddeleteid">
-            <!-- <button type="button" onclick="location.href='/oyeongshop/join';" class="my-btn">회원가입</button> -->
+        <div>
             <button type="submit" onclick="" class="my-btn">정보수정</button>
             <button type="button" onclick="" class="my-btn">취소</button>
-            <button type="button" onclick="" class="my-btn">회원탈퇴</button>
-        </label>
+            <button type="button" onclick="" class="my-btn" id="popupBtn">회원탈퇴</button>
+        </div>
       </div>
+
+    <!-- 모달 팝업창 -->
+    <div id="modalWrap">
+        <div id="modalContent">
+            <div id="modalBody">
+                <span id="closeBtn">&times;</span> //닫기 버튼
+                <p>modal-popup 입니다.</p> //팝업창 내 글귀
+            </div>
+        </div>
     </div>
+
+<script  type="text/javascript">
+    const btn = document.getElementById('popupBtn');
+const modal = document.getElementById('modalWrap');
+const closeBtn = document.getElementById('closeBtn');
+
+btn.onclick = function() {
+  modal.style.display = 'block';
+}
+closeBtn.onclick = function() {
+  modal.style.display = 'none';
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
 </body>
 </html>

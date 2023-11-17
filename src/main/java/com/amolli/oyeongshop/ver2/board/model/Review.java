@@ -1,11 +1,9 @@
 package com.amolli.oyeongshop.ver2.board.model;
 
-import com.amolli.oyeongshop.ver2.board.dto.ReviewDTO;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.time.LocalDate;
