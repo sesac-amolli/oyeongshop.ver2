@@ -1,6 +1,7 @@
 package com.amolli.oyeongshop.ver2.security.config;
 
 import com.amolli.oyeongshop.ver2.security.config.oauth.PrincipalOauth2UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,14 +10,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터(=SecurityConfig)가 스프링 필터체인에 등록이 된다.
 @EnableGlobalMethodSecurity(securedEnabled = true) // secured 어노테이션 활성화
+@RequiredArgsConstructor
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private PrincipalOauth2UserService principalOauth2UserService;
+    private final PrincipalOauth2UserService principalOauth2UserService;
+    /* 로그인 실패 핸들러 의존성 주입 */
+    private final SimpleUrlAuthenticationFailureHandler customFailureHandler;
 
     //패스워드 암호화하는 빈등록
     @Bean //해당 메서드의 리턴되는 오브젝트를 IoC로 등록해준다.
@@ -43,6 +48,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .usernameParameter("userId")
                 .loginProcessingUrl("/login")
+                .failureHandler(customFailureHandler) // 로그인 실패 핸들러
                 .defaultSuccessUrl("/")
 
                 .and()
