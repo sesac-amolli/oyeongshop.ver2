@@ -54,7 +54,7 @@ function sample6_execDaumPostcode() {
 
 // 라디오 버튼 요소들을 가져옵니다.
 const radioButtons = document.querySelectorAll('input[name="addrType"]');
-const receiveNameInput = document.getElementById('orderAttnName');
+const orderAttnNameInput = document.getElementById('orderAttnName');
 const orderAttnPhoneInput = document.getElementById('orderAttnPhone');
 const orderAttnEmailInput = document.getElementById('orderAttnEmail');
 const orderAttnPostcodeInput = document.getElementById('orderAttnPostcode');
@@ -64,14 +64,14 @@ const orderAttnDetailInput = document.getElementById('orderAttnDetail');
 
 // 라디오 버튼의 변경 이벤트에 대한 리스너를 추가합니다.
 radioButtons.forEach(radioButton => {
-radioButton.addEventListener('change', function() {
-// 선택된 라디오 버튼의 값을 가져옵니다.
-const selectedValue = document.querySelector('input[name="addrType"]:checked').value;
+    radioButton.addEventListener('change', function() {
+        // 선택된 라디오 버튼의 값을 가져옵니다.
+        const selectedValue = document.querySelector('input[name="addrType"]:checked').value;
 
-console.log(selectedValue);
-// 집을 선택했을 때, orderUserDto의 값으로 input 요소들의 값을 변경합니다.
+        // 선택된 라디오 버튼에 따라 원하는 작업을 수행합니다.
         if (selectedValue === 'home') {
-            const orderUserDto = { /* orderUserDto의 값을 여기에 할당하면 됩니다. */ };
+            // 집을 선택한 경우에 수행할 작업
+            // orderUserDto를 기반으로 값 설정
             orderAttnNameInput.value = orderUser.userAttnName;
             orderAttnPhoneInput.value = orderUser.userAttnPhone;
             orderAttnEmailInput.value = orderUser.userAttnEmail;
@@ -80,7 +80,7 @@ console.log(selectedValue);
             orderAttnAddr2Input.value = orderUser.userAttnAddr2;
             orderAttnDetailInput.value = orderUser.userAttnDetail;
         } else {
-            // 다른 값을 선택했을 때, input 요소들의 값을 초기화합니다.
+            // 다른 값을 선택한 경우에 수행할 작업
             orderAttnNameInput.value = '';
             orderAttnPhoneInput.value = '';
             orderAttnEmailInput.value = '';
@@ -91,3 +91,48 @@ console.log(selectedValue);
         }
     });
 });
+//
+//if (selectedValue === 'home') {
+//    orderAttnName.value = orderUser.userAttnName;
+//    orderAttnPhone.value = orderUser.userAttnPhone;
+//    orderAttnEmail.value = orderUser.userAttnEmail;
+//    orderAttnPostcode.value = orderUser.userAttnPostcode;
+//    orderAttnAddr1.value = orderUser.userAttnAddr1;
+//    orderAttnAddr2.value = orderUser.userAttnAddr2;
+//    orderAttnDetail.value = orderUser.userAttnDetail;
+//} else {
+//    // "새로운 배송지"가 선택된 경우 또는 필요한 다른 로직을 처리합니다.
+//    orderAttnName.value = '';
+//    orderAttnPhone.value = '';
+//    orderAttnEmail.value = '';
+//    orderAttnPostcode.value = '';
+//    orderAttnAddr1.value = '';
+//    orderAttnAddr2.value = '';
+//    orderAttnDetail.value = '';
+//}
+//
+//// 라디오 버튼의 변경 이벤트를 처리하기 위해 이벤트 리스너를 추가합니다.
+//radioButtons.forEach(radioButton => {
+//    radioButton.addEventListener('change', function() {
+//        const selectedValue = document.querySelector('input[name="addrType"]:checked').value;
+//
+//        if (selectedValue === 'home') {
+//            orderAttnName.value = orderUser.userAttnName;
+//            orderAttnPhone.value = orderUser.userAttnPhone;
+//            orderAttnEmail.value = orderUser.userAttnEmail;
+//            orderAttnPostcode.value = orderUser.userAttnPostcode;
+//            orderAttnAddr1.value = orderUser.userAttnAddr1;
+//            orderAttnAddr2.value = orderUser.userAttnAddr2;
+//            orderAttnDetail.value = orderUser.userAttnDetail;
+//        } else {
+//            // "새로운 배송지"가 선택된 경우 또는 필요한 다른 로직을 처리합니다.
+//            orderAttnName.value = '';
+//            orderAttnPhone.value = '';
+//            orderAttnEmail.value = '';
+//            orderAttnPostcode.value = '';
+//            orderAttnAddr1.value = '';
+//            orderAttnAddr2.value = '';
+//            orderAttnDetail.value = '';
+//        }
+//    });
+//});
