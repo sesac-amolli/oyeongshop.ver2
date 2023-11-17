@@ -3,6 +3,7 @@ package com.amolli.oyeongshop.ver2.user.controller;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 
 import com.amolli.oyeongshop.ver2.user.dto.WishListDTO;
+import com.amolli.oyeongshop.ver2.user.model.Wishlist;
 import com.amolli.oyeongshop.ver2.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,10 +16,9 @@ import com.amolli.oyeongshop.ver2.user.service.CartService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @Controller
@@ -100,12 +100,22 @@ public class UserController {
         return "/user/wishlist";
     }
 
-    @PostMapping("/wishlist")
+    @ResponseBody
+    @PostMapping("/wishlist/{prodId}")
     public String uploadWishList(@AuthenticationPrincipal PrincipalDetails details,
-                                 @RequestParam("wishProdId") Long prodId, WishListDTO wishListDTO){
+                                 @PathVariable Long prodId, WishListDTO wishListDTO){
+        System.out.println("prodId"+prodId);
+        Long wishListId = userService.uploadWish(details, prodId, wishListDTO);
 
-        userService.uploadWish(details, prodId, wishListDTO);
+        return wishListId+"";
+    }
 
-        return "redirect:/product/detail/" + prodId;
+
+    @ResponseBody
+    @PostMapping("/wishlist-delete/{prodId}")
+    public void deleteWishList(@PathVariable Long prodId, @AuthenticationPrincipal PrincipalDetails details){
+        Long wishlistId = userService.findWishList(prodId, details);
+        userService.deleteWishList(wishlistId);
+        System.out.println("Controller~!~!~ wishlistId:::" + wishlistId);
     }
 }

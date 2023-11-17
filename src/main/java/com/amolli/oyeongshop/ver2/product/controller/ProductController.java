@@ -6,10 +6,14 @@ import com.amolli.oyeongshop.ver2.board.service.ReviewService;
 import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
+import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
+import com.amolli.oyeongshop.ver2.user.model.Wishlist;
+import com.amolli.oyeongshop.ver2.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -28,6 +33,7 @@ import java.util.stream.Collectors;
 public class ProductController {
     private final ProductService productService;
     private final ReviewService reviewService;
+    private final UserService userService;
 
     @GetMapping("/list/all/{sort}")
     public String productList(@PathVariable String sort, Model model) {
@@ -74,7 +80,7 @@ public class ProductController {
 
     // 상품 상세정보
     @GetMapping("/detail/{prodId}")
-    public ModelAndView productDetail(@PathVariable Long prodId, Model model) {
+    public ModelAndView productDetail(@PathVariable Long prodId, Model model, @AuthenticationPrincipal PrincipalDetails details) {
         Product product = productService.findById(prodId);
 
         // 중복 옵션 제거
@@ -88,10 +94,16 @@ public class ProductController {
 
         // 리뷰 List 불러오기
         List<Review> reviews = reviewService.findByProdId(prodId);
-
         List<ReviewResponseDTO> reviewdto = reviews.stream().map(ReviewResponseDTO::from).collect(Collectors.toList());
-
         model.addAttribute("reviewdto", reviewdto);
+
+        System.out.println("reviewdto");
+
+        // 찜여부 확인하기
+        Long wishlistId = userService.findWishList(prodId, details);
+        System.out.println("Controller~!~! Optional<Wishlist> wishlist::" + prodId + "yaya" + details.getUser().getUserId());
+        System.out.println("wishlist"+wishlistId);
+        model.addAttribute("wishListId",wishlistId);
 
         return mav;
     }
