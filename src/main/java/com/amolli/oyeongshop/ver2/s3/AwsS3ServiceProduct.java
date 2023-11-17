@@ -40,14 +40,14 @@ public class AwsS3ServiceProduct {
 
             try (InputStream inputStream = file.getInputStream()) {
                 // S3에 업로드 및 저장
-                amazonS3.putObject(new PutObjectRequest(bucket + "/product", fileName, inputStream, objectMetadata)
+                amazonS3.putObject(new PutObjectRequest(bucket + "/Product", fileName, inputStream, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
             } catch (IOException e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Photo upload failed.");
             }
 
             // Accessible URL 가져옴
-            imageUrls.add(amazonS3.getUrl(bucket + "/product", fileName).toString());
+            imageUrls.add(amazonS3.getUrl(bucket + "/Product", fileName).toString());
 
         }return imageUrls;
     }

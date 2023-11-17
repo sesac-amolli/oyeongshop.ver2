@@ -27,4 +27,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Modifying
     @Query("UPDATE Product p SET p.prodSalesDist = ?2 WHERE p.prodId = ?1")
     void updateSalesDist(Long prodId, String prodSalesDist);
+
+
+
+
 }

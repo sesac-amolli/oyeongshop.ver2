@@ -16,3 +16,4 @@ function toggleProductStatus(button) {
             console.log('Error updating product status');
         }
     });
+}

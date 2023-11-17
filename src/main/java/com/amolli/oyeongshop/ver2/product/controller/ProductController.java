@@ -3,16 +3,21 @@ package com.amolli.oyeongshop.ver2.product.controller;
 import com.amolli.oyeongshop.ver2.board.dto.ReviewResponseDTO;
 import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.service.ReviewService;
-import com.amolli.oyeongshop.ver2.product.dto.ProductDTO;
 import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
 import com.amolli.oyeongshop.ver2.product.model.Product;
+import com.amolli.oyeongshop.ver2.product.model.ProductImage;
+import com.amolli.oyeongshop.ver2.product.service.ProductImageMediaUtil;
+import com.amolli.oyeongshop.ver2.product.service.ProductImageServiceImpl;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
 import com.amolli.oyeongshop.ver2.s3.AwsS3ServiceProduct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +35,9 @@ public class ProductController {
     private final ProductService productService;
     private final ReviewService reviewService;
     private final AwsS3ServiceProduct awsS3ServiceProduct;
+
+    @Autowired
+    ProductImageServiceImpl productImageServiceImpl;
 
     // side-nav-for-user.html 에서 a태그 클릭 시 category 정보를 전달해주는 컨트롤러
     @RequestMapping(value="/list/{prodCategory}", method=RequestMethod.GET)
@@ -206,7 +214,7 @@ public class ProductController {
 
     // GET 리뷰 작성 페이지 조회(해당 페이지의 상품 id 가져와서)
     @GetMapping("/register/{prodId}")
-    public String productImage(@PathVariable Long prodId , Model model) {
+    public String productImage(@PathVariable Long prodId, Model model) {
 
         Product product = productService.findById(prodId);
 //        String prodName = product.getProdName();
@@ -222,23 +230,60 @@ public class ProductController {
     }
 
     // POST 리뷰 작성 (INSERT)
-    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadFileForProduct(@RequestParam(value = "image1", required = false) List<MultipartFile> files, ProductDTO productDTO
-                            ,@RequestParam("prodId") Long prodId) {
+//    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public String uploadFileForProduct(@RequestParam(value = "image1", required = false) List<MultipartFile> files, ProductDTO productDTO
+//                            ,@RequestParam("prodId") Long prodId) {
+//
+//        System.out.println("5555555555555");
+//        List<String> imagepath = null;
+//
+//        // 멀티파트파일->S3에 업로드 하고 imageUrls 리스트로 받아옴
+//        if(!ObjectUtils.isEmpty(files) && !files.get(0).getOriginalFilename().equals("")){
+//            imagepath = awsS3ServiceProduct.uploadS3ForProduct(files);
+//        }
+//
+//        // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
+//        // 추후 변경 1L -> prodId 로
+//        productService.uploadDBForProduct(imagepath, productDTO, prodId);
+//
+//        return "/product/product-register";
+//    }
 
-        System.out.println("5555555555555");
-        List<String> imagepath = null;
+    @GetMapping("/product/register/detail/{prodId}")
+    @ResponseBody
+    public ResponseEntity<?> serveFile(@PathVariable Long prodId) {
+        try {
+            ProductImage productImage = productImageServiceImpl.load(prodId);
+            HttpHeaders headers = new HttpHeaders();
 
-        // 멀티파트파일->S3에 업로드 하고 imageUrls 리스트로 받아옴
-        if(!ObjectUtils.isEmpty(files) && !files.get(0).getOriginalFilename().equals("")){
-            imagepath = awsS3ServiceProduct.uploadS3ForProduct(files);
+            String fileName = productImage.getFileName();
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\"");
+
+            if (ProductImageMediaUtil.containsImageMediaType(productImage.getContentType())) {
+                headers.setContentType(MediaType.valueOf(productImage.getContentType()));
+            } else {
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            }
+
+            Resource resource = productImageServiceImpl.loadAsResource(productImage.getSaveFileName());
+            return ResponseEntity.ok().headers(headers).body(resource);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
+    }
 
-        // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
-        // 추후 변경 1L -> prodId 로
-        productService.uploadDBForProduct(imagepath, productDTO, prodId);
-
-        return "/product/product-register";
+    @PostMapping("/product/register/detail")
+    @ResponseBody
+    public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file) {
+        try {
+            ProductImage uploadedFile = productImageServiceImpl.store(file);
+            return ResponseEntity.ok().body("/image/" + uploadedFile.getProdDetailImgId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
     }
 }
 

@@ -52,3 +52,4 @@ function sendDataToCart(button) {
     $("#cartSubForm").submit();
 
 }
+

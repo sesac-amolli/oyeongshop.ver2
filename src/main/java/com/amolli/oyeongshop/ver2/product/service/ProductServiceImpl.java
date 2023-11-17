@@ -160,36 +160,36 @@ ProductServiceImpl implements ProductService {
 
 
     // [상품 상세정보 수정]
-    public void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId) {
-        // CrudRepository에서 findById는 return 타입이 Optional이다.
-        // 아래를 productRepository.findById(prodId).orElse()Repository 한줄로도 가능
-        // prodId 받아서 findById 해서 Product 객체에 넣어줌
-        Optional<Product> optionalProduct = productRepository.findById(prodId);
-        String userId = "kiko139";
-        // ReviewDto를 Entity로 바꿔주고 review엔티티에 넣어줌.
-
-        // optionalProduct가 존재하지 않으면 RuntimeException 던지기
-        if (!optionalProduct.isPresent()) {
-            throw new RuntimeException("Prod id: " + prodId + " can not found!!");
-        }
-
-        Product product = productDTO.toEntity();
-
-        // ProductId도 같이 insert 해야돼서 optionalProduct를 다 get해서 review에 set해줌
-//        product.setProduct(optionalProduct.get());
-
-        if(!CollectionUtils.isEmpty(imageUrls)) {
-            for (String url : imageUrls) {
-                ProductImage productImage = new ProductImage();
-
-                // reviewImg에 url 하나씩 serverfilename에 set
-                productImage.setProdDetailImgName(url);
-
-                product.addProductImage(productImage);
-            }
-        }
-
-        // review db에 insert
-        productRepository.save(product);
-    }
+//    public void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId) {
+//        // CrudRepository에서 findById는 return 타입이 Optional이다.
+//        // 아래를 productRepository.findById(prodId).orElse()Repository 한줄로도 가능
+//        // prodId 받아서 findById 해서 Product 객체에 넣어줌
+//        Optional<Product> optionalProduct = productRepository.findById(prodId);
+//        String userId = "kiko139";
+//        // ReviewDto를 Entity로 바꿔주고 review엔티티에 넣어줌.
+//
+//        // optionalProduct가 존재하지 않으면 RuntimeException 던지기
+//        if (!optionalProduct.isPresent()) {
+//            throw new RuntimeException("Prod id: " + prodId + " can not found!!");
+//        }
+//
+//        Product product = productDTO.toEntity();
+//
+//        // ProductId도 같이 insert 해야돼서 optionalProduct를 다 get해서 review에 set해줌
+////        product.setProduct(optionalProduct.get());
+//
+//        if(!CollectionUtils.isEmpty(imageUrls)) {
+//            for (String url : imageUrls) {
+//                ProductImage productImage = new ProductImage();
+//
+//                // reviewImg에 url 하나씩 serverfilename에 set
+//                productImage.setProdDetailImgName(url);
+//
+//                product.addProductImage(productImage);
+//            }
+//        }
+//
+//        // review db에 insert
+//        productRepository.save(product);
+//    }
 }

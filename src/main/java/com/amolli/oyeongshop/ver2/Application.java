@@ -2,6 +2,7 @@ package com.amolli.oyeongshop.ver2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Application {
@@ -13,6 +14,11 @@ public class Application {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
+	}
+
+	@Bean(name = "uploadPath")
+	public String uploadPath() {
+		return "C:\\Users\\User\\Desktop\\pictures\\";
 	}
 
 }

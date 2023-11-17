@@ -17,7 +17,7 @@ public interface ProductService {
     String UpdataSalesStatusYesNo(Long prodId); // [상품 관리] - 상품판매구분 YES, NO 토글
     int getTotalProductCount(); // [상품 관리] - 전체 상품의 수 조회(count 함수)
 
-    void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId);
+//    void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId);
 
 //    void uploadDB(List<String> imageUrls, ProductRegisterRequest productRegisterRequest);
 
