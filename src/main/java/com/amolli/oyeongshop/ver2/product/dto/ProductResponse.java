@@ -28,7 +28,8 @@ public class ProductResponse {
     private String prodSalesDist;
     private List<ProductOptionResponse> productOptionResponses;
 
-    public ProductResponse(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, LocalDateTime prodRegDate, String prodCategory, String prodCategoryDetail, String prodMainImgPath, String prodSalesDist, List<ProductOptionResponse> productOptionResponses) {
+    public ProductResponse(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, LocalDateTime prodRegDate, String prodCategory,
+                           String prodCategoryDetail, String prodMainImgPath, String prodSalesDist, List<ProductOptionResponse> productOptionResponses) {
         this.prodId = prodId;
         this.prodCode = prodCode;
         this.prodName = prodName;
@@ -56,6 +57,7 @@ public class ProductResponse {
         final List<ProductOptionResponse> productOptionResponses = product.getProductOptions().stream().map(ProductOptionResponse::from)
                 .collect(Collectors.toList());
 
-        return new ProductResponse(prodId, prodCode, prodName, prodOriginPrice,prodSalesPrice,prodRegDate,prodCategory,prodCategoryDetail,prodMainImgPath, prodSalesDist, productOptionResponses);
+        return new ProductResponse(prodId, prodCode, prodName, prodOriginPrice,prodSalesPrice,prodRegDate,prodCategory,
+                prodCategoryDetail, prodMainImgPath, prodSalesDist, productOptionResponses);
     }
 }
