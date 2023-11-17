@@ -18,6 +18,7 @@ public class ReviewImgResponseDTO {
         this.reviewImgUrl = reviewImgUrl;
     }
 
+
     //    // 미사용
 //    public ReviewImg toEntity() {
 //        return ReviewImg.builder()
@@ -31,5 +32,3 @@ public class ReviewImgResponseDTO {
         return new ReviewImgResponseDTO(reviewImgId, reviewImgUrl);
     }
 }
-
-

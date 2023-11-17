@@ -5,12 +5,11 @@ import com.amolli.oyeongshop.ver2.security.config.oauth.provider.GoogleUserInfo;
 import com.amolli.oyeongshop.ver2.security.config.oauth.provider.KaKaoUserInfo;
 import com.amolli.oyeongshop.ver2.security.config.oauth.provider.NaverUserInfo;
 import com.amolli.oyeongshop.ver2.security.config.oauth.provider.OAuth2UserInfo;
+import com.amolli.oyeongshop.ver2.user.model.Cart;
 import com.amolli.oyeongshop.ver2.user.model.Point;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -73,8 +72,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                             .userPhone(phone)
                             .userSnsDist(provider)
                             .build());
-            Point point = new Point("적립", "회원가입 축하 적립금", 1000L);
-            userEntity.get().givePoint(1000L, point);
+//            Point point = new Point("적립", "회원가입 축하 적립금", 1000L);
+            userEntity.get().givePoint(1000L, new Point("적립", "회원가입 축하 적립금", 1000L));
+            userEntity.get().createCart(new Cart(userEntity.get()));
             userRepository.save(userEntity.get());
         }
 
