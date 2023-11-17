@@ -52,7 +52,7 @@ public class UserController {
         String userId = userDetails.getUser().getUserId();
 //        User user = userService.getUserById(userId);
         Cart cart = cartService.viewCartList(userId);
-        User user = userService.getUserById(userId);
+//        User user = userService.getUserById(userId);
         System.out.println("cart controller@!#!@#@@@" + cart);
 
         CartResponseDTO cartResponseDTO = new CartResponseDTO();
