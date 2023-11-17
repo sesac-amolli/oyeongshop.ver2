@@ -8,15 +8,15 @@ import lombok.*;
 @Data
 public class CartItemResponseDTO {
 
-    private Long prodId;
+    private Long cartItemId;
     private String color;
     private String size;
     private int quantity;
     private Long prodSalesPrice;
     private String prodName;
 
-    public CartItemResponseDTO(Long prodId, String color, String size, int quantity, Long prodSalesPrice, String prodName) {
-        this.prodId = prodId;
+    public CartItemResponseDTO(Long cartItemId, String color, String size, int quantity, Long prodSalesPrice, String prodName) {
+        this.cartItemId = cartItemId;
         this.color = color;
         this.size = size;
         this.quantity = quantity;
@@ -26,13 +26,13 @@ public class CartItemResponseDTO {
     }
 
     public static CartItemResponseDTO from(CartItem cartItem){
-        final Long id = cartItem.getProductOption().getProdOptId();
+        final Long cartItemId = cartItem.getId();
         final String color = cartItem.getProductOption().getProdOptColor();
         final String size = cartItem.getProductOption().getProdOptSize();
         final int quantity = cartItem.getCartItemAmount();
         final Long prodSalesPrice = cartItem.getProductOption().getProduct().getProdSalesPrice();
         final String prodName = cartItem.getProductOption().getProduct().getProdName();
-        return new CartItemResponseDTO(id, color, size, quantity, prodSalesPrice, prodName);
+        return new CartItemResponseDTO(cartItemId, color, size, quantity, prodSalesPrice, prodName);
     }
 
 
