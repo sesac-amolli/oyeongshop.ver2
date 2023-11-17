@@ -11,7 +11,6 @@ import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -32,6 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewImgRepository reviewImgRepository;
 
     // uploadS3에서 받아온 url리스트, ReviewDTO
+    @Override
     public void uploadDB(List<String> imageUrls, ReviewDTO reviewDTO, Long prodId, PrincipalDetails userDetails) {
         // CrudRepository에서 findById는 return 타입이 Optional이다.
         // 아래를 productRepository.findById(prodId).orElse()Repository 한줄로도 가능
@@ -66,18 +66,24 @@ public class ReviewServiceImpl implements ReviewService {
         reviewRepository.save(review);
     }
 
+    @Override
     public List<Review> findAll() {
         return reviewRepository.findAll();
     }
 
+    @Override
     public List<Review> findByProdId(Long prodId) {
         return reviewRepository.findByProduct_ProdId(prodId);
     }
 
-
+    @Override
     public List<Review> findByUserId(String userId) {
         return reviewRepository.findByUser_UserId(userId);
     }
 
-    public void deleteMyReview(Long reviewId) { reviewRepository.deleteById(reviewId); }
+    @Override
+    public void deleteMyReview(Long reviewId) {
+        reviewRepository.deleteById(reviewId);
+    }
+
 }

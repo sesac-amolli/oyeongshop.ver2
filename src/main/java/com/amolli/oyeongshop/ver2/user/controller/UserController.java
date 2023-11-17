@@ -1,18 +1,18 @@
 package com.amolli.oyeongshop.ver2.user.controller;
 
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
-import com.amolli.oyeongshop.ver2.user.dto.CartItemRequestDTO;
-import com.amolli.oyeongshop.ver2.user.dto.CartItemResponseDTO;
-import com.amolli.oyeongshop.ver2.user.dto.CartResponseDTO;
-import com.amolli.oyeongshop.ver2.user.model.Cart;
-import com.amolli.oyeongshop.ver2.user.model.CartItem;
-import com.amolli.oyeongshop.ver2.user.model.User;
-import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
-import com.amolli.oyeongshop.ver2.user.service.CartService;
+
+import com.amolli.oyeongshop.ver2.user.dto.WishListDTO;
 import com.amolli.oyeongshop.ver2.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+
+import com.amolli.oyeongshop.ver2.user.dto.CartItemRequestDTO;
+import com.amolli.oyeongshop.ver2.user.dto.CartResponseDTO;
+import com.amolli.oyeongshop.ver2.user.model.Cart;
+import com.amolli.oyeongshop.ver2.user.model.User;
+import com.amolli.oyeongshop.ver2.user.service.CartService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,15 +20,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
 
+
     private final CartService cartService;
+
     private final UserService userService;
 
     @GetMapping("/mypage")
@@ -98,5 +98,14 @@ public class UserController {
     public String wishlist(){
 
         return "/user/wishlist";
+    }
+
+    @PostMapping("/wishlist")
+    public String uploadWishList(@AuthenticationPrincipal PrincipalDetails details,
+                                 @RequestParam("wishProdId") Long prodId, WishListDTO wishListDTO){
+
+        userService.uploadWish(details, prodId, wishListDTO);
+
+        return "redirect:/product/detail/" + prodId;
     }
 }

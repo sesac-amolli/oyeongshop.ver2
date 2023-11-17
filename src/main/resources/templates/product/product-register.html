@@ -19,8 +19,8 @@
 <body layout:fragment="content">
 <section class="main"></section>
 
-<div th:if="${product.prodId == null}" style="font-size: 18px; font-weight: bold;">상품 등록</div>
-<div th:if="${product.prodId != null}" style="font-size: 18px; font-weight: bold;">상품 정보 수정</div>
+<div th:if="${product.prodId == null}" style="font-size: 18px; font-weight: bold;">상품 기본 정보 등록</div>
+<div th:if="${product.prodId != null}" style="font-size: 18px; font-weight: bold;">상품 기본 정보 수정</div>
 
 <form th:action="${product.prodId != null} ? '/product/edit/' + ${product.prodId} : '/product/register'"
       th:object="${product}" class="qna-register" method="post">
@@ -68,32 +68,16 @@
                 <input type="text" th:field="*{prodCategoryDetail}" />
             </td>
         </tr>
-        <tr>
-            <td class="title">상품설명</td>
-            <td class="content">
-                <input type="text" th:field="*{prodDesc}" />
-            </td>
-        </tr>
-        <!-- 등록일 숨김 처리 -->
-        <tr class="hidden">
-            <td class="title">등록일</td>
-            <td class="content">
-                <input type="text" th:field="*{prodRegDate}" readonly />
-            </td>
-        </tr>
-        <!-- 상품메인이지미경로 숨김 처리 -->
-        <tr class="hidden">
-            <td class="title">상품메인이지미경로</td>
-            <td class="content">
-                <input type="text" th:field="*{prodMainImgPath}" readonly />
-            </td>
-        </tr>
+
+        <!-- 숨김 처리 정보 -->
+        <input type="text" th:field="*{prodRegDate}" readonly class="hidden"/>
+        <input type="text" th:field="*{prodMainImgPath}" readonly class="hidden"/>
         <tr class="hidden">
             <!-- prod_sales_dist가 null이면 'NO'로 출력, 그렇지 않으면 현재 값으로 출력 -->
             <td class="title">상품판매등록여부</td>
             <td class="content">
                 <input type="text" th:if="${product.prodSalesDist == null}">NO</input>
-                <input type="text" th:unless="${product.prodSalesDist == null}" th:field="${product.prodSalesDist}"></input>
+                <input type="text" th:unless="${product.prodSalesDist == null}" th:field="${product.prodSalesDist}" />
             </td>
         </tr>
     </table>
@@ -101,6 +85,7 @@
         <button type="submit" th:text="${product.prodId != null} ? '수정하기' : '등록하기'">등록하기</button>
     </div>
 </form>
-    
+
+<script src="/js/product/product-register.js"></script> <!-- 외부 JavaScript 파일 연결 -->
 </body>
 </html>
