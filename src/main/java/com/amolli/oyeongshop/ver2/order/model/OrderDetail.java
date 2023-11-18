@@ -43,14 +43,16 @@ public class OrderDetail {
         orderDetail.setOrderDetailAmount(count);
         orderDetail.setOrderDetailSalesPrice(orderDetailSalesPrice);
         orderDetail.setOrderDetailOriginPrice(orderDetailOriginPrice);
+
+        System.out.println("테스트 2 " + orderDetail);
         return orderDetail;
     }
 
-    public long getTotalSalesPrice(){
+    public Long getTotalSalesPrice(){
         return orderDetailSalesPrice*orderDetailAmount;
     }
 
-    public long getTotalOriginPrice(){
+    public Long getTotalOriginPrice(){
         return orderDetailOriginPrice*orderDetailAmount;
     }
 }
