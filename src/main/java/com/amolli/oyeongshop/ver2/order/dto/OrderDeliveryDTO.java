@@ -7,7 +7,7 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class OrderDeliveryDto {
+public class OrderDeliveryDTO {
 
     private String orderAttnName;
 
@@ -26,7 +26,7 @@ public class OrderDeliveryDto {
     private String orderAttnRequest;
 
 
-    public OrderDeliveryDto(String orderAttnName, String orderAttnPhone, String orderAttnEmail, String orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest) {
+    public OrderDeliveryDTO(String orderAttnName, String orderAttnPhone, String orderAttnEmail, String orderAttnPostcode, String orderAttnAddr1, String orderAttnAddr2, String orderAttnDetail, String orderAttnRequest) {
         this.orderAttnName = orderAttnName;
         this.orderAttnPhone = orderAttnPhone;
         this.orderAttnEmail = orderAttnEmail;

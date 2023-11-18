@@ -108,6 +108,15 @@ public class ProductController {
     // [상품 상세 정보] - 선택한 상품 보기
     @GetMapping("/detail/{prodId}")
     public ModelAndView productDetail(@PathVariable Long prodId, Model model, @AuthenticationPrincipal PrincipalDetails details) {
+
+        // - 나영 - @AuthenticationPrincipal PrincipalDetails null 처리 후 찜id view에 넘겨주기
+        if(details != null) {
+            // 찜여부 확인하기
+            Long wishlistId = userService.findWishList(prodId, details);
+            model.addAttribute("wishListId",wishlistId);
+        }
+
+
         Product product = productService.findById(prodId);
 
         // 중복 옵션 제거
@@ -119,18 +128,11 @@ public class ProductController {
         // Thymeleaf에 데이터를 전달
         mav.addObject(productService.findById(prodId));
 
-        // 리뷰 List 불러오기
+
+        // - 나영 - 리뷰 List 불러오기
         List<Review> reviews = reviewService.findByProdId(prodId);
         List<ReviewResponseDTO> reviewdto = reviews.stream().map(ReviewResponseDTO::from).collect(Collectors.toList());
         model.addAttribute("reviewdto", reviewdto);
-
-        System.out.println("reviewdto");
-
-        // 찜여부 확인하기
-        Long wishlistId = userService.findWishList(prodId, details);
-        System.out.println("Controller~!~! Optional<Wishlist> wishlist::" + prodId + "yaya" + details.getUser().getUserId());
-        System.out.println("wishlist"+wishlistId);
-        model.addAttribute("wishListId",wishlistId);
 
         return mav;
     }
