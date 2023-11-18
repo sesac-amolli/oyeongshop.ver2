@@ -52,7 +52,8 @@ public class Product {
     private List<Wishlist> wishLists = new ArrayList<>();
 
     @Builder
-    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, String prodCategory, String prodCategoryDetail, LocalDateTime prodRegDate, LocalDateTime prodEditDate, String prodSalesDist, String prodDesc, List<ProductOption> productOptions) {
+    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, String prodCategory, String prodCategoryDetail,
+                   LocalDateTime prodRegDate, LocalDateTime prodEditDate, String prodSalesDist, String prodDesc, List<ProductOption> productOptions) {
         this.prodId = prodId;
         this.prodCode = prodCode;
         this.prodName = prodName;

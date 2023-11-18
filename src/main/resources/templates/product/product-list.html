@@ -40,6 +40,7 @@
                         <div class="img_cover">
                             <img class="product_img" alt="" th:src="${productList[iterStat.index].prodMainImgPath}">
                             <p th:text="${productList[iterStat.index].prodName}"></p>
+                            <p style="text-decoration: line-through;" th:text="${productList[iterStat.index].prodOriginPrice + '원'}"></p>
                             <p th:text="${productList[iterStat.index].prodSalesPrice + '원'}"></p>
                         </div>
                     </a>
@@ -49,6 +50,7 @@
                         <div class="img_cover">
                             <img class="product_img" alt="" th:src="${productList[iterStat.index+1].prodMainImgPath}">
                             <p th:text="${productList[iterStat.index+1].prodName}"></p>
+                            <p style="text-decoration: line-through;" th:text="${productList[iterStat.index+1].prodOriginPrice + '원'}"></p>
                             <p th:text="${productList[iterStat.index+1].prodSalesPrice + '원'}"></p>
                         </div>
                     </a>
@@ -58,6 +60,7 @@
                         <div class="img_cover">
                             <img class="product_img" alt="" th:src="${productList[iterStat.index+2].prodMainImgPath}">
                             <p th:text="${productList[iterStat.index+2].prodName}"></p>
+                            <p style="text-decoration: line-through;" th:text="${productList[iterStat.index+2].prodOriginPrice + '원'}"></p>
                             <p th:text="${productList[iterStat.index+2].prodSalesPrice + '원'}"></p>
                         </div>
                     </a>

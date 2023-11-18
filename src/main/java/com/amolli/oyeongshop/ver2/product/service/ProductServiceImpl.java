@@ -34,7 +34,7 @@ ProductServiceImpl implements ProductService {
 
     // [상품 등록] - 상품 정보를 저장
     @Override
-    public Product save(Product product) {
+    public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
 
@@ -57,6 +57,7 @@ ProductServiceImpl implements ProductService {
                     dto.setProdId(product.getProdId());
                     dto.setProdName(product.getProdName());
                     dto.setProdCategory(product.getProdCategory());
+                    dto.setProdOriginPrice(product.getProdOriginPrice());
                     dto.setProdSalesPrice(product.getProdSalesPrice());
                     dto.setProdMainImgPath(product.getProdMainImgPath());
                     return dto;
@@ -83,6 +84,7 @@ ProductServiceImpl implements ProductService {
                     dto.setProdId(product.getProdId());
                     dto.setProdName(product.getProdName());
                     dto.setProdCategory(product.getProdCategory());
+                    dto.setProdOriginPrice(product.getProdOriginPrice());
                     dto.setProdSalesPrice(product.getProdSalesPrice());
                     dto.setProdMainImgPath(product.getProdMainImgPath());
                     return dto;
@@ -91,13 +93,12 @@ ProductServiceImpl implements ProductService {
     }
 
     // [상품 상세 정보] - 선택된 상품의 상세 정보 보기
-    public Product findById(Long prodId){
+    public Product findById(Long prodId) {
         Optional<Product> OptionalProduct = productRepository.findById(prodId);
 
         if (OptionalProduct.isPresent()) {
             return OptionalProduct.get();
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -125,17 +126,17 @@ ProductServiceImpl implements ProductService {
         Page<Product> productPage = productRepository.findAll(pageRequest);
 
         return productPage.getContent().stream()
-            .map(product -> {
-                ProductResponse dto = new ProductResponse();
-                dto.setProdId(product.getProdId());
-                dto.setProdName(product.getProdName());
-                dto.setProdCode(product.getProdCode());
-                dto.setProdCategory(product.getProdCategory());
-                dto.setProdRegDate(product.getProdRegDate());
-                dto.setProdSalesDist(product.getProdSalesDist());
-                return dto;
-            })
-            .collect(Collectors.toList());
+                .map(product -> {
+                    ProductResponse dto = new ProductResponse();
+                    dto.setProdId(product.getProdId());
+                    dto.setProdName(product.getProdName());
+                    dto.setProdCode(product.getProdCode());
+                    dto.setProdCategory(product.getProdCategory());
+                    dto.setProdRegDate(product.getProdRegDate());
+                    dto.setProdSalesDist(product.getProdSalesDist());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     // [상품 관리] - 상품판매구분 YES, NO 토글
@@ -178,12 +179,12 @@ ProductServiceImpl implements ProductService {
         // ProductId도 같이 insert 해야돼서 optionalProduct를 다 get해서 review에 set해줌
 //        product.setProduct(optionalProduct.get());
 
-        if(!CollectionUtils.isEmpty(imageUrls)) {
+        if (!CollectionUtils.isEmpty(imageUrls)) {
             for (String url : imageUrls) {
                 ProductImage productImage = new ProductImage();
 
                 // reviewImg에 url 하나씩 serverfilename에 set
-                productImage.setProdDetailImgName(url);
+                productImage.setProdServerFilePath(url);
 
                 product.addProductImage(productImage);
             }
