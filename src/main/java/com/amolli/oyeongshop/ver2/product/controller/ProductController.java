@@ -94,7 +94,7 @@ public class ProductController {
 
     // [상품 상세 정보] - 선택한 상품 보기
     @GetMapping("/detail/{prodId}")
-    public ModelAndView productDetail(@PathVariable Long prodId, Model model, @AuthenticationPrincipal PrincipalDetails details) {
+    public ModelAndView productDetail(@PathVariable Long prodId, Model model) {
         Product product = productService.findById(prodId);
 
         // 중복 옵션 제거
@@ -114,10 +114,10 @@ public class ProductController {
         System.out.println("reviewdto");
 
         // 찜여부 확인하기
-        Long wishlistId = userService.findWishList(prodId, details);
-        System.out.println("Controller~!~! Optional<Wishlist> wishlist::" + prodId + "yaya" + details.getUser().getUserId());
-        System.out.println("wishlist"+wishlistId);
-        model.addAttribute("wishListId",wishlistId);
+//        Long wishlistId = userService.findWishList(prodId, details);
+//        System.out.println("Controller~!~! Optional<Wishlist> wishlist::" + prodId + "yaya" + details.getUser().getUserId());
+//        System.out.println("wishlist"+wishlistId);
+//        model.addAttribute("wishListId",wishlistId);
 
         return mav;
     }
