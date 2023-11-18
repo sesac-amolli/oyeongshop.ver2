@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class OrderDto {
 
-
     private Long prodOptId; // 상품 ID
     private String productName; // 상품명
     private Long prodOriginPrice;
@@ -16,8 +15,8 @@ public class OrderDto {
     private String color; // 상품 색상
     private String size; // 상품 크기
     private String prodMainImgPath;
-    private Long itemAmount;
-    private Long totalAmount;
-    private Long discountAmount;
-    private Long totalPaymentAmount;
+    private Long itemAmount; //제품별 총액(제품 가격 * 수량)
+    private Long orderTotalOriginPrice; // 주문할 제품 전체에 대한 총액
+    private Long discountAmount;  // 할인 된 금액
+    private Long totalOrderPayment; // TotalAmount - 할인금액 - 포인트 = 총 결제금액
 }

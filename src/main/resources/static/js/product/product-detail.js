@@ -15,20 +15,5 @@ function sendDataToDirectOrder(button) {
     $("[name=prodSalesPrice]").val(prodSalesPrice);
 
     $("#orderSubForm").submit();
-    // Send Ajax request to update product status
-    //console.log("id", prodId);
-   /* $.ajax({
-        type: 'POST',
-        url: '/order/to-order/',
-        contentType: 'application/json',
-        data: JSON.stringify({prodId: prodId, color:prodOptColor, size:prodOptSize, quantity:quantity, prodSalesPrice:prodSalesPrice})
-        ,success: function (result) {
-            console.log("result",result);
-            // Update button text and class based on the new status
-        },
-        error: function (e) {
-            console.log('Error updating product status');
-        }
-    });*/
 
 }

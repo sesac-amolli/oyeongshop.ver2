@@ -14,8 +14,8 @@ public class OrderItemDto {
     private String color;
     private String size;
     private Long quantity; // 주문 수량
+    private Long prodOriginPrice;
     private Long prodSalesPrice;
     private Long prodOptId;
-
 
 }

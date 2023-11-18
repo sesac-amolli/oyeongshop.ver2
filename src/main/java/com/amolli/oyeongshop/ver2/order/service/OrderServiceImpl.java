@@ -3,7 +3,6 @@ package com.amolli.oyeongshop.ver2.order.service;
 import com.amolli.oyeongshop.ver2.order.dto.*;
 import com.amolli.oyeongshop.ver2.order.model.Order;
 import com.amolli.oyeongshop.ver2.order.model.OrderDetail;
-import com.amolli.oyeongshop.ver2.order.repository.OrderDetailRepository;
 import com.amolli.oyeongshop.ver2.order.repository.OrderRepository;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.model.ProductOption;
@@ -11,10 +10,8 @@ import com.amolli.oyeongshop.ver2.product.repository.ProductOptionRepository;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 import com.amolli.oyeongshop.ver2.user.model.User;
-import com.amolli.oyeongshop.ver2.user.model.UserAddr;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -32,25 +29,20 @@ public class OrderServiceImpl implements OrderService{
     private final ProductOptionRepository productOptionRepository;
     private final ProductService productService;
 
-    public Long order(OrderDetailsDto orderDetailsDTO, OrderDeliveryDto orderDeliveryDTO, String userId){
-
-        for(OrderItemDto od : orderDetailsDTO.getOrderDetails()){
-//            OrderEntity order = od.toEntity();
-//            orderRep.save(order);
-        }
+    public Long order(OrderItemsDto orderItemsDTO, OrderDeliveryDto orderDeliveryDTO, OrderPriceDTO orderPriceDTO, String userId){
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         List<OrderDetail> orderDetailList = new ArrayList<>();
-        for(OrderItemDto itemDTO : orderDetailsDTO.getOrderDetails()){
+        for(OrderItemDto itemDTO : orderItemsDTO.getOrderItems()){
             ProductOption productOption = productOptionRepository.findById(itemDTO.getProdOptId())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
-            OrderDetail orderDetail = OrderDetail.createOrderDetail(productOption, itemDTO.getQuantity(), itemDTO.getProdSalesPrice());
+            OrderDetail orderDetail = OrderDetail.createOrderDetail(productOption, itemDTO.getQuantity(), itemDTO.getProdSalesPrice(), itemDTO.getProdOriginPrice());
             orderDetailList.add(orderDetail);
         }
 
-        Order order = Order.createOrder(user, orderDetailList, orderDeliveryDTO);
+        Order order = Order.createOrder(user, orderDetailList, orderDeliveryDTO, orderPriceDTO);
 
         orderRepository.save(order);
 
