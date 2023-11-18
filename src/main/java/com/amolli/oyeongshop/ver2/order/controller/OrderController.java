@@ -20,16 +20,18 @@ public class OrderController {
 
     @PostMapping(value = "/to-order")
     //public String orderAdd(Model model, @RequestBody OrderItemDto orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails){
-    public String orderAdd(Model model, OrderItemDto orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails){
+    public String orderAdd(Model model, OrderItemDTO orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails){
 
-        OrderDto preparedOrderDTO = orderService.setPreparedOrderDto(orderItemDto);
+//        OrderDTO preparedOrderDTO = orderService.setPreparedOrderDto(orderItemDto);
+
+        OrdersDTO ordersDTO = orderService.setOrdersDTO(orderItemDto);
 
         String userId = userDetails.getUser().getUserId();
 
-        OrderUserDto orderUserDto = orderService.setOrderUserDto(userDetails);
+        OrderUserDTO orderUserDto = orderService.setOrderUserDto(userDetails);
 
         model.addAttribute("orderUser", orderUserDto);
-        model.addAttribute("orderItem", preparedOrderDTO);
+        model.addAttribute("orderItem", ordersDTO);
 
        return "/order/order";
     }
@@ -37,14 +39,14 @@ public class OrderController {
     @PostMapping(value="/to-orders")
     public String orderAdds(Model model, @RequestParam List<Long> selectedItems, @AuthenticationPrincipal PrincipalDetails userDetails){
 
-
+        //OrdersDto ordersDTO
 
         return "/order/order";
     }
 
     @RequestMapping(value = "/create-order")
-    public String order(OrderItemsDto orderItemsDTO,
-                        OrderDeliveryDto orderDeliveryDTO,
+    public String order(OrderItemsDTO orderItemsDTO,
+                        OrderDeliveryDTO orderDeliveryDTO,
                         OrderPriceDTO orderPriceDTO,
                         Model model, @AuthenticationPrincipal PrincipalDetails userDetails) {
 

@@ -29,13 +29,13 @@ public class OrderServiceImpl implements OrderService{
     private final ProductOptionRepository productOptionRepository;
     private final ProductService productService;
 
-    public Long order(OrderItemsDto orderItemsDTO, OrderDeliveryDto orderDeliveryDTO, OrderPriceDTO orderPriceDTO, String userId){
+    public Long order(OrderItemsDTO orderItemsDTO, OrderDeliveryDTO orderDeliveryDTO, OrderPriceDTO orderPriceDTO, String userId){
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         List<OrderDetail> orderDetailList = new ArrayList<>();
-        for(OrderItemDto itemDTO : orderItemsDTO.getOrderItems()){
+        for(OrderItemDTO itemDTO : orderItemsDTO.getOrderItems()){
             ProductOption productOption = productOptionRepository.findById(itemDTO.getProdOptId())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
             OrderDetail orderDetail = OrderDetail.createOrderDetail(productOption, itemDTO.getQuantity(), itemDTO.getProdSalesPrice(), itemDTO.getProdOriginPrice());
@@ -50,7 +50,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public OrderUserDto setOrderUserDto(PrincipalDetails userDetails) {
+    public OrderUserDTO setOrderUserDto(PrincipalDetails userDetails) {
 
         String userId = userDetails.getUser().getUserId();
 
@@ -58,32 +58,67 @@ public class OrderServiceImpl implements OrderService{
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with id : " + userId));
         System.out.println("user Info : " + user.getUserId());
 
-        OrderUserDto orderUserDto = new OrderUserDto(user);
+        OrderUserDTO orderUserDto = new OrderUserDTO(user);
 
         return orderUserDto;
     }
 
+    @Override
+    public OrdersDTO setOrdersDTO(OrderItemDTO orderItemDto) {
+
+        OrdersDTO ordersDTO = new OrdersDTO();
+
+        OrderDTO prepareOrderDTO = new OrderDTO();
+
+        Product product = productService.findById(orderItemDto.getProdId());
+        prepareOrderDTO.setProdOptId(productOptionRepository.findProdOptIdByProdIdAndProdOptColorAndProdOptSize(orderItemDto.getProdId(), orderItemDto.getColor(), orderItemDto.getSize()));
+        prepareOrderDTO.setProductName(product.getProdName());
+        prepareOrderDTO.setProdOriginPrice(product.getProdOriginPrice());
+        prepareOrderDTO.setProdSalesPrice(orderItemDto.getProdSalesPrice());
+        prepareOrderDTO.setQuantity(orderItemDto.getQuantity());
+        prepareOrderDTO.setColor(orderItemDto.getColor());
+        prepareOrderDTO.setSize(orderItemDto.getSize());
+        prepareOrderDTO.setProdMainImgPath(product.getProdMainImgPath());
+        prepareOrderDTO.setItemAmount(orderItemDto.getProdSalesPrice()*orderItemDto.getQuantity());
+
+        ordersDTO.getOrders().add(prepareOrderDTO);
+
+        for(OrderDTO orderDTO : ordersDTO.getOrders()) {
+
+            ordersDTO.setOrderTotalOriginPrice(orderDTO.getProdOriginPrice()*orderDTO.getQuantity());
+            ordersDTO.setDiscountAmount(orderDTO.getProdOriginPrice()*orderDTO.getQuantity()-orderDTO.getItemAmount());
+            ordersDTO.setTotalOrderPayment(orderDTO.getItemAmount());
+        }
+
+        return ordersDTO;
+    }
 
     @Override
-    public OrderDto setPreparedOrderDto(OrderItemDto orderItemDto) {
-
-        OrderDto preparedOrderDto = new OrderDto();
-        Product product = productService.findById(orderItemDto.getProdId());
-        preparedOrderDto.setProdOptId(productOptionRepository.findProdOptIdByProdIdAndProdOptColorAndProdOptSize(orderItemDto.getProdId(), orderItemDto.getColor(), orderItemDto.getSize()));
-        preparedOrderDto.setProductName(product.getProdName());
-        preparedOrderDto.setProdSalesPrice(orderItemDto.getProdSalesPrice());
-        preparedOrderDto.setQuantity(orderItemDto.getQuantity());
-        preparedOrderDto.setColor(orderItemDto.getColor());
-        preparedOrderDto.setSize(orderItemDto.getSize());
-        preparedOrderDto.setProdMainImgPath(product.getProdMainImgPath());
-        preparedOrderDto.setProdOriginPrice(product.getProdOriginPrice());
-        preparedOrderDto.setItemAmount(product.getProdOriginPrice()*orderItemDto.getQuantity());
-        preparedOrderDto.setTotalAmount(product.getProdOriginPrice()*orderItemDto.getQuantity());
-        preparedOrderDto.setDiscountAmount((product.getProdOriginPrice()-product.getProdSalesPrice())*orderItemDto.getQuantity());
-        preparedOrderDto.setTotalPaymentAmount(preparedOrderDto.getTotalAmount()-preparedOrderDto.getDiscountAmount());
-
-        return preparedOrderDto;
+    public OrdersDTO setOrdersDTO(List<Long> selectedItems) {
+        return null;
     }
+
+
+//    @Override
+//    public OrderDTO setPreparedOrderDto(OrderItemDTO orderItemDto) {
+//
+//        OrderDTO preparedOrderDto = new OrderDTO();
+//        Product product = productService.findById(orderItemDto.getProdId());
+//        preparedOrderDto.setProdOptId(productOptionRepository.findProdOptIdByProdIdAndProdOptColorAndProdOptSize(orderItemDto.getProdId(), orderItemDto.getColor(), orderItemDto.getSize()));
+//        preparedOrderDto.setProductName(product.getProdName());
+//        preparedOrderDto.setProdOriginPrice(product.getProdOriginPrice());
+//        preparedOrderDto.setProdSalesPrice(orderItemDto.getProdSalesPrice());
+//        preparedOrderDto.setQuantity(orderItemDto.getQuantity());
+//        preparedOrderDto.setColor(orderItemDto.getColor());
+//        preparedOrderDto.setSize(orderItemDto.getSize());
+//        preparedOrderDto.setProdMainImgPath(product.getProdMainImgPath());
+//        preparedOrderDto.setItemAmount(orderItemDto.getProdSalesPrice()*orderItemDto.getQuantity());
+//        preparedOrderDto.setOrderTotalOriginPrice(); //주문할 전체 제품의 원가 가격
+//        preparedOrderDto.setDiscountAmount(); //주문할 전체 제품의 원가 가격 - 주문할 전체 제품의 세일 금액
+//        preparedOrderDto.setTotalOrderPayment(); //주문할 전체 제품의 결제 예상 금액
+//
+//        return preparedOrderDto;
+//    }
 
 
 }

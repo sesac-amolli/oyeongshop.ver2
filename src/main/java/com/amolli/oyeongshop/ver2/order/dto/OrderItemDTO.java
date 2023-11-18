@@ -8,7 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 
-public class OrderItemDto {
+//상품 상세 페이지에서 선택한 사품 정보 담아오는 DTO
+public class OrderItemDTO {
 
     private Long prodId; // 상품 ID
     private String color;

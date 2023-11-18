@@ -1,14 +1,12 @@
 package com.amolli.oyeongshop.ver2.order.model;
 
-import com.amolli.oyeongshop.ver2.order.dto.OrderDeliveryDto;
+import com.amolli.oyeongshop.ver2.order.dto.OrderDeliveryDTO;
 import com.amolli.oyeongshop.ver2.order.dto.OrderPriceDTO;
 import com.amolli.oyeongshop.ver2.user.model.User;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,8 +15,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import org.hibernate.annotations.Parameter;
 
 @Entity
 @Getter @Setter
@@ -84,7 +80,7 @@ public class Order {
         orderDetail.setOrder(this);
     }
 
-    public void addOrderAddress(OrderDeliveryDto orderDeliveryDTO){
+    public void addOrderAddress(OrderDeliveryDTO orderDeliveryDTO){
         this.orderAttnName = orderDeliveryDTO.getOrderAttnName();
         this.orderAttnPhone = orderDeliveryDTO.getOrderAttnPhone();
         this.orderAttnPostcode = orderDeliveryDTO.getOrderAttnPostcode();
@@ -110,7 +106,7 @@ public class Order {
     }
 
 
-    public static Order createOrder(User user, List<OrderDetail> orderDetails, OrderDeliveryDto orderDeliveryDTO, OrderPriceDTO orderPriceDTO){
+    public static Order createOrder(User user, List<OrderDetail> orderDetails, OrderDeliveryDTO orderDeliveryDTO, OrderPriceDTO orderPriceDTO){
         Order order = new Order();
         order.setUser(user);
         for(OrderDetail orderDetail : orderDetails){
