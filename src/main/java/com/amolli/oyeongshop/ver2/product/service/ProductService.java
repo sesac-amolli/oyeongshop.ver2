@@ -19,6 +19,10 @@ public interface ProductService {
 
     void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId);
 
+    List<ProductResponse> findProduct100();
+
+    List<ProductResponse> findByNewProdJPQL();
+
 //    void uploadDB(List<String> imageUrls, ProductRegisterRequest productRegisterRequest);
 
 }

@@ -1,5 +1,6 @@
 package com.amolli.oyeongshop.ver2;
 
+import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 import com.amolli.oyeongshop.ver2.user.dto.UserDTO;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -23,6 +26,8 @@ public class IndexController {
     //메인 페이지
     @GetMapping("/")
     public String main(Model model, @AuthenticationPrincipal PrincipalDetails userDetails){
+        List<ProductResponse> productList = productService.findByNewProdJPQL();
+        model.addAttribute("productList", productList);
         if (userDetails!=null){
             model.addAttribute("userName",userDetails.getUser().getUserName()+"님 환영합니다.");
         }

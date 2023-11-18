@@ -1,6 +1,7 @@
 package com.amolli.oyeongshop.ver2.product.repository;
 
 import com.amolli.oyeongshop.ver2.product.model.Product;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -21,6 +22,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // [상품 관리] - 상품판매여부가 YES인 경우의 LIST를 출력
     @Query("SELECT p FROM Product p WHERE p.prodSalesDist = 'YES'")
     List<Product> findByProdJPQL(Sort sort);
+
+    //
+    @Query("SELECT p FROM Product p WHERE p.prodSalesDist = 'YES'")
+    List<Product> findByProdJPQL(Pageable pageable);
 
     // [상품 관리] - 상품판매구분 업데이트를 위한 쿼리
     @Transactional

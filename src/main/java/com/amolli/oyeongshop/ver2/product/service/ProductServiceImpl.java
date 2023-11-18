@@ -26,8 +26,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 // Impl"은 "implementation"의 줄임말로 사용되며, 일반적으로 어떤 인터페이스(interface)나
 // 추상 클래스(abstract class)를 구체적으로 구현한 클래스를 가리킬 때 사용
-public class
-ProductServiceImpl implements ProductService {
+public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
     private final UserRepository userRepository;
@@ -36,6 +35,29 @@ ProductServiceImpl implements ProductService {
     @Override
     public Product save(Product product) {
         return productRepository.save(product);
+    }
+
+    @Override
+    public List<ProductResponse> findProduct100() {
+        List<Product> products;
+        return null;
+    }
+
+    @Override
+    public List<ProductResponse> findByNewProdJPQL() {
+        Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
+        List<Product> products= productRepository.findByProdJPQL(PageRequest.of(0, 18, sort));
+        return products.stream()
+                .map(product -> {
+                    ProductResponse dto = new ProductResponse();
+                    dto.setProdId(product.getProdId());
+                    dto.setProdName(product.getProdName());
+                    dto.setProdCategory(product.getProdCategory());
+                    dto.setProdSalesPrice(product.getProdSalesPrice());
+                    dto.setProdMainImgPath(product.getProdMainImgPath());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     // [상품 목록] - 전체 상품을 정렬
