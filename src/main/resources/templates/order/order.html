@@ -44,13 +44,14 @@
         <!-- 이미지 및 상품 정보 -->
         <div th:each="orderItem, itemStat : ${orderItems.orders}">
         <tr>
-            <input type="hidden" name="orderDetails[__${itemStat.index}__].prodOptId" th:value="${orderItem.prodOptId}">
+            <input type="hidden" name="orderItems.prodOptId" th:value="${orderItem.prodOptId}">
             <td><img alt="이미지" th:src="${orderItem.prodMainImgPath}"></td>
             <td th:text="${orderItem.productName}"></td>
-            <td><input type="text" name="orderDetails[__${itemStat.index}__].prodSalesPrice" th:value="${orderItem.prodSalesPrice}" readonly="readonly" class="non"></td>
-            <td><input type="text" name="orderDetails[__${itemStat.index}__].quantity" th:value="${orderItem.quantity}" readonly="readonly" class="non"></td>
-            <td><input type="text" name="orderDetails[__${itemStat.index}__].color" th:value="${orderItem.color}" readonly="readonly" class="non"></td>
-            <td><input type="text" name="orderDetails[__${itemStat.index}__].size" th:value="${orderItem.size}" readonly="readonly" class="non"></td>
+            <td><input type="text" name="orderItems.prodOriginPrice" th:value="${orderItem.prodOriginPrice}" readonly="readonly" class="non"><br>
+            <td><input type="text" name="orderItems.prodSalesPrice" th:value="${orderItem.prodSalesPrice}" readonly="readonly" class="non"></td>
+            <td><input type="text" name="orderItems.quantity" th:value="${orderItem.quantity}" readonly="readonly" class="non"></td>
+            <td><input type="text" name="orderItems.color" th:value="${orderItem.color}" readonly="readonly" class="non"></td>
+            <td><input type="text" name="orderItems.size" th:value="${orderItem.size}" readonly="readonly" class="non"></td>
             <td th:text="${orderItem.itemAmount}"></td>
         </tr>
         </div>
@@ -119,9 +120,9 @@
             <td>총 결제예정 금액</td>
         </tr>
         <tr>
-            <td th:name = "orderTotalOriginPrice" th:text="' ' + ${orderItems.orderTotalOriginPrice} + ' 원'"></td>
-            <td th:text="' ' + ${orderItems.discountAmount} + ' 원'"></td>
-            <td th:name = "totalOrderPayment" th:text="' ' + ${orderItems.totalOrderPayment} + ' 원'"></td>
+            <td><input th:name = "orderTotalOriginPrice" th:value="${orderItems.orderTotalOriginPrice}" readonly="readonly" > 원 </td>
+            <td><input th:text="' ' + ${orderItems.discountAmount} + ' 원'" readonly="readonly" > 원 </td>
+            <td><input th:name = "totalOrderPayment" th:value="${orderItems.totalOrderPayment}" readonly="readonly" > 원 </td>
         </tr>
 <!--        <tr>-->
 <!--            <td>총 할인금액</td>-->
@@ -134,7 +135,7 @@
     </table>
     <div id="paymentBox">
         신용카드 최종결제 금액 <br/>
-        <div th:name = "orderTotalPayment" th:text="' ' + ${orderItems.totalOrderPayment} + ' 원'"></div>
+        <div><input th:name = "orderTotalPayment" th:value="${orderItems.totalOrderPayment}" readonly="readonly" > 원 </div>
         <button type="submit" class="my-btn">결제하기</button>
     </div>
 </form>
