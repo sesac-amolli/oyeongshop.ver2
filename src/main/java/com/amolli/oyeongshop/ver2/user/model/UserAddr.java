@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Getter
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class UserAddr extends BaseEntity{
 
     private String userAddrPostcode;

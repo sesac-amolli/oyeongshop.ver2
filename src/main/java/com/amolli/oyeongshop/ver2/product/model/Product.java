@@ -14,9 +14,11 @@ import java.util.List;
 
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name = "tbl_product")
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor
 @ToString
 public class Product {
     @Id
@@ -37,8 +39,7 @@ public class Product {
 
     @UpdateTimestamp
     private LocalDateTime prodEditDate;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProductImage> productImages = new ArrayList<>();
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<ProductOption> productOptions = new ArrayList<>();
@@ -51,7 +52,7 @@ public class Product {
     private List<Wishlist> wishLists = new ArrayList<>();
 
     @Builder
-    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, String prodCategory, String prodCategoryDetail, LocalDateTime prodRegDate, LocalDateTime prodEditDate, String prodSalesDist, List<ProductOption> productOptions) {
+    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, String prodCategory, String prodCategoryDetail, LocalDateTime prodRegDate, LocalDateTime prodEditDate, String prodSalesDist, String prodDesc, List<ProductOption> productOptions) {
         this.prodId = prodId;
         this.prodCode = prodCode;
         this.prodName = prodName;
@@ -59,6 +60,7 @@ public class Product {
         this.prodSalesPrice = prodSalesPrice;
         this.prodCategory = prodCategory;
         this.prodCategoryDetail = prodCategoryDetail;
+        this.prodDesc = prodDesc;
         this.prodRegDate = prodRegDate;
         this.prodEditDate = prodEditDate;
         this.prodSalesDist = prodSalesDist;
@@ -67,5 +69,10 @@ public class Product {
 
     public void setProdId(Long prodId) {
         this.prodId = prodId;
+    }
+
+    public void addProductImage(ProductImage productImage){
+        productImages.add(productImage);
+        productImage.setProduct(this);
     }
 }
