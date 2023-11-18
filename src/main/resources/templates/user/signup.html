@@ -28,11 +28,14 @@
                         </tr>
                         <tr>
                           <td><label for="signup-pwd">비밀번호</label></td>
-                          <td colspan="2"><input type="password" class="form-control" id="signup-pwd" name="userPwd" placeholder="Password" required></td>
+                          <td colspan="2">
+                              <input type="password" class="form-control" id="signup-pwd" name="userPwd" placeholder="Password" required>
+                              <span>비밀번호는 최소 8자에서 15자까지, 영문자, 숫자 및 특수 문자를 포함해야 합니다.</span>
+                          </td>
                         </tr>
                         <tr>
                             <td><label for="signup-pwd">비밀번호 확인</label></td>
-                            <td colspan="2"><input type="password" class="form-control" id="signup-pwd-check" name="password" placeholder="Password Confirm" required></td>
+                            <td colspan="2"><input type="password" class="form-control" id="signup-pwd-check" placeholder="Password Confirm" required></td>
                         </tr>
                         <tr>
                             <td><label for="signup-name">이름</label></td>
@@ -41,7 +44,7 @@
                         <tr>
                             <td>우편번호</td>
                             <td>
-                                <input type="text" id ="postcode" class="form-control" name = "postcode" placeholder="우편번호" readonly>
+                                <input type="text" id ="postcode" class="form-control" name = "postcode" placeholder="우편번호" readonly required>
                             </td>
                             <td>
                                 <input type="button" onclick="daumPostcode()" value="우편번호 찾기" class="my-btn">
@@ -49,11 +52,11 @@
                         </tr>
                         <tr>
                             <td>주소</td>
-                            <td colspan="2"><input type="text" class="form-control" id="address1" name="address1" placeholder="주소" readonly></td>
+                            <td colspan="2"><input type="text" class="form-control" id="address1" name="address1" placeholder="주소" readonly required></td>
                         </tr>
                         <tr>
                             <td>참고주소</td>
-                            <td colspan="2"><input type="text" class="form-control" id="address2" name="address2" placeholder="참고주소" readonly></td>
+                            <td colspan="2"><input type="text" class="form-control" id="address2" name="address2" placeholder="참고주소" readonly required></td>
                         </tr>
                         <tr>
                             <td>상세주소</td>
@@ -61,7 +64,7 @@
                         </tr>
                         <tr>
                             <td><label for="signup-phone">휴대전화</label></td>
-                            <td colspan="2"><input type="text" class="form-control" id="signup-phone" name="userPhone" placeholder="Phone Number" required></td>
+                            <td colspan="2"><input type="tel" class="form-control" id="signup-phone" name="userPhone" placeholder="010-0000-0000" required></td>
                         </tr>
                         <tr>
                             <td><label for="signup-email">이메일</label></td>
@@ -71,7 +74,7 @@
                             <td colspan="2"></td>
                             <td>
                                 <button type="button" onclick="cancel()" class="my-btn">취소</button>
-                                <button type="submit" class="my-btn">회원가입</button>
+                                <button type="submit" onclick="return validate()" class="my-btn">회원가입</button>
                             </td>
                         </tr>
                     </tbody>

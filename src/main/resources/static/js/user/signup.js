@@ -63,3 +63,26 @@ function cancel(){
         location.replace("/");
     }
 }
+
+function validate() {
+  let passReg =  /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+  let password = document.getElementById("signup-pwd").value;
+  let confirmPassword = document.getElementById("signup-pwd-check").value;
+
+  let telReg = /^\d{3}-\d{3,4}-\d{4}$/;
+  let tel = document.getElementById("signup-phone").value;
+  if(tel.match(telReg) == null){
+    alert("전화번호 형식이 맞지 않습니다.");
+    return false;
+  }
+  if(password.match(passReg) == null){
+    alert("비밀번호는 최소 8자에서 15자까지, 영문자, 숫자 및 특수 문자를 포함해야 합니다.");
+    return false;
+  }
+  if (password != confirmPassword) {
+    alert("비밀번호가 일치하지 않습니다.");
+    return false;
+  }
+
+  return true;
+}
