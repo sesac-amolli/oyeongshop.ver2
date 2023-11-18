@@ -1,5 +1,4 @@
 
-
 $(document).ready(function () {
     let wishListId = $("#jjimContainer").data("wish-list-id");
     let jjimAddDiv = $("#jjimAdd");
@@ -13,7 +12,6 @@ $(document).ready(function () {
         jjimMinusDiv.show();
     }
 });
-
 
 
 
@@ -60,4 +58,3 @@ function jjimMinus(prodId){
             }
         });
 }
-
