@@ -37,16 +37,28 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
 
+    // [상품 목록] best100 상품 조회
     @Override
     public List<ProductResponse> findProduct100() {
-        List<Product> products;
-        return null;
+        List<Object[]> products = productRepository.findByTopProdJPQL(PageRequest.of(0, 100));
+        return products.stream()
+                .map(product -> {
+                    ProductResponse dto = new ProductResponse();
+                    dto.setProdId((Long) product[0]);
+                    dto.setProdName((String) product[1]);
+                    dto.setProdCategory((String) product[4]);
+                    dto.setProdSalesPrice((Long) product[2]);
+                    dto.setProdMainImgPath((String) product[3]);
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
+    // [상품 목록] 신상품 조회
     @Override
     public List<ProductResponse> findByNewProdJPQL() {
         Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
-        List<Product> products= productRepository.findByProdJPQL(PageRequest.of(0, 18, sort));
+        List<Product> products = productRepository.findByProdJPQL(PageRequest.of(0, 18, sort));
         return products.stream()
                 .map(product -> {
                     ProductResponse dto = new ProductResponse();
@@ -58,6 +70,13 @@ public class ProductServiceImpl implements ProductService {
                     return dto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductResponse> findBySaleProdJPQL() {
+        Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
+        List<Product> products = productRepository.findByProdJPQL(PageRequest.of(0, 18, sort));
+        return null;
     }
 
     // [상품 목록] - 전체 상품을 정렬
