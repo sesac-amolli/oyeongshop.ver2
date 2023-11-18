@@ -109,7 +109,7 @@ public class ProductController {
         // 리뷰 List 불러오기
         List<Review> reviews = reviewService.findByProdId(prodId);
         List<ReviewResponseDTO> reviewdto = reviews.stream().map(ReviewResponseDTO::from).collect(Collectors.toList());
-        model.addAttribute("reviewdto", reviewdto);햐
+        model.addAttribute("reviewdto", reviewdto);
 
         System.out.println("reviewdto");
 

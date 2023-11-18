@@ -9,8 +9,13 @@ import com.amolli.oyeongshop.ver2.product.model.ProductOption;
 import com.amolli.oyeongshop.ver2.product.repository.ProductOptionRepository;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
+import com.amolli.oyeongshop.ver2.user.model.Cart;
+import com.amolli.oyeongshop.ver2.user.model.CartItem;
 import com.amolli.oyeongshop.ver2.user.model.User;
+import com.amolli.oyeongshop.ver2.user.repository.CartItemRepository;
+import com.amolli.oyeongshop.ver2.user.repository.CartRepository;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
+import com.amolli.oyeongshop.ver2.user.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -19,6 +24,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -27,6 +33,7 @@ public class OrderServiceImpl implements OrderService{
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final ProductOptionRepository productOptionRepository;
+    private final CartItemRepository cartItemRepository;
     private final ProductService productService;
 
     public Long order(OrderItemsDTO orderItemsDTO, OrderDeliveryDTO orderDeliveryDTO, OrderPriceDTO orderPriceDTO, String userId){
@@ -84,7 +91,6 @@ public class OrderServiceImpl implements OrderService{
         ordersDTO.getOrders().add(prepareOrderDTO);
 
         for(OrderDTO orderDTO : ordersDTO.getOrders()) {
-
             ordersDTO.setOrderTotalOriginPrice(orderDTO.getProdOriginPrice()*orderDTO.getQuantity());
             ordersDTO.setDiscountAmount(orderDTO.getProdOriginPrice()*orderDTO.getQuantity()-orderDTO.getItemAmount());
             ordersDTO.setTotalOrderPayment(orderDTO.getItemAmount());
@@ -95,30 +101,24 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public OrdersDTO setOrdersDTO(List<Long> selectedItems) {
-        return null;
+        OrdersDTO ordersDTO = new OrdersDTO();
+
+        for(Long l : selectedItems){
+            OrderDTO orderDTO = new OrderDTO();
+
+            if (cartItem.isPresent()) {
+                // cartItem이 값이 존재하는 경우
+                orderDTO.setProdOptId(cartItem.get().getProductOption().getProdOptId());
+            } else {
+                // cartItem이 값이 없는 경우
+                System.out.println("해당 카트 아이템이 존재하지 않습니다.");
+            }
+
+        }
+
+
+        return ordersDTO;
     }
-
-
-//    @Override
-//    public OrderDTO setPreparedOrderDto(OrderItemDTO orderItemDto) {
-//
-//        OrderDTO preparedOrderDto = new OrderDTO();
-//        Product product = productService.findById(orderItemDto.getProdId());
-//        preparedOrderDto.setProdOptId(productOptionRepository.findProdOptIdByProdIdAndProdOptColorAndProdOptSize(orderItemDto.getProdId(), orderItemDto.getColor(), orderItemDto.getSize()));
-//        preparedOrderDto.setProductName(product.getProdName());
-//        preparedOrderDto.setProdOriginPrice(product.getProdOriginPrice());
-//        preparedOrderDto.setProdSalesPrice(orderItemDto.getProdSalesPrice());
-//        preparedOrderDto.setQuantity(orderItemDto.getQuantity());
-//        preparedOrderDto.setColor(orderItemDto.getColor());
-//        preparedOrderDto.setSize(orderItemDto.getSize());
-//        preparedOrderDto.setProdMainImgPath(product.getProdMainImgPath());
-//        preparedOrderDto.setItemAmount(orderItemDto.getProdSalesPrice()*orderItemDto.getQuantity());
-//        preparedOrderDto.setOrderTotalOriginPrice(); //주문할 전체 제품의 원가 가격
-//        preparedOrderDto.setDiscountAmount(); //주문할 전체 제품의 원가 가격 - 주문할 전체 제품의 세일 금액
-//        preparedOrderDto.setTotalOrderPayment(); //주문할 전체 제품의 결제 예상 금액
-//
-//        return preparedOrderDto;
-//    }
 
 
 }

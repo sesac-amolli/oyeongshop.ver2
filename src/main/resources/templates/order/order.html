@@ -42,7 +42,7 @@
             <td>합계</td>
         </tr>
         <!-- 이미지 및 상품 정보 -->
-        <div th:each="orderItem, itemStat : ${orderItems}">
+        <div th:each="orderItem, itemStat : ${orderItems.orders}">
         <tr>
             <input type="hidden" name="orderDetails[__${itemStat.index}__].prodOptId" th:value="${orderItem.prodOptId}">
             <td><img alt="이미지" th:src="${orderItem.prodMainImgPath}"></td>
@@ -57,7 +57,7 @@
 
         <!-- 합계 정보 -->
         <tr>
-            <td th:text="'합계: ' + ${orderItem.itemAmount} + ' 원'"></td>
+            <td th:text="'합계: ' + ${orderItems.totalOrderPayment} + ' 원'"></td>
         </tr>
     </table>
     <h3>[배송정보]</h3>
@@ -119,9 +119,9 @@
             <td>총 결제예정 금액</td>
         </tr>
         <tr>
-            <td th:name = "orderTotalOriginPrice" th:text="' ' + ${orderItem.orderTotalOriginPrice} + ' 원'"></td>
-            <td th:text="' ' + ${orderItem.discountAmount} + ' 원'"></td>
-            <td th:name = "totalOrderPayment" th:text="' ' + ${orderItem.totalOrderPayment} + ' 원'"></td>
+            <td th:name = "orderTotalOriginPrice" th:text="' ' + ${orderItems.orderTotalOriginPrice} + ' 원'"></td>
+            <td th:text="' ' + ${orderItems.discountAmount} + ' 원'"></td>
+            <td th:name = "totalOrderPayment" th:text="' ' + ${orderItems.totalOrderPayment} + ' 원'"></td>
         </tr>
 <!--        <tr>-->
 <!--            <td>총 할인금액</td>-->
@@ -134,7 +134,7 @@
     </table>
     <div id="paymentBox">
         신용카드 최종결제 금액 <br/>
-        <div th:name = "orderTotalPayment" th:text="' ' + ${orderItem.totalPaymentAmount} + ' 원'"></div>
+        <div th:name = "orderTotalPayment" th:text="' ' + ${orderItems.totalOrderPayment} + ' 원'"></div>
         <button type="submit" class="my-btn">결제하기</button>
     </div>
 </form>
