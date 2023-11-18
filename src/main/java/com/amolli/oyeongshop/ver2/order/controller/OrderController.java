@@ -8,6 +8,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class OrderController {
 
     @PostMapping(value = "/to-order")
     //public String orderAdd(Model model, @RequestBody OrderItemDto orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails){
-    public String orderAdd(Model model, OrderItemDTO orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails){
+    public String orderAdd(Model model, @ModelAttribute("orderItemDTO") OrderItemDTO orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails){
 
 //        OrderDTO preparedOrderDTO = orderService.setPreparedOrderDto(orderItemDto);
 
@@ -57,6 +58,7 @@ public class OrderController {
     public String order(OrderItemsDTO orderItemsDTO,
                         OrderDeliveryDTO orderDeliveryDTO,
                         OrderPriceDTO orderPriceDTO,
+                        RedirectAttributes redirectAttributes,
                         Model model, @AuthenticationPrincipal PrincipalDetails userDetails) {
 
         String userId = userDetails.getUser().getUserId();
@@ -68,20 +70,47 @@ public class OrderController {
 
         // 주문 서비스를 호출하여 주문 처리
         Long orderId = orderService.order(orderItemsDTO, orderDeliveryDTO, orderPriceDTO, userId);
+
+        OrderDetailDTO orderDetailDTO = orderService.setOrderDetailDTO(orderId);
+        System.out.println("CO, orderDetailDTO" + orderDetailDTO.getOrderDetailIds());
+        // RedirectAttributes를 사용하여 리다이렉트 URL에 flash 속성을 추가합니다.
+        redirectAttributes.addFlashAttribute("orderDetailDTO", orderDetailDTO);
+
 //
 //        // 주문 완료 페이지로 이동 또는 추가적인 작업 수행
 //        model.addAttribute("orderId", orderId);
-        return "/order/order-detail";
+        return "redirect:/order/order-detail";
 
     }
 
+
+    @GetMapping("/order-detail")
+    public String orderDetail(@ModelAttribute("orderDetailDTO") OrderDetailDTO orderDetailDTO, Model model, @AuthenticationPrincipal PrincipalDetails userDetails){
+
+        //orderDetailDTO orderDetailDTO = (OrderDetailDTO) model.getAttribute("orderDetailDTO");
+
+        OrderResponseDTO orderResponseDTO = orderService.setOrderResponseDTO(orderDetailDTO.getOrderId());
+        OrderDetailsResponseDTO orderDetailsResponseDTO = orderService.setOrderDetailResponseDTO(orderDetailDTO.getOrderDetailIds());
+
+        System.out.println("orderResponseDTO : " + orderResponseDTO);
+        System.out.println(orderDetailDTO.getOrderDetailIds());
+        System.out.println(orderDetailsResponseDTO);
+
+        model.addAttribute("Order", orderResponseDTO);
+        model.addAttribute("OrderDetails", orderDetailsResponseDTO);
+
+        return "/order/order-detail";
+    }
 
     @GetMapping("/order-detail/{orderId}")
-    public String orderDetail(){
+    public String orderDetails(Model model, @AuthenticationPrincipal PrincipalDetails userDetails){
+
+        OrderResponseDTO orderResponseDTO;
+        OrderDetailResponseDTO orderDetailResponseDTO;
+
 
         return "/order/order-detail";
     }
-
 
 
     @GetMapping("/order-list")
