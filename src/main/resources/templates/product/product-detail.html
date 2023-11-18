@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/product/product-detail.css">
+
     <title>상품 정보 페이지</title>
 
 
@@ -90,10 +91,30 @@
             <button onclick="sendDataToDirectOrder(this)">바로 구매</button>
 <!--            <button onclick="history.back();">장바구니</button>-->
             <button onclick="sendDataToCart(this)">장바구니</button>
-            <form class="form-wishlist" method="POST" action="/user/wishlist">
-                <input type="hidden" name="wishProdId" th:value="${product.prodId}">
-                <button type="submit">찜하기</button>
-            </form>
+<!--            <form class="form-wishlist" method="POST" action="/user/wishlist">-->
+<!--                <input type="hidden" name="wishProdId" th:value="${product.prodId}">-->
+<!--                <button type="submit">찜하기</button>-->
+<!--            </form>-->
+            <div id="jjimContainer" th:data-wish-list-id="${wishListId}">
+                <div id="jjimAdd">
+                    <button th:onclick="'jjimAdd(\'' + ${product.prodId} + '\')'">찜하기</button>
+                </div>
+                <div id="jjimMinus">
+                    <button th:onclick="'jjimMinus(\'' + ${product.prodId} + '\')'">찜해제</button>
+                </div>
+            </div>
+
+
+
+
+
+
+
+<!--            <form class="form-wishlist" method="POST" action="/user/wishlist-delete">-->
+<!--                <input type="hidden" name="wishProdId" th:value="${product.prodId}">-->
+<!--                <button type="submit">찜없애기</button>-->
+<!--            </form>-->
+
 
         </div>
     </div>
@@ -136,5 +157,6 @@
 </form>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="/js/product/product-detail.js"></script> <!-- 외부 JavaScript 파일 연결 -->
+<script src="/js/user/wishlist.js"></script>
 </body>
 </html>
