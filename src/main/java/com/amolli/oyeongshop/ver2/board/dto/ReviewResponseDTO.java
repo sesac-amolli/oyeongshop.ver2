@@ -22,7 +22,6 @@ public class ReviewResponseDTO {
 
     // 생성자
 
-
     public ReviewResponseDTO(Long reviewId, String userId, String reviewContent,
                              Long reviewRate, LocalDate reviewWriteDate, List<ReviewImgResponseDTO> imgs) {
         this.reviewId = reviewId;
