@@ -1,11 +1,9 @@
 package com.amolli.oyeongshop.ver2.user.model;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tbl_user_addr")
@@ -17,6 +15,8 @@ public class UserAddr extends BaseEntity{
 
     private String userAddrPostcode;
 
+    @Column(nullable = false)
+    @ColumnDefault("'집'")
     private String userAddrCategory;
 
     private String userAddr1;

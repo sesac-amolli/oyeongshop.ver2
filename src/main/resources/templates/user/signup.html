@@ -9,6 +9,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/user/signup.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="/js/user/signup.js"></script>
 </head>
 <body layout:fragment="content">
     <div id="sginup-content">
@@ -16,54 +18,64 @@
             <img src="/images/login_img.png"/>
         </div>
         <div  id="sginup-content-right">
-            <div>
-                <h2>회원가입</h2>
-            </div>
+            <h2>회원가입</h2> <br/>
             <form action="/sign-up" method="POST">
-                <table id="signup" class="table table-bordered">
+                <table id="signup" class="table">
                     <tbody id="test_tbody">
                         <tr>
                           <td><label for="signup-id">아이디</label></td>
-                          <td><input type="text" class="form-control" id="signup-id" name="userId" placeholder="ID" required></td>
+                          <td colspan="2"><input type="text" class="form-control" id="signup-id" name="userId" placeholder="ID" required></td>
                         </tr>
                         <tr>
                           <td><label for="signup-pwd">비밀번호</label></td>
-                          <td><input type="password" class="form-control" id="signup-pwd" name="userPwd" placeholder="Password" required></td>
+                          <td colspan="2"><input type="password" class="form-control" id="signup-pwd" name="userPwd" placeholder="Password" required></td>
                         </tr>
                         <tr>
                             <td><label for="signup-pwd">비밀번호 확인</label></td>
-                            <td><input type="password" class="form-control" id="signup-pwd-check" name="password" placeholder="Password Confirm" required></td>
+                            <td colspan="2"><input type="password" class="form-control" id="signup-pwd-check" name="password" placeholder="Password Confirm" required></td>
                         </tr>
                         <tr>
                             <td><label for="signup-name">이름</label></td>
-                            <td><input type="text" class="form-control" id="signup-name" name="userName" placeholder="Name" required></td>
+                            <td colspan="2"><input type="text" class="form-control" id="signup-name" name="userName" placeholder="Name" required></td>
                         </tr>
                         <tr>
-                            <td><label for="signup-postcode">우편번호</label></td>
-                            <td><input type="number" class="form-control" id="signup-postcode" name="postcode" placeholder="Postcode" required></td>
+                            <td>우편번호</td>
+                            <td>
+                                <input type="text" id ="postcode" class="form-control" name = "postcode" placeholder="우편번호" readonly>
+                            </td>
+                            <td>
+                                <input type="button" onclick="daumPostcode()" value="우편번호 찾기" class="my-btn">
+                            </td>
                         </tr>
                         <tr>
-                            <td><label for="signup-address">주소</label></td>
-                            <td><input type="text" class="form-control" id="signup-address" name="address" placeholder="Address" required></td>
+                            <td>주소</td>
+                            <td colspan="2"><input type="text" class="form-control" id="address1" name="address1" placeholder="주소" readonly></td>
                         </tr>
                         <tr>
-                            <td><label for="signup-address3">상세주소</label></td>
-                            <td><input type="text" class="form-control" id="signup-address3" name="userAddrDetail" placeholder="상세주소" required></td>
+                            <td>참고주소</td>
+                            <td colspan="2"><input type="text" class="form-control" id="address2" name="address2" placeholder="참고주소" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>상세주소</td>
+                            <td colspan="2"><input type="text" class="form-control" id="userAddrDetail" name="userAddrDetail" placeholder="상세주소"></td>
                         </tr>
                         <tr>
                             <td><label for="signup-phone">휴대전화</label></td>
-                            <td><input type="text" class="form-control" id="signup-phone" name="userPhone" placeholder="Phone Number" required></td>
+                            <td colspan="2"><input type="text" class="form-control" id="signup-phone" name="userPhone" placeholder="Phone Number" required></td>
                         </tr>
                         <tr>
                             <td><label for="signup-email">이메일</label></td>
-                            <td><input type="email" class="form-control" id="signup-email" name="userEmail" placeholder="Email" required></td>
+                            <td colspan="2"><input type="email" class="form-control" id="signup-email" name="userEmail" placeholder="Email" required></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td>
+                                <button type="button" onclick="cancel()" class="my-btn">취소</button>
+                                <button type="submit" class="my-btn">회원가입</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-                <div id="submit-btn">
-                    <button type="submit" onclick="" class="my-btn">회원가입</button>
-                    <button type="button" onclick="" class="my-btn">취소</button>
-                </div>
             </form>
         </div>
     </div>

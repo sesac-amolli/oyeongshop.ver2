@@ -24,13 +24,15 @@ public class UserDTO {
     private String userEmail;
 
     private String postcode;
-    private String address;
+    private String address1;
+    private String address2;
     private String userAddrDetail;
 
     public User toEntity() {
         UserAddr userAddr = UserAddr.builder()
                 .userAddrPostcode(postcode)
-                .userAddr1(address)
+                .userAddr1(address1)
+                .userAddr2(address2)
                 .userAddrDetail(userAddrDetail)
                 .build();
 
