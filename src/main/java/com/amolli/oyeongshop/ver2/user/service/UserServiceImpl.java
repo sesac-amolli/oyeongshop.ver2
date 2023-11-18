@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
     }
 
+    // wishlist insert
     @Override
     public Long uploadWish(PrincipalDetails userDetails, Long prodId, WishListDTO wishListDTO) {
         Optional<User> optionalUser = userRepository.findById(userDetails.getUser().getUserId());
@@ -69,6 +70,7 @@ public class UserServiceImpl implements UserService{
         return wishlist1.getWishListId();
     }
 
+    // wishlistId 찾는 메서드
     @Override
     public Long findWishList(Long prodId, PrincipalDetails details) {
         String userId = details.getUser().getUserId();
@@ -76,15 +78,12 @@ public class UserServiceImpl implements UserService{
         Optional<Wishlist> wishlist = wishlistRepository.findByProductProdIdAndUserUserId(prodId, userId);
         Long wishListId = 0L;
         if (wishlist.isPresent()) {
-            // 값이 존재하는 경우
             wishListId = wishlist.get().getWishListId();
-            // 처리 로직 추가
         }
-
         return wishListId;
-
     }
 
+    // wishlist delete
     @Override
     public void deleteWishList(Long wishListId) {
         wishlistRepository.deleteById(wishListId);
