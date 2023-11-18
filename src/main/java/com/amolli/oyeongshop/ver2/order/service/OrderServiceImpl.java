@@ -106,9 +106,23 @@ public class OrderServiceImpl implements OrderService{
         for(Long l : selectedItems){
             OrderDTO orderDTO = new OrderDTO();
 
+            Optional<CartItem> cartItem = cartItemRepository.findById(l);
+            Product product = productService.findById(cartItem.get().getProductOption().getProduct().getProdId());
+            System.out.println("cartItem.isPresent() : " + cartItem.isPresent());
             if (cartItem.isPresent()) {
                 // cartItem이 값이 존재하는 경우
+                System.out.println("cartItem.prodOptId : " + cartItem.get().getProductOption().getProdOptId());
                 orderDTO.setProdOptId(cartItem.get().getProductOption().getProdOptId());
+                orderDTO.setProductName(product.getProdName());
+                orderDTO.setProdOriginPrice(product.getProdOriginPrice());
+                orderDTO.setProdSalesPrice(product.getProdSalesPrice());
+                orderDTO.setQuantity(Long.valueOf(cartItem.get().getCartItemAmount()));
+                orderDTO.setColor(cartItem.get().getProductOption().getProdOptColor());
+                orderDTO.setSize(cartItem.get().getProductOption().getProdOptColor());
+                orderDTO.setProdMainImgPath(product.getProdMainImgPath());
+                orderDTO.setItemAmount(Long.valueOf(cartItem.get().getCartItemAmount()));
+
+                ordersDTO.getOrders().add(orderDTO);
             } else {
                 // cartItem이 값이 없는 경우
                 System.out.println("해당 카트 아이템이 존재하지 않습니다.");
@@ -116,6 +130,12 @@ public class OrderServiceImpl implements OrderService{
 
         }
 
+
+        for(OrderDTO orderDTO : ordersDTO.getOrders()) {
+            ordersDTO.setOrderTotalOriginPrice(orderDTO.getProdOriginPrice()*orderDTO.getQuantity());
+            ordersDTO.setDiscountAmount(orderDTO.getProdOriginPrice()*orderDTO.getQuantity()-orderDTO.getItemAmount());
+            ordersDTO.setTotalOrderPayment(orderDTO.getItemAmount());
+        }
 
         return ordersDTO;
     }
