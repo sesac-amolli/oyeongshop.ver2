@@ -5,9 +5,11 @@ $(document).ready(function () {
     let jjimMinusDiv = $("#jjimMinus");
 
     if (wishListId !== null) {
+
         jjimAddDiv.show();
         jjimMinusDiv.hide();
     } else {
+
         jjimAddDiv.hide();
         jjimMinusDiv.show();
     }
@@ -28,7 +30,8 @@ function jjimAdd(prodId){
 
                         jjimAddDiv.hide();
                         jjimMinusDiv.show();
-                        $("#jjimContainer").data("wish-list-id").value = result;
+                        $("#jjimContainer").data("wish-list-id", result);
+//                        $("#jjimContainer").data("wish-list-id").value = result;
 
             },
             error: function () {

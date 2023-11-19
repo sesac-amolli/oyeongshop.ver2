@@ -92,8 +92,8 @@
             <button onclick="sendDataToCart(this)">장바구니</button>
 
                             <!--     찜하기 버튼       -->
-            <div id="jjimContainer" th:data-wish-list-id="${wishListId}">
-                <div id="jjimAdd">
+            <div id="jjimContainer">
+                <div id="jjimAdd" th:if="${wishListId ne null}">
                     <button th:onclick="'jjimAdd(\'' + ${product.prodId} + '\')'">
                         <img id="wish2" th:src="${'/images/wish2.png'}" alt="찜하기 이미지"></button>
                 </div>
