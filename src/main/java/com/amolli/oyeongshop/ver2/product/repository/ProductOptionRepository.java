@@ -15,7 +15,8 @@ public interface ProductOptionRepository extends JpaRepository<ProductOption, Lo
 //    List<ProductOption> findAll();                                Entity    pk
 //    @Query(value = "SELECT * FROM tbl_product_option WHERE prod_opt_color = :prodOptColor", nativeQuery = true)
 //    List<ProductOption> productOptionSize(@Param("prodOptColor") String prodOptColor);
-
+    @Transactional
+    @Modifying
     @Query("SELECT p.prodOptId FROM ProductOption p WHERE p.product.prodId = :prodId AND p.prodOptColor = :prodOptColor AND p.prodOptSize = :prodOptSize")
     Long findProdOptIdByProdIdAndProdOptColorAndProdOptSize(@Param("prodId") Long prodId, @Param("prodOptColor") String prodOptColor, @Param("prodOptSize") String prodOptSize);
 
@@ -23,6 +24,8 @@ public interface ProductOptionRepository extends JpaRepository<ProductOption, Lo
     List<ProductOption> findByProduct_ProdId(Long prodId);
 
     // 상품 등록 시 옵션의 prodId가 null인데 이를 업데이트하는 코드(도저히 뭐가 문제인지 모르겠습니다)
-//    @Query("UPDATE ProductOption po SET po.prodId = :prodId WHERE po.prodId IS NULL")
-//    void updateProdIdWhereNull(@Param("prodId") Long prodId);
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE tbl_product_option SET prod_id = :prodId WHERE prod_id IS NULL", nativeQuery = true)
+    void updateProdIdWhereNull(@Param("prodId") Long prodId);
 }
