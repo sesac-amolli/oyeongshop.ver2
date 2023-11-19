@@ -5,14 +5,18 @@ import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.service.ReviewService;
 import com.amolli.oyeongshop.ver2.product.dto.ProductDTO;
 import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
+import com.amolli.oyeongshop.ver2.product.dto.ProductResponseDTO;
 import com.amolli.oyeongshop.ver2.product.model.Product;
+import com.amolli.oyeongshop.ver2.product.model.ProductOption;
+import com.amolli.oyeongshop.ver2.product.service.ProductImageService;
+import com.amolli.oyeongshop.ver2.product.service.ProductOptionService;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
+import com.amolli.oyeongshop.ver2.s3.AwsS3ServiceProduct;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 import com.amolli.oyeongshop.ver2.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import com.amolli.oyeongshop.ver2.s3.AwsS3ServiceProduct;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -21,38 +25,39 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/product")
 @RequiredArgsConstructor
 public class ProductController {
-    private final ProductService productService;
-    private final ReviewService reviewService;
     private final AwsS3ServiceProduct awsS3ServiceProduct;
+    private final ProductService productService;
+    private final ProductOptionService productOptionService;
+    private final ProductImageService productImageService;
+    private final ReviewService reviewService;
     private final UserService userService;
 
     @GetMapping("/list/best100")
-    public String bestProduct(Model model){
+    public String bestProduct(Model model) {
         List<ProductResponse> productList = productService.findProduct100();
         model.addAttribute("productList", productList);
         return "product/product-list";
     }
 
     @GetMapping("/list/newArrivals")
-    public String newProduct(Model model){
+    public String newProduct(Model model) {
         List<ProductResponse> productList = productService.findByNewProdJPQL();
         model.addAttribute("productList", productList);
         return "product/product-list";
     }
 
     @GetMapping("/list/sale")
-    public String saleProduct(Model model){
+    public String saleProduct(Model model) {
         List<ProductResponse> productList = productService.findBySaleProd();
         model.addAttribute("productList", productList);
         return "product/product-list";
@@ -60,7 +65,7 @@ public class ProductController {
 
 
     // side-nav-for-user.html 에서 a태그 클릭 시 category 정보를 전달해주는 컨트롤러
-    @RequestMapping(value="/list/{prodCategory}", method=RequestMethod.GET)
+    @RequestMapping(value = "/list/{prodCategory}", method = RequestMethod.GET)
     public String productCategoryFromViewToList(@PathVariable String prodCategory, Model model) {
         // category 값을 모델에 추가
         model.addAttribute("category", prodCategory);
@@ -118,29 +123,29 @@ public class ProductController {
     public ModelAndView productDetail(@PathVariable Long prodId, Model model, @AuthenticationPrincipal PrincipalDetails details) {
 
         // - 나영 - @AuthenticationPrincipal PrincipalDetails null 처리 후 찜id view에 넘겨주기
-        if(details != null) {
+        if (details != null) {
             // 찜여부 확인하기
             Long wishlistId = userService.findWishList(prodId, details);
-            model.addAttribute("wishListId",wishlistId);
+            model.addAttribute("wishListId", wishlistId);
         }
-
-
         Product product = productService.findById(prodId);
-
-        // 중복 옵션 제거
-        product = productService.removeDuplicateOptions(product);
-//        product = productService.removeDuplicateSizes(product);
 
         //productId를 사용하여 필요한 데이터를 데이터베이스에서 가져온다.
         ModelAndView mav = new ModelAndView("product/product-detail");
         // Thymeleaf에 데이터를 전달
         mav.addObject(productService.findById(prodId));
 
-
         // - 나영 - 리뷰 List 불러오기
         List<Review> reviews = reviewService.findByProdId(prodId);
         List<ReviewResponseDTO> reviewdto = reviews.stream().map(ReviewResponseDTO::from).collect(Collectors.toList());
         model.addAttribute("reviewdto", reviewdto);
+
+        System.out.println("reviewdto");
+
+        // - 정환 - 상품 이미지 List 불러오기
+        List<Product> products = productService.findByProdId(prodId);
+        List<ProductResponseDTO> productImageResponseDTO = products.stream().map(ProductResponseDTO::from).collect(Collectors.toList());
+        model.addAttribute("productImageResponseDTO", productImageResponseDTO);
 
         return mav;
     }
@@ -149,14 +154,17 @@ public class ProductController {
     @GetMapping("/edit/{prodId}")
     public String initUpdateOwnerForm(@PathVariable Long prodId, Model model) {
         model.addAttribute(productService.findById(prodId));
+        System.out.println("요 맞제?");
+        model.addAttribute(productOptionService.findByProduct_ProdId(prodId));
         return "/product/product-register";
     }
     
     // [상품 상세 정보 수정] - 상품 수정 화면의 입력 데이터 보내기
     @PostMapping("/edit/{prodId}")
-    public String initUpdateForm(@Validated Product product, @PathVariable Long prodId) {
+    public String initUpdateForm(@Validated Product product, @Validated ProductOption productOption, @PathVariable Long prodId) {
         product.setProdId(prodId);
-        Product savedProduct = productService.save(product);
+        Product savedProduct = productService.saveProduct(product);
+        ProductOption savedProductOption = productOptionService.saveProductOption(productOption);
         return "redirect:/product/management";
     }
 
@@ -166,6 +174,12 @@ public class ProductController {
     public void UpdataSalesStatusYesNo(@PathVariable Long prodId) {
         productService.UpdataSalesStatusYesNo(prodId);
     }
+    // [상품 옵션 등록] - 상품옵션 ProdId 업데이트
+//    @ResponseBody
+//    @PostMapping("/register/{prodId}")
+//    public void UpdataProdId(@PathVariable Long prodId) {
+//        productOptionService.UpdataProdId(prodId);
+//    }
 
     //    @GetMapping("/detail/edit")
 //    public String productDetailEdit( ) {
@@ -208,6 +222,7 @@ public class ProductController {
     @GetMapping("/register")
     public String productRegister(Model model) {
         model.addAttribute("product", Product.builder().build());
+        model.addAttribute("productOption", ProductOption.builder().build());
         return "product/product-register";
     }
 
@@ -227,15 +242,21 @@ public class ProductController {
 
     // [상품 등록] - POST 요청을 처리하여 상품을 등록하는 메서드
     @PostMapping("/register")
-    public String processCreationForm(@Valid Product product, BindingResult result) {
+    public String processCreationForm(@Valid Product product, @Valid ProductOption productOption, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "product/product-register";
         } else {
             // productService를 사용하여 상품을 등록
-            productService.save(product);
+            productService.saveProduct(product);
+
+            // productOptionService를 사용하여 상품 옵션을 등록
+//            List<ProductOption> productOptions = productOptionService.getProductOptions();
+            productOptionService.saveProductOption(productOption);
             System.out.println("222222222222");
 
-            return "/product/product-register-detail";
+            // prodId를 URL에 추가하여 리다이렉트
+            System.out.println(redirectAttributes.addAttribute("prodId", product.getProdId()));
+            return "product/product-register-detail";
         }
     }
 
@@ -258,7 +279,7 @@ public class ProductController {
     }
 
     // POST 리뷰 작성 (INSERT)
-    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/register/{prodId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String uploadFileForProduct(@RequestParam(value = "image1", required = false) List<MultipartFile> files, ProductDTO productDTO
                             ,@RequestParam("prodId") Long prodId) {
 
