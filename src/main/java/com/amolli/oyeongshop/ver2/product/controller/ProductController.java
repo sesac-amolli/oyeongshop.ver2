@@ -53,7 +53,7 @@ public class ProductController {
 
     @GetMapping("/list/sale")
     public String saleProduct(Model model){
-        List<ProductResponse> productList = productService.findBySaleProdJPQL();
+        List<ProductResponse> productList = productService.findBySaleProd();
         model.addAttribute("productList", productList);
         return "product/product-list";
     }

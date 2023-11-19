@@ -24,7 +24,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByProdJPQL(Sort sort);
 
     // [상품 목록] best100 상품 조회
-    @Query("SELECT p.prodId, p.prodName, p.prodSalesPrice, p.prodMainImgPath, p.prodCategory, MAX(o.prodOptAmount) " +
+    @Query("SELECT p.prodId, p.prodName, p.prodCategory, p.prodOriginPrice, p.prodSalesPrice, p.prodMainImgPath, MAX(o.prodOptAmount) " +
             "FROM Product p JOIN p.productOptions o " +
             "WHERE p.prodSalesDist = 'YES' GROUP BY p.prodId ORDER BY MAX(o.prodOptAmount) DESC")
     List<Object[]> findByTopProdJPQL(Pageable pageable);
@@ -32,6 +32,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // [상품 목록] 신상품 18개 list 출력
     @Query("SELECT p FROM Product p WHERE p.prodSalesDist = 'YES'")
     List<Product> findByProdJPQL(Pageable pageable);
+
+    @Query("SELECT p FROM Product p WHERE p.prodOriginPrice <> p.prodSalesPrice")
+    List<Product> findSaleProducts(Sort sort);
 
     // [상품 관리] - 상품판매구분 업데이트를 위한 쿼리
     @Transactional

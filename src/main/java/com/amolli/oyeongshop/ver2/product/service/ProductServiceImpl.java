@@ -46,9 +46,10 @@ public class ProductServiceImpl implements ProductService {
                     ProductResponse dto = new ProductResponse();
                     dto.setProdId((Long) product[0]);
                     dto.setProdName((String) product[1]);
-                    dto.setProdCategory((String) product[4]);
-                    dto.setProdSalesPrice((Long) product[2]);
-                    dto.setProdMainImgPath((String) product[3]);
+                    dto.setProdCategory((String) product[2]);
+                    dto.setProdOriginPrice((Long) product[3]);
+                    dto.setProdSalesPrice((Long) product[4]);
+                    dto.setProdMainImgPath((String) product[5]);
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -65,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
                     dto.setProdId(product.getProdId());
                     dto.setProdName(product.getProdName());
                     dto.setProdCategory(product.getProdCategory());
+                    dto.setProdOriginPrice(product.getProdOriginPrice());
                     dto.setProdSalesPrice(product.getProdSalesPrice());
                     dto.setProdMainImgPath(product.getProdMainImgPath());
                     return dto;
@@ -72,11 +74,23 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
+    // [상품 목록] 할인 상품 조회
     @Override
-    public List<ProductResponse> findBySaleProdJPQL() {
+    public List<ProductResponse> findBySaleProd() {
         Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
-        List<Product> products = productRepository.findByProdJPQL(PageRequest.of(0, 18, sort));
-        return null;
+        List<Product> products = productRepository.findSaleProducts(sort);
+        return products.stream()
+                .map(product -> {
+                    ProductResponse dto = new ProductResponse();
+                    dto.setProdId(product.getProdId());
+                    dto.setProdName(product.getProdName());
+                    dto.setProdCategory(product.getProdCategory());
+                    dto.setProdOriginPrice(product.getProdOriginPrice());
+                    dto.setProdSalesPrice(product.getProdSalesPrice());
+                    dto.setProdMainImgPath(product.getProdMainImgPath());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     // [상품 목록] - 전체 상품을 정렬

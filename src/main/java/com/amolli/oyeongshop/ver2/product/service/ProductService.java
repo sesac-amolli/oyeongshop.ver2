@@ -24,7 +24,7 @@ public interface ProductService {
 
     List<ProductResponse> findByNewProdJPQL();
 
-    List<ProductResponse> findBySaleProdJPQL();
+    List<ProductResponse> findBySaleProd();
 
 //    void uploadDB(List<String> imageUrls, ProductRegisterRequest productRegisterRequest);
 
