@@ -132,22 +132,6 @@ public class ProductManagerController {
     }
 
     // POST 리뷰 작성 (INSERT)
-    @PostMapping(value = "/register/{prodId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadFileForProduct(@RequestParam(value = "image1", required = false) List<MultipartFile> files, ProductDTO productDTO
-            , @RequestParam("prodId") Long prodId) {
 
-        System.out.println("5555555555555");
-        List<String> imagepath = null;
 
-        // 멀티파트파일->S3에 업로드 하고 imageUrls 리스트로 받아옴
-        if(!ObjectUtils.isEmpty(files) && !files.get(0).getOriginalFilename().equals("")){
-            imagepath = awsS3ServiceProduct.uploadS3ForProduct(files);
-        }
-
-        // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
-        // 추후 변경 1L -> prodId 로
-        productService.uploadDBForProduct(imagepath, productDTO, prodId);
-
-        return "/product/product-register";
-    }
 }

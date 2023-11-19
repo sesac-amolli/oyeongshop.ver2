@@ -230,12 +230,12 @@ public class ProductController {
     // [상품 옵션 등록] - 상품 옵션의 prodId가 null인 인덱스를 prodId로 업데이트
     @ResponseBody
     @PostMapping("/register/{prodId}")
-    public void updateProdIdWhereNullWhenProdReg(@PathVariable Long prodId) {
+    public void updateProdIdWhereNullWhenProdReg(@PathVariable Long prodId, Model model) {
         productOptionService.updateProdIdWhereNull(prodId);
     }
 
     // GET 리뷰 작성 페이지 조회(해당 페이지의 상품 id 가져와서)
-    @GetMapping("/register/{prodId}")
+    @GetMapping("/register/picture/{prodId}")
     public String productImage(@PathVariable Long prodId , Model model) {
 
         Product product = productService.findById(prodId);
@@ -248,27 +248,65 @@ public class ProductController {
         model.addAttribute("product", product);
 
         System.out.println("4444444444444");
-        return "/product/product-list";
+        return "/product/product-register-detail";
     }
 
     // POST 리뷰 작성 (INSERT)
-    @PostMapping(value = "/register/{prodId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String uploadFileForProduct(@RequestParam(value = "image1", required = false) List<MultipartFile> files, ProductDTO productDTO
-                            ,@RequestParam("prodId") Long prodId) {
-
+//    @PostMapping(value = "/register/picture/{prodId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public String uploadFileForProduct(@RequestParam(value = "image1", required = false) List<MultipartFile> files, ProductDTO productDTO
+//                            ,@RequestParam("prodId") Long prodId) {
+//
+//        System.out.println("5555555555555");
+//        List<String> imagepath = null;
+//
+//        // 멀티파트파일->S3에 업로드 하고 imageUrls 리스트로 받아옴
+//        if(!ObjectUtils.isEmpty(files) && !files.get(0).getOriginalFilename().equals("")){
+//            imagepath = awsS3ServiceProduct.uploadS3ForProduct(files);
+//        }
+//
+//        // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
+//        // 추후 변경 1L -> prodId 로
+//        productService.uploadDBForProduct(imagepath, productDTO, prodId);
+//
+//        return "/product/product-management";
+//    }
+    @PostMapping(value = "/register/picture/{prodId}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String uploadFileForProduct(@RequestParam(value = "image1", required = false) List<MultipartFile> files,
+                                       ProductDTO productDTO, @PathVariable Long prodId, @AuthenticationPrincipal PrincipalDetails details) {
         System.out.println("5555555555555");
         List<String> imagepath = null;
 
         // 멀티파트파일->S3에 업로드 하고 imageUrls 리스트로 받아옴
-        if(!ObjectUtils.isEmpty(files) && !files.get(0).getOriginalFilename().equals("")){
+        if (!ObjectUtils.isEmpty(files) && !files.get(0).getOriginalFilename().equals("")) {
             imagepath = awsS3ServiceProduct.uploadS3ForProduct(files);
         }
+        System.out.println("66666666666666");
 
         // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
         // 추후 변경 1L -> prodId 로
-        productService.uploadDBForProduct(imagepath, productDTO, prodId);
+        productService.uploadDBForProduct(imagepath, productDTO, prodId, details);
+        System.out.println("7777777777777");
 
-        return "/product/product-register";
+        return "/product/product-management";
     }
+//    @PostMapping(value = "/register/picture/{prodId}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+//    public String uploadFileForProduct(@RequestParam(value = "image1", required = false) List<MultipartFile> files,
+//                                       ProductDTO productDTO, @PathVariable Long prodId) {
+//        System.out.println("5555555555555");
+//        List<String> imagepath = null;
+//
+//        // 멀티파트파일->S3에 업로드 하고 imageUrls 리스트로 받아옴
+//        if (!ObjectUtils.isEmpty(files) && !files.get(0).getOriginalFilename().equals("")) {
+//            imagepath = awsS3ServiceProduct.uploadS3ForProduct(files);
+//        }
+//        System.out.println("66666666666666");
+//
+//        // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
+//        // 추후 변경 1L -> prodId 로
+//        productService.uploadDBForProduct(imagepath, productDTO, prodId);
+//        System.out.println("7777777777777");
+//
+//        return "/product/product-management";
+//    }
 }
 

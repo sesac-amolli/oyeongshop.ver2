@@ -45,7 +45,7 @@
         <tr>
             <td class="title">상품대분류</td>
             <td class="content">
-                <select th:field="*{prodCategory}" style="width: 100px;">
+                <select th:field="${product.prodCategory}" style="width: 100px;" th:value="${product.prodCategory}">
                     <option value="Top">Top</option>
                     <option value="Bottom">Bottom</option>
                     <option value="Outer">Outer</option>

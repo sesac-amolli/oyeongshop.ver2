@@ -20,42 +20,33 @@
 <body th:fragment="option" th:object="${productOption}">
 <section class="main"></section>
 
-<div th:if="${product.prodId == null}">
-    <div style="font-size: 18px; font-weight: bold;">상품 옵션 정보 등록</div>
-    <table class="optionTable1">
-        <tbody th:each="productOption, iterStat : ${productOption}">
-        <tr>
-            <td class="title">색상</td>
-            <td class="title">사이즈</td>
-            <td class="title">재고</td>
-        </tr>
-        <tr>
-            <td><input type="text" th:field="*{prodOptColor}"/></td>
-            <td><input type="text" th:field="*{prodOptSize}"/></td>
-            <td><input type="text" th:field="*{prodOptAmount}"/></td>
-        </tr>
+<td><input type="text" th:field="${product.prodId}"/></td>
+<div th:text="${product.prodId == null} ? '상품 옵션 정보 등록' : '상품 옵션 정보 수정'" style="font-size: 18px; font-weight: bold;"></div>
+    <table class="optionTable">
+        <tbody th:each="productOption : ${productOption}">
+            <tr>
+                <td class="title">색상</td>
+                <td class="title">사이즈</td>
+                <td class="title">재고</td>
+            </tr>
+            <tr th:if="${product.prodId == null}">
+                <td><input type="text" th:field="*{prodOptColor}"/></td>
+                <td><input type="text" th:field="*{prodOptSize}"/></td>
+                <td><input type="text" th:field="*{prodOptAmount}"/></td>
+            </tr>
+            <tr th:if="${product.prodId != null}">
+                <td><input type="text" th:field="${productOption.prodOptColor}"/></td>
+                <td><input type="text" th:field="${productOption.prodOptSize}"/></td>
+                <td><input type="text" th:field="${productOption.prodOptAmount}"/></td>
+            </tr>
         </tbody>
     </table>
     <button type="button" class="btn btn-success" onclick="addRow()"> + </button>
     <button type="button" class="btn btn-success" onclick="removeRow()"> - </button>
 
-</div>
-
 <div th:if="${product.prodId != null}">
-    <div style="font-size: 18px; font-weight: bold;">상품 옵션 정보 수정</div>
     <table class="optionTable2">
-        <tbody th:each="productOption : ${productOption}">
-        <tr>
-            <td class="title">색상</td>
-            <td class="title">사이즈</td>
-            <td class="title">재고</td>
-        </tr>
-        <tr>
-            <td><input type="text" th:field="${productOption.prodOptColor}"/></td>
-            <td><input type="text" th:field="${productOption.prodOptSize}"/></td>
-            <td><input type="text" th:field="${productOption.prodOptAmount}"/></td>
-        </tr>
-        </tbody>
+
     </table>
     <button type="button" class="btn btn-success" onclick="addRow()"> + </button>
     <button type="button" class="btn btn-success" onclick="removeRow()"> - </button>
