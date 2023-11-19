@@ -59,7 +59,8 @@
                             <div class="id" th:text="${dtos.size}">사이즈</div>
                         </td>
                         <td>
-                            <div class="content" th:text="${dtos.prodSalesPrice}">가격</div>
+                            <del><div class="content" th:text="${dtos.prodOriginPrice}">소비자가격</div></del>
+                            <div class="content" th:text="${dtos.prodSalesPrice}">세일가격</div>
                         </td>
                     <!-- 장바구니 수량 변경.유미 -->
 <!--                    <td>-->

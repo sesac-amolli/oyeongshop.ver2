@@ -13,16 +13,17 @@ public class CartItemResponseDTO {
     private String size;
     private int quantity;
     private Long prodSalesPrice;
+    private Long prodOriginPrice;
     private String prodName;
 
-    public CartItemResponseDTO(Long cartItemId, String color, String size, int quantity, Long prodSalesPrice, String prodName) {
+    public CartItemResponseDTO(Long cartItemId, String color, String size, int quantity, Long prodSalesPrice, Long prodOriginPrice, String prodName) {
         this.cartItemId = cartItemId;
         this.color = color;
         this.size = size;
         this.quantity = quantity;
         this.prodSalesPrice = prodSalesPrice;
+        this.prodOriginPrice = prodOriginPrice;
         this.prodName = prodName;
-
     }
 
     public static CartItemResponseDTO from(CartItem cartItem){
@@ -31,8 +32,9 @@ public class CartItemResponseDTO {
         final String size = cartItem.getProductOption().getProdOptSize();
         final int quantity = cartItem.getCartItemAmount();
         final Long prodSalesPrice = cartItem.getProductOption().getProduct().getProdSalesPrice();
+        final Long prodOriginPrice = cartItem.getProductOption().getProduct().getProdOriginPrice();
         final String prodName = cartItem.getProductOption().getProduct().getProdName();
-        return new CartItemResponseDTO(cartItemId, color, size, quantity, prodSalesPrice, prodName);
+        return new CartItemResponseDTO(cartItemId, color, size, quantity, prodSalesPrice, prodOriginPrice, prodName);
     }
 
 
