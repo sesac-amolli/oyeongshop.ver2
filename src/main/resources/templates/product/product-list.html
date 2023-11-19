@@ -16,14 +16,21 @@
 <div id="right">
     <form id="sortForm" action="/product/list" method="get" style="margin-bottom:10px;">
         <div class="toggle-btn">
-            <label for="sort">정렬</label>
+            <label for="sort"></label>
             <select id="sort" name="sort" onchange="handleChange()">
                 <option th:data-select-sort="${prodCategory} + '/regdate'" th:value="${prodCategory} + '/regdate'">최근 등록일 순</option>
                 <option th:data-select-sort="${prodCategory} + '/pricelow'" th:value="${prodCategory} + '/pricelow'">가격 낮은 순</option>
                 <option th:data-select-sort="${prodCategory} + '/pricehigh'" th:value="${prodCategory} + '/pricehigh'">가격 높은 순</option>
             </select>
         </div>
-<!--                <div th:text="'카테고리: ' + ${prodCategory}"></div>-->
+<!--        <div class="toggle-btn">-->
+<!--            <label for="sort">정렬</label>-->
+<!--            <div id="sort">-->
+<!--                <a href="#" onclick="handleChange('${prodCategory}/regdate')">최근 등록일 순</a>-->
+<!--                <a href="#" onclick="handleChange('${prodCategory}/pricelow')">가격 낮은 순</a>-->
+<!--                <a href="#" onclick="handleChange('${prodCategory}/pricehigh')">가격 높은 순</a>-->
+<!--            </div>-->
+<!--        </div>-->
         <script th:inline="javascript">
             $(document).ready(function(){
                 let sort = [[${prodCategory}]]+"/"+[[${sort}]];
@@ -40,8 +47,7 @@
                         <div class="img_cover">
                             <img class="product_img" alt="" th:src="${productList[iterStat.index].prodMainImgPath}">
                             <p th:text="${productList[iterStat.index].prodName}"></p>
-                            <p style="text-decoration: line-through;" th:text="${productList[iterStat.index].prodOriginPrice + '원'}"></p>
-                            <p th:if="${productList[iterStat.index].prodOriginPrice != productList[iterStat.index].prodSalesPrice}"
+                            <p style="text-decoration: line-through;" th:if="${productList[iterStat.index].prodOriginPrice > productList[iterStat.index].prodSalesPrice}"
                                th:text="${productList[iterStat.index].prodOriginPrice + '원'}"></p>
                             <p th:text="${productList[iterStat.index].prodSalesPrice + '원'}"></p>
                         </div>
@@ -52,8 +58,7 @@
                         <div class="img_cover">
                             <img class="product_img" alt="" th:src="${productList[iterStat.index+1].prodMainImgPath}">
                             <p th:text="${productList[iterStat.index+1].prodName}"></p>
-                            <p style="text-decoration: line-through;" th:text="${productList[iterStat.index+1].prodOriginPrice + '원'}"></p>
-                            <p th:if="${productList[iterStat.index+1].prodOriginPrice != productList[iterStat.index+1].prodSalesPrice}"
+                            <p style="text-decoration: line-through;" th:if="${productList[iterStat.index+1].prodOriginPrice > productList[iterStat.index+1].prodSalesPrice}"
                                th:text="${productList[iterStat.index+1].prodOriginPrice + '원'}"></p>
                             <p th:text="${productList[iterStat.index+1].prodSalesPrice + '원'}"></p>
                         </div>
@@ -64,8 +69,7 @@
                         <div class="img_cover">
                             <img class="product_img" alt="" th:src="${productList[iterStat.index+2].prodMainImgPath}">
                             <p th:text="${productList[iterStat.index+2].prodName}"></p>
-                            <p style="text-decoration: line-through;" th:text="${productList[iterStat.index+2].prodOriginPrice + '원'}"></p>
-                            <p th:if="${productList[iterStat.index+2].prodOriginPrice != productList[iterStat.index+2].prodSalesPrice}"
+                            <p style="text-decoration: line-through;" th:if="${productList[iterStat.index+2].prodOriginPrice > productList[iterStat.index+2].prodSalesPrice}"
                                th:text="${productList[iterStat.index+2].prodOriginPrice + '원'}"></p>
                             <p th:text="${productList[iterStat.index+2].prodSalesPrice + '원'}"></p>
                         </div>

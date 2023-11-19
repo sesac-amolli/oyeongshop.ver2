@@ -11,16 +11,11 @@
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
     <title>상품 등록 페이지</title>
-    <style>
-        tr.hidden {
-        display: none;
-    }
-    </style>
+
 </head>
 <body th:fragment="option" th:object="${productOption}">
 <section class="main"></section>
 
-<td><input type="text" th:field="${product.prodId}"/></td>
 <div th:text="${product.prodId == null} ? '상품 옵션 정보 등록' : '상품 옵션 정보 수정'" style="font-size: 18px; font-weight: bold;"></div>
     <table class="optionTable">
         <tbody th:each="productOption : ${productOption}">
@@ -43,14 +38,6 @@
     </table>
     <button type="button" class="btn btn-success" onclick="addRow()"> + </button>
     <button type="button" class="btn btn-success" onclick="removeRow()"> - </button>
-
-<div th:if="${product.prodId != null}">
-    <table class="optionTable2">
-
-    </table>
-    <button type="button" class="btn btn-success" onclick="addRow()"> + </button>
-    <button type="button" class="btn btn-success" onclick="removeRow()"> - </button>
-</div>
 
 </body>
 </html>

@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
 
     // [상품 목록] - best100 상품 조회
     @Override
-    public List<ProductResponse> findProduct100() {
+    public List<ProductResponse> findProduct100(String sortValue) {
         List<Object[]> products = productRepository.findByTopProdJPQL(PageRequest.of(0, 100));
         return products.stream()
                 .map(product -> {
@@ -81,9 +81,18 @@ public class ProductServiceImpl implements ProductService {
 
     // [상품 목록] - 할인 상품 조회
     @Override
-    public List<ProductResponse> findBySaleProd() {
-        Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
-        List<Product> products = productRepository.findSaleProducts(sort);
+    public List<ProductResponse> findBySaleProd(String sortValue) {
+        List<Product> products;
+        if (sortValue.equals("pricelow")) {
+            Sort sort = Sort.by(Sort.Direction.ASC, "prodSalesPrice");
+            products = productRepository.findSaleProducts(sort);
+        } else if (sortValue.equals("pricehigh")) {
+            Sort sort = Sort.by(Sort.Direction.DESC, "prodSalesPrice");
+            products = productRepository.findSaleProducts(sort);
+        } else {
+            Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
+            products = productRepository.findSaleProducts(sort);
+        }
         return products.stream()
                 .map(product -> {
                     ProductResponse dto = new ProductResponse();

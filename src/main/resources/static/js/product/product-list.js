@@ -1,8 +1,7 @@
 function handleChange() {
+//function handleChange(selection) {
 //    console.log(button,"button");
     var selection = $('#sort option:selected').data('select-sort');
-//    var pricelow = $('#sort option:selected').data('pricelow');
-//    var pricehigh = $('#sort option:selected').data('pricehigh');
 
     var url = '/product/list/'+selection;
     // 직접 페이지로 이동

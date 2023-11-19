@@ -23,11 +23,11 @@ public interface ProductService {
 
     void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId, PrincipalDetails userDetails);
 
-    List<ProductResponse> findProduct100();
+    List<ProductResponse> findProduct100(String sort);
 
     List<ProductResponse> findByNewProdJPQL();
 
-    List<ProductResponse> findBySaleProd();
+    List<ProductResponse> findBySaleProd(String sort);
 
 
 }
