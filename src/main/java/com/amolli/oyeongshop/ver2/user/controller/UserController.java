@@ -129,4 +129,13 @@ public class UserController {
         userService.deleteWishList(wishlistId);
         System.out.println("Controller~!~!~ wishlistId:::" + wishlistId);
     }
+
+
+    @PostMapping("/wishlist-delete")
+    public String deleteMyWishList(@RequestParam("wishProdId") Long prodId, @AuthenticationPrincipal PrincipalDetails details){
+        Long wishlistId = userService.findWishList(prodId, details);
+        userService.deleteWishList(wishlistId);
+        System.out.println("Controller~!~!~ wishlistId:::" + wishlistId);
+        return "redirect:/user/wishlist";
+    }
 }

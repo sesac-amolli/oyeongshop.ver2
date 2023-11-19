@@ -12,33 +12,42 @@
 </head>
 <body layout:fragment="content">
 
-<div class="title">Review</div>
-<!-- 리뷰 id 개수만큼 반복 -->
-<div class="review">
+<div class="title">WishList</div>
+<!-- 위시리스트 id 개수만큼 반복 -->
+<div class="wishlist">
     <tr th:each="wishlists : ${wishListDTOS}">
         <div class="wishlist-item">
 
             <td>
-                <div class="mainImg"><img th:src="${wishlists.prodMainImgPath}"/></div>
+                <div class="wish"><img th:src="${wishlists.prodMainImgPath}"/></div>
             </td>
 
             <td>
-                <div class="prodName" th:text="${wishlists.prodName}">상품명</div>
+                <div class="wish" th:text="${wishlists.prodName}">상품명</div>
             </td>
 
             <td>
-                <div class="price" th:text="${wishlists.prodSalesPrice}">판매가격</div>
+<!--                <div class="wish" th:text="${wishlists.prodSalesPrice}">판매가격</div>-->
+                <div class="wish" th:text="${#numbers.formatInteger(wishlists.prodSalesPrice, 1, 'COMMA')+ '원'}">판매가격</div>
             </td>
 
             <td>
-                <form id="deleteForm" th:action="@{'/user/wishlist-delete/{wishlists.prodId}'}" method="POST">
-<!--                    <input type="hidden" name="deleteId" th:value="${reviews.reviewId}"/>-->
-                    <button type="submit" class="btn btn-default">삭제</button>
-                </form>
+
+                <div id="jjimMinus2">
+                    <button th:onclick="'jjimMinus2(\'' + ${wishlists.prodId} + '\')'">
+                        <img class="wishImg" id="wish" th:src="${'/images/wish.png'}" alt="찜해제 이미지"></button>
+                </div>
+
+<!--                <form id="deleteForm" th:action="@{'/user/wishlist-delete'}" method="POST">-->
+<!--                    <input type="hidden" name="wishProdId" th:value="${wishlists.prodId}">-->
+<!--                    <button type="submit">-->
+<!--                        <img class="wishImg" th:src="${'/images/wish.png'}" alt="찜하기 이미지"></button>-->
+<!--                </form>-->
             </td>
         </div>
     </tr>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="/js/user/wishlist.js"></script>
 </body>
 </html>

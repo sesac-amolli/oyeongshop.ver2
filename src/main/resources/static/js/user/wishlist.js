@@ -61,3 +61,53 @@ function jjimMinus(prodId){
             }
         });
 }
+
+
+/*
+function jjimMinus2(prodId){
+    console.log("prodId" + prodId);
+
+    $.ajax({
+            type: 'POST',
+            url: '/user/wishlist-delete/'+prodId,
+            success: function (result) {
+                console.log("result",result);
+                let jjimAddDiv = $("#jjimAdd");
+                    let jjimMinusDiv = $("#jjimMinus");
+
+                        jjimAddDiv.show();
+                        jjimMinusDiv.hide();
+
+
+            },
+            error: function () {
+                console.log('Error updating product status');
+            }
+        });
+}
+*/
+
+
+function jjimMinus2(prodId) {
+    console.log("prodId" + prodId);
+
+    $.ajax({
+        type: 'POST',
+        url: '/user/wishlist-delete/' + prodId,
+        success: function (result) {
+            console.log("result", result);
+            let jjimAddDiv = $("#jjimAdd");
+            let jjimMinusDiv = $("#jjimMinus");
+
+            jjimAddDiv.show();
+            jjimMinusDiv.hide();
+
+            // Reload the page
+            location.reload();
+        },
+        error: function () {
+            console.log('Error updating product status');
+        }
+    });
+}
+

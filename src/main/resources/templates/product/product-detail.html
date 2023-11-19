@@ -93,7 +93,7 @@
 
                             <!--     찜하기 버튼       -->
             <div id="jjimContainer">
-                <div id="jjimAdd" th:if="${wishListId ne null}">
+                <div id="jjimAdd" th:data-wish-list-id="${wishListId}" th:if="${wishListId ne null}">
                     <button th:onclick="'jjimAdd(\'' + ${product.prodId} + '\')'">
                         <img id="wish2" th:src="${'/images/wish2.png'}" alt="찜하기 이미지"></button>
                 </div>
