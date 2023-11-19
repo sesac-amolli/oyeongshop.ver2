@@ -1,8 +1,11 @@
 package com.amolli.oyeongshop.ver2.user.controller;
 
+import com.amolli.oyeongshop.ver2.board.dto.ReviewResponseDTO;
+import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 
 import com.amolli.oyeongshop.ver2.user.dto.WishListDTO;
+import com.amolli.oyeongshop.ver2.user.dto.WishListResponseDTO;
 import com.amolli.oyeongshop.ver2.user.model.Wishlist;
 import com.amolli.oyeongshop.ver2.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +21,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -95,7 +100,13 @@ public class UserController {
     }
 
     @GetMapping("/wishlist")
-    public String wishlist(){
+    public String wishlist(@AuthenticationPrincipal PrincipalDetails details, Long wishListId, Model model){
+
+        List<Wishlist> wishlists = userService.findMyWishList(details);
+
+        List<WishListResponseDTO> wishListDTOS = wishlists.stream().map(WishListResponseDTO::from).collect(Collectors.toList());
+
+        model.addAttribute("wishListDTOS", wishListDTOS);
 
         return "/user/wishlist";
     }
@@ -117,5 +128,14 @@ public class UserController {
         Long wishlistId = userService.findWishList(prodId, details);
         userService.deleteWishList(wishlistId);
         System.out.println("Controller~!~!~ wishlistId:::" + wishlistId);
+    }
+
+
+    @PostMapping("/wishlist-delete")
+    public String deleteMyWishList(@RequestParam("wishProdId") Long prodId, @AuthenticationPrincipal PrincipalDetails details){
+        Long wishlistId = userService.findWishList(prodId, details);
+        userService.deleteWishList(wishlistId);
+        System.out.println("Controller~!~!~ wishlistId:::" + wishlistId);
+        return "redirect:/user/wishlist";
     }
 }

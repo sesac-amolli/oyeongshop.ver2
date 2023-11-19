@@ -7,6 +7,7 @@ import com.amolli.oyeongshop.ver2.user.dto.UserDTO;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.model.Wishlist;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -17,6 +18,8 @@ public interface UserService {
     Long uploadWish(PrincipalDetails userDetails, Long prodId, WishListDTO wishListDTO);
     Long findWishList(Long prodId, PrincipalDetails details);
     void deleteWishList(Long wishListId);
+    List<Wishlist> findMyWishList(PrincipalDetails details);
+
 
     boolean checkId(String id);
 }

@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -93,4 +94,11 @@ public class UserServiceImpl implements UserService{
     public void deleteWishList(Long wishListId) {
         wishlistRepository.deleteById(wishListId);
     }
+
+    @Override
+    public List<Wishlist> findMyWishList(PrincipalDetails details) {
+        String userId = details.getUser().getUserId();
+        return wishlistRepository.findByUser_UserId(userId);
+    }
+
 }

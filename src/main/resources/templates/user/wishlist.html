@@ -8,61 +8,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link href="/css/user/wishlist.css" rel="stylesheet" type="text/css" />
+    <link href="/css/user/wishlist.css" rel="stylesheet"/>
 </head>
 <body layout:fragment="content">
-  <section class="wrapper">
-    <aside class="aside">
-        <div class="main-title">
-            <div class="main-img-div">
-                <img alt="" src="img/main1.png">
-            </div>
+
+<div class="title">WishList</div>
+<!-- 위시리스트 id 개수만큼 반복 -->
+<div class="wishlist">
+    <tr th:each="wishlists : ${wishListDTOS}">
+        <div class="wishlist-item">
+
+            <td>
+                <div class="wish"><img th:src="${wishlists.prodMainImgPath}"/></div>
+            </td>
+
+            <td>
+                <div class="wish" th:text="${wishlists.prodName}">상품명</div>
+            </td>
+
+            <td>
+<!--                <div class="wish" th:text="${wishlists.prodSalesPrice}">판매가격</div>-->
+                <div class="wish" th:text="${#numbers.formatInteger(wishlists.prodSalesPrice, 1, 'COMMA')+ '원'}">판매가격</div>
+            </td>
+
+            <td>
+
+                <div id="jjimMinus2">
+                    <button th:onclick="'jjimMinus2(\'' + ${wishlists.prodId} + '\')'">
+                        <img class="wishImg" id="wish" th:src="${'/images/wish.png'}" alt="찜해제 이미지"></button>
+                </div>
+
+<!--                <form id="deleteForm" th:action="@{'/user/wishlist-delete'}" method="POST">-->
+<!--                    <input type="hidden" name="wishProdId" th:value="${wishlists.prodId}">-->
+<!--                    <button type="submit">-->
+<!--                        <img class="wishImg" th:src="${'/images/wish.png'}" alt="찜하기 이미지"></button>-->
+<!--                </form>-->
+            </td>
         </div>
-    </aside>
-    <div class="row">
-        <blockquote><p>관심상품</p></blockquote>
-        <!-- <div class="col-md-1"><strong>관심상품</strong></div> -->
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3">
-                <img src="login_img.png" class="img-responsive" alt="Responsive image">
-                <div class="row">
-                    <div class="col-md-4">상품명
-                        <br>32,000원
-                    </div>
-                    <div class="col-md-2">
-                        찜
-                        <img src="login_img.png" class="img-responsive" alt="Responsive image">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <img src="login_img.png" class="img-responsive" alt="Responsive image">
-                <div class="row">
-                    <div class="col-md-4">상품명
-                        <br>32,000원
-                    </div>
-                    <div class="col-md-2">
-                        찜
-                        <img src="login_img.png" class="img-responsive" alt="Responsive image">
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <img src="login_img.png" class="img-responsive" alt="Responsive image">
-                <div class="row">
-                    <div class="col-md-4">상품명
-                        <br>32,000원
-                    </div>
-                    <div class="col-md-2">
-                        찜
-                        <img src="login_img.png" class="img-responsive" alt="Responsive image">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  </section>
+    </tr>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="/js/user/wishlist.js"></script>
 </body>
 </html>
