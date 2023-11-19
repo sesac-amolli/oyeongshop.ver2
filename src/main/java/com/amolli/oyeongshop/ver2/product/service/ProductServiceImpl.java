@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByProdId(prodId);
     }
 
-    // [상품 목록] best100 상품 조회
+    // [상품 목록] - best100 상품 조회
     @Override
     public List<ProductResponse> findProduct100() {
         List<Object[]> products = productRepository.findByTopProdJPQL(PageRequest.of(0, 100));
@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 목록] 신상품 조회
+    // [상품 목록] - 신상품 조회
     @Override
     public List<ProductResponse> findByNewProdJPQL() {
         Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
@@ -79,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 목록] 할인 상품 조회
+    // [상품 목록] - 할인 상품 조회
     @Override
     public List<ProductResponse> findBySaleProd() {
         Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
@@ -98,7 +98,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 목록] - 전체 상품을 정렬
+    // [상품 목록] - 전체 상품(all)을 정렬
     public List<ProductResponse> findByProdCategoryJPQL(String sortValue) {
         List<Product> products;
         if (sortValue.equals("pricelow")) {
@@ -125,7 +125,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 목록] - 상품을 카테고리별로 분류 및 정렬
+    // [상품 목록] - 상품을 카테고리(all 외)별로 분류 및 정렬
     public List<ProductResponse> findByProdCategoryJPQL(String prodCategory, String sortValue) {
         List<Product> products;
         if (sortValue.equals("pricelow")) {
@@ -220,7 +220,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    // [상품 상세정보 수정]
+    // [상품 이미지 수정]
     public void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId) {
         // CrudRepository에서 findById는 return 타입이 Optional이다.
         // 아래를 productRepository.findById(prodId).orElse()Repository 한줄로도 가능
