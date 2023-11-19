@@ -1,5 +1,6 @@
 package com.amolli.oyeongshop.ver2.product.service;
 
+import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.model.ReviewImg;
 import com.amolli.oyeongshop.ver2.product.dto.ProductDTO;
 import com.amolli.oyeongshop.ver2.product.dto.ProductRegisterRequest;
@@ -36,6 +37,11 @@ ProductServiceImpl implements ProductService {
     @Override
     public Product saveProduct(Product product) {
         return productRepository.save(product);
+    }
+
+    @Override
+    public List<Product> findByProdId(Long prodId) {
+        return productRepository.findByProdId(prodId);
     }
 
     // [상품 목록] - 전체 상품을 정렬

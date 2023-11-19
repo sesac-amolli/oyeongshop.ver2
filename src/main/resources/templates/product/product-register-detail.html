@@ -22,7 +22,7 @@
 <div th:if="${product.prodDesc == null}" style="font-size: 18px; font-weight: bold;">상품 상세정보 등록</div>
 <div th:if="${product.prodDesc != null}" style="font-size: 18px; font-weight: bold;">상품 상세정보 수정</div>
 
-<form th:action="${product.prodId != null} ? '/product/edit/' + ${product.prodId} : '/product/register'"
+<form th:action="${product.prodId != null} ? '/product/edit/' + ${product.prodId} : '/product/register-detail/' + ${product.prodId}"
       th:object="${product}" class="qna-register" method="post">
     <div class="container">
         <input type="text" th:field="*{prodName}" class="hidden"/>

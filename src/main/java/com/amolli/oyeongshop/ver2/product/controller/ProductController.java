@@ -4,9 +4,13 @@ import com.amolli.oyeongshop.ver2.board.dto.ReviewResponseDTO;
 import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.service.ReviewService;
 import com.amolli.oyeongshop.ver2.product.dto.ProductDTO;
+import com.amolli.oyeongshop.ver2.product.dto.ProductImageResponseDTO;
 import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
+import com.amolli.oyeongshop.ver2.product.dto.ProductResponseDTO;
 import com.amolli.oyeongshop.ver2.product.model.Product;
+import com.amolli.oyeongshop.ver2.product.model.ProductImage;
 import com.amolli.oyeongshop.ver2.product.model.ProductOption;
+import com.amolli.oyeongshop.ver2.product.service.ProductImageService;
 import com.amolli.oyeongshop.ver2.product.service.ProductOptionService;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
@@ -23,6 +27,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -33,10 +38,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/product")
 @RequiredArgsConstructor
 public class ProductController {
+    private final AwsS3ServiceProduct awsS3ServiceProduct;
     private final ProductService productService;
     private final ProductOptionService productOptionService;
+    private final ProductImageService productImageService;
     private final ReviewService reviewService;
-    private final AwsS3ServiceProduct awsS3ServiceProduct;
     private final UserService userService;
 
 
@@ -101,7 +107,7 @@ public class ProductController {
         Product product = productService.findById(prodId);
 
         // 중복 옵션 제거
-        product = productService.removeDuplicateOptions(product);
+//        product = productService.removeDuplicateOptions(product);
 //        product = productService.removeDuplicateSizes(product);
 
         //productId를 사용하여 필요한 데이터를 데이터베이스에서 가져온다.
@@ -115,6 +121,11 @@ public class ProductController {
         model.addAttribute("reviewdto", reviewdto);
 
         System.out.println("reviewdto");
+
+        // 상품 이미지 List 불러오기
+        List<Product> products = productService.findByProdId(prodId);
+        List<ProductResponseDTO> productImageResponseDTO =  products.stream().map(ProductResponseDTO::from).collect(Collectors.toList());
+        model.addAttribute("productImageResponseDTO",productImageResponseDTO);
 
         // 찜여부 확인하기
 //        Long wishlistId = userService.findWishList(prodId, details);
@@ -217,7 +228,7 @@ public class ProductController {
 
     // [상품 등록] - POST 요청을 처리하여 상품을 등록하는 메서드
     @PostMapping("/register")
-    public String processCreationForm(@Valid Product product, @Valid ProductOption productOption, BindingResult result) {
+    public String processCreationForm(@Valid Product product, @Valid ProductOption productOption, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "product/product-register";
         } else {
@@ -229,7 +240,9 @@ public class ProductController {
             productOptionService.saveProductOption(productOption);
             System.out.println("222222222222");
 
-            return "/product/product-register-detail";
+            // prodId를 URL에 추가하여 리다이렉트
+            System.out.println(redirectAttributes.addAttribute("prodId", product.getProdId()));
+            return "product/product-register-detail";
         }
     }
 

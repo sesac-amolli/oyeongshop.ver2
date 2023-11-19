@@ -39,15 +39,20 @@ public class Product {
 
     @UpdateTimestamp
     private LocalDateTime prodEditDate;
+
+    @Builder.Default
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProductImage> productImages = new ArrayList<>();
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<ProductOption> productOptions = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
     private List<Question> questions = new ArrayList<>();
+
     @OneToMany(mappedBy = "product")
     private List<Review> reviews = new ArrayList<>();
+
     @OneToMany(mappedBy = "product")
     private List<Wishlist> wishLists = new ArrayList<>();
 

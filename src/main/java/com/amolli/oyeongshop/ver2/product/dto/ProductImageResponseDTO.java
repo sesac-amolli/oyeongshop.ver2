@@ -10,17 +10,17 @@ import lombok.ToString;
 @ToString
 public class ProductImageResponseDTO {
     private Long prodImageId;
-    private String prodImageUrl;
+    private String prodServerFilePath;
 
-    public ProductImageResponseDTO(Long prodImageId, String prodImageUrl) {
+    public ProductImageResponseDTO(Long prodImageId, String prodServerFilePath) {
         this.prodImageId = prodImageId;
-        this.prodImageUrl = prodImageUrl;
+        this.prodServerFilePath = prodServerFilePath;
     }
 
     public static ProductImageResponseDTO from(ProductImage productImage) {
         final Long prodImageId = productImage.getProdImageId();
-        final String prodImageUrl = productImage.getProdServerFilePath();
+        final String prodServerFilePath = productImage.getProdServerFilePath();
 
-        return new ProductImageResponseDTO(prodImageId, prodImageUrl);
+        return new ProductImageResponseDTO(prodImageId, prodServerFilePath);
     }
 }

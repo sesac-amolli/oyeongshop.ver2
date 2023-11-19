@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lagn="ko"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body th:fragment="menu">
+	<nav>
+		<div class="toggle-btn" id="search-area">
+			<input type="text" id="search-input" placeholder="상품 검색"/>
+			<button type="button" id="search-btn" onclick="alert('클릭!')">
+				<img src="/images/돋보기.svg"/>
+			</button>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="/product/register">상품 등록</a>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="/product/management">상품 관리</a>
+		</div>
+		<div class="toggle-btn">
+			<a class="side-menu" href="/board/">문의 게시판 관리</a>
+		</div>
+	</nav>
+</body>
+</html>

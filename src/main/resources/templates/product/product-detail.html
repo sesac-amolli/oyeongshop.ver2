@@ -11,7 +11,6 @@
 
     <title>상품 정보 페이지</title>
 
-
 </head>
 <body layout:fragment="content" th:object="${product}">
 <div class="container">
@@ -49,7 +48,7 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <select style="width: 100px;" id="colorSelect">
+                        <select style="width: 100px;" id="colorSelect" onchange="updateSelect('colorSelect')">
                             <option selected disabled>색상</option>
                             <option th:each="productOption : ${product.productOptions}"
                                     th:value="${productOption.prodOptColor}"
@@ -65,7 +64,7 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <select  style="width: 100px;" id="sizeSelect">
+                        <select style="width: 100px;" id="sizeSelect" onchange="updateSelect('sizeSelect')">
                             <option selected disabled>사이즈</option>
                             <option th:each="productOption : ${product.productOptions}"
                                     th:value="${productOption.prodOptSize}"
@@ -103,34 +102,41 @@
                     <button th:onclick="'jjimMinus(\'' + ${product.prodId} + '\')'">찜해제</button>
                 </div>
             </div>
-
-
-
-
-
-
-
 <!--            <form class="form-wishlist" method="POST" action="/user/wishlist-delete">-->
 <!--                <input type="hidden" name="wishProdId" th:value="${product.prodId}">-->
 <!--                <button type="submit">찜없애기</button>-->
 <!--            </form>-->
-
-
         </div>
     </div>
+    <div style="font-size: 18px; font-weight: bold;">상세정보</div>
+        <table>
+            <tr th:each="productImages : ${productImageResponseDTO}">
+                <td>
+                    <div th:if="${#lists.isEmpty(productImages.productImages)}">
+                        <p>첨부한 이미지가 없습니다.</p>
+                    </div>
+                    <div th:if="${!#lists.isEmpty(productImages.productImages)}">
+                        <div th:each="imgs : ${productImages.productImages}">
+                            <img th:src="${imgs.prodServerFilePath}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div th:if="${#lists.isEmpty(product.prodDesc)}">
+                        <p>작성한 상품 설명이 없습니다.</p>
+                    </div>
+                    <div th:if="${!#lists.isEmpty(product.prodDesc)}">
+                        <div th:text="${product.prodDesc}"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    <!-- 추가로 상세 정보를 넣으실 경우, 이 부분에 .details 블록을 계속 추가하시면 됩니다. -->
+
     <div class="details-section">
-        <div class="details">
-            <p>상품정보 1</p>
-            <p>#P1DSNE</p>
-            <p>첫번째 상품 설명 글</p>
-        </div>
-        <img th:src="${product.prodMainImgPath}" alt="">
-        <div class="details">
-            <p>상품정보 2</p>
-            <p>#P2DSNE</p>
-            <p>두번째 상품 설명 글</p>
-        </div>
-        <!-- 추가로 상세 정보를 넣으실 경우, 이 부분에 .details 블록을 계속 추가하시면 됩니다. -->
 
         <div>
             <th:block th:replace="board/review-list :: reviewlist"> </th:block>

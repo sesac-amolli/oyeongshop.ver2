@@ -1,6 +1,5 @@
 package com.amolli.oyeongshop.ver2.product.service;
 
-import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.model.ProductOption;
 import com.amolli.oyeongshop.ver2.product.repository.ProductOptionRepository;
 import lombok.RequiredArgsConstructor;
