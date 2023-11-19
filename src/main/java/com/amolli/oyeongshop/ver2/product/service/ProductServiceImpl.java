@@ -27,8 +27,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 // Impl"은 "implementation"의 줄임말로 사용되며, 일반적으로 어떤 인터페이스(interface)나
 // 추상 클래스(abstract class)를 구체적으로 구현한 클래스를 가리킬 때 사용
-public class
-ProductServiceImpl implements ProductService {
+public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
     private final UserRepository userRepository;
@@ -38,10 +37,65 @@ ProductServiceImpl implements ProductService {
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
-
     @Override
     public List<Product> findByProdId(Long prodId) {
         return productRepository.findByProdId(prodId);
+    }
+
+    // [상품 목록] best100 상품 조회
+    @Override
+    public List<ProductResponse> findProduct100() {
+        List<Object[]> products = productRepository.findByTopProdJPQL(PageRequest.of(0, 100));
+        return products.stream()
+                .map(product -> {
+                    ProductResponse dto = new ProductResponse();
+                    dto.setProdId((Long) product[0]);
+                    dto.setProdName((String) product[1]);
+                    dto.setProdCategory((String) product[2]);
+                    dto.setProdOriginPrice((Long) product[3]);
+                    dto.setProdSalesPrice((Long) product[4]);
+                    dto.setProdMainImgPath((String) product[5]);
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    // [상품 목록] 신상품 조회
+    @Override
+    public List<ProductResponse> findByNewProdJPQL() {
+        Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
+        List<Product> products = productRepository.findByProdJPQL(PageRequest.of(0, 18, sort));
+        return products.stream()
+                .map(product -> {
+                    ProductResponse dto = new ProductResponse();
+                    dto.setProdId(product.getProdId());
+                    dto.setProdName(product.getProdName());
+                    dto.setProdCategory(product.getProdCategory());
+                    dto.setProdOriginPrice(product.getProdOriginPrice());
+                    dto.setProdSalesPrice(product.getProdSalesPrice());
+                    dto.setProdMainImgPath(product.getProdMainImgPath());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    // [상품 목록] 할인 상품 조회
+    @Override
+    public List<ProductResponse> findBySaleProd() {
+        Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
+        List<Product> products = productRepository.findSaleProducts(sort);
+        return products.stream()
+                .map(product -> {
+                    ProductResponse dto = new ProductResponse();
+                    dto.setProdId(product.getProdId());
+                    dto.setProdName(product.getProdName());
+                    dto.setProdCategory(product.getProdCategory());
+                    dto.setProdOriginPrice(product.getProdOriginPrice());
+                    dto.setProdSalesPrice(product.getProdSalesPrice());
+                    dto.setProdMainImgPath(product.getProdMainImgPath());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     // [상품 목록] - 전체 상품을 정렬

@@ -13,9 +13,10 @@ public interface UserService {
     public void signUp(UserDTO userDto);
     public User getUserById(String userId);
 
-    Long uploadWish(PrincipalDetails userDetails, Long prodId, WishListDTO wishListDTO);
 
+    Long uploadWish(PrincipalDetails userDetails, Long prodId, WishListDTO wishListDTO);
     Long findWishList(Long prodId, PrincipalDetails details);
     void deleteWishList(Long wishListId);
 
+    boolean checkId(String id);
 }

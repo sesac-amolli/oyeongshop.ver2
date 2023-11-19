@@ -23,11 +23,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService{
-    @Autowired
-    UserRepository userRepository;
 
+    private final UserRepository userRepository;
     private final ProductRepository productRepository;
-
     private final WishListRepository wishlistRepository;
 
     @Autowired
@@ -52,6 +50,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean checkId(String id) {
+        //id가 존재할 경우 true
+        boolean result = userRepository.existsByUserId(id);
+        return !result;
+    }
+
+    // wishlist insert
+    @Override
     public Long uploadWish(PrincipalDetails userDetails, Long prodId, WishListDTO wishListDTO) {
         Optional<User> optionalUser = userRepository.findById(userDetails.getUser().getUserId());
         Optional<Product> optionalProduct = productRepository.findById(prodId);
@@ -69,6 +75,7 @@ public class UserServiceImpl implements UserService{
         return wishlist1.getWishListId();
     }
 
+    // wishlistId 찾는 메서드
     @Override
     public Long findWishList(Long prodId, PrincipalDetails details) {
         String userId = details.getUser().getUserId();
@@ -76,15 +83,12 @@ public class UserServiceImpl implements UserService{
         Optional<Wishlist> wishlist = wishlistRepository.findByProductProdIdAndUserUserId(prodId, userId);
         Long wishListId = 0L;
         if (wishlist.isPresent()) {
-            // 값이 존재하는 경우
             wishListId = wishlist.get().getWishListId();
-            // 처리 로직 추가
         }
-
         return wishListId;
-
     }
 
+    // wishlist delete
     @Override
     public void deleteWishList(Long wishListId) {
         wishlistRepository.deleteById(wishListId);

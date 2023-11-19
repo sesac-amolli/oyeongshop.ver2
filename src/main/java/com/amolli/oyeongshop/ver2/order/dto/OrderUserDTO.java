@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class OrderUserDto {
+public class OrderUserDTO {
 
     private String userId;
 
@@ -44,7 +44,7 @@ public class OrderUserDto {
         }
     }
 
-    public OrderUserDto(User user) {
+    public OrderUserDTO(User user) {
         this.userId = user.getUserId();
         this.userPoint = user.getUserPoint();
         this.userAttnName = user.getUserName();
