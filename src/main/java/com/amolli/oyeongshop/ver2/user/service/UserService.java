@@ -18,4 +18,5 @@ public interface UserService {
     Long findWishList(Long prodId, PrincipalDetails details);
     void deleteWishList(Long wishListId);
 
+    boolean checkId(String id);
 }

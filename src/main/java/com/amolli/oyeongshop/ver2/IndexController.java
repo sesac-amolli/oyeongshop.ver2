@@ -9,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,6 +43,12 @@ public class IndexController {
     public String signUp(UserDTO userDto){
         userService.signUp(userDto);
         return "redirect:/login";
+    }
+
+    @RequestMapping("/checkId.do")
+    @ResponseBody
+    public boolean checkId(@RequestParam("id") String id) {
+        return userService.checkId(id);
     }
 
     //로그인 페이지
