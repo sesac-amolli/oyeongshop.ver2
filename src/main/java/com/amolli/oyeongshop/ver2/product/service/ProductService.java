@@ -5,6 +5,7 @@ import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 
 import java.util.List;
+import java.util.Set;
 
 // 코드 재사용성과 확장성, 프레임워크 제작 등을 위해 추상 클래스나 인터페이스를 사용한다.
 public interface ProductService {
@@ -18,6 +19,12 @@ public interface ProductService {
     int getTotalProductCount(); // [상품 관리] - 전체 상품의 수 조회(count 함수)
 
     void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId);
+
+    List<ProductResponse> findProduct100();
+
+    List<ProductResponse> findByNewProdJPQL();
+
+    List<ProductResponse> findBySaleProd();
 
 //    void uploadDB(List<String> imageUrls, ProductRegisterRequest productRegisterRequest);
 

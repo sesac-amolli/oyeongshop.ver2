@@ -23,11 +23,9 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService{
-    @Autowired
-    UserRepository userRepository;
 
+    private final UserRepository userRepository;
     private final ProductRepository productRepository;
-
     private final WishListRepository wishlistRepository;
 
     @Autowired
@@ -49,6 +47,13 @@ public class UserServiceImpl implements UserService{
         String encPwd = bCryptPasswordEncoder.encode(rawPwd);
         user.encPwd(encPwd);
         userRepository.save(user);
+    }
+
+    @Override
+    public boolean checkId(String id) {
+        //id가 존재할 경우 true
+        boolean result = userRepository.existsByUserId(id);
+        return !result;
     }
 
     // wishlist insert

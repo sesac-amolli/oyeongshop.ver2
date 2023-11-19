@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -36,6 +37,26 @@ public class ProductController {
     private final AwsS3ServiceProduct awsS3ServiceProduct;
     private final UserService userService;
 
+    @GetMapping("/list/best100")
+    public String bestProduct(Model model){
+        List<ProductResponse> productList = productService.findProduct100();
+        model.addAttribute("productList", productList);
+        return "product/product-list";
+    }
+
+    @GetMapping("/list/newArrivals")
+    public String newProduct(Model model){
+        List<ProductResponse> productList = productService.findByNewProdJPQL();
+        model.addAttribute("productList", productList);
+        return "product/product-list";
+    }
+
+    @GetMapping("/list/sale")
+    public String saleProduct(Model model){
+        List<ProductResponse> productList = productService.findBySaleProd();
+        model.addAttribute("productList", productList);
+        return "product/product-list";
+    }
 
 
     // side-nav-for-user.html 에서 a태그 클릭 시 category 정보를 전달해주는 컨트롤러
