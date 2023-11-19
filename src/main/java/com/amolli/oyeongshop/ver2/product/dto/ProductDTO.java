@@ -1,6 +1,7 @@
 package com.amolli.oyeongshop.ver2.product.dto;
 
 import com.amolli.oyeongshop.ver2.product.model.Product;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Builder
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class ProductDTO {
     private Long prodId;
     private String prodName;

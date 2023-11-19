@@ -16,11 +16,11 @@ import javax.persistence.*;
 public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long prodDetailImgId;
+    private Long prodImageId;
 
-    private String prodDetailImgName;
+    private String prodServerFilePath;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="prod_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
