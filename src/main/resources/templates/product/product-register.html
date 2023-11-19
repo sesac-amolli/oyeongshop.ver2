@@ -9,12 +9,8 @@
     <link rel="stylesheet" href="/css/product/product-register.css">
     <script src="/js/product/product-register.js"></script> <!-- 외부 JavaScript 파일 연결 -->
     <title>상품 등록 페이지</title>
-<style>
-    tr.hidden {
-    display: none;
-}
-</style>
 </head>
+
 <body layout:fragment="content">
 <section class="main"></section>
 <div th:text="${product.prodId == null} ? '상품 기본 정보 등록' : '상품 기본 정보 수정'" style="font-size: 18px; font-weight: bold;"></div>
@@ -49,7 +45,7 @@
         <tr>
             <td class="title">상품대분류</td>
             <td class="content">
-                <select th:field="*{prodCategory}" style="width: 100px;">
+                <select th:field="${product.prodCategory}" style="width: 100px;" th:value="${product.prodCategory}">
                     <option value="Top">Top</option>
                     <option value="Bottom">Bottom</option>
                     <option value="Outer">Outer</option>
@@ -85,33 +81,7 @@
 
     <div class="buttons">
         <button type="submit" th:text="${product.prodId != null} ? '수정하기' : '등록하기'" th:data-product-id="${product.prodId}">등록하기</button>
-<!--        <button type="submit" th:text="${product.prodId != null} ? '수정하기' : '등록하기'" th:data-product-id="${product.prodId}"-->
-<!--                onclick="|location.href='@{/product/product-register-detail/{prodId}(prodId=${product.prodId})}'|" >등록하기</button>-->
     </div>
-    <script>
-    document.getElementById('productForm').addEventListener('submit', function (event) {
-    // 폼이 submit되었을 때 실행되는 함수
-    event.preventDefault(); // 기본 submit 동작을 막음
-
-    // AJAX를 사용하여 비동기적으로 폼을 제출
-    $.ajax({
-    type: 'POST',
-    url: $('#productForm').attr('action'),
-    data: $('#productForm').serialize(),
-    success: function (data) {
-    // 성공 시, data에는 서버로부터의 응답이 포함될 수 있음
-    // 여기서 data에는 생성된 prodId가 포함되어 있다고 가정
-
-    // 생성된 prodId를 사용하여 새로운 URL로 이동
-    var newUrl = '/product/product-register-detail/' + data.prodId;
-    window.location.href = newUrl;
-    },
-    error: function (error) {
-    console.error('폼 제출 중 오류 발생: ', error);
-    }
-    });
-    });
-    </script>
 </form>
 
 </body>

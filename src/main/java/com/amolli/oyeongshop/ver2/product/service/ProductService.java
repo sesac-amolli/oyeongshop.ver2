@@ -4,6 +4,7 @@ import com.amolli.oyeongshop.ver2.product.dto.ProductDTO;
 import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.model.ProductOption;
+import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 
 import java.util.List;
 import java.util.Set;
@@ -20,14 +21,13 @@ public interface ProductService {
     String UpdataSalesStatusYesNo(Long prodId); // [상품 관리] - 상품판매구분 YES, NO 토글
     int getTotalProductCount(); // [상품 관리] - 전체 상품의 수 조회(count 함수)
 
-    void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId);
+    void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId, PrincipalDetails userDetails);
 
-    List<ProductResponse> findProduct100();
+    List<ProductResponse> findProduct100(String sort);
 
     List<ProductResponse> findByNewProdJPQL();
 
-    List<ProductResponse> findBySaleProd();
+    List<ProductResponse> findBySaleProd(String sort);
 
-//    void uploadDB(List<String> imageUrls, ProductRegisterRequest productRegisterRequest);
 
 }
