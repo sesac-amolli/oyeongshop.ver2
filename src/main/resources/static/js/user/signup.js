@@ -1,3 +1,32 @@
+let idCheck = "No";
+$(function(){
+    $("#checkId").click(function(){
+        let id = $("#signup-id").val();
+            $.ajax({
+                type:'post',
+                url:"/checkId.do",
+                data: {"id":id},
+                success: function(data){
+                    // 중복 없는 경우
+                    if(data){
+                        result = "사용 가능한 아이디입니다.";
+                        $("#result_checkId").html(result).css("color", "green");
+                        idCheck = "true";
+                        $("#signup-pwd").trigger("focus");
+                    }else{
+                        result="이미 사용중인 아이디입니다.";
+                        $("#result_checkId").html(result).css("color","red");
+                        idCheck = "false";
+                        $("#signup-id").val("").trigger("focus");
+                    }
+                },
+                error : function(error){
+                        alert("서버 오류 발생, 관리자에게 문의해주세요");
+                    }
+            });
+        });
+    });
+// 우편번호 찾기
 function daumPostcode() {
     new daum.Postcode(
             {
@@ -51,8 +80,7 @@ function daumPostcode() {
                 }
             }).open();
 }
-
-
+//취소 버튼 동작
 function cancel(){
     let msg = "회원가입을 중단하시겠습니까? 확인 시 메인페이지로 돌아갑니다.";
     let result;
@@ -65,24 +93,39 @@ function cancel(){
 }
 
 function validate() {
+  let id = document.getElementById("signup-id").value;
   let passReg =  /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
   let password = document.getElementById("signup-pwd").value;
   let confirmPassword = document.getElementById("signup-pwd-check").value;
 
   let telReg = /^\d{3}-\d{3,4}-\d{4}$/;
   let tel = document.getElementById("signup-phone").value;
-  if(tel.match(telReg) == null){
-    alert("전화번호 형식이 맞지 않습니다.");
+
+  if(id == '') {
+    alert("id를 입력해 주세요");
+    return false;
+  } else if(idCheck == "No"){
+    alert("id 중복체크를 해주세요");
+    return false;
+  } else if (idCheck == "false"){
+    alert("사용 가능한 id를 작성해 주세요");
     return false;
   }
+
   if(password.match(passReg) == null){
     alert("비밀번호는 최소 8자에서 15자까지, 영문자, 숫자 및 특수 문자를 포함해야 합니다.");
     return false;
-  }
-  if (password != confirmPassword) {
+  } else if (password != confirmPassword) {
     alert("비밀번호가 일치하지 않습니다.");
     return false;
   }
 
+  if(tel == ''){
+    alert("전화번호를 입력해주세요");
+    return false;
+  } else if(tel.match(telReg) == null){
+    alert("전화번호 형식이 맞지 않습니다.");
+    return false;
+  }
   return true;
 }
