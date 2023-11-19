@@ -24,7 +24,9 @@ public class OrderDetail {
 
     private Long orderDetailAmount;
 
-    private Long orderDetailPrice;
+    private Long orderDetailOriginPrice;
+
+    private Long orderDetailSalesPrice;
 
     @ManyToOne(fetch =  FetchType.LAZY)
     @JoinColumn(name = "order_id")
@@ -34,16 +36,23 @@ public class OrderDetail {
     @JoinColumn(name = "prod_opt_id")
     private ProductOption productOption;
 
-    public static OrderDetail createOrderDetail(ProductOption productOption, Long count, Long price){
+    public static OrderDetail createOrderDetail(ProductOption productOption, Long count, Long orderDetailSalesPrice, Long orderDetailOriginPrice){
         OrderDetail orderDetail = new OrderDetail();
 
         orderDetail.setProductOption(productOption);
         orderDetail.setOrderDetailAmount(count);
-        orderDetail.setOrderDetailPrice(price);
+        orderDetail.setOrderDetailSalesPrice(orderDetailSalesPrice);
+        orderDetail.setOrderDetailOriginPrice(orderDetailOriginPrice);
+
+        System.out.println("테스트 2 " + orderDetail);
         return orderDetail;
     }
 
-    public long getTotalPrice(){
-        return orderDetailPrice*orderDetailAmount;
+    public Long getTotalSalesPrice(){
+        return orderDetailSalesPrice*orderDetailAmount;
+    }
+
+    public Long getTotalOriginPrice(){
+        return orderDetailOriginPrice*orderDetailAmount;
     }
 }

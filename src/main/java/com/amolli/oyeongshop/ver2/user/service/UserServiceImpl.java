@@ -11,7 +11,7 @@ import com.amolli.oyeongshop.ver2.user.model.Point;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.model.Wishlist;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
-import com.amolli.oyeongshop.ver2.user.repository.WishlistRepository;
+import com.amolli.oyeongshop.ver2.user.repository.WishListRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,12 +23,10 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService{
-    @Autowired
-    UserRepository userRepository;
 
+    private final UserRepository userRepository;
     private final ProductRepository productRepository;
-
-    private final WishlistRepository wishlistRepository;
+    private final WishListRepository wishlistRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -52,7 +50,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void uploadWish(PrincipalDetails userDetails, Long prodId, WishListDTO wishListDTO) {
+    public boolean checkId(String id) {
+        //id가 존재할 경우 true
+        boolean result = userRepository.existsByUserId(id);
+        return !result;
+    }
+
+    // wishlist insert
+    @Override
+    public Long uploadWish(PrincipalDetails userDetails, Long prodId, WishListDTO wishListDTO) {
         Optional<User> optionalUser = userRepository.findById(userDetails.getUser().getUserId());
         Optional<Product> optionalProduct = productRepository.findById(prodId);
 
@@ -64,7 +70,27 @@ public class UserServiceImpl implements UserService{
         wishlist.setUser(optionalUser.get());
         wishlist.setProduct(optionalProduct.get());
 
-        wishlistRepository.save(wishlist);
+        Wishlist wishlist1 = wishlistRepository.save(wishlist);
 
+        return wishlist1.getWishListId();
+    }
+
+    // wishlistId 찾는 메서드
+    @Override
+    public Long findWishList(Long prodId, PrincipalDetails details) {
+        String userId = details.getUser().getUserId();
+        System.out.println("dddd"+userId+"prodId::"+prodId);
+        Optional<Wishlist> wishlist = wishlistRepository.findByProductProdIdAndUserUserId(prodId, userId);
+        Long wishListId = 0L;
+        if (wishlist.isPresent()) {
+            wishListId = wishlist.get().getWishListId();
+        }
+        return wishListId;
+    }
+
+    // wishlist delete
+    @Override
+    public void deleteWishList(Long wishListId) {
+        wishlistRepository.deleteById(wishListId);
     }
 }

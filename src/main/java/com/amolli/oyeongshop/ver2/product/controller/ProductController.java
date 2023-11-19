@@ -7,8 +7,11 @@ import com.amolli.oyeongshop.ver2.product.dto.ProductDTO;
 import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
-import com.amolli.oyeongshop.ver2.s3.AwsS3ServiceProduct;
+import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
+import com.amolli.oyeongshop.ver2.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import com.amolli.oyeongshop.ver2.s3.AwsS3ServiceProduct;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -30,6 +35,29 @@ public class ProductController {
     private final ProductService productService;
     private final ReviewService reviewService;
     private final AwsS3ServiceProduct awsS3ServiceProduct;
+    private final UserService userService;
+
+    @GetMapping("/list/best100")
+    public String bestProduct(Model model){
+        List<ProductResponse> productList = productService.findProduct100();
+        model.addAttribute("productList", productList);
+        return "product/product-list";
+    }
+
+    @GetMapping("/list/newArrivals")
+    public String newProduct(Model model){
+        List<ProductResponse> productList = productService.findByNewProdJPQL();
+        model.addAttribute("productList", productList);
+        return "product/product-list";
+    }
+
+    @GetMapping("/list/sale")
+    public String saleProduct(Model model){
+        List<ProductResponse> productList = productService.findBySaleProd();
+        model.addAttribute("productList", productList);
+        return "product/product-list";
+    }
+
 
     // side-nav-for-user.html 에서 a태그 클릭 시 category 정보를 전달해주는 컨트롤러
     @RequestMapping(value="/list/{prodCategory}", method=RequestMethod.GET)
@@ -87,7 +115,16 @@ public class ProductController {
 
     // [상품 상세 정보] - 선택한 상품 보기
     @GetMapping("/detail/{prodId}")
-    public ModelAndView productDetail(@PathVariable Long prodId, Model model) {
+    public ModelAndView productDetail(@PathVariable Long prodId, Model model, @AuthenticationPrincipal PrincipalDetails details) {
+
+        // - 나영 - @AuthenticationPrincipal PrincipalDetails null 처리 후 찜id view에 넘겨주기
+        if(details != null) {
+            // 찜여부 확인하기
+            Long wishlistId = userService.findWishList(prodId, details);
+            model.addAttribute("wishListId",wishlistId);
+        }
+
+
         Product product = productService.findById(prodId);
 
         // 중복 옵션 제거
@@ -99,11 +136,10 @@ public class ProductController {
         // Thymeleaf에 데이터를 전달
         mav.addObject(productService.findById(prodId));
 
-        // 리뷰 List 불러오기
+
+        // - 나영 - 리뷰 List 불러오기
         List<Review> reviews = reviewService.findByProdId(prodId);
-
         List<ReviewResponseDTO> reviewdto = reviews.stream().map(ReviewResponseDTO::from).collect(Collectors.toList());
-
         model.addAttribute("reviewdto", reviewdto);
 
         return mav;
