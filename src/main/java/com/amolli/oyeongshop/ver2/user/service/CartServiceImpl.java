@@ -71,6 +71,27 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
+    public void modifyCart(List<CartItemRequestDTO> cartItemRequestDTOS, String userId) {
+        Cart cart = cartRepository.findByUser_UserId(userId);
+        List<CartItem> cartItems = cartItemRepository.findByCart_Id(cart.getId());
+
+        for (CartItemRequestDTO obj1 : cartItemRequestDTOS) {
+            Long obj1ProdOptId = productOptionRepository.findProdOptIdByProdIdAndProdOptColorAndProdOptSize(obj1.getProdId(), obj1.getColor(), obj1.getSize());
+            for (CartItem obj2 : cartItems) {
+                // Assuming MyObject has a method to identify if it's the same entity
+//                assert obj1ProdOptId != null;
+                if (obj1ProdOptId.equals(obj2.getProductOption().getProdOptId())) {
+                    if (obj1.getQuantity() != obj2.getCartItemAmount()) {
+                        obj2.setCartItemAmount(obj1.getQuantity());
+                    }
+                    break;
+                }
+            }
+        }
+
+    }
+
+    @Override
     public Cart viewCartList(String userId) {
 
         return cartRepository.findByUser_UserId(userId);

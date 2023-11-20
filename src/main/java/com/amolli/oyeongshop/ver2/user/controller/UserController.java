@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -50,36 +51,27 @@ public class UserController {
     @GetMapping("/cart/list")
     public String viewCartList(@AuthenticationPrincipal PrincipalDetails userDetails, Model model) {
         String userId = userDetails.getUser().getUserId();
-//        User user = userService.getUserById(userId);
         Cart cart = cartService.viewCartList(userId);
-//        User user = userService.getUserById(userId);
         System.out.println("cart controller@!#!@#@@@" + cart);
 
         CartResponseDTO cartResponseDTO = new CartResponseDTO();
         System.out.println("cart responseDTO@!#!@#@@@" + cart);
 
-
         model.addAttribute("cartDTO", cartResponseDTO.from(cart));
         System.out.println("cart model@!#!@#@@@" + cart);
-//        List<CartResponseDTO> cartResponseDTO = cart.stream()
-//                        .filter(CartResponseDTO::from)
-//                        .collect(toList());
-//                builder().user(user).build();
-
-//        List<CartResponseDTO> cartResponseDTOS = cart.stream()
-//                .map(CartItemResponseDTO::from)
-//                .collect(Collectors.toList());
-
-//        CartResponseDTO cartResponseDTO = cart.builder()
-//                List<CartItemResponseDTO> cartItemResponseDTOS = cart.getCartItems().stream()
-//                .map(CartItemResponseDTO::from)
-//                .collect(Collectors.toList());
 
         return "/user/cart";
-
-
-
     }
+
+    // 장바구니 수량 수정
+    @PostMapping("/cart/modify")
+    public String modifyCart(@RequestBody List<CartItemRequestDTO> cartItemRequestDTOS, @AuthenticationPrincipal PrincipalDetails userDetails){
+        String userId = userDetails.getUser().getUserId();
+        cartService.modifyCart(cartItemRequestDTOS, userId);
+
+        return "redirect:/user/cart/list";
+    }
+
 
     // 장바구니 선택 상품 주문하기
     @PostMapping("/cart/order")

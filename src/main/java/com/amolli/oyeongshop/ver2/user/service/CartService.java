@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface CartService {
     void addCart(CartItemRequestDTO cartItemRequestDTO, String userId);
+    void modifyCart(List<CartItemRequestDTO> cartItemRequestDTOS,String userId);
 
     Cart viewCartList(String userId);
 

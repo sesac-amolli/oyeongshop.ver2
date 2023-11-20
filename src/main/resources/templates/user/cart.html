@@ -15,7 +15,7 @@
 
 <div id="content2">
     <div  id="content3">
-        <form action="/order/to-orders" method="post">
+        <form id="order" action="/order/to-orders" method="post">
 <!--        <form action="" >-->
             <div class="title">장바구니</div>
             <table id="signup" class="table table-bordered">
@@ -32,24 +32,10 @@
                 <!-- 리뷰 id 개수만큼 반복 -->
                 <div class="cart"></div>
                 <tr th:each="dtos, iterStat : ${cartDTO.cartItemResponseDTOS}">
-<!--                    <td>-->
-<!--                            <div class="checkbox-wrapper-1">-->
-<!--                                <input id="prod-check" class="substituted" type="checkbox" /> &lt;!&ndash;aria-hidden="true"/>&ndash;&gt;-->
-<!--                            </div>-->
-<!--                        <input type="checkbox" id="check1">-->
-<!--                        <label for="check1"></label>-->
                     <td>
                         <input type="checkbox" th:id="${'check' + iterStat.index}" class="checkstandard" name="selectedItems" th:value="${dtos.cartItemId}"/>
                         <label th:for="${'check' + iterStat.index}"></label>
                     </td>
-<!--                    <td>-->
-<!--                        <input type="checkbox" name="selectedItems" th:value="${iterStat.id}" />-->
-<!--                    </td>-->
-<!--                    <td>-->
-<!--                        <input type="checkbox" th:id="'check' + ${dtos.prodId}" th:for="'check' + ${dtos.prodId}" />-->
-<!--                        <label th:for="'check' + ${dtos.prodId}"></label>-->
-<!--                    </td>-->
-<!--                        </td>-->
                         <td><div class="col-md-4">
                             <img src="login_img.png" class="img-responsive" alt="Responsive image">
                         </div></td>
@@ -62,28 +48,16 @@
                             <del><div class="content" th:text="${dtos.prodOriginPrice}">소비자가격</div></del>
                             <div class="content" th:text="${dtos.prodSalesPrice}">세일가격</div>
                         </td>
-                    <!-- 장바구니 수량 변경.유미 -->
-<!--                    <td>-->
-<!--                    <input type="text" class="quantity_input" value="1">-->
-<!--                    <span>-->
-<!--                        <button class="plus_btn">+</button>-->
-<!--                        <button class="minus_btn">-</button>-->
-<!--                    </span>-->
-<!--                    </td>-->
                         <td>
                             <input type="text" class="quantity_input" th:value="${dtos.quantity}" />
                             <span>
                                 <button type="button" class="plus_btn" onclick="incrementQuantity(this)">+</button>
                                 <button type="button" class="minus_btn" onclick="decrementQuantity(this)">-</button>
                             </span>
-                            <div>
-                                <button type="button" class=""></button>
-                            </div>
+<!--                            <div>-->
+<!--                                <button onclick="modifyDataToCart(this)">변경</button>-->
+<!--                            </div>-->
                         </td>
-
-<!--                        <td>-->
-<!--                            <div class="date" th:text="${dtos.quantity}">개수</div>-->
-<!--                        </td>-->
                         <td>
                             <div class="content" th:text="${dtos.prodSalesPrice * dtos.quantity}">총가격</div>
                         </td>
@@ -91,39 +65,38 @@
                 <tr>
                     <td>합계 : </td>
                 </tr>
-<!--                 </div>-->
-<!--                <tr>-->
-<!--                    <td><div class="checkbox-wrapper-1">-->
-<!--                        <input id="prod-check" class="substituted" type="checkbox" aria-hidden="true" />-->
-<!--                    </div></td>-->
-<!--                    <td><div class="col-md-4">-->
-<!--                        <img src="login_img.png" class="img-responsive" alt="Responsive image">-->
-<!--                    </div></td>-->
-<!--                    <td><input type="text" class="form-control" id="prod-id" name="prodOptId" placeholder="상품상세명" disabled></td>-->
-<!--                    <td><input type="number" class="form-control" id="prod-price" name="price" placeholder="가격" disabled></td>-->
-<!--                    <td><input type="number" class="form-control" id="prod-amount" name="quantity" placeholder="개수" disabled></td>-->
-<!--                    <td><input type="number" class="form-control" id="prod-allprice" name="allPrice" placeholder="총가격" disabled></td>-->
-<!--                </tr>-->
                 </tbody>
             </table>
+        </form>
             <div id="submit-btn">
 
-                <button class="btn btn-default" type="button">선택 삭제</button>
-                <button class="btn btn-default" type="button">장바구니 비우기</button>
+<!--                <button onclick="sendDataToDirectOrder(this)">바로 구매</button>-->
+                <button class="btn btn-default" onclick="modifyDataToCart(this)">변경</button>
+                <button class="btn btn-default" onclick="deleteDataToCart(this)">선택 삭제</button>
+<!--                <button class="btn btn-default" type="button">선택 삭제</button>-->
+<!--                <button class="btn btn-default" type="button">장바구니 비우기</button>-->
                 &emsp;&emsp;&emsp;&emsp;&emsp;
-                <button class="btn btn-default" type="submit">주문하기</button>
+                <button class="btn btn-default" type="submit" form="order">주문하기</button>
             </div>
-            <input type="submit" value="Submit" />
-        </form>
-        <form id="orderSubForm" action="/order/to-order" method="post">
-            <input type="hidden" name="cartItemId" value="">
-        </form>
-        <form id="deleteSubForm" action="/order/to-order" method="post">
-            <input type="hidden" name="cartItemId" value="">
-        </form>
     </div>
 </div>
 
-<script src="/js/user/cart.js"></script> <!-- 외부 JavaScript 파일 연결 -->
+<form id="cartModifyForm" action="/user/cart/modify" method="post">
+    <input type="hidden" name="prodId" value="">
+    <input type="hidden" name="color" value="">
+    <input type="hidden" name="size" value="">
+    <input type="hidden" name="quantity" value="">
+    <input type="hidden" name="prodSalesPrice" value="">
+
+<form id="cartDeleteForm" action="/user/cart/delete" method="delete">
+    <input type="hidden" name="prodId" value="">
+    <input type="hidden" name="color" value="">
+    <input type="hidden" name="size" value="">
+    <input type="hidden" name="quantity" value="">
+    <input type="hidden" name="prodSalesPrice" value="">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/user/cart.js"></script>
+<!-- 외부 JavaScript 파일 연결 -->
 </body>
 </html>
