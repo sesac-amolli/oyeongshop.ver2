@@ -70,33 +70,42 @@ public class UserController {
     @GetMapping("/cart/list")
     public String viewCartList(@AuthenticationPrincipal PrincipalDetails userDetails, Model model) {
         String userId = userDetails.getUser().getUserId();
-//        User user = userService.getUserById(userId);
         Cart cart = cartService.viewCartList(userId);
-//        User user = userService.getUserById(userId);
         System.out.println("cart controller@!#!@#@@@" + cart);
 
         CartResponseDTO cartResponseDTO = new CartResponseDTO();
         System.out.println("cart responseDTO@!#!@#@@@" + cart);
 
-
         model.addAttribute("cartDTO", cartResponseDTO.from(cart));
         System.out.println("cart model@!#!@#@@@" + cart);
-//        List<CartResponseDTO> cartResponseDTO = cart.stream()
-//                        .filter(CartResponseDTO::from)
-//                        .collect(toList());
-//                builder().user(user).build();
-
-//        List<CartResponseDTO> cartResponseDTOS = cart.stream()
-//                .map(CartItemResponseDTO::from)
-//                .collect(Collectors.toList());
-
-//        CartResponseDTO cartResponseDTO = cart.builder()
-//                List<CartItemResponseDTO> cartItemResponseDTOS = cart.getCartItems().stream()
-//                .map(CartItemResponseDTO::from)
-//                .collect(Collectors.toList());
 
         return "/user/cart";
     }
+
+    // 장바구니 수량 수정
+    @PostMapping("/cart/modify")
+    public String modifyCart(@RequestBody List<CartItemRequestDTO> cartItemRequestDTOS, @AuthenticationPrincipal PrincipalDetails userDetails){
+        String userId = userDetails.getUser().getUserId();
+        cartService.modifyCart(cartItemRequestDTOS, userId);
+
+        return "redirect:/user/cart/list";
+    }
+
+    @PostMapping("/cart/delete")
+    public String deleteCart(@RequestParam List<Long> cartItemIds, @AuthenticationPrincipal PrincipalDetails userDetails){
+        String userId = userDetails.getUser().getUserId();
+        System.out.println("Cart삭제");
+
+        cartService.deleteCart(cartItemIds, userId);
+
+        for(Long l : cartItemIds) {
+            System.out.println(l);
+        }
+//        cartService.deleteCart(cartItemIds, userId);
+
+        return "redirect:/user/cart/list";
+    }
+
 
     // 장바구니 선택 상품 주문하기
     @PostMapping("/cart/order")
