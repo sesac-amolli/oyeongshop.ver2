@@ -76,6 +76,21 @@ public class UserController {
         return "redirect:/user/cart/list";
     }
 
+    @PostMapping("/cart/delete")
+    public String deleteCart(@RequestParam List<Long> cartItemIds, @AuthenticationPrincipal PrincipalDetails userDetails){
+        String userId = userDetails.getUser().getUserId();
+        System.out.println("Cart삭제");
+
+        cartService.deleteCart(cartItemIds, userId);
+
+        for(Long l : cartItemIds) {
+            System.out.println(l);
+        }
+//        cartService.deleteCart(cartItemIds, userId);
+
+        return "redirect:/user/cart/list";
+    }
+
 
     // 장바구니 선택 상품 주문하기
     @PostMapping("/cart/order")

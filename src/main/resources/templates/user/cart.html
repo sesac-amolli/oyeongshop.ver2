@@ -33,7 +33,7 @@
                 <div class="cart"></div>
                 <tr th:each="dtos, iterStat : ${cartDTO.cartItemResponseDTOS}">
                     <td>
-                        <input type="checkbox" th:id="${'check' + iterStat.index}" class="checkstandard" name="selectedItems" th:value="${dtos.cartItemId}"/>
+                        <input type="checkbox" th:id="${'check' + iterStat.index}" class="checkstandard" name="selectedItems" th:value="${dtos.cartItemId}" th:data-cart-item-id="${dtos.cartItemId}"/>
                         <label th:for="${'check' + iterStat.index}"></label>
                     </td>
                         <td><div class="col-md-4">
@@ -87,14 +87,10 @@
     <input type="hidden" name="size" value="">
     <input type="hidden" name="quantity" value="">
     <input type="hidden" name="prodSalesPrice" value="">
-
-<form id="cartDeleteForm" action="/user/cart/delete" method="delete">
-    <input type="hidden" name="prodId" value="">
-    <input type="hidden" name="color" value="">
-    <input type="hidden" name="size" value="">
-    <input type="hidden" name="quantity" value="">
-    <input type="hidden" name="prodSalesPrice" value="">
-
+</form>
+<form id="cartDeleteForm" action="/user/cart/delete" method="post">
+    <input type="hidden" name="cartItemIds" value="">
+</form>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/user/cart.js"></script>
 <!-- 외부 JavaScript 파일 연결 -->

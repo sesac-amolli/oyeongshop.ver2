@@ -35,26 +35,29 @@ function deleteDataToCart(button) {
     var deleteForm = $("#cartDeleteForm");
     deleteForm.empty();
 
+$("input[name='selectedItems']:checked").each(function() {
+    var cartItemId = $(this).val(); // Get the value of the current checkbox
+    // Create a hidden input and append it to the form
+    deleteForm.append('<input type="hidden" name="cartItemIds" value="' + cartItemId + '">');
+});
+
+deleteForm.submit(); // Submit the form
+
+
+
     // 체크된 체크박스를 찾아 각각 처리
-    $("input[name='selectedItems']:checked").each(function() {
-        var checkbox = $(this);
-        var row = checkbox.closest('tr'); // 체크박스와 관련된 행을 찾음
-
-        var prodId = row.find('.id').data('prod-id'); // 데이터 가져오기
-        var color = row.find('.color').text();
-        var size = row.find('.size').text();
-        var quantity = row.find('.quantity_input').val();
-        var prodSalesPrice = row.find('.content').data('prod-sales-price');
-
-        // 폼에 정보 추가
-        deleteForm.append('<input type="hidden" name="prodId" value="' + prodId + '">');
-        deleteForm.append('<input type="hidden" name="color" value="' + color + '">');
-        deleteForm.append('<input type="hidden" name="size" value="' + size + '">');
-        deleteForm.append('<input type="hidden" name="quantity" value="' + quantity + '">');
-        deleteForm.append('<input type="hidden" name="prodSalesPrice" value="' + prodSalesPrice + '">');
-    });
-
-    deleteForm.submit();
+//    $("input[name='selectedItems']:checked").each(function() {
+//        var checkbox = $(this);
+//        var row = checkbox.closest('tr'); // 체크박스와 관련된 행을 찾음
+//
+//          var cartItemIds = row.find('.cartItemId').data('cart-item-id');
+//            $("[name=cartItemIds]").val(cartItemIds);
+//
+//        //   //폼에 정보 저장하기
+//        //    $("#cartDeleteForm").submit();
+//    });
+//
+//    deleteForm.submit();
 }
 
 function modifyDataToCart(button) {

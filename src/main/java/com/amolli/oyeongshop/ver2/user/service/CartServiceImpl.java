@@ -92,6 +92,15 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
+    public void deleteCart(List<Long> cartItemIds, String userId) {
+
+        for (Long cartItemId : cartItemIds){
+                cartItemRepository.deleteById(cartItemId);
+        }
+
+    }
+
+    @Override
     public Cart viewCartList(String userId) {
 
         return cartRepository.findByUser_UserId(userId);
