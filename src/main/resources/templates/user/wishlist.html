@@ -19,7 +19,11 @@
         <div class="wishlist-item">
 
             <td>
-                <div class="wish"><img th:src="${wishlists.prodMainImgPath}"/></div>
+                <div class="wish">
+                    <a th:href="@{'/product/detail/' + ${wishlists.prodId}}">
+                        <img th:src="${wishlists.prodMainImgPath}"/>
+                    </a>
+                </div>
             </td>
 
             <td>
