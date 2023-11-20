@@ -1,13 +1,11 @@
 package com.amolli.oyeongshop.ver2.product.model;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "tbl_product_option")
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -19,9 +17,10 @@ public class ProductOption {
     private String prodOptSize;
     private Long prodOptAmount;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name ="prod_id")
     private Product product;
+
 
     @Builder
     public ProductOption(Long prodOptId, String prodOptColor, String prodOptSize, Long prodOptAmount, Product product) {
@@ -31,4 +30,13 @@ public class ProductOption {
         this.prodOptAmount = prodOptAmount;
         this.product = product;
     }
+
+    public void setProdOptId(Long prodOptId) {
+        this.prodOptId = prodOptId;
+    }
+
+
+//    public Long getProdId() {
+//        return (product != null) ? product.getProdId() : null;
+//    }
 }

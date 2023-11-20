@@ -3,11 +3,11 @@ package com.amolli.oyeongshop.ver2.order.dto;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-@Data
 @Getter
 @Setter
-
+@ToString
 //상품 상세 페이지에서 선택한 사품 정보 담아오는 DTO
 public class OrderItemDTO {
 
@@ -18,5 +18,7 @@ public class OrderItemDTO {
     private Long prodOriginPrice;
     private Long prodSalesPrice;
     private Long prodOptId;
+
+
 
 }

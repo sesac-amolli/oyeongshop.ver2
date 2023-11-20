@@ -23,6 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.prodSalesDist = 'YES'")
     List<Product> findByProdJPQL(Sort sort);
 
+    List<Product> findByProdId(Long prodId);
     // [상품 목록] best100 상품 조회
     @Query("SELECT p.prodId, p.prodName, p.prodCategory, p.prodOriginPrice, p.prodSalesPrice, p.prodMainImgPath, MAX(o.prodOptAmount) " +
             "FROM Product p JOIN p.productOptions o " +

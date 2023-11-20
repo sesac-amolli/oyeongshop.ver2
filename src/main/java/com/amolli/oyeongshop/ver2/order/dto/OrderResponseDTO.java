@@ -2,10 +2,13 @@ package com.amolli.oyeongshop.ver2.order.dto;
 
 import com.amolli.oyeongshop.ver2.order.model.OrderStatus;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 public class OrderResponseDTO {
 
     private String orderNumber;

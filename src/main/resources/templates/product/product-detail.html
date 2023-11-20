@@ -8,9 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/product/product-detail.css">
+    <script src="/js/product/product-detail.js"></script> <!-- 외부 JavaScript 파일 연결 -->
+    <!-- include libraries(jQuery, bootstrap) for SummerNote -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <title>상품 정보 페이지</title>
-
 
 </head>
 <body layout:fragment="content" th:object="${product}">
@@ -49,7 +53,7 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <select style="width: 100px;" id="colorSelect">
+                        <select style="width: 100px;" id="colorSelect" onchange="updateSelect('colorSelect')">
                             <option selected disabled>색상</option>
                             <option th:each="productOption : ${product.productOptions}"
                                     th:value="${productOption.prodOptColor}"
@@ -65,7 +69,7 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <select  style="width: 100px;" id="sizeSelect">
+                        <select style="width: 100px;" id="sizeSelect" onchange="updateSelect('sizeSelect')">
                             <option selected disabled>사이즈</option>
                             <option th:each="productOption : ${product.productOptions}"
                                     th:value="${productOption.prodOptSize}"
@@ -80,7 +84,17 @@
                     <li>개수</li>
                 </div>
                 <div class="flex-items">
-                    <li><input name="quantity" type="number" style="width: 100px;"></li>
+                    <li><input name="quantity" type="number" style="width: 100px;" value="1"></li>
+                </div>
+            </ul>
+            <ul class="flex-container">
+                <div class="flex-items" >
+                    <li>총 주문금액</li>
+                </div>
+                <div class="flex-items">
+                    <li>
+                        <span id="totalAmount"></span> <!-- 아 프론트 진짜 싫다 ㅡㅡ -->
+                    </li>
                 </div>
             </ul>
 
@@ -92,39 +106,55 @@
 <!--            <button onclick="history.back();">장바구니</button>-->
             <button onclick="sendDataToCart(this)">장바구니</button>
 
-                            <!--     찜하기 버튼       -->
-            <div id="jjimContainer" th:data-wish-list-id="${wishListId}">
-                <div id="jjimAdd">
-                    <button th:onclick="'jjimAdd(\'' + ${product.prodId} + '\')'">
+            <!-- 찜하기 버튼 -->
+            <div id="jjimContainer">
+                <!-- 빈하트: 찜 추가 버튼 -->
+                <div id="jjimAdd" th:data-wish-list-id="${wishListId}">
+                    <button th:data-prod-id="${product.prodId}" th:data-user-id="${userId}" onclick="jjimAdd(this)">
+
                         <img id="wish2" th:src="${'/images/wish2.png'}" alt="찜하기 이미지"></button>
                 </div>
+                <!-- 색하트: 찜 삭제 버튼 -->
                 <div id="jjimMinus">
-                    <button th:onclick="'jjimMinus(\'' + ${product.prodId} + '\')'">
+                        <button th:data-prod-id="${product.prodId}" th:data-user-id="${userId}" onclick="jjimMinus(this)">
                         <img id="wish" th:src="${'/images/wish.png'}" alt="찜해제 이미지"></button>
                 </div>
             </div>
-
-
         </div>
     </div>
-    <div class="details-section">
-        <div class="details">
-            <p>상품정보 1</p>
-            <p>#P1DSNE</p>
-            <p>첫번째 상품 설명 글</p>
-        </div>
-        <img th:src="${product.prodMainImgPath}" alt="">
-        <div class="details">
-            <p>상품정보 2</p>
-            <p>#P2DSNE</p>
-            <p>두번째 상품 설명 글</p>
-        </div>
-        <!-- 추가로 상세 정보를 넣으실 경우, 이 부분에 .details 블록을 계속 추가하시면 됩니다. -->
+    <div style="font-size: 18px; font-weight: bold;">상세정보</div>
+    <div>
+        <table>
+            <tr th:each="productImages : ${productImageResponseDTO}">
+                <td>
+                    <div th:if="${#lists.isEmpty(productImages.productImages)}">
+                        <p>첨부한 이미지가 없습니다.</p>
+                    </div>
+                    <div th:if="${!#lists.isEmpty(productImages.productImages)}">
+                        <div th:each="imgs : ${productImages.productImages}">
+                            <img th:src="${imgs.prodServerFilePath}"/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div th:if="${#lists.isEmpty(product.prodDesc)}">
+                        <textarea class="summernote form-control" name="summernote" readonly>작성한 상품 설명이 없습니다.</textarea>
+                    </div>
+                    <div th:if="${!#lists.isEmpty(product.prodDesc)}">
+                        <div class="summernote form-control" name="summernote" th:utext="${product.prodDesc}" readonly></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- 추가로 상세 정보를 넣으실 경우, 이 부분에 .details 블록을 계속 추가하시면 됩니다. -->
 
+    <div class="details-section">
         <div>
             <th:block th:replace="board/review-list :: reviewlist"> </th:block>
         </div>
-
     </div>
 </div>
 <form id="orderSubForm" action="/order/to-order" method="post">
@@ -143,9 +173,12 @@
     <input type="hidden" name="quantity" value="">
     <input type="hidden" name="prodSalesPrice" value="">
 
+
+    <!-- include summernote css/js for SummerNote -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
 </form>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="/js/product/product-detail.js"></script> <!-- 외부 JavaScript 파일 연결 -->
 <script src="/js/user/wishlist.js"></script>
 </body>
 </html>

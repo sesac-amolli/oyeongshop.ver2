@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/board/review-write.css">
+</head>
+<body layout:fragment="content">
+
+<section class="main">
+    <form class="form-review-write" method="post" action="/board/review-write" enctype="multipart/form-data">
+        <table class="table-review-write">
+            <h2>리뷰 작성하기</h2>
+            <tr>
+                <td class="title">작성자</td>
+                <td class="content" th:text="${userId}" name="userId"></td>
+            </tr>
+            <tr>
+                <td class="title">상품명</td>
+                <td class="content" th:text="${product.prodName}" name="prodName"></td>
+            </tr>
+            <tr>
+                <td class="title">별점</td>
+                <td class="content">
+                    <label class="radio-inline">
+                        <input type="radio" name="reviewRate" id="inlineRadio1" value="1"> 1
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="reviewRate" id="inlineRadio2" value="2"> 2
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="reviewRate" id="inlineRadio3" value="3"> 3
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="reviewRate" id="inlineRadio4" value="4"> 4
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="reviewRate" id="inlineRadio5" value="5"> 5
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td class="title">내용</td>
+                <td class="content">
+                    <textarea name="reviewContent" class="form-control" rows="10"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td class="title">첨부파일</td>
+                <td class="content">
+                    <div class="form-group">
+                        <input type="file" name="image1" id="exampleInputFile1" multiple>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" th:value="${product.prodId}" name="prodId">
+        <div class="button"><input type="submit" class="btn btn-default"></input></div>
+    </form>
+</section>
+</body>
+</html>

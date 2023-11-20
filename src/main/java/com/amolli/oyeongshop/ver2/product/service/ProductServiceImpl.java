@@ -1,5 +1,6 @@
 package com.amolli.oyeongshop.ver2.product.service;
 
+import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.model.ReviewImg;
 import com.amolli.oyeongshop.ver2.product.dto.ProductDTO;
 import com.amolli.oyeongshop.ver2.product.dto.ProductRegisterRequest;
@@ -33,13 +34,17 @@ public class ProductServiceImpl implements ProductService {
 
     // [상품 등록] - 상품 정보를 저장
     @Override
-    public Product save(Product product) {
+    public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
-
-    // [상품 목록] best100 상품 조회
     @Override
-    public List<ProductResponse> findProduct100() {
+    public List<Product> findByProdId(Long prodId) {
+        return productRepository.findByProdId(prodId);
+    }
+
+    // [상품 목록] - best100 상품 조회
+    @Override
+    public List<ProductResponse> findProduct100(String sortValue) {
         List<Object[]> products = productRepository.findByTopProdJPQL(PageRequest.of(0, 100));
         return products.stream()
                 .map(product -> {
@@ -55,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 목록] 신상품 조회
+    // [상품 목록] - 신상품 조회
     @Override
     public List<ProductResponse> findByNewProdJPQL() {
         Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
@@ -74,11 +79,20 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 목록] 할인 상품 조회
+    // [상품 목록] - 할인 상품 조회
     @Override
-    public List<ProductResponse> findBySaleProd() {
-        Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
-        List<Product> products = productRepository.findSaleProducts(sort);
+    public List<ProductResponse> findBySaleProd(String sortValue) {
+        List<Product> products;
+        if (sortValue.equals("pricelow")) {
+            Sort sort = Sort.by(Sort.Direction.ASC, "prodSalesPrice");
+            products = productRepository.findSaleProducts(sort);
+        } else if (sortValue.equals("pricehigh")) {
+            Sort sort = Sort.by(Sort.Direction.DESC, "prodSalesPrice");
+            products = productRepository.findSaleProducts(sort);
+        } else {
+            Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
+            products = productRepository.findSaleProducts(sort);
+        }
         return products.stream()
                 .map(product -> {
                     ProductResponse dto = new ProductResponse();
@@ -93,7 +107,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 목록] - 전체 상품을 정렬
+    // [상품 목록] - 전체 상품(all)을 정렬
     public List<ProductResponse> findByProdCategoryJPQL(String sortValue) {
         List<Product> products;
         if (sortValue.equals("pricelow")) {
@@ -112,6 +126,7 @@ public class ProductServiceImpl implements ProductService {
                     dto.setProdId(product.getProdId());
                     dto.setProdName(product.getProdName());
                     dto.setProdCategory(product.getProdCategory());
+                    dto.setProdOriginPrice(product.getProdOriginPrice());
                     dto.setProdSalesPrice(product.getProdSalesPrice());
                     dto.setProdMainImgPath(product.getProdMainImgPath());
                     return dto;
@@ -119,7 +134,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 목록] - 상품을 카테고리별로 분류 및 정렬
+    // [상품 목록] - 상품을 카테고리(all 외)별로 분류 및 정렬
     public List<ProductResponse> findByProdCategoryJPQL(String prodCategory, String sortValue) {
         List<Product> products;
         if (sortValue.equals("pricelow")) {
@@ -138,6 +153,7 @@ public class ProductServiceImpl implements ProductService {
                     dto.setProdId(product.getProdId());
                     dto.setProdName(product.getProdName());
                     dto.setProdCategory(product.getProdCategory());
+                    dto.setProdOriginPrice(product.getProdOriginPrice());
                     dto.setProdSalesPrice(product.getProdSalesPrice());
                     dto.setProdMainImgPath(product.getProdMainImgPath());
                     return dto;
@@ -146,13 +162,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     // [상품 상세 정보] - 선택된 상품의 상세 정보 보기
-    public Product findById(Long prodId){
+    public Product findById(Long prodId) {
         Optional<Product> OptionalProduct = productRepository.findById(prodId);
 
         if (OptionalProduct.isPresent()) {
             return OptionalProduct.get();
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -180,17 +195,17 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> productPage = productRepository.findAll(pageRequest);
 
         return productPage.getContent().stream()
-            .map(product -> {
-                ProductResponse dto = new ProductResponse();
-                dto.setProdId(product.getProdId());
-                dto.setProdName(product.getProdName());
-                dto.setProdCode(product.getProdCode());
-                dto.setProdCategory(product.getProdCategory());
-                dto.setProdRegDate(product.getProdRegDate());
-                dto.setProdSalesDist(product.getProdSalesDist());
-                return dto;
-            })
-            .collect(Collectors.toList());
+                .map(product -> {
+                    ProductResponse dto = new ProductResponse();
+                    dto.setProdId(product.getProdId());
+                    dto.setProdName(product.getProdName());
+                    dto.setProdCode(product.getProdCode());
+                    dto.setProdCategory(product.getProdCategory());
+                    dto.setProdRegDate(product.getProdRegDate());
+                    dto.setProdSalesDist(product.getProdSalesDist());
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     // [상품 관리] - 상품판매구분 YES, NO 토글
@@ -214,13 +229,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-    // [상품 상세정보 수정]
-    public void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId) {
+    // [상품 이미지 수정]
+    public void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId, PrincipalDetails userDetails) {
         // CrudRepository에서 findById는 return 타입이 Optional이다.
         // 아래를 productRepository.findById(prodId).orElse()Repository 한줄로도 가능
         // prodId 받아서 findById 해서 Product 객체에 넣어줌
         Optional<Product> optionalProduct = productRepository.findById(prodId);
-        String userId = "kiko139";
+        Optional<User> optionalUser = userRepository.findById(userDetails.getUser().getUserId());
         // ReviewDto를 Entity로 바꿔주고 review엔티티에 넣어줌.
 
         // optionalProduct가 존재하지 않으면 RuntimeException 던지기
@@ -230,15 +245,17 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = productDTO.toEntity();
 
-        // ProductId도 같이 insert 해야돼서 optionalProduct를 다 get해서 review에 set해줌
-//        product.setProduct(optionalProduct.get());
 
-        if(!CollectionUtils.isEmpty(imageUrls)) {
+
+        // ProductId도 같이 insert 해야돼서 optionalProduct를 다 get해서 review에 set해줌
+//        product.setProduct(optionalProduct.get()); // 어떻게 해야할지 모르겠슴다...
+
+        if (!CollectionUtils.isEmpty(imageUrls)) {
             for (String url : imageUrls) {
                 ProductImage productImage = new ProductImage();
 
                 // reviewImg에 url 하나씩 serverfilename에 set
-                productImage.setProdDetailImgName(url);
+                productImage.setProdServerFilePath(url);
 
                 product.addProductImage(productImage);
             }
