@@ -38,7 +38,7 @@
 
                             $.ajax({
                                 type : 'post',
-                                url : '/yorijori/cookingclass/application',
+                                url : '/order/payment',
                                 data : {
                                     "payment.amount" : data.paid_amount,
                                     "name":data.buyer_name,
@@ -55,7 +55,7 @@
                             msg +=  data.error_msg;
                         }
                         alert(msg);
-                        window.location.href = '/yorijori/cookingclass/list/0/date/all';
+                        window.location.href = '/#';
                     }); //f, req close
                     return false;
 
