@@ -32,7 +32,7 @@ public class OrderController {
         OrderUserDTO orderUserDto = orderService.setOrderUserDto(userDetails);
 
         model.addAttribute("orderUser", orderUserDto);
-        model.addAttribute("orderItems", ordersDTO);
+        model.addAttribute("Items", ordersDTO);
 
        return "/order/order";
     }
@@ -49,7 +49,7 @@ public class OrderController {
         OrderUserDTO orderUserDto = orderService.setOrderUserDto(userDetails);
 
         model.addAttribute("orderUser", orderUserDto);
-        model.addAttribute("orderItems", ordersDTO);
+        model.addAttribute("Items", ordersDTO);
 
         return "/order/order";
     }
@@ -63,7 +63,10 @@ public class OrderController {
 
         String userId = userDetails.getUser().getUserId();
 
-        System.out.println("orderDetailsDTO" + orderItemsDTO);
+        for(OrderItemDTO orderItemDTO : orderItemsDTO.getOrderItems()) {
+            System.out.println("orderItemDTO : " + orderItemDTO);
+        }
+
         System.out.println("orderDeliveryDTO" + orderDeliveryDTO);
 
         // 여기에서 필요한 유효성 검사 및 비즈니스 로직 수행

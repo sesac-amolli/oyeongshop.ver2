@@ -16,7 +16,7 @@ public interface ProductOptionRepository extends JpaRepository<ProductOption, Lo
 //    @Query(value = "SELECT * FROM tbl_product_option WHERE prod_opt_color = :prodOptColor", nativeQuery = true)
 //    List<ProductOption> productOptionSize(@Param("prodOptColor") String prodOptColor);
     @Transactional
-    @Modifying
+//    @Modifying
     @Query("SELECT p.prodOptId FROM ProductOption p WHERE p.product.prodId = :prodId AND p.prodOptColor = :prodOptColor AND p.prodOptSize = :prodOptSize")
     Long findProdOptIdByProdIdAndProdOptColorAndProdOptSize(@Param("prodId") Long prodId, @Param("prodOptColor") String prodOptColor, @Param("prodOptSize") String prodOptSize);
 
