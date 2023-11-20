@@ -51,7 +51,7 @@
             <td><img alt="이미지" th:src="${orderItem.prodMainImgPath}"></td>
             <td th:text="${orderItem.productName}"></td>
             <td><input type="text" th:name="__${'orderItems[' + itemStat.index + '].prodOriginPrice'}__" th:value="${orderItem.prodOriginPrice}" readonly="readonly" class="non"><br>
-            <td><input type="text" th:name="__${'orderItems[' + itemStat.index + '].prodSalesPrice'}__" th:value="${orderItem.prodSalesPrice}" readonly="readonly" class="non"></td>
+            <input type="text" th:name="__${'orderItems[' + itemStat.index + '].prodSalesPrice'}__" th:value="${orderItem.prodSalesPrice}" readonly="readonly" class="non"></td>
             <td><input type="text" th:name="__${'orderItems[' + itemStat.index + '].quantity'}__" th:value="${orderItem.quantity}" readonly="readonly" class="non"></td>
             <td><input type="text" th:name="__${'orderItems[' + itemStat.index + '].color'}__" th:value="${orderItem.color}" readonly="readonly" class="non"></td>
             <td><input type="text" th:name="__${'orderItems[' + itemStat.index + '].size'}__" th:value="${orderItem.size}" readonly="readonly" class="non"></td>
@@ -124,7 +124,7 @@
         </tr>
         <tr>
             <td><input th:name = "orderTotalOriginPrice" th:value="${Items.orderTotalOriginPrice}" readonly="readonly" > 원 </td>
-            <td><input th:text="' ' + ${Items.discountAmount} + ' 원'" readonly="readonly" > 원 </td>
+            <td><input th:text="${Items.discountAmount}" readonly="readonly" > 원 </td>
             <td><input th:name = "totalOrderPayment" th:value="${Items.totalOrderPayment}" readonly="readonly" > 원 </td>
         </tr>
 <!--        <tr>-->
