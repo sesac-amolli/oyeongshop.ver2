@@ -3,10 +3,13 @@ package com.amolli.oyeongshop.ver2.order.dto;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.model.UserAddr;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class OrderUserDTO {
 
     private String userId;
