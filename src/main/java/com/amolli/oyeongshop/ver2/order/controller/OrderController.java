@@ -1,9 +1,12 @@
 package com.amolli.oyeongshop.ver2.order.controller;
 
 import com.amolli.oyeongshop.ver2.order.dto.*;
+import com.amolli.oyeongshop.ver2.order.model.Order;
+import com.amolli.oyeongshop.ver2.order.repository.OrderRepository;
 import com.amolli.oyeongshop.ver2.order.service.OrderService;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +24,7 @@ public class OrderController {
 
     @PostMapping(value = "/to-order")
     //public String orderAdd(Model model, @RequestBody OrderItemDto orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails){
-    public String orderAdd(Model model, @ModelAttribute("orderItemDTO") OrderItemDTO orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails){
+    public String orderAdd(Model model, @ModelAttribute("orderItemDTO") OrderItemDTO orderItemDto, @AuthenticationPrincipal PrincipalDetails userDetails) {
 
 //        OrderDTO preparedOrderDTO = orderService.setPreparedOrderDto(orderItemDto);
 
@@ -34,11 +37,11 @@ public class OrderController {
         model.addAttribute("orderUser", orderUserDto);
         model.addAttribute("Items", ordersDTO);
 
-       return "/order/order";
+        return "/order/order";
     }
 
-    @PostMapping(value="/to-orders")
-    public String orderAdds(Model model, @RequestParam List<Long> selectedItems, @AuthenticationPrincipal PrincipalDetails userDetails){
+    @PostMapping(value = "/to-orders")
+    public String orderAdds(Model model, @RequestParam List<Long> selectedItems, @AuthenticationPrincipal PrincipalDetails userDetails) {
 
         OrdersDTO ordersDTO = orderService.setOrdersDTO(selectedItems);
 
@@ -61,7 +64,7 @@ public class OrderController {
 
         String userId = userDetails.getUser().getUserId();
 
-        for(OrderItemDTO orderItemDTO : orderItemsDTO.getOrderItems()) {
+        for (OrderItemDTO orderItemDTO : orderItemsDTO.getOrderItems()) {
             System.out.println("orderItemDTO : " + orderItemDTO);
         }
 
@@ -86,7 +89,7 @@ public class OrderController {
 
 
     @GetMapping("/order-detail")
-    public String orderDetail(@ModelAttribute("orderDetailDTO") OrderDetailDTO orderDetailDTO, Model model, @AuthenticationPrincipal PrincipalDetails userDetails){
+    public String orderDetail(@ModelAttribute("orderDetailDTO") OrderDetailDTO orderDetailDTO, Model model, @AuthenticationPrincipal PrincipalDetails userDetails) {
 
         //orderDetailDTO orderDetailDTO = (OrderDetailDTO) model.getAttribute("orderDetailDTO");
 
@@ -104,23 +107,38 @@ public class OrderController {
     }
 
     @GetMapping("/order-detail/{orderId}")
-    public String orderDetails(Model model, @AuthenticationPrincipal PrincipalDetails userDetails){
+    public String orderDetails(Model model, @PathVariable Long orderId, @AuthenticationPrincipal PrincipalDetails userDetails) {
 
-        OrderResponseDTO orderResponseDTO;
-        OrderDetailResponseDTO orderDetailResponseDTO;
+        OrderResponseDTO orderResponseDTO = orderService.setOrderResponseDTO(orderId);
+        OrderDetailsResponseDTO orderDetailsResponseDTO = orderService.setOrderDetailResponseDTO(orderId);
 
+        model.addAttribute("Order", orderResponseDTO);
+        model.addAttribute("OrderDetails", orderDetailsResponseDTO);
 
         return "/order/order-detail";
     }
 
 
     @GetMapping("/order-list")
-    public String orderList(){
-        return "/order/order-list";
+    public void orderLists(@PathVariable(required = false) Integer page, Model model, @AuthenticationPrincipal PrincipalDetails userDetails) {
+        System.out.println("주문내역조회");
+
+        // page가 null인 경우 기본값으로 0을 사용
+        int pageNumber = (page != null) ? page : 0;
+
+        String userId = userDetails.getUser().getUserId();
+        List<OrderListDTO> orderListDTOS = orderService.setOrderListDTOList(userId);
+        for(OrderListDTO orderListDTO : orderListDTOS){
+            System.out.println(orderListDTO);
+        }
+
+        model.addAttribute("orderList", orderListDTOS);
+
     }
 
+
     @GetMapping("/return-list")
-    public String returnList(){
+    public String returnList() {
         return "/order/return-list";
     }
 }
