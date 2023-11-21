@@ -105,25 +105,27 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public OrdersDTO setOrdersDTO(List<Long> selectedItems) {
         OrdersDTO ordersDTO = new OrdersDTO();
+        Long orderTotalPrice = 0L;
+        Long discountAmount = 0L;
+        Long totalOrderPayment = 0L;
 
         for(Long l : selectedItems){
             OrderDTO orderDTO = new OrderDTO();
 
             Optional<CartItem> cartItem = cartItemRepository.findById(l);
-            Product product = productService.findById(cartItem.get().getProductOption().getProduct().getProdId());
             System.out.println("cartItem.isPresent() : " + cartItem.isPresent());
             if (cartItem.isPresent()) {
                 // cartItem이 값이 존재하는 경우
                 System.out.println("cartItem.prodOptId : " + cartItem.get().getProductOption().getProdOptId());
                 orderDTO.setProdOptId(cartItem.get().getProductOption().getProdOptId());
-                orderDTO.setProductName(product.getProdName());
-                orderDTO.setProdOriginPrice(product.getProdOriginPrice());
-                orderDTO.setProdSalesPrice(product.getProdSalesPrice());
+                orderDTO.setProductName(cartItem.get().getProductOption().getProduct().getProdName());
+                orderDTO.setProdOriginPrice(cartItem.get().getProductOption().getProduct().getProdOriginPrice());
+                orderDTO.setProdSalesPrice(cartItem.get().getProductOption().getProduct().getProdSalesPrice());
                 orderDTO.setQuantity(Long.valueOf(cartItem.get().getCartItemAmount()));
                 orderDTO.setColor(cartItem.get().getProductOption().getProdOptColor());
                 orderDTO.setSize(cartItem.get().getProductOption().getProdOptColor());
-                orderDTO.setProdMainImgPath(product.getProdMainImgPath());
-                orderDTO.setItemAmount(Long.valueOf(cartItem.get().getCartItemAmount()));
+                orderDTO.setProdMainImgPath(cartItem.get().getProductOption().getProduct().getProdMainImgPath());
+                orderDTO.setItemAmount(Long.valueOf(cartItem.get().getCartItemAmount())*cartItem.get().getProductOption().getProduct().getProdSalesPrice());
 
                 ordersDTO.getOrders().add(orderDTO);
             } else {
@@ -135,10 +137,14 @@ public class OrderServiceImpl implements OrderService{
 
 
         for(OrderDTO orderDTO : ordersDTO.getOrders()) {
-            ordersDTO.setOrderTotalOriginPrice(orderDTO.getProdOriginPrice()*orderDTO.getQuantity());
-            ordersDTO.setDiscountAmount(orderDTO.getProdOriginPrice()*orderDTO.getQuantity()-orderDTO.getItemAmount());
-            ordersDTO.setTotalOrderPayment(orderDTO.getItemAmount());
+            orderTotalPrice += orderDTO.getProdOriginPrice()*orderDTO.getQuantity();
+            discountAmount += orderDTO.getProdOriginPrice()*orderDTO.getQuantity()-orderDTO.getItemAmount();
+            totalOrderPayment += orderDTO.getProdSalesPrice()*orderDTO.getQuantity();
         }
+
+        ordersDTO.setOrderTotalOriginPrice(orderTotalPrice);
+        ordersDTO.setDiscountAmount(discountAmount);
+        ordersDTO.setTotalOrderPayment(totalOrderPayment);
 
         return ordersDTO;
     }
@@ -175,10 +181,11 @@ public class OrderServiceImpl implements OrderService{
         for(Long l : orderDetailIDs){
             OrderDetailResponseDTO orderDetailResponseDTO = new OrderDetailResponseDTO();
             Optional<OrderDetail> orderDetail = orderDetailRepository.findById(l);
+            System.out.println(orderDetail);
 
             if (orderDetail.isPresent()) {
                 orderDetailResponseDTO.setProdMainImgPath(orderDetail.get().getProductOption().getProduct().getProdMainImgPath());
-                orderDetailResponseDTO.setProductName(orderDetail.get().getProductOption().getProduct().getProdName());
+                orderDetailResponseDTO.setProdName(orderDetail.get().getProductOption().getProduct().getProdName());
                 orderDetailResponseDTO.setProdOriginPrice(orderDetail.get().getOrderDetailOriginPrice());
                 orderDetailResponseDTO.setProdSalesPrice(orderDetail.get().getOrderDetailSalesPrice());
                 orderDetailResponseDTO.setQuantity(orderDetail.get().getOrderDetailAmount());
@@ -186,10 +193,11 @@ public class OrderServiceImpl implements OrderService{
                 orderDetailResponseDTO.setSize(orderDetail.get().getProductOption().getProdOptSize());
                 orderDetailResponseDTO.setItemAmount(orderDetail.get().getOrderDetailSalesPrice());
                 orderDetailResponseDTO.setProdId(orderDetail.get().getProductOption().getProduct().getProdId());
-
             }else{
                 System.out.println("해당하는 OrderDetail이 없습니다.");
             }
+
+            System.out.println("오더 : " + orderDetailResponseDTO);
             orderDetailsResponseDTO.getOrderDetailItems().add(orderDetailResponseDTO);
         }
 

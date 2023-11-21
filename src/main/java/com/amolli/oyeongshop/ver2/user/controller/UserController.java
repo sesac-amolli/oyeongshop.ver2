@@ -1,15 +1,15 @@
 package com.amolli.oyeongshop.ver2.user.controller;
 
+import com.amolli.oyeongshop.ver2.board.dto.ReviewResponseDTO;
+import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 
-import com.amolli.oyeongshop.ver2.user.dto.WishListDTO;
+import com.amolli.oyeongshop.ver2.user.dto.*;
 import com.amolli.oyeongshop.ver2.user.model.Wishlist;
 import com.amolli.oyeongshop.ver2.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
-import com.amolli.oyeongshop.ver2.user.dto.CartItemRequestDTO;
-import com.amolli.oyeongshop.ver2.user.dto.CartResponseDTO;
 import com.amolli.oyeongshop.ver2.user.model.Cart;
 import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.service.CartService;
@@ -18,7 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -26,15 +28,33 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
 
-
     private final CartService cartService;
-
     private final UserService userService;
 
+    // 마이페이지
     @GetMapping("/mypage")
-    public String index( ) {
-
+    public String showMypage(@AuthenticationPrincipal PrincipalDetails userDetails, Model model) {
+        Long userPoint = userDetails.getUser().getUserPoint();
+        model.addAttribute("point", userPoint);
         return "/user/mypage";
+    }
+
+    // 내 정보 조회
+    @GetMapping("/myinfo")
+    public String myinfo(){
+
+        return "/user/myinfo";
+    }
+
+    // 포인트 내역 조회
+    @GetMapping("/point")
+    public String myPoint(@AuthenticationPrincipal PrincipalDetails userDetails, Model model){
+        Long userPoint = userDetails.getUser().getUserPoint();
+        model.addAttribute("point", userPoint);
+
+        List<PointDto> pointDtos = userService.myPoint(userDetails.getUser().getUserId());
+        model.addAttribute("points", pointDtos);
+        return "/user/point";
     }
 
     // 장바구니 상품 담기
@@ -50,36 +70,42 @@ public class UserController {
     @GetMapping("/cart/list")
     public String viewCartList(@AuthenticationPrincipal PrincipalDetails userDetails, Model model) {
         String userId = userDetails.getUser().getUserId();
-//        User user = userService.getUserById(userId);
         Cart cart = cartService.viewCartList(userId);
-//        User user = userService.getUserById(userId);
         System.out.println("cart controller@!#!@#@@@" + cart);
 
         CartResponseDTO cartResponseDTO = new CartResponseDTO();
         System.out.println("cart responseDTO@!#!@#@@@" + cart);
 
-
         model.addAttribute("cartDTO", cartResponseDTO.from(cart));
         System.out.println("cart model@!#!@#@@@" + cart);
-//        List<CartResponseDTO> cartResponseDTO = cart.stream()
-//                        .filter(CartResponseDTO::from)
-//                        .collect(toList());
-//                builder().user(user).build();
-
-//        List<CartResponseDTO> cartResponseDTOS = cart.stream()
-//                .map(CartItemResponseDTO::from)
-//                .collect(Collectors.toList());
-
-//        CartResponseDTO cartResponseDTO = cart.builder()
-//                List<CartItemResponseDTO> cartItemResponseDTOS = cart.getCartItems().stream()
-//                .map(CartItemResponseDTO::from)
-//                .collect(Collectors.toList());
 
         return "/user/cart";
-
-
-
     }
+
+    // 장바구니 수량 수정
+    @PostMapping("/cart/modify")
+    public String modifyCart(@RequestBody List<CartItemRequestDTO> cartItemRequestDTOS, @AuthenticationPrincipal PrincipalDetails userDetails){
+        String userId = userDetails.getUser().getUserId();
+        cartService.modifyCart(cartItemRequestDTOS, userId);
+
+        return "redirect:/user/cart/list";
+    }
+
+    @PostMapping("/cart/delete")
+    public String deleteCart(@RequestParam List<Long> cartItemIds, @AuthenticationPrincipal PrincipalDetails userDetails){
+        String userId = userDetails.getUser().getUserId();
+        System.out.println("Cart삭제");
+
+        cartService.deleteCart(cartItemIds, userId);
+
+        for(Long l : cartItemIds) {
+            System.out.println(l);
+        }
+//        cartService.deleteCart(cartItemIds, userId);
+
+        return "redirect:/user/cart/list";
+    }
+
 
     // 장바구니 선택 상품 주문하기
     @PostMapping("/cart/order")
@@ -88,14 +114,14 @@ public class UserController {
         return "redirect://오더페이지";
     }
 
-    @GetMapping("/myinfo")
-    public String myinfo(){
-
-        return "/user/myinfo";
-    }
-
     @GetMapping("/wishlist")
-    public String wishlist(){
+    public String wishlist(@AuthenticationPrincipal PrincipalDetails details, Long wishListId, Model model){
+
+        List<Wishlist> wishlists = userService.findMyWishList(details);
+
+        List<WishListResponseDTO> wishListDTOS = wishlists.stream().map(WishListResponseDTO::from).collect(Collectors.toList());
+
+        model.addAttribute("wishListDTOS", wishListDTOS);
 
         return "/user/wishlist";
     }
@@ -117,5 +143,13 @@ public class UserController {
         Long wishlistId = userService.findWishList(prodId, details);
         userService.deleteWishList(wishlistId);
         System.out.println("Controller~!~!~ wishlistId:::" + wishlistId);
+    }
+
+    @PostMapping("/wishlist-delete")
+    public String deleteMyWishList(@RequestParam("wishProdId") Long prodId, @AuthenticationPrincipal PrincipalDetails details){
+        Long wishlistId = userService.findWishList(prodId, details);
+        userService.deleteWishList(wishlistId);
+        System.out.println("Controller~!~!~ wishlistId:::" + wishlistId);
+        return "redirect:/user/wishlist";
     }
 }

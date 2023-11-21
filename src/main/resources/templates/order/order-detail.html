@@ -55,19 +55,28 @@
                 <td>색상</td>
                 <td>사이즈</td>
                 <td>합계</td>
+                <td>리뷰</td>
             </tr>
 
             <div th:each="orderDetailItem : ${OrderDetails.orderDetailItems}">
             <tr>
-                <td><input type="hidden" value = "${orderDetailItem.prodId}"></td>
-                <td><img alt="이미지" th:src="orderDetailItem.prodMainImgPath}"></td>
-                <td><input type="text" th:name="prodName" th:value="${orderDetailItem.prodName}" readonly="readonly"></td>
-                <td><input type="text" th:name="originPrice" th:value="${orderDetailItem.prodOriginPrice;}" readonly="readonly"><br><input type="text" th:name="price" th:value="${orderDetailItem.prodSalesPrice;}" readonly="readonly"></td>
-                <td><input type="text" th:name="orderQuantity" th:value="${orderDetailItem.quantity}" readonly="readonly"></td>
-                <td><input type="text" th:name="orderColor" th:value="${orderDetailItem.color}" readonly="readonly"></td>
-                <td><input type="text" th:name="orderSize" th:value="${orderDetailItem.size}" readonly="readonly"></td>
-                <td><input type="text" th:name="itemAmount" th:value="${orderDetailItem.itemAmount}" readonly="readonly"></td>
-                <td><button type="submit">리뷰 쓰기</button></td>
+                <td><img alt="이미지" th:src="${orderDetailItem.prodMainImgPath}"></td>
+                <td><input type="text" name="prodName" th:value="${orderDetailItem.prodName}" readonly="readonly"></td>
+                <td><div>
+                    <input type="text" name="originPrice" th:value="${orderDetailItem.prodOriginPrice}" readonly="readonly">
+                    </div>
+                    <div>
+                        <input type="text" name="price" th:value="${orderDetailItem.prodSalesPrice}" readonly="readonly">
+                    </div>
+                </td>
+
+                <td><input type="text" name="orderQuantity" th:value="${orderDetailItem.quantity}" readonly="readonly"></td>
+                <td><input type="text" name="orderColor" th:value="${orderDetailItem.color}" readonly="readonly"></td>
+                <td><input type="text" name="orderSize" th:value="${orderDetailItem.size}" readonly="readonly"></td>
+                <td><input type="text" name="itemAmount" th:value="${orderDetailItem.itemAmount}" readonly="readonly"></td>
+                <td><form th:action="@{/board/review-write/{prodId}(prodId=${orderDetailItem.prodId})}" method="get">
+                    <button type="submit">리뷰 쓰기</button>
+                </form></td>
             </tr>
             </div>
             <tr>

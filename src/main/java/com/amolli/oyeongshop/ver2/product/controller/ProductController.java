@@ -131,7 +131,10 @@ public class ProductController {
             // 찜여부 확인하기
             Long wishlistId = userService.findWishList(prodId, details);
             model.addAttribute("wishListId", wishlistId);
+            String userId = details.getUser().getUserId();
+            model.addAttribute("userId", userId);
         }
+
         Product product = productService.findById(prodId);
 
         //productId를 사용하여 필요한 데이터를 데이터베이스에서 가져온다.
