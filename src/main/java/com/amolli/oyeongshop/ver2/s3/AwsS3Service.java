@@ -74,4 +74,31 @@ public class AwsS3Service {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일(" + fileName + ") 입니다.");
         }
     }
+
+    public List<String> uploadS3ForProduct(List<MultipartFile> multipartlist) {
+        // 이미지 url 받아올 리스트
+        List<String> imageUrls = new ArrayList<>();
+
+        for (MultipartFile file : multipartlist) {
+            String fileName = createFileName(file.getOriginalFilename()); // 파일 이름을 생성
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentLength(file.getSize());
+            objectMetadata.setContentType(file.getContentType());
+
+            System.out.println("Uploading photo: " + fileName);
+
+            try (InputStream inputStream = file.getInputStream()) {
+                // S3에 업로드 및 저장
+                amazonS3.putObject(new PutObjectRequest(bucket + "/Product", fileName, inputStream, objectMetadata)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+            } catch (IOException e) {
+                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Photo upload failed.");
+            }
+
+            // Accessible URL 가져옴
+            imageUrls.add(amazonS3.getUrl(bucket + "/Product", fileName).toString());
+
+        }
+        return imageUrls;
+    }
 }
