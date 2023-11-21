@@ -22,6 +22,7 @@ public class ProductDTO {
     private String prodDesc;
     private LocalDateTime prodRegDate;
 
+
     public ProductDTO(Long prodId, String prodName, String prodCode, Long prodOriginPrice, Long prodSalesPrice, String prodCategory, String prodCategoryDetail,
                       String prodDesc, LocalDateTime prodRegDate) {
         super();

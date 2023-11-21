@@ -55,16 +55,12 @@
                 </select>
             </td>
         </tr>
-        <tr>
-            <td class="title">상품상세분류</td>
-            <td class="content">
-                <input type="text" th:field="*{prodCategoryDetail}" />
-            </td>
-        </tr>
 
         <!-- 숨김 처리 정보 -->
-        <input type="text" th:field="*{prodRegDate}" readonly class="hidden"/>
-        <input type="text" th:field="*{prodMainImgPath}" readonly class="hidden"/>
+        <input type="text" th:field="*{prodRegDate}" class="hidden"/>
+        <input type="text" th:field="*{prodMainImgPath}" class="hidden"/>
+        <input type="text" th:field="*{prodId}" class="hidden"/>
+
         <tr class="hidden">
             <!-- prod_sales_dist가 null이면 'NO'로 출력, 그렇지 않으면 현재 값으로 출력 -->
             <td class="title">상품판매등록여부</td>
@@ -74,7 +70,6 @@
             </td>
         </tr>
     </table>
-
     <div>
         <th:block th:replace="product/product-register-option :: option"></th:block>
     </div>

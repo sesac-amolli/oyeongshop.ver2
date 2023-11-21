@@ -3,14 +3,13 @@ package com.amolli.oyeongshop.ver2.product.controller;
 import com.amolli.oyeongshop.ver2.board.dto.ReviewResponseDTO;
 import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.service.ReviewService;
-import com.amolli.oyeongshop.ver2.product.dto.ProductDTO;
-import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
-import com.amolli.oyeongshop.ver2.product.dto.ProductResponseDTO;
+import com.amolli.oyeongshop.ver2.product.dto.*;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.model.ProductOption;
 import com.amolli.oyeongshop.ver2.product.service.ProductImageService;
 import com.amolli.oyeongshop.ver2.product.service.ProductOptionService;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
+import com.amolli.oyeongshop.ver2.s3.AwsS3Service;
 import com.amolli.oyeongshop.ver2.s3.AwsS3ServiceProduct;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 import com.amolli.oyeongshop.ver2.user.service.UserService;
@@ -41,6 +40,7 @@ public class ProductController {
     private final ProductImageService productImageService;
     private final ReviewService reviewService;
     private final UserService userService;
+    private final AwsS3Service awsS3Service;
 
 
     // [사이드 바] side-nav-for-user.html 에서 a태그 클릭 시 category 정보를 전달해주는 컨트롤러
@@ -81,7 +81,6 @@ public class ProductController {
     // [상품 목록] 모든 상품을 조회 및 정렬
     @GetMapping("/list/all/{sort}")
     public String productList(@PathVariable String sort, Model model) {
-        //todo : 익숙해 지기
         List<ProductResponse> productList = productService.findByProdCategoryJPQL(sort);
         model.addAttribute("productList", productList);
         model.addAttribute("prodCategory", "all");
@@ -158,19 +157,19 @@ public class ProductController {
     // [상품 상세 정보 수정] 화면으로 랜더링
     @GetMapping("/edit/{prodId}")
     public String initUpdateOwnerForm(@PathVariable Long prodId, Model model) {
-        model.addAttribute(productService.findById(prodId));
-        System.out.println("요 맞제?");
-        model.addAttribute(productOptionService.findByProduct_ProdId(prodId));
-        return "/product/product-register";
+        model.addAttribute("product",productService.findById(prodId));
+        model.addAttribute("productOption",productOptionService.findByProduct_ProdId(prodId));
+        return "product/product-register";
     }
-    
+
     // [상품 상세 정보 수정] 상품 수정 화면의 입력 데이터 보내기
     @PostMapping("/edit/{prodId}")
-    public String initUpdateForm(@Validated Product product, @Validated ProductOption productOption, @PathVariable Long prodId) {
+    public String initUpdateForm(@Validated Product product, @Validated ProductOptionDTO productOptionDTO, @PathVariable Long prodId) {
         product.setProdId(prodId);
-        Product savedProduct = productService.saveProduct(product);
-        ProductOption savedProductOption = productOptionService.saveProductOption(productOption);
-        return "redirect:/product/management";
+        productService.saveProduct(product);
+        productOptionService.saveProductOption(productOptionDTO);
+        System.out.println("aaaaaaaaaaaaaa");
+        return "product/product-register-detail";
     }
 
     // [상품 관리] 상품판매구분 컬럼 YES, NO 업데이트
@@ -212,9 +211,11 @@ public class ProductController {
     }
 
 
+
     // [상품 및 상품 옵션 등록] POST 요청을 처리하여 상품을 등록하는 메서드
-    @PostMapping("/register")
-    public String processCreationForm(@Valid Product product, @Valid ProductOption productOption, BindingResult result, RedirectAttributes redirectAttributes) {
+   /* @PostMapping("/register")
+    //public String processCreationForm(@Valid Product product, @Valid ProductOptionDTO productOptionDTO, ProductOptionsDTO productOptionsDTO, BindingResult result, RedirectAttributes redirectAttributes) {
+   // public String processCreationForm(Product product, ProductOption productOption, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             return "product/product-register";
         } else {
@@ -222,7 +223,9 @@ public class ProductController {
             productService.saveProduct(product);
 
             // productOptionService를 사용하여 상품 옵션을 등록
-//            List<ProductOption> productOptions = productOptionService.getProductOptions();
+            System.out.println("getProdOptColor = " + productOption.getProdOptColor()); // String[] {red,orange,blue}
+            System.out.println("getProdOptSize = " + productOption.getProdOptSize()); // String[] {100, 95, 105}
+            System.out.println("getProdOptAmount = " + productOption.getProdOptAmount()); //
             productOptionService.saveProductOption(productOption);
             System.out.println("222222222222");
 
@@ -230,88 +233,71 @@ public class ProductController {
             System.out.println(redirectAttributes.addAttribute("prodId", product.getProdId()));
             return "product/product-register-detail";
         }
+    }*/
+
+
+    // [상품 및 상품 옵션 등록] - POST 요청을 처리하여 상품을 등록하는 메서드
+    @PostMapping("/register")
+    public String processCreationForm(@Valid Product product, @Valid ProductOptionDTO productOptionDTO, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            return "product/product-register";
+        } else {
+            // productService를 사용하여 상품을 등록
+            Product savedProduct=productService.saveProduct(product);
+            System.out.println("상품 기본 정보 등록 완료 = savedProduct = " + savedProduct.getProdId());
+
+            // productOptionService를 사용하여 상품 옵션을 등록
+//            List<ProductOption> productOptions = productOptionService.getProductOptions();
+            productOptionDTO.setProdId(savedProduct.getProdId());
+            productOptionService.saveProductOption(productOptionDTO);
+
+            System.out.println("상품 옵션 등록중(상품ID 업데이트 필요)");
+
+            // prodId를 URL에 추가하여 리다이렉트
+            System.out.println(redirectAttributes.addAttribute("prodId", product.getProdId()));
+            return "product/product-register-detail";
+        }
     }
 
-    // [상품 옵션 등록] 상품 옵션의 prodId가 null인 인덱스를 prodId로 업데이트
-    @ResponseBody
+    // [상품 등록] 상품 기본 정보, 상품 옵션, 이미지 등록
     @PostMapping("/register/{prodId}")
-    public void updateProdIdWhereNullWhenProdReg(@PathVariable Long prodId, Model model) {
-        productOptionService.updateProdIdWhereNull(prodId);
-    }
+    public String processCreationForm(@PathVariable Long prodId, @RequestParam(value = "image1", required = false) List<MultipartFile> files,
+                                      Product product) {
 
-    // GET 리뷰 작성 페이지 조회(해당 페이지의 상품 id 가져와서)
-    @GetMapping("/register/picture/{prodId}")
-    public String productImage(@PathVariable Long prodId , Model model) {
+        // [상품 옵션 등록] 상품 옵션의 prodId가 null인 인덱스를 prodId로 업데이트
+       // productOptionService.updateProdIdWhereNull(prodId); //옵션테이블에 prod_id 수정???
+        //System.out.println("상품 옵션 등록 완료");
 
-        Product product = productService.findById(prodId);
-//        String prodName = product.getProdName();
+        // productService를 사용하여 상품 기본 정보를 등록
+        productService.saveProduct(product); // tnwjd
+        System.out.println("상품 상세 정보 수정 완료");
 
-        String userId = "kiko139";
-        System.out.println("3333333333333");
-
-        model.addAttribute("userId", userId);
-        model.addAttribute("product", product);
-
-        System.out.println("4444444444444");
-        return "/product/product-register-detail";
-    }
-
-    // POST 리뷰 작성 (INSERT)
-//    @PostMapping(value = "/register/picture/{prodId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public String uploadFileForProduct(@RequestParam(value = "image1", required = false) List<MultipartFile> files, ProductDTO productDTO
-//                            ,@RequestParam("prodId") Long prodId) {
-//
-//        System.out.println("5555555555555");
-//        List<String> imagepath = null;
-//
-//        // 멀티파트파일->S3에 업로드 하고 imageUrls 리스트로 받아옴
-//        if(!ObjectUtils.isEmpty(files) && !files.get(0).getOriginalFilename().equals("")){
-//            imagepath = awsS3ServiceProduct.uploadS3ForProduct(files);
-//        }
-//
-//        // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
-//        // 추후 변경 1L -> prodId 로
-//        productService.uploadDBForProduct(imagepath, productDTO, prodId);
-//
-//        return "/product/product-management";
-//    }
-    @PostMapping(value = "/register/picture/{prodId}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String uploadFileForProduct(@RequestParam(value = "image1", required = false) List<MultipartFile> files,
-                                       ProductDTO productDTO, @PathVariable Long prodId, @AuthenticationPrincipal PrincipalDetails details) {
-        System.out.println("5555555555555");
+        // 등록한 이미지를 저장하기 위한 프로세스
         List<String> imagepath = null;
 
         // 멀티파트파일->S3에 업로드 하고 imageUrls 리스트로 받아옴
         if (!ObjectUtils.isEmpty(files) && !files.get(0).getOriginalFilename().equals("")) {
-            imagepath = awsS3ServiceProduct.uploadS3ForProduct(files);
+            imagepath = awsS3Service.uploadS3ForProduct(files);
+
+            System.out.println("files : "+ files);
         }
-        System.out.println("66666666666666");
+//        for(String str: imagepath){
+//            System.out.println("imageLink" + str);
+//        }
 
         // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
         // 추후 변경 1L -> prodId 로
-        productService.uploadDBForProduct(imagepath, productDTO, prodId, details);
-        System.out.println("7777777777777");
+        productService.uploadDBForProduct(imagepath, product);
 
-        return "/product/product-management";
+        System.out.println("이미지 파일 업로드 완료");
+        return "redirect:/product/management";
     }
-//    @PostMapping(value = "/register/picture/{prodId}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//    public String uploadFileForProduct(@RequestParam(value = "image1", required = false) List<MultipartFile> files,
-//                                       ProductDTO productDTO, @PathVariable Long prodId) {
-//        System.out.println("5555555555555");
-//        List<String> imagepath = null;
-//
-//        // 멀티파트파일->S3에 업로드 하고 imageUrls 리스트로 받아옴
-//        if (!ObjectUtils.isEmpty(files) && !files.get(0).getOriginalFilename().equals("")) {
-//            imagepath = awsS3ServiceProduct.uploadS3ForProduct(files);
-//        }
-//        System.out.println("66666666666666");
-//
-//        // imageUrls를 받아서 DB에 업로드(tbl_review, tbl_review_img 동시에)..
-//        // 추후 변경 1L -> prodId 로
-//        productService.uploadDBForProduct(imagepath, productDTO, prodId);
-//        System.out.println("7777777777777");
-//
-//        return "/product/product-management";
+
+//    // [상품 옵션 등록] 상품 옵션의 prodId가 null인 인덱스를 prodId로 업데이트
+//    @ResponseBody
+//    @PostMapping("/register/{prodId}")
+//    public void updateProdIdWhereNullWhenProdReg(@PathVariable Long prodId) {
+//        productOptionService.updateProdIdWhereNull(prodId);
 //    }
 }
 
