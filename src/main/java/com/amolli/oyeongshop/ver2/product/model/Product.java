@@ -5,6 +5,8 @@ import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.user.model.Wishlist;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -20,6 +22,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @ToString
+@DynamicUpdate //
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +59,9 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Wishlist> wishLists = new ArrayList<>();
 
+    public Product(Long prodId){
+        this.prodId=prodId;
+    }
     @Builder
     public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, String prodCategory, String prodCategoryDetail,
                    LocalDateTime prodRegDate, LocalDateTime prodEditDate, String prodSalesDist, String prodDesc, List<ProductOption> productOptions) {
@@ -81,4 +87,6 @@ public class Product {
         productImages.add(productImage);
         productImage.setProduct(this);
     }
+
+
 }
