@@ -6,13 +6,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
 public class OrderResponseDTO {
 
     private String orderNumber;
-    private LocalDateTime orderDate;
+    private String orderDate;
     private String userName;
     private OrderStatus orderStatus;
     private Long orderOriginPrice;
@@ -26,4 +27,9 @@ public class OrderResponseDTO {
     private String orderAttnAddr2;
     private String orderAttnDetail;
     private String orderAttnRequest;
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        this.orderDate = orderDate.format(formatter);
+    }
 }

@@ -22,7 +22,6 @@ public class ProductRegisterRequest {
     @NotBlank
     private String prodCategory;
 
-    private String prodCategoryDetail;
 
     @NotBlank
     private String prodDesc;
@@ -30,16 +29,13 @@ public class ProductRegisterRequest {
     private String prodSalesDist;
 
     public ProductRegisterRequest(String prodName, String prodCode, long prodOriginPrice, long prodSalesPrice,
-                                  String prodCategory, String prodCategoryDetail, String prodDesc, String prodSalesDist) {
+                                  String prodCategory, String prodDesc, String prodSalesDist) {
         this.prodName = prodName;
         this.prodCode = prodCode;
         this.prodOriginPrice = prodOriginPrice;
         this.prodSalesPrice = prodSalesPrice;
         this.prodCategory = prodCategory;
-        this.prodCategoryDetail = prodCategoryDetail;
         this.prodDesc = prodDesc;
         this.prodSalesDist = prodSalesDist;
     }
-
-
 }

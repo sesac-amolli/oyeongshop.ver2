@@ -1,6 +1,8 @@
 package com.amolli.oyeongshop.ver2.product.model;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tbl_product_option")
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
+@DynamicUpdate
+@DynamicInsert
 public class ProductOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

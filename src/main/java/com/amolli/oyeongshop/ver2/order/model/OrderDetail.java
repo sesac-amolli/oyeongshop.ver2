@@ -44,7 +44,6 @@ public class OrderDetail {
         orderDetail.setOrderDetailSalesPrice(orderDetailSalesPrice);
         orderDetail.setOrderDetailOriginPrice(orderDetailOriginPrice);
 
-        System.out.println("테스트 2 " + orderDetail);
         return orderDetail;
     }
 

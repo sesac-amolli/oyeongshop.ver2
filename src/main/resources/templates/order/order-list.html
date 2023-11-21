@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OyeongShop</title>
-    <link href="/css/order/order-list.css" rel="stylesheet" type="text/css" />
+    <link href="/css/order/order-list.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body layout:fragment="content">
@@ -23,13 +23,13 @@
             <div id="baseTap">
                 <ul class="menu">
                     <li class="orderHistory">
-                        <a href="~~주문조회페이지 경로">주문내역조회 (
-                            <span id="totalOrder">0</span>
+                        <a href="/order/order-list">주문내역조회 (
+                            <span id="totalOrder" th:text="${orderList.size()}"></span>
                             )
                         </a>
                     </li>
                     <li class="orderCs">
-                        <a href="~반품조회페이지 경로">취소/반품 내역(
+                        <a href="/order/return-list">취소/반품 내역(
                             <span id="totalOrderCs">0</span>
                             )
                         </a>
@@ -83,8 +83,8 @@
                 <div class="HItitle">
                     <h3>주문 상품 정보</h3>
                 </div>
-                <table border="1" summary>
-                    <caption>주문 상품 정보</caption>
+                <table border="1">
+                    <br>
                     <colgroup>
                         <col style="width:7em">
                         <col style="width:10em">
@@ -106,105 +106,80 @@
                         <th scope="col">수량</th>
                         <th scope="col">상품구매금액</th>
                         <th scope="col">주문처리상태</th>
-                        <th scope="col">취소/교환/반품</th>
+                        <th scope="col">취소/반품</th>
+                        <!-- <th scope="col">취소/교환/반품</th> -->
                     </tr>
                     </thead>
                     <tbody class="center">
-                    <tr class="OrderProdLine">
-                        <td rowspan="2" class="number">
-                            2023-10-30
-                            <p>
-                                <a href="주문상세내역링크" class="line">[20231030-0000137]</a>
-                            </p>
-                            <!-- 주문취소 가능시 : -->
-                            <button type="button" onclick="주문취소기능추가">주문취소</button>
-                            <!-- 반품 가능시 : -->
-                            <button type="button" onclick="반품신청기능추가">반품신청</button>
-                        </td>
-                        <td class="Thumb">
-                            <a href="해당 제품 경로">
-                                <img src="/images/order/woman_skirt.jpg"
-                                     onerror="this.src='/images/order/ErrorImage/png'">
-                            </a>
-                        </td>
-                        <td class="ProductLeftTop">
-                            <a href="해당 제품 경로">
-                                <strong> 여성 스커트</strong>
-                            </a>
-                            <div class="Option">
-                                [옵션 : 네이비/m]
-                            </div>
-                        </td>
-                        <td>1</td>
-                        <td class="rignt">
-                            <strong> 48,000 원 </strong>
-                        </td>
-                        <td class="State">
-                            <p class="TxtState">배송완료</p>
-                            <p class>
-                                <a href="배송사 연동 링크" target="_blank">우체국택배(연동)</a>
-                            </p>
-                            <p class>
-                                <a href="#none" class="line"
-                                   onclick="window.open('배송정보링크', '', 'scrollbars=yes, resezeable=0, status=0, directories=0, toolbar=0'); return false;">[50506060666]</a>
-                            </p>
-                            <button>구매후기</button>
-                        </td>
-                        <td>
-                            -
-                        </td>
-                    </tr>
-                    <tr class="OrderProdLine">
-                        <td class="Thumb">
-                            <a href="해당 제품 경로">
-                                <img src="/images/order/woman_knit.jpg" onerror="this.src='/images/order/ErrorImage/png'">
-                            </a>
-                        </td>
-                        <td class="ProductLeftTop">
-                            <a href="해당 제품 경로">
-                                <strong> 여성니트 </strong>
-                            </a>
-                        </td>
-                        <td>1</td>
-                        <td class="rignt">
-                            <strong> 57,500 원 </strong>
-                        </td>
-                        <td class="State">
-                            <p class="TxtState">배송완료</p>
-                            <p class>
-                                <a href="배송사 연동 링크" target="_blank">우체국택배(연동)</a>
-                            </p>
-                            <p class>
-                                <a href="#none" class="line"
-                                   onclick="window.open('배송정보링크', '', 'scrollbars=yes, resezeable=0, status=0, directories=0, toolbar=0'); return false;">[50506060666]</a>
-                            </p>
-                            <button>구매후기</button>
-                        </td>
-                        <td>
-                            -
-                        </td>
-                    </tr>
+                    <div th:each="order : ${orderList}">
+                        <tr class="OrderProdLine" th:each="orderDetail,status : ${order.orderDetailList}">
+                            <!--주문번호, 주문날짜 (묶여야되는 곳)-->
+                            <td class="number" th:if="${status.index==0}" th:attr="rowspan=${order.orderDetailList.size()}">
+                                <!--                            <td th:attr="rowspan=${order.orderDetailList.size()}" class="number">-->
+                                <span th:text="${order.orderDate}"></span>
+                                <p>
+                                    <a th:href="@{'/order/order-detail/' + ${order.orderId}}" class="line">
+                                        [<span th:text="${order.orderNumber}"></span>]
+                                    </a>
+                                </p>
+                                <!--                            &lt;!&ndash; 주문취소 가능시 : &ndash;&gt;-->
+                                <!--                            <button type="button" onclick="주문취소기능추가">주문취소</button>-->
+                                <!--                            &lt;!&ndash; 반품 가능시 : &ndash;&gt;-->
+                                <!--                            <button type="button" onclick="반품신청기능추가">반품신청</button>-->
+                            </td>
+                            <td class="Thumb">
+                                <a href="해당 제품 경로">
+                                    <img th:src="${orderDetail.prodMainImgPath}">
+                                </a>
+                            </td>
+                            <td class="ProductLeftTop">
+                                <a th:href="@{'/product/detail/' + ${orderDetail.prodId}}" class="line">
+                                    [<strong th:text="${orderDetail.prodName}"></strong>]
+                                </a>
+                                <div class="Option">
+                                    <p th:text="'[옵션 : ' + ${orderDetail.prodOptColor} + '/' + ${orderDetail.prodOptSize} + ']'"></p>
+                                </div>
+                            </td>
+                            <td><p th:text="${orderDetail.orderDetailAmount}"></p></td>
+                            <td class="rignt">
+                                <strong th:text="${orderDetail.orderDetailSalesPrice}"></strong>
+                            </td>
+                            <td class="State">
+                                <div th:switch="${#strings.toString(orderDetail.orderStatus)}">
+                                    <p class="TxtState" th:case="PAYMENT_ACCEPTED">결제완료</p>
+                                    <p class="TxtState" th:case="IN_PROGRESS">출고준비중</p>
+                                    <p class="TxtState" th:case="SHIPPED">출고완료</p>
+                                    <p class="TxtState" th:case="ON_DELIVERY">상품배송중</p>
+                                    <p class="TxtState" th:case="DELIVERED">배송완료</p>
+                                    <p class="TxtState" th:case="RETURN">반품</p>
+                                    <!-- 다른 주문 상태에 따른 텍스트 추가 -->
+                                    <p class="TxtState" th:case="CANCELLATION">취소</p>
+                                </div>
+                                <!--                                        <p class>-->
+                                <!--                                            <a href="배송사 연동 링크" target="_blank">우체국택배(연동)</a>-->
+                                <!--                                        </p>-->
+                                <!--                                        <p class>-->
+                                <!--                                            <a href="#none" class="line"-->
+                                <!--                                               onclick="window.open('배송정보링크', '', 'scrollbars=yes, resezeable=0, status=0, directories=0, toolbar=0'); return false;">[50506060666]</a>-->
+                                <!--                                        </p>-->
+                                <form th:if="${#strings.toString(orderDetail.orderStatus) == 'ON_DELIVERY' or #strings.toString(orderDetail.orderStatus) == 'DELIVERED'}"
+                                      th:action="@{/board/review-write/{prodId}(prodId=${orderDetail.prodId})}"
+                                      method="get">
+                                    <button type="submit">리뷰 쓰기</button>
+                                </form>
+                            </td>
+                            <td>
+                                <th:block th:switch="${orderDetail.orderStatus}">
+                                    <p th:case="'CANCELLATION'">취소</p>
+                                    <p th:case="'RETURN'">반품</p>
+                                    <!-- 다른 주문 상태에 대한 처리를 추가할 수 있습니다. -->
+                                    <p th:case="*"> - </p>
+                                </th:block>
+                            </td>
+
+                    </div>
                     </tbody>
                 </table>
-            </div>
-            <div class = "paginate">
-                <a href= "맨 앞페이지 링크" class="first">
-                    <img src = "/images/order/prepre.gif">
-                </a>
-                <a href= "앞페이지 링크">
-                    <img src = "/images/order/pre.gif">
-                </a>
-                <ol>
-                    <li class="record">
-                        <a href="페이지마다 링크" class = "this">1</a>
-                    </li>
-                </ol>
-                <a href= "뒷페이지 링크" class="first">
-                    <img src = "/images/order/nex.gif">
-                </a>
-                <a href= "맨 뒤페이지 링크" class="first">
-                    <img src = "/images/order/nexnex.gif">
-                </a>
             </div>
         </div>
     </div>
