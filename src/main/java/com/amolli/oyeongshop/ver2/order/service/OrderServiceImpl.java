@@ -36,15 +36,15 @@ public class OrderServiceImpl implements OrderService{
     private final ProductOptionRepository productOptionRepository;
     private final CartItemRepository cartItemRepository;
     private final ProductService productService;
-
-    public Long order(OrderItemsDTO orderItemsDTO, OrderDeliveryDTO orderDeliveryDTO, OrderPriceDTO orderPriceDTO, String userId){
+    @Override
+    public Long order(List<OrderItemDTO> orderItemsDTO, OrderDeliveryDTO orderDeliveryDTO, OrderPriceDTO orderPriceDTO, String userId){
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         List<OrderDetail> orderDetailList = new ArrayList<>();
         System.out.println(orderItemsDTO);
-        for(OrderItemDTO itemDTO : orderItemsDTO.getOrderItems()){
+        for(OrderItemDTO itemDTO : orderItemsDTO){
             ProductOption productOption = productOptionRepository.findById(itemDTO.getProdOptId())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
             OrderDetail orderDetail = OrderDetail.createOrderDetail(productOption, itemDTO.getQuantity(), itemDTO.getProdSalesPrice(), itemDTO.getProdOriginPrice());

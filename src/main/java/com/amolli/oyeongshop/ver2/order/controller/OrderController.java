@@ -4,13 +4,18 @@ import com.amolli.oyeongshop.ver2.order.dto.*;
 import com.amolli.oyeongshop.ver2.order.service.OrderService;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import net.minidev.json.parser.JSONParser;
+import net.minidev.json.parser.ParseException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/order")
@@ -52,57 +57,28 @@ public class OrderController {
         return "/order/order";
     }
 
-    @PostMapping(value = "/create-order")
-    public String order(OrderItemsDTO orderItemsDTO,
-                        OrderDeliveryDTO orderDeliveryDTO,
-                        OrderPriceDTO orderPriceDTO,
+    // DB에 주문 내역 생성
+    @PostMapping(value = "/create", produces = "application/json")
+    @ResponseBody
+    public String order(@RequestBody OrderPayDto orderPayDto,
                         RedirectAttributes redirectAttributes,
-                        Model model, @AuthenticationPrincipal PrincipalDetails userDetails) {
+                        Model model, @AuthenticationPrincipal PrincipalDetails userDetails) throws ParseException {
+
+        System.out.println(orderPayDto);
 
         String userId = userDetails.getUser().getUserId();
+        List<OrderItemDTO> orderItemsDTO = orderPayDto.getOrderItemDTOs();
+        OrderDeliveryDTO orderDeliveryDTO = orderPayDto.getOrderDeliveryDTO();
+        OrderPriceDTO orderPriceDTO = orderPayDto.getOrderPriceDTO();
 
-        for(OrderItemDTO orderItemDTO : orderItemsDTO.getOrderItems()) {
-            System.out.println("orderItemDTO : " + orderItemDTO);
-        }
-
-        System.out.println("orderDeliveryDTO" + orderDeliveryDTO);
-
-        // 여기에서 필요한 유효성 검사 및 비즈니스 로직 수행
+        // ToDo 여기에 필요한 유효성 검사 및 비즈니스 로직 수행
 
         // 주문 서비스를 호출하여 주문 처리
         Long orderId = orderService.order(orderItemsDTO, orderDeliveryDTO, orderPriceDTO, userId);
-
-        OrderDetailDTO orderDetailDTO = orderService.setOrderDetailDTO(orderId);
-        System.out.println("CO, orderDetailDTO" + orderDetailDTO.getOrderDetailIds());
-        // RedirectAttributes를 사용하여 리다이렉트 URL에 flash 속성을 추가합니다.
-        redirectAttributes.addFlashAttribute("orderDetailDTO", orderDetailDTO);
-
-//
-//        // 주문 완료 페이지로 이동 또는 추가적인 작업 수행
-//        model.addAttribute("orderId", orderId);
-        return "redirect:/order/order-detail";
-
+        return orderId+"";
     }
 
-
-    @GetMapping("/order-detail")
-    public String orderDetail(@ModelAttribute("orderDetailDTO") OrderDetailDTO orderDetailDTO, Model model, @AuthenticationPrincipal PrincipalDetails userDetails){
-
-        //orderDetailDTO orderDetailDTO = (OrderDetailDTO) model.getAttribute("orderDetailDTO");
-
-        OrderResponseDTO orderResponseDTO = orderService.setOrderResponseDTO(orderDetailDTO.getOrderId());
-        OrderDetailsResponseDTO orderDetailsResponseDTO = orderService.setOrderDetailResponseDTO(orderDetailDTO.getOrderDetailIds());
-
-        System.out.println("orderResponseDTO : " + orderResponseDTO);
-        System.out.println(orderDetailDTO.getOrderDetailIds());
-        System.out.println(orderDetailsResponseDTO);
-
-        model.addAttribute("Order", orderResponseDTO);
-        model.addAttribute("OrderDetails", orderDetailsResponseDTO);
-
-        return "/order/order-detail";
-    }
-
+    // 주문 상세내역 보기
     @GetMapping("/order-detail/{orderId}")
     public String orderDetails(Model model, @AuthenticationPrincipal PrincipalDetails userDetails){
 

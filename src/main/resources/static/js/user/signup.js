@@ -1,7 +1,7 @@
 let idCheck = "No";
 $(function(){
     $("#checkId").click(function(){
-        let id = $("#signup-id").val();
+            let id = $("#signup-id").val();
             $.ajax({
                 type:'post',
                 url:"/checkId.do",
@@ -24,8 +24,8 @@ $(function(){
                         alert("서버 오류 발생, 관리자에게 문의해주세요");
                     }
             });
-        });
     });
+});
 // 우편번호 찾기
 function daumPostcode() {
     new daum.Postcode(

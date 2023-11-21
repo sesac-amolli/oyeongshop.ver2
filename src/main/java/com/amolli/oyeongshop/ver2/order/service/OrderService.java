@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    Long order(OrderItemsDTO orderItemsDTO, OrderDeliveryDTO orderDeliveryDTO, OrderPriceDTO orderPriceDTO, String userId);
+    Long order(List<OrderItemDTO> orderItemsDTO, OrderDeliveryDTO orderDeliveryDTO, OrderPriceDTO orderPriceDTO, String userId);
     OrderUserDTO setOrderUserDto(PrincipalDetails userDetails);
 
     OrdersDTO setOrdersDTO(OrderItemDTO orderItemDto);
