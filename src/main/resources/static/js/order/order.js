@@ -91,3 +91,78 @@ radioButtons.forEach(radioButton => {
         }
     });
 });
+
+function KGpay(){
+    let orderItemDTOs = [{
+        prodOptId: $('#prodOptIdInput').val(),
+        prodOriginPrice: $('#prodOriginPriceInput').val(),
+        prodSalesPrice: $('#prodSalesPriceInput').val(),
+        quantity: $('#quantityInput').val(),
+        color: $('#colorInput').val(),
+        size: $('#sizeInput').val()
+    }];
+    let orderDelivery = {
+        orderAttnName:$('#orderAttnName').val(),
+        orderAttnPhone:$('#orderAttnPhone').val(),
+        orderAttnEmail:$('#orderAttnEmail').val(),
+        orderAttnPostcode:$('#orderAttnPostcode').val(),
+        orderAttnAddr1:$('#orderAttnAddr1').val(),
+        orderAttnAddr2:$('#orderAttnAddr2').val(),
+        orderAttnDetail:$('#orderAttnDetail').val(),
+        orderAttnRequest:$('#orderAttnRequest').val()
+    };
+    let orderPriceDTO = {
+        orderTotalOriginPrice:$('#orderTotalOriginPrice').val(),
+        orderTotalPayment:$('#orderTotalPayment').val(),
+        totalOrderPayment:$('#totalOrderPayment').val()
+    }
+    console.log(orderItemDTOs, orderDelivery)
+    $.ajax({
+        type:'post',
+        url:"/order/create",
+        contentType: 'application/json;charset=utf-8',
+        traditional : true, //필수
+        data: JSON.stringify({"orderItemDTOs": orderItemDTOs,
+               "orderDeliveryDTO": orderDelivery,
+               "orderPriceDTO": orderPriceDTO
+        }),
+        success: function(data){
+            IMP.init("imp38164824")
+            IMP.request_pay({
+                pg : 'html5_inicis',
+                pay_method : 'card',
+                merchant_uid: new Date().getTime(), // 상점에서 관리하는 주문 번호를 전달
+                name : '주문명:결제테스트',
+                amount : 100,
+                buyer_email : 'iamport@siot.do',
+                buyer_name : '구매자이름',
+                buyer_tel : '010-1234-5678',
+                buyer_addr : '서울특별시 강남구 삼성동',
+                buyer_postcode : '123-456',
+                m_redirect_url : '{모바일에서 결제 완료 후 리디렉션 될 URL}' // 예: https://www.my-service.com/payments/complete/mobile
+            }, function(rsp) { // callback 로직
+            	var result = '';
+                if ( rsp.success ) {
+                    var msg = '결제가 완료되었습니다.';
+                    msg += '고유ID : ' + rsp.imp_uid;
+                 	msg += '상점 거래ID : ' + rsp.merchant_uid;
+                 	msg += '결제 금액 : ' + rsp.paid_amount;
+                 	msg += '카드 승인번호 : ' + rsp.apply_num;
+                 	result ='0';
+                } else {
+                    var msg = '결제에 실패하였습니다.';
+                 	msg += '에러내용 : ' + rsp.error_msg;
+                 	result ='1';
+                }
+                if(result=='0') {
+                     window.location.href = "/order/order-detail/"+data;
+                }
+                alert(msg);
+            });
+        },
+        error : function(error){
+            alert("서버 오류 발생, 관리자에게 문의해주세요");
+        }
+    });
+
+}
