@@ -16,6 +16,10 @@ import java.util.List;
 public class ProductOptionServiceImpl implements ProductOptionService {
     private final ProductOptionRepository productOptionRepository;
 
+    public ProductOption saveProductOption(ProductOption productOption) {
+        return productOptionRepository.save(productOption);
+    }
+
     // [상품 옵션 등록] 상품 옵션을 저장하는 코드
     public void saveProductOption(ProductOptionDTO productOption) {
        List<ProductOption> productOptionList = productOption.toProductOption();
