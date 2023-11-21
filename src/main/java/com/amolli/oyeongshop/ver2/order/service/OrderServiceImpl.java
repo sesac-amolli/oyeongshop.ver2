@@ -3,7 +3,6 @@ package com.amolli.oyeongshop.ver2.order.service;
 import com.amolli.oyeongshop.ver2.order.dto.*;
 import com.amolli.oyeongshop.ver2.order.model.Order;
 import com.amolli.oyeongshop.ver2.order.model.OrderDetail;
-import com.amolli.oyeongshop.ver2.order.model.OrderStatus;
 import com.amolli.oyeongshop.ver2.order.repository.OrderDetailRepository;
 import com.amolli.oyeongshop.ver2.order.repository.OrderRepository;
 import com.amolli.oyeongshop.ver2.product.model.Product;
@@ -16,12 +15,12 @@ import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.repository.CartItemRepository;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -229,5 +228,77 @@ public class OrderServiceImpl implements OrderService{
 
         return orderDetailDTO;
     }
+
+
+    @Override
+    public OrderDetailsResponseDTO setOrderDetailResponseDTO(Long orderId) {
+
+        OrderDetailsResponseDTO orderDetailsResponseDTO = new OrderDetailsResponseDTO();
+        List<Long> orderDetailIDs = orderDetailRepository.findOrderDetailIdsByOrderId(orderId);
+
+        for(Long l : orderDetailIDs){
+            OrderDetailResponseDTO orderDetailResponseDTO = new OrderDetailResponseDTO();
+            Optional<OrderDetail> orderDetail = orderDetailRepository.findById(l);
+            System.out.println(orderDetail);
+
+            if (orderDetail.isPresent()) {
+                orderDetailResponseDTO.setProdMainImgPath(orderDetail.get().getProductOption().getProduct().getProdMainImgPath());
+                orderDetailResponseDTO.setProdName(orderDetail.get().getProductOption().getProduct().getProdName());
+                orderDetailResponseDTO.setProdOriginPrice(orderDetail.get().getOrderDetailOriginPrice());
+                orderDetailResponseDTO.setProdSalesPrice(orderDetail.get().getOrderDetailSalesPrice());
+                orderDetailResponseDTO.setQuantity(orderDetail.get().getOrderDetailAmount());
+                orderDetailResponseDTO.setColor(orderDetail.get().getProductOption().getProdOptColor());
+                orderDetailResponseDTO.setSize(orderDetail.get().getProductOption().getProdOptSize());
+                orderDetailResponseDTO.setItemAmount(orderDetail.get().getOrderDetailSalesPrice());
+                orderDetailResponseDTO.setProdId(orderDetail.get().getProductOption().getProduct().getProdId());
+            }else{
+                System.out.println("해당하는 OrderDetail이 없습니다.");
+            }
+
+            System.out.println("오더 : " + orderDetailResponseDTO);
+            orderDetailsResponseDTO.getOrderDetailItems().add(orderDetailResponseDTO);
+        }
+
+
+        return orderDetailsResponseDTO;
+    }
+
+
+    @Override
+    public List<OrderListDTO> setOrderListDTOList(String userId, int page) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "orderDate");
+        System.out.println("주문조회 페이지 번호 : " + page);
+        List<Order> orderList = orderRepository.findByUserId(userId, PageRequest.of(page, 10, sort));
+        List<OrderListDTO> orderListDTOs = new ArrayList<>();
+
+        for(Order order : orderList) {
+
+            OrderListDTO orderListDTO = new OrderListDTO();
+            List<OrderListDetailDTO> orderListDetailDTOs = new ArrayList<>();
+
+            orderListDTO.setOrderDate(order.getOrderDate());
+            orderListDTO.setOrderNumber(order.getOrderNumber());
+            orderListDTO.setOrderId(order.getOrderId());
+            for(OrderDetail od : order.getOrderDetails()){
+                OrderListDetailDTO orderListDetailDTO = new OrderListDetailDTO();
+
+                orderListDetailDTO.setProdMainImgPath(od.getProductOption().getProduct().getProdMainImgPath());
+                orderListDetailDTO.setProdName(od.getProductOption().getProduct().getProdName());
+                orderListDetailDTO.setProdId(od.getProductOption().getProduct().getProdId());
+                orderListDetailDTO.setProdOptSize(od.getProductOption().getProdOptSize());
+                orderListDetailDTO.setProdOptColor(od.getProductOption().getProdOptColor());
+                orderListDetailDTO.setOrderDetailAmount(od.getOrderDetailAmount());
+                orderListDetailDTO.setOrderDetailSalesPrice(od.getOrderDetailSalesPrice());
+                orderListDetailDTO.setOrderStatus(od.getOrder().getOrderStatus());
+
+                orderListDetailDTOs.add(orderListDetailDTO);
+            }
+            orderListDTO.setOrderDetailList(orderListDetailDTOs);
+            orderListDTOs.add(orderListDTO);
+        }
+
+        return orderListDTOs;
+    }
+
 
 }
