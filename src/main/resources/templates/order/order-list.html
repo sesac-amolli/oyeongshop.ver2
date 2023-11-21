@@ -113,7 +113,7 @@
                     <tbody class="center">
                     <div th:each="order : ${orderList}">
                         <tr class="OrderProdLine" th:each="orderDetail,status : ${order.orderDetailList}">
-                        <!--주문번호, 주문날짜 (묶여야되는 곳)-->
+                            <!--주문번호, 주문날짜 (묶여야되는 곳)-->
                             <td class="number" th:if="${status.index==0}" th:attr="rowspan=${order.orderDetailList.size()}">
                                 <!--                            <td th:attr="rowspan=${order.orderDetailList.size()}" class="number">-->
                                 <span th:text="${order.orderDate}"></span>
@@ -145,13 +145,13 @@
                                 <strong th:text="${orderDetail.orderDetailSalesPrice}"></strong>
                             </td>
                             <td class="State">
-                                <div th:switch="${orderDetail.orderStatus}">
-                                    <p class="TxtState" th:case="'PAYMENT_ACCEPTED'">결제완료</p>
-                                    <p class="TxtState" th:case="'IN_PROGRESS'">출고준비중</p>
-                                    <p class="TxtState" th:case="'SHIPPED'">출고완료</p>
-                                    <p class="TxtState" th:case="'ON_DELIVERY'">상품배송중</p>
-                                    <p class="TxtState" th:case="'DELIVERED'">배송완료</p>
-                                    <p class="TxtState" th:case="'RETURN'">반품</p>
+                                <div th:switch="${#strings.toString(orderDetail.orderStatus)}">
+                                    <p class="TxtState" th:case="PAYMENT_ACCEPTED">결제완료</p>
+                                    <p class="TxtState" th:case="IN_PROGRESS">출고준비중</p>
+                                    <p class="TxtState" th:case="SHIPPED">출고완료</p>
+                                    <p class="TxtState" th:case="ON_DELIVERY">상품배송중</p>
+                                    <p class="TxtState" th:case="DELIVERED">배송완료</p>
+                                    <p class="TxtState" th:case="RETURN">반품</p>
                                     <!-- 다른 주문 상태에 따른 텍스트 추가 -->
                                     <p class="TxtState" th:case="CANCELLATION">취소</p>
                                 </div>
@@ -162,7 +162,7 @@
                                 <!--                                            <a href="#none" class="line"-->
                                 <!--                                               onclick="window.open('배송정보링크', '', 'scrollbars=yes, resezeable=0, status=0, directories=0, toolbar=0'); return false;">[50506060666]</a>-->
                                 <!--                                        </p>-->
-                                <form th:if="${orderDetail.orderStatus == 'ON_DELIVERY' or orderDetail.orderStatus == 'DELIVERED'}"
+                                <form th:if="${#strings.toString(orderDetail.orderStatus) == 'ON_DELIVERY' or #strings.toString(orderDetail.orderStatus) == 'DELIVERED'}"
                                       th:action="@{/board/review-write/{prodId}(prodId=${orderDetail.prodId})}"
                                       method="get">
                                     <button type="submit">리뷰 쓰기</button>
@@ -180,29 +180,6 @@
                     </div>
                     </tbody>
                 </table>
-            </div>
-            <!-- 페이지 번호 부분 -->
-            <div class="paginate">
-                <ul>
-                    <!-- 이전 페이지 링크 -->
-                    <li th:if="${order.hasPrevious()}">
-                        <a th:href="@{'/order/order-list/' + (order.getNumber() - 1)}" class="first">
-                            <img src="/images/order/prepre.gif">
-                        </a>
-                    </li>
-
-                    <!-- 페이지 번호 링크 -->
-                    <li th:each="i : ${#numbers.sequence(0, order.totalPages - 1)}">
-                        <a th:href="@{'/order/order-list/' + i}" th:class="${order.number == i} ? 'this' : ''" th:text="${i + 1}" />
-                    </li>
-
-                    <!-- 다음 페이지 링크 -->
-                    <li th:if="${order.hasNext()}">
-                        <a th:href="@{'/order/order-list/' + (order.getNumber() + 1)}" class="first">
-                            <img src="/images/order/nex.gif">
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>

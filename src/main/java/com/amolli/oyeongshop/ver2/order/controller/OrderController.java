@@ -6,6 +6,7 @@ import com.amolli.oyeongshop.ver2.order.repository.OrderRepository;
 import com.amolli.oyeongshop.ver2.order.service.OrderService;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -118,21 +119,7 @@ public class OrderController {
     }
 
 
-//    @GetMapping("/order-list")
-//    public void orderList(Model model, @AuthenticationPrincipal PrincipalDetails userDetails) {
-//        System.out.println("주문내역조회");
-//
-//        String userId = userDetails.getUser().getUserId();
-//        List<OrderListDTO> orderListDTOS = orderService.setOrderListDTOList(userId);
-//        for(OrderListDTO orderListDTO : orderListDTOS){
-//            System.out.println(orderListDTO);
-//        }
-//
-//        model.addAttribute("orderList", orderListDTOS);
-//
-//    }
-
-    @GetMapping({"/order-list", "/order-list/{page}"})
+    @GetMapping("/order-list")
     public void orderLists(@PathVariable(required = false) Integer page, Model model, @AuthenticationPrincipal PrincipalDetails userDetails) {
         System.out.println("주문내역조회");
 
@@ -140,7 +127,7 @@ public class OrderController {
         int pageNumber = (page != null) ? page : 0;
 
         String userId = userDetails.getUser().getUserId();
-        List<OrderListDTO> orderListDTOS = orderService.setOrderListDTOList(userId, pageNumber);
+        List<OrderListDTO> orderListDTOS = orderService.setOrderListDTOList(userId);
         for(OrderListDTO orderListDTO : orderListDTOS){
             System.out.println(orderListDTO);
         }

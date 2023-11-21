@@ -15,7 +15,9 @@ import com.amolli.oyeongshop.ver2.user.model.User;
 import com.amolli.oyeongshop.ver2.user.repository.CartItemRepository;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -265,10 +267,11 @@ public class OrderServiceImpl implements OrderService{
 
 
     @Override
-    public List<OrderListDTO> setOrderListDTOList(String userId, int page) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "orderDate");
-        System.out.println("주문조회 페이지 번호 : " + page);
-        List<Order> orderList = orderRepository.findByUserId(userId, PageRequest.of(page, 10, sort));
+    public List<OrderListDTO> setOrderListDTOList(String userId) {
+        List<Order> orderList = orderRepository.findByUserId(userId);
+//        Sort sort = Sort.by(Sort.Direction.DESC, "orderDate");
+//        System.out.println("주문조회 페이지 번호 : " + page);
+//        List<Order> orderList = orderRepository.findByUserId(userId, PageRequest.of(page, 10, sort));
         List<OrderListDTO> orderListDTOs = new ArrayList<>();
 
         for(Order order : orderList) {
@@ -299,6 +302,5 @@ public class OrderServiceImpl implements OrderService{
 
         return orderListDTOs;
     }
-
 
 }
