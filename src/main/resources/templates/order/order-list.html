@@ -54,22 +54,22 @@
                             </select>
                         </div>
                         <span class="period">
-                                <button type="button" class="dateBtn" value="0">오늘</button>
-                                <button type="button" class="dateBtn" value="7">일주일</button>
-                                <button type="button" class="dateBtn" value="90">3개월</button>
+                                <button type="submit" class="dateBtn" value="0">오늘</button>
+                                <button type="submit" class="dateBtn" value="7">일주일</button>
+                                <button type="submit" class="dateBtn" value="90">3개월</button>
                             </span>
-                        <input id="history_end_date" name="history_end_date" class="ipDate" value="2023-10-30"
-                               type="text">
-                        <button type="button" class="ui_calendar">
-                            <img id="calendarImg" src="/images/order/calendar.png" alt="달력">
-                        </button>
-                        ~
                         <input id="history_start_date" name="history_start_date" class="ipDate" value="2023-10-30"
                                type="text">
-                        <button type="button" class="ui_calendar">
-                            <img id="calendarImg" src="/images/order/calendar.png" alt="달력">
+                        <button type="submit" class="ui_calendar">
+                            <img class="calendarImg" src="/images/order/calendar.png" alt="달력">
                         </button>
-                        <button type="button" class="ui_search">
+                        ~
+                        <input id="history_end_date" name="history_end_date" class="ipDate" value="2023-10-30"
+                               type="text">
+                        <button type="submit" class="ui_calendar">
+                            <img class="calendarImg" src="/images/order/calendar.png" alt="달력">
+                        </button>
+                        <button type="submit" class="ui_search">
                             <img id="searchImg" src="/images/돋보기.svg" alt="검색">
                         </button>
                     </fieldset>
@@ -79,15 +79,15 @@
                     </ul>
                 </div>
             </form>
+            <div class="HItitle">
+                <h3>주문 상품 정보</h3>
+            </div>
             <div class="HistoryBaseTable">
-                <div class="HItitle">
-                    <h3>주문 상품 정보</h3>
-                </div>
-                <table border="1">
+                <table id = "orderHistoryTb">
                     <br>
                     <colgroup>
-                        <col style="width:7em">
-                        <col style="width:10em">
+                        <col style="width:9em">
+                        <col style="width:8em">
                         <col style="width:23em">
                         <col style="width:3em">
                         <col style="width:7em">
@@ -113,13 +113,13 @@
                     <tbody class="center">
                     <div th:each="order : ${orderList}">
                         <tr class="OrderProdLine" th:each="orderDetail,status : ${order.orderDetailList}">
-                            <!--주문번호, 주문날짜 (묶여야되는 곳)-->
-                            <td class="number" th:if="${status.index==0}" th:attr="rowspan=${order.orderDetailList.size()}">
+                            <!--주문번호, 주문날짜 -->
+                            <td class="number mid" th:if="${status.index==0}" th:attr="rowspan=${order.orderDetailList.size()}">
                                 <!--                            <td th:attr="rowspan=${order.orderDetailList.size()}" class="number">-->
                                 <span th:text="${order.orderDate}"></span>
                                 <p>
                                     <a th:href="@{'/order/order-detail/' + ${order.orderId}}" class="line">
-                                        [<span th:text="${order.orderNumber}"></span>]
+                                        <span id="orderNumber" th:text="'[' + ${order.orderNumber} + ']'"></span>
                                     </a>
                                 </p>
                                 <!--                            &lt;!&ndash; 주문취소 가능시 : &ndash;&gt;-->
@@ -128,23 +128,23 @@
                                 <!--                            <button type="button" onclick="반품신청기능추가">반품신청</button>-->
                             </td>
                             <td class="Thumb">
-                                <a href="해당 제품 경로">
-                                    <img th:src="${orderDetail.prodMainImgPath}">
+                                <a th:href="@{'/product/detail/' + ${orderDetail.prodId}}" class="line">
+                                    <img class="imgProduct" th:src="${orderDetail.prodMainImgPath}">
                                 </a>
                             </td>
                             <td class="ProductLeftTop">
                                 <a th:href="@{'/product/detail/' + ${orderDetail.prodId}}" class="line">
-                                    [<strong th:text="${orderDetail.prodName}"></strong>]
+                                    <strong id = "prodName" th:text="${orderDetail.prodName}"></strong>
                                 </a>
                                 <div class="Option">
-                                    <p th:text="'[옵션 : ' + ${orderDetail.prodOptColor} + '/' + ${orderDetail.prodOptSize} + ']'"></p>
+                                    <p id = "prodOpt" th:text="'[옵션 : ' + ${orderDetail.prodOptColor} + '/' + ${orderDetail.prodOptSize} + ']'"></p>
                                 </div>
                             </td>
-                            <td><p th:text="${orderDetail.orderDetailAmount}"></p></td>
-                            <td class="rignt">
+                            <td class = "mid"><p th:text="${orderDetail.orderDetailAmount}"></p></td>
+                            <td class="mid">
                                 <strong th:text="${orderDetail.orderDetailSalesPrice}"></strong>
                             </td>
-                            <td class="State">
+                            <td class="State mid">
                                 <div th:switch="${#strings.toString(orderDetail.orderStatus)}">
                                     <p class="TxtState" th:case="PAYMENT_ACCEPTED">결제완료</p>
                                     <p class="TxtState" th:case="IN_PROGRESS">출고준비중</p>
@@ -165,10 +165,10 @@
                                 <form th:if="${#strings.toString(orderDetail.orderStatus) == 'ON_DELIVERY' or #strings.toString(orderDetail.orderStatus) == 'DELIVERED'}"
                                       th:action="@{/board/review-write/{prodId}(prodId=${orderDetail.prodId})}"
                                       method="get">
-                                    <button type="submit">리뷰 쓰기</button>
+                                    <button id="reviewButton" type="submit">리뷰 쓰기</button>
                                 </form>
                             </td>
-                            <td>
+                            <td class = "mid">
                                 <th:block th:switch="${orderDetail.orderStatus}">
                                     <p th:case="'CANCELLATION'">취소</p>
                                     <p th:case="'RETURN'">반품</p>
