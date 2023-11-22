@@ -43,8 +43,10 @@ public class OrderController {
         return "/order/order";
     }
 
-    @PostMapping(value = "/to-orders")
-    public String orderAdds(Model model, @RequestParam List<Long> selectedItems, @AuthenticationPrincipal PrincipalDetails userDetails) {
+    @PostMapping(value="/to-orders")
+    public String orderAdds(Model model, @RequestParam List<Long> selectedItems, @AuthenticationPrincipal PrincipalDetails userDetails){
+
+
 
         OrdersDTO ordersDTO = orderService.setOrdersDTO(selectedItems);
 

@@ -5,6 +5,8 @@ import com.amolli.oyeongshop.ver2.product.repository.ProductOptionRepository;
 //import com.amolli.oyeongshop.ver2.user.dto.CartCreateRequestDTO;
 import com.amolli.oyeongshop.ver2.user.dto.CartItemRequestDTO;
 import com.amolli.oyeongshop.ver2.user.dto.CartItemResponseDTO;
+import com.amolli.oyeongshop.ver2.user.dto.CartItemUpdateDTO;
+import com.amolli.oyeongshop.ver2.user.dto.CartItemUpdateWrapper;
 import com.amolli.oyeongshop.ver2.user.model.Cart;
 import com.amolli.oyeongshop.ver2.user.model.CartItem;
 import com.amolli.oyeongshop.ver2.user.model.User;
@@ -13,6 +15,7 @@ import com.amolli.oyeongshop.ver2.user.repository.CartRepository;
 import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -70,25 +73,39 @@ public class CartServiceImpl implements CartService{
 //        cartItemRepository.save(cartItem2);
     }
 
+    @Transactional
     @Override
-    public void modifyCart(List<CartItemRequestDTO> cartItemRequestDTOS, String userId) {
+    public void modifyCart(List<CartItemUpdateDTO> cartItemUpdateDTOS, String userId) {
         Cart cart = cartRepository.findByUser_UserId(userId);
         List<CartItem> cartItems = cartItemRepository.findByCart_Id(cart.getId());
 
-        for (CartItemRequestDTO obj1 : cartItemRequestDTOS) {
-            Long obj1ProdOptId = productOptionRepository.findProdOptIdByProdIdAndProdOptColorAndProdOptSize(obj1.getProdId(), obj1.getColor(), obj1.getSize());
-            for (CartItem obj2 : cartItems) {
-                // Assuming MyObject has a method to identify if it's the same entity
-//                assert obj1ProdOptId != null;
-                if (obj1ProdOptId.equals(obj2.getProductOption().getProdOptId())) {
-                    if (obj1.getQuantity() != obj2.getCartItemAmount()) {
-                        obj2.setCartItemAmount(obj1.getQuantity());
-                    }
-                    break;
-                }
-            }
-        }
+//        List<CartItemUpdateDTO> cartItemUpdates = wrapper.getCartItemUpdates();
 
+        System.out.println("비교 준비"+ cartItemUpdateDTOS);
+//        for (CartItemUpdateDTO obj1 : cartItemUpdateDTOS) {
+//            System.out.println("obj1"+ obj1);
+//            for (CartItem obj2 : cartItems) {
+//                // Assuming MyObject has a method to identify if it's the same entity
+////                assert obj1ProdOptId != null;
+//                if (obj1.getCartItemId().equals(obj2.getId())) {
+//                    if (obj1.getQuantity() != obj2.getCartItemAmount()) {
+//                        obj2.updateCartItem(obj1.getQuantity());
+//                    }
+//                    break;
+//                }
+//            }
+//        }
+
+    }
+
+
+    @Override
+    public void modifybyCartId(Long cartItemId, CartItemUpdateDTO cartItemUpdateDTO) {
+
+        Optional<CartItem> cartItem = cartItemRepository.findById(cartItemId);
+        if(cartItem.isPresent()){
+            cartItem.get().updateCartItem(cartItemUpdateDTO.getQuantity());
+        }
     }
 
     @Override

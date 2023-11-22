@@ -43,4 +43,8 @@ public class CartItem extends BaseEntity{
     public void addCartItemAmount(long cartItemAmount){
         this.cartItemAmount += cartItemAmount;
     }
+
+    public void updateCartItem(int cartItemAmount){
+        this.cartItemAmount = cartItemAmount;
+    }
 }
