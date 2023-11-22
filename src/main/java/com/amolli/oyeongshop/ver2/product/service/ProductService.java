@@ -1,6 +1,6 @@
 package com.amolli.oyeongshop.ver2.product.service;
 
-import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
+import com.amolli.oyeongshop.ver2.product.dto.ProductOptionResponse;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 
 import java.util.List;
@@ -10,20 +10,13 @@ public interface ProductService {
     Product saveProduct (Product product); // [상품 등록] - 상품 정보를 저장
     Product findById(Long prodId); // [상품 상세 정보] - 상품 ID를 기반으로 상품을 조회
     List<Product> findByProdId(Long prodId); // [상품 상세 정보] - 상품 ID를 기반으로 상품을 조회
-    Product removeDuplicateOptions(Product product); // [상품 상세 정보] - 상품 옵션의 중복 제거
-    List<ProductResponse> findByProdCategoryJPQL(String sortValue); // [상품 목록] - 전체 상품을 정렬
-    List<ProductResponse> findByProdCategoryJPQL(String prodCategory, String sortValue); // [상품 목록] - 상품을 카테고리별로 분류 및 정렬
-    List<ProductResponse> findProductPaged(int page, int itemsPerPage); // [상품 관리] - 상품 목록을 페이징 하여 조회
+    List<ProductOptionResponse> findByProdCategoryJPQL(String sortValue); // [상품 목록] - 전체 상품을 정렬
+    List<ProductOptionResponse> findByProdCategoryJPQL(String prodCategory, String sortValue); // [상품 목록] - 상품을 카테고리별로 분류 및 정렬
+    List<ProductOptionResponse> findProductPaged(int page, int itemsPerPage); // [상품 관리] - 상품 목록을 페이징 하여 조회
     String UpdataSalesStatusYesNo(Long prodId); // [상품 관리] - 상품판매구분 YES, NO 토글
     int getTotalProductCount(); // [상품 관리] - 전체 상품의 수 조회(count 함수)
-
     void uploadDBForProduct(List<String> imageUrls, Product product);
-
-    List<ProductResponse> findProduct100(String sort);
-
-    List<ProductResponse> findByNewProdJPQL();
-
-    List<ProductResponse> findBySaleProd(String sort);
-
-
+    List<ProductOptionResponse> findProduct100(String sort);
+    List<ProductOptionResponse> findByNewProdJPQL();
+    List<ProductOptionResponse> findBySaleProd(String sort);
 }
