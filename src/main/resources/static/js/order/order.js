@@ -91,3 +91,122 @@ radioButtons.forEach(radioButton => {
         }
     });
 });
+
+function KGpay(){
+    let orderFormObj = $("#orderForm").serializeArray();
+    console.log(JSON.stringify(orderFormObj));
+
+    var resultObject = {
+        orderItems: []
+    };
+
+    // Iterate through the JSON data and group values by the index
+    orderFormObj.forEach(function(item) {
+        // Extract index from the name
+        var index = item.name.match(/\[(\d+)\]/);
+        index = index ? parseInt(index[1]) : null;
+
+        // Extract property name from the name
+        var propertyName = item.name.match(/\]\[(.+)\]/);
+        propertyName = propertyName ? propertyName[1] : null;
+
+        // Ensure index and property name are valid
+        if (index !== null && propertyName !== null) {
+            // Create an object for the index if it doesn't exist
+            if (!resultObject.orderItems[index]) {
+                resultObject.orderItems[index] = {};
+            }
+
+            // Set the property in the object
+            resultObject.orderItems[index][propertyName] = item.value;
+        }
+    });
+    console.log(resultObject)
+
+    let orderItemDTOs = resultObject.orderItems;
+    let orderDelivery = {
+        orderAttnName:$('#orderAttnName').val(),
+        orderAttnPhone:$('#orderAttnPhone').val(),
+        orderAttnEmail:$('#orderAttnEmail').val(),
+        orderAttnPostcode:$('#orderAttnPostcode').val(),
+        orderAttnAddr1:$('#orderAttnAddr1').val(),
+        orderAttnAddr2:$('#orderAttnAddr2').val(),
+        orderAttnDetail:$('#orderAttnDetail').val(),
+        orderAttnRequest:$('#orderAttnRequest').val()
+    };
+    let orderPriceDTO = {
+        orderTotalOriginPrice:$('#orderTotalOriginPrice').val(),
+        orderTotalPayment:$('#orderTotalPayment').val(),
+        totalOrderPayment:$('#totalOrderPayment').val()
+    }
+    console.log(orderItemDTOs, orderDelivery)
+    $.ajax({
+        type:'post',
+        url:"/order/create",
+        contentType: 'application/json;charset=utf-8',
+        traditional : true, //필수
+        data: JSON.stringify({"orderItemDTOs": orderItemDTOs,
+               "orderDeliveryDTO": orderDelivery,
+               "orderPriceDTO": orderPriceDTO
+        }),
+        success: function(data){
+            IMP.init("imp38164824")
+            IMP.request_pay({
+                pg : 'html5_inicis', //pg사
+                pay_method : 'card', //결제 수단
+                merchant_uid: data.orderNumber, // 상점에서 관리하는 주문 번호를 전달
+                name : 'OyeongShop:상품 구매', //주문명 < 주문 상품명에 표시되는 내용
+                amount : orderPriceDTO.totalOrderPayment, // 실제 결제되는 금액
+                buyer_email : orderDelivery.orderAttnEmail, // 구매자 이메일: 결제자가 변경가능, 해당 이메일로 결제내역 발송됨
+                buyer_name : orderDelivery.orderAttnName, // 구매자 이름
+                buyer_tel : orderDelivery.orderAttnPhone, // 구매자 전화번호
+                buyer_addr : orderDelivery.orderAttnAddr1, // 구매자 주소
+                buyer_postcode : orderDelivery.orderAttnPostcode // 구매자 우편번호
+            }, function(rsp) { // callback 로직
+            	var result = '';
+                if ( rsp.success ) {
+                    var msg = '결제가 완료되었습니다.';
+                    result='0'
+                    let paymentDto = {
+                        paymentImpUid:rsp.imp_uid, // 포트원 고유 결제 번호
+                        paymentPg:rsp.pg_provider, // pg사
+                        paymentApplyNum:rsp.apply_num, //신용카드 승인번호
+                        paymentMethod:rsp.card_name,
+                        paymentCardNum:rsp.card_number,
+                        paymentDate:new Date(rsp.paid_at),
+                        paymentTotalPrice:$('#totalOrderPayment').val(),
+                        paymentCashPrice:rsp.paid_amount,
+                        paymentPayerName:rsp.buyer_name,
+                        paymentReceipt:rsp.receipt_url, //거래 매출전표 URL
+                        orderId:data.orderId
+                    }
+                 	$.ajax({
+                            type:'post',
+                            url:"/order/payment",
+                            contentType: 'application/json;charset=utf-8',
+                            traditional : true, //필수
+                            data: JSON.stringify(paymentDto),
+                            success : function(response){
+                            },
+                            error : function(error) {
+                            // ToDo 결제 취소, 주문 내역 삭제 + 에러 메시지
+                            alert("결제내역 저장 실패"+paymentDto.paymentCardNum)
+                            }
+                    });
+                } else {
+                    var msg = '결제에 실패하였습니다.';
+                 	msg += '에러내용 : ' + rsp.error_msg;
+                 	result ='1';
+                }
+                if(result=='0') {
+                    window.location.href = "/order/order-detail/"+data.orderId;
+                }
+                alert(msg);
+            });
+        },
+        error : function(error){
+            alert("서버 오류 발생, 관리자에게 문의해주세요");
+        }
+    });
+
+}

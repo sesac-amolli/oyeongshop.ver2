@@ -3,8 +3,10 @@ package com.amolli.oyeongshop.ver2.order.service;
 import com.amolli.oyeongshop.ver2.order.dto.*;
 import com.amolli.oyeongshop.ver2.order.model.Order;
 import com.amolli.oyeongshop.ver2.order.model.OrderDetail;
+import com.amolli.oyeongshop.ver2.order.model.Payment;
 import com.amolli.oyeongshop.ver2.order.repository.OrderDetailRepository;
 import com.amolli.oyeongshop.ver2.order.repository.OrderRepository;
+import com.amolli.oyeongshop.ver2.order.repository.PaymentRepository;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.model.ProductOption;
 import com.amolli.oyeongshop.ver2.product.repository.ProductOptionRepository;
@@ -23,9 +25,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -37,15 +37,17 @@ public class OrderServiceImpl implements OrderService{
     private final ProductOptionRepository productOptionRepository;
     private final CartItemRepository cartItemRepository;
     private final ProductService productService;
+    private final PaymentRepository paymentRepository;
 
-    public Long order(OrderItemsDTO orderItemsDTO, OrderDeliveryDTO orderDeliveryDTO, OrderPriceDTO orderPriceDTO, String userId){
+    @Override
+    public Map<String, String> order(List<OrderItemDTO> orderItemsDTO, OrderDeliveryDTO orderDeliveryDTO, OrderPriceDTO orderPriceDTO, String userId){
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         List<OrderDetail> orderDetailList = new ArrayList<>();
         System.out.println(orderItemsDTO);
-        for(OrderItemDTO itemDTO : orderItemsDTO.getOrderItems()){
+        for(OrderItemDTO itemDTO : orderItemsDTO){
             ProductOption productOption = productOptionRepository.findById(itemDTO.getProdOptId())
                     .orElseThrow(() -> new EntityNotFoundException("Item not found"));
             OrderDetail orderDetail = OrderDetail.createOrderDetail(productOption, itemDTO.getQuantity(), itemDTO.getProdSalesPrice(), itemDTO.getProdOriginPrice());
@@ -57,7 +59,21 @@ public class OrderServiceImpl implements OrderService{
 
         orderRepository.save(order);
 
-        return order.getOrderId();
+        Map<String, String> orderInfo = new HashMap<>();
+        orderInfo.put("orderId", order.getOrderId()+"");
+        orderInfo.put("orderNumber", order.getOrderNumber());
+
+        return orderInfo;
+    }
+    @Override
+    public void payment(PaymentDto paymentDto){
+        Payment payment = paymentDto.toEntity();
+        Long orderId = Long.valueOf(paymentDto.getOrderId());
+        Optional<Order> order = orderRepository.findById(orderId);
+        if(order.isPresent()) {
+            payment.setOrder(order.get());
+        }
+        Payment result = paymentRepository.save(payment);
     }
 
     @Override

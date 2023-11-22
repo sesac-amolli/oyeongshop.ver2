@@ -22,7 +22,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/admit/product")
+@RequestMapping("/admin/product")
 @RequiredArgsConstructor
 public class ProductAdminController {
     private final ProductService productService;
@@ -34,7 +34,6 @@ public class ProductAdminController {
     public String adminInitPage() {
         return "admit/admin-index";
     }
-
     // [상품 상세 정보 수정] 화면으로 랜더링
     @GetMapping("/edit/{prodId}")
     public String initUpdateOwnerForm(@PathVariable Long prodId, Model model) {

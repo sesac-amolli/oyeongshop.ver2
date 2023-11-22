@@ -70,24 +70,35 @@ public class UserController {
     @GetMapping("/cart/list")
     public String viewCartList(@AuthenticationPrincipal PrincipalDetails userDetails, Model model) {
         String userId = userDetails.getUser().getUserId();
-        Cart cart = cartService.viewCartList(userId);
-        System.out.println("cart controller@!#!@#@@@" + cart);
+        List<CartItemResponseDTO> cartItems = cartService.viewCartList(userId);
 
-        CartResponseDTO cartResponseDTO = new CartResponseDTO();
-        System.out.println("cart responseDTO@!#!@#@@@" + cart);
-
-        model.addAttribute("cartDTO", cartResponseDTO.from(cart));
-        System.out.println("cart model@!#!@#@@@" + cart);
+        model.addAttribute("cartItems", cartItems);
 
         return "/user/cart";
     }
 
     // 장바구니 수량 수정
-    @PostMapping("/cart/modify")
-    public String modifyCart(@RequestBody List<CartItemRequestDTO> cartItemRequestDTOS, @AuthenticationPrincipal PrincipalDetails userDetails){
-        String userId = userDetails.getUser().getUserId();
-        cartService.modifyCart(cartItemRequestDTOS, userId);
+//    @PostMapping("/cart/modify")
+//    public String modifyCart(@ModelAttribute List<CartItemUpdateDTO> cartItemUpdateDTOS, @AuthenticationPrincipal PrincipalDetails userDetails){
+//        String userId = userDetails.getUser().getUserId();
+//        System.out.println("Cart수정");
+//        cartService.modifyCart(cartItemUpdateDTOS, userId);
+//        System.out.println("wrapper" + cartItemUpdateDTOS);
+//        return "redirect:/user/cart/list";
+//    }
 
+    @PostMapping("/cart/modify")
+    public String modifyCart(@RequestParam(value = "cartItemId1") Long cartItemId
+            , @RequestParam(value = "quantity1") int quantity
+            , @AuthenticationPrincipal PrincipalDetails userDetails
+                             , @RequestBody CartItemUpdateDTO cartItemUpdateDTO){
+        String userId = userDetails.getUser().getUserId();
+        System.out.println("Cart수정");
+        System.out.println("quantity1!!!!:" + quantity);
+        System.out.println("cartItemId!!!!:" + cartItemId);
+        cartService.modifybyCartId(cartItemId, cartItemUpdateDTO);
+//        cartService.modifyCart(cartItemUpdateDTO, userId);
+        System.out.println("wrapper" + cartItemUpdateDTO);
         return "redirect:/user/cart/list";
     }
 
