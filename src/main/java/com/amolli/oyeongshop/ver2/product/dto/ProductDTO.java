@@ -18,11 +18,11 @@ public class ProductDTO {
     private Long prodOriginPrice;
     private Long prodSalesPrice;
     private String prodCategory;
-    private String prodCategoryDetail;
     private String prodDesc;
     private LocalDateTime prodRegDate;
 
-    public ProductDTO(Long prodId, String prodName, String prodCode, Long prodOriginPrice, Long prodSalesPrice, String prodCategory, String prodCategoryDetail,
+
+    public ProductDTO(Long prodId, String prodName, String prodCode, Long prodOriginPrice, Long prodSalesPrice, String prodCategory,
                       String prodDesc, LocalDateTime prodRegDate) {
         super();
         this.prodId = prodId;
@@ -31,7 +31,6 @@ public class ProductDTO {
         this.prodOriginPrice = prodOriginPrice;
         this.prodSalesPrice = prodSalesPrice;
         this.prodCategory = prodCategory;
-        this.prodCategoryDetail = prodCategoryDetail;
         this.prodDesc = prodDesc;
         this.prodRegDate = prodRegDate;
     }
@@ -43,7 +42,6 @@ public class ProductDTO {
                 .prodOriginPrice(prodOriginPrice)
                 .prodSalesPrice(prodSalesPrice)
                 .prodCategory(prodCategory)
-                .prodCategoryDetail(prodCategoryDetail)
                 .prodDesc(prodDesc)
                 .prodRegDate(prodRegDate)
                 .build();

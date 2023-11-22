@@ -1,11 +1,11 @@
 package com.amolli.oyeongshop.ver2.order.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@ToString
+@NoArgsConstructor
 public class OrderDeliveryDTO {
 
     private String orderAttnName;

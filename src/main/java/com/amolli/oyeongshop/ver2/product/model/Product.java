@@ -5,6 +5,8 @@ import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.user.model.Wishlist;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -20,6 +22,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @ToString
+@DynamicUpdate
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +32,6 @@ public class Product {
     private Long prodOriginPrice;
     private Long prodSalesPrice;
     private String prodCategory;
-    private String prodCategoryDetail;
     private String prodDesc;
     private String prodMainImgPath;
     private String prodSalesDist ="NO";
@@ -56,8 +58,11 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Wishlist> wishLists = new ArrayList<>();
 
+    public Product(Long prodId){
+        this.prodId=prodId;
+    }
     @Builder
-    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, String prodCategory, String prodCategoryDetail,
+    public Product(Long prodId, String prodCode, String prodName, Long prodOriginPrice, Long prodSalesPrice, String prodCategory,
                    LocalDateTime prodRegDate, LocalDateTime prodEditDate, String prodSalesDist, String prodDesc, List<ProductOption> productOptions) {
         this.prodId = prodId;
         this.prodCode = prodCode;
@@ -65,7 +70,6 @@ public class Product {
         this.prodOriginPrice = prodOriginPrice;
         this.prodSalesPrice = prodSalesPrice;
         this.prodCategory = prodCategory;
-        this.prodCategoryDetail = prodCategoryDetail;
         this.prodDesc = prodDesc;
         this.prodRegDate = prodRegDate;
         this.prodEditDate = prodEditDate;
@@ -81,4 +85,6 @@ public class Product {
         productImages.add(productImage);
         productImage.setProduct(this);
     }
+
+
 }

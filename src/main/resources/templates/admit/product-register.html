@@ -2,12 +2,12 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/fragments/side-layout}">
+      layout:decorate="~{/fragments/side-layout-admin}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/product/product-register.css">
-    <script src="/js/product/product-register.js"></script> <!-- 외부 JavaScript 파일 연결 -->
+    <link rel="stylesheet" href="/css/admit/product-register.css">
+    <script src="/js/admit/product-register.js"></script> <!-- 외부 JavaScript 파일 연결 -->
     <title>상품 등록 페이지</title>
 </head>
 
@@ -15,7 +15,7 @@
 <section class="main"></section>
 <div th:text="${product.prodId == null} ? '상품 기본 정보 등록' : '상품 기본 정보 수정'" style="font-size: 18px; font-weight: bold;"></div>
 
-<form th:action="${product.prodId != null} ? '/product/edit/' + ${product.prodId} : '/product/register'"
+<form th:action="${product.prodId != null} ? '/admit/product/edit/' + ${product.prodId} : '/admit/product/register'"
       th:object="${product}" class="qna-register" method="post">
     <table>
         <tr>
@@ -43,7 +43,7 @@
             </td>
         </tr>
         <tr>
-            <td class="title">상품대분류</td>
+            <td class="title">상품카테고리</td>
             <td class="content">
                 <select th:field="${product.prodCategory}" style="width: 100px;" th:value="${product.prodCategory}">
                     <option value="Top">Top</option>
@@ -55,16 +55,12 @@
                 </select>
             </td>
         </tr>
-        <tr>
-            <td class="title">상품상세분류</td>
-            <td class="content">
-                <input type="text" th:field="*{prodCategoryDetail}" />
-            </td>
-        </tr>
 
         <!-- 숨김 처리 정보 -->
-        <input type="text" th:field="*{prodRegDate}" readonly class="hidden"/>
-        <input type="text" th:field="*{prodMainImgPath}" readonly class="hidden"/>
+        <input type="text" th:field="*{prodRegDate}" class="hidden"/>
+        <input type="text" th:field="*{prodMainImgPath}" class="hidden"/>
+        <input type="text" th:field="*{prodId}" class="hidden"/>
+
         <tr class="hidden">
             <!-- prod_sales_dist가 null이면 'NO'로 출력, 그렇지 않으면 현재 값으로 출력 -->
             <td class="title">상품판매등록여부</td>
@@ -74,9 +70,8 @@
             </td>
         </tr>
     </table>
-
     <div>
-        <th:block th:replace="product/product-register-option :: option"></th:block>
+        <th:block th:replace="admit/product-register-option :: option"></th:block>
     </div>
 
     <div class="buttons">

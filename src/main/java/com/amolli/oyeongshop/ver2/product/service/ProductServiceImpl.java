@@ -1,8 +1,16 @@
 package com.amolli.oyeongshop.ver2.product.service;
 
+import com.amolli.oyeongshop.ver2.board.dto.ReviewDTO;
 import com.amolli.oyeongshop.ver2.board.model.Review;
 import com.amolli.oyeongshop.ver2.board.model.ReviewImg;
+import com.amolli.oyeongshop.ver2.order.dto.OrderDeliveryDTO;
+import com.amolli.oyeongshop.ver2.order.dto.OrderItemDTO;
+import com.amolli.oyeongshop.ver2.order.dto.OrderItemsDTO;
+import com.amolli.oyeongshop.ver2.order.dto.OrderPriceDTO;
+import com.amolli.oyeongshop.ver2.order.model.Order;
+import com.amolli.oyeongshop.ver2.order.model.OrderDetail;
 import com.amolli.oyeongshop.ver2.product.dto.ProductDTO;
+import com.amolli.oyeongshop.ver2.product.dto.ProductOptionsDTO;
 import com.amolli.oyeongshop.ver2.product.dto.ProductRegisterRequest;
 import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
 import com.amolli.oyeongshop.ver2.product.model.Product;
@@ -17,13 +25,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 // Impl"은 "implementation"의 줄임말로 사용되며, 일반적으로 어떤 인터페이스(interface)나
 // 추상 클래스(abstract class)를 구체적으로 구현한 클래스를 가리킬 때 사용
@@ -37,12 +55,14 @@ public class ProductServiceImpl implements ProductService {
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
+
+    // [상품
     @Override
     public List<Product> findByProdId(Long prodId) {
         return productRepository.findByProdId(prodId);
     }
 
-    // [상품 목록] - best100 상품 조회
+    // [상품 목록] best100 상품 조회
     @Override
     public List<ProductResponse> findProduct100(String sortValue) {
         List<Object[]> products = productRepository.findByTopProdJPQL(PageRequest.of(0, 100));
@@ -60,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 목록] - 신상품 조회
+    // [상품 목록] 신상품 조회
     @Override
     public List<ProductResponse> findByNewProdJPQL() {
         Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
@@ -79,7 +99,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 목록] - 할인 상품 조회
+    // [상품 목록] 할인 상품 조회
     @Override
     public List<ProductResponse> findBySaleProd(String sortValue) {
         List<Product> products;
@@ -107,7 +127,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 목록] - 전체 상품(all)을 정렬
+    // [상품 목록] 전체 상품(all)을 정렬
     public List<ProductResponse> findByProdCategoryJPQL(String sortValue) {
         List<Product> products;
         if (sortValue.equals("pricelow")) {
@@ -134,7 +154,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 목록] - 상품을 카테고리(all 외)별로 분류 및 정렬
+    // [상품 목록] 상품을 카테고리(all 외)별로 분류 및 정렬
     public List<ProductResponse> findByProdCategoryJPQL(String prodCategory, String sortValue) {
         List<Product> products;
         if (sortValue.equals("pricelow")) {
@@ -161,7 +181,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 상세 정보] - 선택된 상품의 상세 정보 보기
+    // [상품 상세 정보] 선택된 상품의 상세 정보 보기
     public Product findById(Long prodId) {
         Optional<Product> OptionalProduct = productRepository.findById(prodId);
 
@@ -172,7 +192,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    // [상품 상세 정보] - 상품 옵션의 중복 제거
+    // [상품 상세 정보] 상품 옵션의 중복 제거
     public Product removeDuplicateOptions(Product product) {
         List<ProductOption> productOptions = product.getProductOptions();
         Set<String> uniqueColors = new HashSet<>();
@@ -189,7 +209,7 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
-    // [상품 관리] - 상품 목록을 페이징 하여 조회
+    // [상품 관리] 상품 목록을 페이징 하여 조회
     public List<ProductResponse> findProductPaged(int page, int itemsPerPage) {
         PageRequest pageRequest = PageRequest.of(page - 1, itemsPerPage);
         Page<Product> productPage = productRepository.findAll(pageRequest);
@@ -208,7 +228,7 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
-    // [상품 관리] - 상품판매구분 YES, NO 토글
+    // [상품 관리] 상품판매구분 YES, NO 토글
     @Override
     public String UpdataSalesStatusYesNo(Long prodId) {
         Product product = productRepository.findById(prodId).orElse(null);
@@ -223,45 +243,28 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
 
-    // [상품 관리] - 전체 상품의 수 조회(count 함수)
+    // [상품 관리] 전체 상품의 수 조회(count 함수)
     public int getTotalProductCount() {
         return productRepository.findAll().size();
     }
 
 
-    // [상품 이미지 수정]
-    public void uploadDBForProduct(List<String> imageUrls, ProductDTO productDTO, Long prodId, PrincipalDetails userDetails) {
-        // CrudRepository에서 findById는 return 타입이 Optional이다.
-        // 아래를 productRepository.findById(prodId).orElse()Repository 한줄로도 가능
-        // prodId 받아서 findById 해서 Product 객체에 넣어줌
-        Optional<Product> optionalProduct = productRepository.findById(prodId);
-        Optional<User> optionalUser = userRepository.findById(userDetails.getUser().getUserId());
-        // ReviewDto를 Entity로 바꿔주고 review엔티티에 넣어줌.
-
-        // optionalProduct가 존재하지 않으면 RuntimeException 던지기
-        if (!optionalProduct.isPresent()) {
-            throw new RuntimeException("Prod id: " + prodId + " can not found!!");
-        }
-
-        Product product = productDTO.toEntity();
-
-
-
-        // ProductId도 같이 insert 해야돼서 optionalProduct를 다 get해서 review에 set해줌
-//        product.setProduct(optionalProduct.get()); // 어떻게 해야할지 모르겠슴다...
+    // [상품 이미지 업로드]
+    public void uploadDBForProduct(List<String> imageUrls, Product product) {
 
         if (!CollectionUtils.isEmpty(imageUrls)) {
+            String firstImageUrl = imageUrls.get(0);
+            Long prodId = product.getProdId();
+            productRepository.updateMainImagePath(firstImageUrl, prodId);// 옵션
+
+            // ProductImage에 url을 하나씩 prodServerFilePath에 세팅
             for (String url : imageUrls) {
                 ProductImage productImage = new ProductImage();
-
-                // reviewImg에 url 하나씩 serverfilename에 set
                 productImage.setProdServerFilePath(url);
-
                 product.addProductImage(productImage);
             }
         }
-
-        // review db에 insert
+        // ProductImage 테이블에 업로드된 사진을 insert
         productRepository.save(product);
     }
 }
