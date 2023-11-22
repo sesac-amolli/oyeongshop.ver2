@@ -40,7 +40,7 @@ public class OrderController {
     @PostMapping(value="/to-orders")
     public String orderAdds(Model model, @RequestParam List<Long> selectedItems, @AuthenticationPrincipal PrincipalDetails userDetails){
 
-        System.out.println("selectedItem" + selectedItems.get(1));
+//        System.out.println("selectedItem" + selectedItems.get(1));
 
         OrdersDTO ordersDTO = orderService.setOrdersDTO(selectedItems);
 
