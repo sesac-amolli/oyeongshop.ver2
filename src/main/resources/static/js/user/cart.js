@@ -59,6 +59,19 @@ deleteForm.submit(); // Submit the form
 //
 //    deleteForm.submit();
 }
+function sendDataToOrder(button) {
+    // 폼 데이터 초기화
+    var orderForm = $("#orderDataForm");
+    orderForm.empty();
+
+$("input[name='selectedItems']:checked").each(function() {
+    var cartItemId = $(this).val(); // Get the value of the current checkbox
+    // Create a hidden input and append it to the form
+    orderForm.append('<input type="hidden" name="selectedItems" value="' + cartItemId + '">');
+});
+
+orderForm.submit(); // Submit the form
+}
 
 function modifyDataToCart(button) {
     // 폼 데이터 초기화

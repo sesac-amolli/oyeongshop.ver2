@@ -15,7 +15,7 @@
 
 <div id="content2">
     <div  id="content3">
-        <form id="order" action="/order/to-orders" method="post">
+        <form id="modify" action="/user/cart/modify" method="post">
 <!--        <form action="" >-->
             <div class="title">장바구니</div>
             <table id="signup" class="table table-bordered">
@@ -31,25 +31,33 @@
                 <tbody id="test_tbody">
                 <!-- 리뷰 id 개수만큼 반복 -->
                 <div class="cart"></div>
-                <tr th:each="dtos, iterStat : ${cartDTO.cartItemResponseDTOS}">
+                <tr th:each="cartItem, iterStat : ${cartItems}">
+<!--                    <td>-->
+<!--                        <input type="checkbox" th:id="${'check' + iterStat.index}" class="checkstandard"    name="selectedItems" th:value="${dtos.cartItemId}" th:data-cart-item-id="${dtos.cartItemId}"/>-->
+<!--                        <label th:for="${'check' + iterStat.index}"></label>-->
+<!--                    </td>-->
                     <td>
-                        <input type="checkbox" th:id="${'check' + iterStat.index}" class="checkstandard" name="selectedItems" th:value="${dtos.cartItemId}" th:data-cart-item-id="${dtos.cartItemId}"/>
+                        <input type="checkbox" th:id="${'check' + iterStat.index}" class="checkstandard" name="selectedItems" th:value="${cartItem.cartItemId}" />
                         <label th:for="${'check' + iterStat.index}"></label>
+                        <input type="hidden" name="cartItemId" th:name="'cartItemUpdates[__${iterStat.index}__].cartItemId'" th:value="${cartItem.cartItemId}" />
+                        <input type="hidden" name="quantity" class="quantity_input" th:name="'cartItemUpdates[__${iterStat.index}__].quantity'" th:value="${cartItem.quantity}" />
+<!--                        <input type="hidden" th:field="*{cartItemUpdates[__${iterStat.index}__].cartItemId}" th:value="${dtos.cartItemId}" />-->
+<!--                        <input type="hidden" th:field="*{cartItemUpdates[__${iterStat.index}__].quantity}" th:value="${dtos.quantity}" />-->
                     </td>
                         <td><div class="col-md-4">
-                            <img src="login_img.png" class="img-responsive" alt="Responsive image">
+                            <img th:src="${cartItem.prodImg}" class="img-responsive" alt="Responsive image">
                         </div></td>
                         <td>
-                            <div class="id" th:text="${dtos.prodName}">상품명</div>
-                            <div class="id" th:text="${dtos.color}">색상</div>
-                            <div class="id" th:text="${dtos.size}">사이즈</div>
+                            <div class="id" th:text="${cartItem.prodName}">상품명</div>
+                            <div class="id" th:text="${cartItem.color}">색상</div>
+                            <div class="id" th:text="${cartItem.size}">사이즈</div>
                         </td>
                         <td>
-                            <del><div class="content" th:text="${dtos.prodOriginPrice}">소비자가격</div></del>
-                            <div class="content" th:text="${dtos.prodSalesPrice}">세일가격</div>
+                            <del><div class="content" th:text="${cartItem.prodOriginPrice}">소비자가격</div></del>
+                            <div class="content" th:text="${cartItem.prodSalesPrice}">세일가격</div>
                         </td>
                         <td>
-                            <input type="text" class="quantity_input" th:value="${dtos.quantity}" />
+                            <input type="text" class="quantity_input" th:value="${cartItem.quantity}" />
                             <span>
                                 <button type="button" class="plus_btn" onclick="incrementQuantity(this)">+</button>
                                 <button type="button" class="minus_btn" onclick="decrementQuantity(this)">-</button>
@@ -59,7 +67,7 @@
 <!--                            </div>-->
                         </td>
                         <td>
-                            <div class="content" th:text="${dtos.prodSalesPrice * dtos.quantity}">총가격</div>
+                            <div class="content" th:text="${cartItem.prodSalesPrice * cartItem.quantity}">총가격</div>
                         </td>
                     </tr>
                 <tr>
@@ -69,14 +77,11 @@
             </table>
         </form>
             <div id="submit-btn">
-
-<!--                <button onclick="sendDataToDirectOrder(this)">바로 구매</button>-->
-                <button class="btn btn-default" onclick="modifyDataToCart(this)">변경</button>
+                <button class="btn btn-default" type="submit" form="modify">개수 변경</button>
                 <button class="btn btn-default" onclick="deleteDataToCart(this)">선택 삭제</button>
-<!--                <button class="btn btn-default" type="button">선택 삭제</button>-->
-<!--                <button class="btn btn-default" type="button">장바구니 비우기</button>-->
                 &emsp;&emsp;&emsp;&emsp;&emsp;
-                <button class="btn btn-default" type="submit" form="order">주문하기</button>
+                <button class="btn btn-default" onclick="sendDataToOrder(this)">주문하기</button>
+<!--                <button class="btn btn-default" type="submit" form="order">주문하기</button>-->
             </div>
     </div>
 </div>
@@ -90,6 +95,9 @@
 </form>
 <form id="cartDeleteForm" action="/user/cart/delete" method="post">
     <input type="hidden" name="cartItemIds" value="">
+</form>
+<form id="orderDataForm" action="/order/to-orders" method="post">
+    <input type="hidden" name="selectedItems" value="">
 </form>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/user/cart.js"></script>
