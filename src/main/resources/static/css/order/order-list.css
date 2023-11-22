@@ -165,6 +165,13 @@ select {
     vertical-align: middle;
 }
 
+.HItitle h3 {
+    font-size : 1.5em;
+    margin-top: 1.5em;
+    margin-bottom: 0.7em;
+    margin-left: 0.4em;
+}
+
 option{
     font-weight: normal;
     display: block;
@@ -245,19 +252,25 @@ img {
     object-fit : cover;
 }
 
-#calendarImg {
-    width : 1.2em;
+img {
+    overflow-clip-margin: content-box;
+    overflow: clip;
+    border: none;
+    width : 1.8em;
+    object-fit : cover;
 }
 
+.imgProduct {
+    width : 7em;
+    object-fit : cover;
+}
+
+.calendarImg {
+    width : 1.2em;
+}
 
 #searchImg {
     width : 1.2em;
-}
-
-#order_history_search {
-    width : 1.2em;
-    margin : 0 0 0 3px;
-    vertical-align: middle;
 }
 
 .orderHistoryHead ul {
@@ -268,4 +281,73 @@ img {
     margin : 0.2em;
     color: #777;
     font-size: 0.9em;
+}
+
+.orderHistoryHead {
+    color: #777;
+    font-size: 0.9em;
+}
+
+#orderHistoryTb{
+    margin : 0.2em;
+    color: #777;
+    font-size: 0.9em;
+    border-bottom: 1px solid #444444;
+}
+
+#orderHistoryTb th{
+    margin : 0.2em;
+    color: #777;
+    font-size: 1.1em;
+    border-bottom: 2px solid #444444;
+    text-align: center;
+}
+
+#orderHistoryTb tr{
+    margin : 0.3em;
+    color: #777;
+    font-size: 1.1em;
+    border-bottom: 0.3px solid #777;
+}
+
+#reviewButton {
+    /* 스타일 초기화 */
+    border: none;
+    background: none;
+    padding: 0;
+    font-size: 1em; /* 필요한 경우 글꼴 크기 조절 */
+
+    /* 사용자 정의 스타일 */
+    display: inline-block;
+    padding: 0.15em 0.3em; /* 필요한 경우 안쪽 여백 조절 */
+    background-color: #777;
+    color: #fff;
+    margin-top : 0.4em;
+    border-radius: 0.3em;
+}
+
+#reviewButton:hover {
+    background-color: #848484;
+}
+
+
+#orderHistoryTb .mid {
+text-align : center;
+}
+
+#orderHistoryTb span strong a{
+    margin : 0.6em;
+    color: #777;
+    font-size: 0.9em;
+}
+
+#orderNumber{
+    color: #424242;
+    font-size: 1.0em;
+}
+
+#prodName {
+    color: #424242;
+    font-size: 1.0em;
+    margin-bottom : 0.2em;
 }
