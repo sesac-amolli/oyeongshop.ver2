@@ -31,35 +31,33 @@
                 <tbody id="test_tbody">
                 <!-- 리뷰 id 개수만큼 반복 -->
                 <div class="cart"></div>
-                <tr th:each="dtos, iterStat : ${cartDTO.cartItemResponseDTOS}">
+                <tr th:each="cartItem, iterStat : ${cartItems}">
 <!--                    <td>-->
 <!--                        <input type="checkbox" th:id="${'check' + iterStat.index}" class="checkstandard"    name="selectedItems" th:value="${dtos.cartItemId}" th:data-cart-item-id="${dtos.cartItemId}"/>-->
 <!--                        <label th:for="${'check' + iterStat.index}"></label>-->
 <!--                    </td>-->
                     <td>
-
-
-                        <input type="checkbox" th:id="${'check' + iterStat.index}" class="checkstandard" name="selectedItems" th:value="${dtos.cartItemId}" />
+                        <input type="checkbox" th:id="${'check' + iterStat.index}" class="checkstandard" name="selectedItems" th:value="${cartItem.cartItemId}" />
                         <label th:for="${'check' + iterStat.index}"></label>
-                        <input type="hidden" name="cartItemId" th:name="'cartItemUpdates[__${iterStat.index}__].cartItemId'" th:value="${dtos.cartItemId}" />
-                        <input type="hidden" name="quantity" class="quantity_input" th:name="'cartItemUpdates[__${iterStat.index}__].quantity'" th:value="${dtos.quantity}" />
+                        <input type="hidden" name="cartItemId" th:name="'cartItemUpdates[__${iterStat.index}__].cartItemId'" th:value="${cartItem.cartItemId}" />
+                        <input type="hidden" name="quantity" class="quantity_input" th:name="'cartItemUpdates[__${iterStat.index}__].quantity'" th:value="${cartItem.quantity}" />
 <!--                        <input type="hidden" th:field="*{cartItemUpdates[__${iterStat.index}__].cartItemId}" th:value="${dtos.cartItemId}" />-->
 <!--                        <input type="hidden" th:field="*{cartItemUpdates[__${iterStat.index}__].quantity}" th:value="${dtos.quantity}" />-->
                     </td>
                         <td><div class="col-md-4">
-                            <img src="login_img.png" class="img-responsive" alt="Responsive image">
+                            <img th:src="${cartItem.prodImg}" class="img-responsive" alt="Responsive image">
                         </div></td>
                         <td>
-                            <div class="id" th:text="${dtos.prodName}">상품명</div>
-                            <div class="id" th:text="${dtos.color}">색상</div>
-                            <div class="id" th:text="${dtos.size}">사이즈</div>
+                            <div class="id" th:text="${cartItem.prodName}">상품명</div>
+                            <div class="id" th:text="${cartItem.color}">색상</div>
+                            <div class="id" th:text="${cartItem.size}">사이즈</div>
                         </td>
                         <td>
-                            <del><div class="content" th:text="${dtos.prodOriginPrice}">소비자가격</div></del>
-                            <div class="content" th:text="${dtos.prodSalesPrice}">세일가격</div>
+                            <del><div class="content" th:text="${cartItem.prodOriginPrice}">소비자가격</div></del>
+                            <div class="content" th:text="${cartItem.prodSalesPrice}">세일가격</div>
                         </td>
                         <td>
-                            <input type="text" class="quantity_input" th:value="${dtos.quantity}" />
+                            <input type="text" class="quantity_input" th:value="${cartItem.quantity}" />
                             <span>
                                 <button type="button" class="plus_btn" onclick="incrementQuantity(this)">+</button>
                                 <button type="button" class="minus_btn" onclick="decrementQuantity(this)">-</button>
@@ -69,7 +67,7 @@
 <!--                            </div>-->
                         </td>
                         <td>
-                            <div class="content" th:text="${dtos.prodSalesPrice * dtos.quantity}">총가격</div>
+                            <div class="content" th:text="${cartItem.prodSalesPrice * cartItem.quantity}">총가격</div>
                         </td>
                     </tr>
                 <tr>

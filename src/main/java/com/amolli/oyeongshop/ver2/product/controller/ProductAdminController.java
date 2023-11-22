@@ -22,18 +22,13 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/admit/product")
+@RequestMapping("/admin/product")
 @RequiredArgsConstructor
 public class ProductAdminController {
     private final ProductService productService;
     private final ProductOptionService productOptionService;
     private final AwsS3Service awsS3Service;
 
-
-    @GetMapping("")
-    public String adminInitPage() {
-        return "admit/admin-index";
-    }
     @GetMapping("/test")
     public String adminInitPageOk() {
         return "admit/product-register";

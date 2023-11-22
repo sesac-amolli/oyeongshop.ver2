@@ -28,6 +28,9 @@ public class IndexController {
         model.addAttribute("productList", productList);
         if (userDetails!=null){
             model.addAttribute("userName",userDetails.getUser().getUserName()+"님 환영합니다.");
+            if(userDetails.getUser().getUserGrade().equals("ADMIN")){
+                return "/admin/admin-index";
+            }
         }
         return "/index";
     }

@@ -1,7 +1,7 @@
 package com.amolli.oyeongshop.ver2.user.dto;
 
+import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.user.model.Cart;
-import com.amolli.oyeongshop.ver2.user.model.CartItem;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,14 +22,14 @@ public class CartResponseDTO {
         this.cartItemResponseDTOS = cartItemResponseDTOS;
     }
 
-    public static CartResponseDTO from(Cart cart){
-        final Long id = cart.getId();
-
-        final List<CartItemResponseDTO> cartItemResponseDTOS = cart.getCartItems().stream()
-                .map(CartItemResponseDTO::from)
-                .collect(Collectors.toList());
-
-        return new CartResponseDTO(id, cartItemResponseDTOS);
-    }
+//    public static CartResponseDTO from(Cart cart){
+//        final Long id = cart.getId();
+//
+//        final List<CartItemResponseDTO> cartItemResponseDTOS = cart.getCartItems().stream()
+//                .map(CartItemResponseDTO::from)
+//                .collect(Collectors.toList());
+//
+//        return new CartResponseDTO(id, cartItemResponseDTOS);
+//    }
 
 }

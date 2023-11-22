@@ -2,6 +2,7 @@ package com.amolli.oyeongshop.ver2.user.service;
 
 //import com.amolli.oyeongshop.ver2.user.dto.CartCreateRequestDTO;
 import com.amolli.oyeongshop.ver2.user.dto.CartItemRequestDTO;
+import com.amolli.oyeongshop.ver2.user.dto.CartItemResponseDTO;
 import com.amolli.oyeongshop.ver2.user.dto.CartItemUpdateDTO;
 import com.amolli.oyeongshop.ver2.user.dto.CartItemUpdateWrapper;
 import com.amolli.oyeongshop.ver2.user.model.Cart;
@@ -17,6 +18,6 @@ public interface CartService {
     void modifybyCartId(Long cartItemId, CartItemUpdateDTO cartItemUpdateDTO);
     void deleteCart(List<Long> cartItemIds,String userId);
 
-    Cart viewCartList(String userId);
+    List<CartItemResponseDTO> viewCartList(String userId);
 
 }

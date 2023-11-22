@@ -49,21 +49,21 @@
         <!-- 이미지 및 상품 정보 -->
         <div th:each="orderItem, itemStat : ${Items.orders}">
         <tr>
-            <input type="hidden" id="prodOptIdInput" th:name="__${'orderItems[' + itemStat.index + '].prodOptId'}__" th:value="${orderItem.prodOptId}">
+            <input type="hidden" id="prodOptIdInput" th:name="__${'orderItems[' + itemStat.index + '][prodOptId]'}__" th:value="${orderItem.prodOptId}">
             <td><img alt="이미지" th:src="${orderItem.prodMainImgPath}"></td>
             <td th:text="${orderItem.productName}"></td>
             <td>
-                <input type="text" id="prodOriginPriceInput" th:name="__${'orderItems[' + itemStat.index + '].prodOriginPrice'}__" th:value="${orderItem.prodOriginPrice}" readonly="readonly" class="non"><br>
-                <input type="text" id="prodSalesPriceInput" th:name="__${'orderItems[' + itemStat.index + '].prodSalesPrice'}__" th:value="${orderItem.prodSalesPrice}" readonly="readonly" class="non">
+                <input type="text" id="prodOriginPriceInput" th:name="__${'orderItems[' + itemStat.index + '][prodOriginPrice]'}__" th:value="${orderItem.prodOriginPrice}" readonly="readonly" class="non"><br>
+                <input type="text" id="prodSalesPriceInput" th:name="__${'orderItems[' + itemStat.index + '][prodSalesPrice]'}__" th:value="${orderItem.prodSalesPrice}" readonly="readonly" class="non">
             </td>
             <td>
-                <input type="text" id="quantityInput" th:name="__${'orderItems[' + itemStat.index + '].quantity'}__" th:value="${orderItem.quantity}" readonly="readonly" class="non">
+                <input type="text" id="quantityInput" th:name="__${'orderItems[' + itemStat.index + '][quantity]'}__" th:value="${orderItem.quantity}" readonly="readonly" class="non">
             </td>
             <td>
-                <input type="text" id="colorInput" th:name="__${'orderItems[' + itemStat.index + '].color'}__" th:value="${orderItem.color}" readonly="readonly" class="non">
+                <input type="text" id="colorInput" th:name="__${'orderItems[' + itemStat.index + '][color]'}__" th:value="${orderItem.color}" readonly="readonly" class="non">
             </td>
             <td>
-                <input type="text" id="sizeInput" th:name="__${'orderItems[' + itemStat.index + '].size'}__" th:value="${orderItem.size}" readonly="readonly" class="non">
+                <input type="text" id="sizeInput" th:name="__${'orderItems[' + itemStat.index + '][size]'}__" th:value="${orderItem.size}" readonly="readonly" class="non">
             </td>
             <td id="itemAmount" th:text="${orderItem.itemAmount}"></td>
         </tr>
