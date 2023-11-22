@@ -70,14 +70,9 @@ public class UserController {
     @GetMapping("/cart/list")
     public String viewCartList(@AuthenticationPrincipal PrincipalDetails userDetails, Model model) {
         String userId = userDetails.getUser().getUserId();
-        Cart cart = cartService.viewCartList(userId);
-        System.out.println("cart controller@!#!@#@@@" + cart);
+        List<CartItemResponseDTO> cartItems = cartService.viewCartList(userId);
 
-        CartResponseDTO cartResponseDTO = new CartResponseDTO();
-        System.out.println("cart responseDTO@!#!@#@@@" + cart);
-
-        model.addAttribute("cartDTO", cartResponseDTO.from(cart));
-        System.out.println("cart model@!#!@#@@@" + cart);
+        model.addAttribute("cartItems", cartItems);
 
         return "/user/cart";
     }

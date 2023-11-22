@@ -93,14 +93,37 @@ radioButtons.forEach(radioButton => {
 });
 
 function KGpay(){
-    let orderItemDTOs = [{
-        prodOptId: $('#prodOptIdInput').val(),
-        prodOriginPrice: $('#prodOriginPriceInput').val(),
-        prodSalesPrice: $('#prodSalesPriceInput').val(),
-        quantity: $('#quantityInput').val(),
-        color: $('#colorInput').val(),
-        size: $('#sizeInput').val()
-    }];
+    let orderFormObj = $("#orderForm").serializeArray();
+    console.log(JSON.stringify(orderFormObj));
+
+    var resultObject = {
+        orderItems: []
+    };
+
+    // Iterate through the JSON data and group values by the index
+    orderFormObj.forEach(function(item) {
+        // Extract index from the name
+        var index = item.name.match(/\[(\d+)\]/);
+        index = index ? parseInt(index[1]) : null;
+
+        // Extract property name from the name
+        var propertyName = item.name.match(/\]\[(.+)\]/);
+        propertyName = propertyName ? propertyName[1] : null;
+
+        // Ensure index and property name are valid
+        if (index !== null && propertyName !== null) {
+            // Create an object for the index if it doesn't exist
+            if (!resultObject.orderItems[index]) {
+                resultObject.orderItems[index] = {};
+            }
+
+            // Set the property in the object
+            resultObject.orderItems[index][propertyName] = item.value;
+        }
+    });
+    console.log(resultObject)
+
+    let orderItemDTOs = resultObject.orderItems;
     let orderDelivery = {
         orderAttnName:$('#orderAttnName').val(),
         orderAttnPhone:$('#orderAttnPhone').val(),
@@ -133,7 +156,7 @@ function KGpay(){
                 pay_method : 'card', //결제 수단
                 merchant_uid: data.orderNumber, // 상점에서 관리하는 주문 번호를 전달
                 name : 'OyeongShop:상품 구매', //주문명 < 주문 상품명에 표시되는 내용
-                amount : 10, // 실제 결제되는 금액
+                amount : orderPriceDTO.totalOrderPayment, // 실제 결제되는 금액
                 buyer_email : orderDelivery.orderAttnEmail, // 구매자 이메일: 결제자가 변경가능, 해당 이메일로 결제내역 발송됨
                 buyer_name : orderDelivery.orderAttnName, // 구매자 이름
                 buyer_tel : orderDelivery.orderAttnPhone, // 구매자 전화번호
