@@ -83,11 +83,27 @@ public class UserController {
     }
 
     // 장바구니 수량 수정
-    @PostMapping("/cart/modify")
-    public String modifyCart(@RequestBody List<CartItemRequestDTO> cartItemRequestDTOS, @AuthenticationPrincipal PrincipalDetails userDetails){
-        String userId = userDetails.getUser().getUserId();
-        cartService.modifyCart(cartItemRequestDTOS, userId);
+//    @PostMapping("/cart/modify")
+//    public String modifyCart(@ModelAttribute List<CartItemUpdateDTO> cartItemUpdateDTOS, @AuthenticationPrincipal PrincipalDetails userDetails){
+//        String userId = userDetails.getUser().getUserId();
+//        System.out.println("Cart수정");
+//        cartService.modifyCart(cartItemUpdateDTOS, userId);
+//        System.out.println("wrapper" + cartItemUpdateDTOS);
+//        return "redirect:/user/cart/list";
+//    }
 
+    @PostMapping("/cart/modify")
+    public String modifyCart(@RequestParam(value = "cartItemId1") Long cartItemId
+            , @RequestParam(value = "quantity1") int quantity
+            , @AuthenticationPrincipal PrincipalDetails userDetails
+                             , @RequestBody CartItemUpdateDTO cartItemUpdateDTO){
+        String userId = userDetails.getUser().getUserId();
+        System.out.println("Cart수정");
+        System.out.println("quantity1!!!!:" + quantity);
+        System.out.println("cartItemId!!!!:" + cartItemId);
+        cartService.modifybyCartId(cartItemId, cartItemUpdateDTO);
+//        cartService.modifyCart(cartItemUpdateDTO, userId);
+        System.out.println("wrapper" + cartItemUpdateDTO);
         return "redirect:/user/cart/list";
     }
 
