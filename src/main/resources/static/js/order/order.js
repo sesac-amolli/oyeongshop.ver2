@@ -129,33 +129,54 @@ function KGpay(){
         success: function(data){
             IMP.init("imp38164824")
             IMP.request_pay({
-                pg : 'html5_inicis',
-                pay_method : 'card',
-                merchant_uid: new Date().getTime(), // 상점에서 관리하는 주문 번호를 전달
-                name : '주문명:결제테스트',
-                amount : 100,
-                buyer_email : 'iamport@siot.do',
-                buyer_name : '구매자이름',
-                buyer_tel : '010-1234-5678',
-                buyer_addr : '서울특별시 강남구 삼성동',
-                buyer_postcode : '123-456',
-                m_redirect_url : '{모바일에서 결제 완료 후 리디렉션 될 URL}' // 예: https://www.my-service.com/payments/complete/mobile
+                pg : 'html5_inicis', //pg사
+                pay_method : 'card', //결제 수단
+                merchant_uid: data.orderNumber, // 상점에서 관리하는 주문 번호를 전달
+                name : 'OyeongShop:상품 구매', //주문명 < 주문 상품명에 표시되는 내용
+                amount : 10, // 실제 결제되는 금액
+                buyer_email : orderDelivery.orderAttnEmail, // 구매자 이메일: 결제자가 변경가능, 해당 이메일로 결제내역 발송됨
+                buyer_name : orderDelivery.orderAttnName, // 구매자 이름
+                buyer_tel : orderDelivery.orderAttnPhone, // 구매자 전화번호
+                buyer_addr : orderDelivery.orderAttnAddr1, // 구매자 주소
+                buyer_postcode : orderDelivery.orderAttnPostcode // 구매자 우편번호
             }, function(rsp) { // callback 로직
             	var result = '';
                 if ( rsp.success ) {
                     var msg = '결제가 완료되었습니다.';
-                    msg += '고유ID : ' + rsp.imp_uid;
-                 	msg += '상점 거래ID : ' + rsp.merchant_uid;
-                 	msg += '결제 금액 : ' + rsp.paid_amount;
-                 	msg += '카드 승인번호 : ' + rsp.apply_num;
-                 	result ='0';
+                    result='0'
+                    let paymentDto = {
+                        paymentImpUid:rsp.imp_uid, // 포트원 고유 결제 번호
+                        paymentPg:rsp.pg_provider, // pg사
+                        paymentApplyNum:rsp.apply_num, //신용카드 승인번호
+                        paymentMethod:rsp.card_name,
+                        paymentCardNum:rsp.card_number,
+                        paymentDate:new Date(rsp.paid_at),
+                        paymentTotalPrice:$('#totalOrderPayment').val(),
+                        paymentCashPrice:rsp.paid_amount,
+                        paymentPayerName:rsp.buyer_name,
+                        paymentReceipt:rsp.receipt_url, //거래 매출전표 URL
+                        orderId:data.orderId
+                    }
+                 	$.ajax({
+                            type:'post',
+                            url:"/order/payment",
+                            contentType: 'application/json;charset=utf-8',
+                            traditional : true, //필수
+                            data: JSON.stringify(paymentDto),
+                            success : function(response){
+                            },
+                            error : function(error) {
+                            // ToDo 결제 취소, 주문 내역 삭제 + 에러 메시지
+                            alert("결제내역 저장 실패"+paymentDto.paymentCardNum)
+                            }
+                    });
                 } else {
                     var msg = '결제에 실패하였습니다.';
                  	msg += '에러내용 : ' + rsp.error_msg;
                  	result ='1';
                 }
                 if(result=='0') {
-                     window.location.href = "/order/order-detail/"+data;
+                    window.location.href = "/order/order-detail/"+data.orderId;
                 }
                 alert(msg);
             });

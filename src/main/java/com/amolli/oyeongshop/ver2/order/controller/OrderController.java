@@ -63,12 +63,8 @@ public class OrderController {
     // DB에 주문 내역 생성
     @PostMapping(value = "/create", produces = "application/json")
     @ResponseBody
-    public String order(@RequestBody OrderPayDto orderPayDto,
-                        RedirectAttributes redirectAttributes,
-                        Model model, @AuthenticationPrincipal PrincipalDetails userDetails){
-
-        System.out.println(orderPayDto);
-
+    public Map<String, String> order(@RequestBody OrderPayDto orderPayDto,
+                                     @AuthenticationPrincipal PrincipalDetails userDetails){
         String userId = userDetails.getUser().getUserId();
         List<OrderItemDTO> orderItemsDTO = orderPayDto.getOrderItemDTOs();
         OrderDeliveryDTO orderDeliveryDTO = orderPayDto.getOrderDeliveryDTO();
@@ -77,8 +73,16 @@ public class OrderController {
         // ToDo 여기에 필요한 유효성 검사 및 비즈니스 로직 수행
 
         // 주문 서비스를 호출하여 주문 처리
-        Long orderId = orderService.order(orderItemsDTO, orderDeliveryDTO, orderPriceDTO, userId);
-        return orderId+"";
+        Map<String, String> orderInfo = orderService.order(orderItemsDTO, orderDeliveryDTO, orderPriceDTO, userId);
+
+        return orderInfo;
+    }
+
+    // DB결제 내역 생성
+    @PostMapping(value = "/payment", produces = "application/json")
+    @ResponseBody
+    public void payment(@RequestBody PaymentDto paymentDto){
+        orderService.payment(paymentDto);
     }
 
     // 주문 상세내역 보기
