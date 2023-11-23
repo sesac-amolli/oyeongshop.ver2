@@ -22,3 +22,7 @@
 .selected {
     font-weight: bold;
 }
+
+.list_order {
+    text-align: right;
+}
