@@ -125,6 +125,13 @@
     <div style="font-size: 18px; font-weight: bold;">상세정보</div>
     <div>
         <table>
+            <tr th:if="${!#lists.isEmpty(product.prodDesc)}">
+                <td th:utext="${product.prodDesc}">
+                        <div class="productDesc" name="summernote" readonly></div>
+                </td>
+
+            </tr>
+
             <tr th:each="productImages : ${productImageResponseDTO}">
                 <td>
                     <div th:if="${#lists.isEmpty(productImages.productImages)}">
@@ -137,16 +144,7 @@
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    <div th:if="${#lists.isEmpty(product.prodDesc)}">
-                        <textarea class="summernote form-control" name="summernote" readonly>작성한 상품 설명이 없습니다.</textarea>
-                    </div>
-                    <div th:if="${!#lists.isEmpty(product.prodDesc)}">
-                        <div class="summernote form-control" name="summernote" th:utext="${product.prodDesc}" readonly></div>
-                    </div>
-                </td>
-            </tr>
+
         </table>
     </div>
     <!-- 추가로 상세 정보를 넣으실 경우, 이 부분에 .details 블록을 계속 추가하시면 됩니다. -->

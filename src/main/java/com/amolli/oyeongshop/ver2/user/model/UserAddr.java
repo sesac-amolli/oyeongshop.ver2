@@ -2,12 +2,14 @@ package com.amolli.oyeongshop.ver2.user.model;
 
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tbl_user_addr")
 @Getter
+@DynamicInsert
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
