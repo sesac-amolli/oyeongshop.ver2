@@ -14,7 +14,7 @@
         <div id="index_main_img">
             <img alt="" src="/images/banner.png">
         </div>
-    <h3 id="title">New Arrivals</h3>
+    <h3 id="main_title">New Arrivals</h3>
         <table>
             <tbody>
             <tr th:each="product, iterStat : ${productList}" th:if="${iterStat.index%3==0}">
@@ -22,8 +22,8 @@
                     <a th:href="'/product/detail/' + ${productList[iterStat.index].prodId}">
                         <div class="img_cover">
                             <img class="product_img" alt="" th:src="${productList[iterStat.index].prodMainImgPath}">
-                            <p th:text="${productList[iterStat.index].prodName}"></p>
-                            <p th:text="${#numbers.formatInteger(productList[iterStat.index].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
+                            <p class="prod_info" th:text="${productList[iterStat.index].prodName}"></p>
+                            <p class="prod_info" th:text="${#numbers.formatInteger(productList[iterStat.index].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
                         </div>
                     </a>
                 </td>
@@ -31,8 +31,8 @@
                     <a th:href="'/product/detail/' + ${productList[iterStat.index+1].prodId}">
                         <div class="img_cover">
                             <img class="product_img" alt="" th:src="${productList[iterStat.index+1].prodMainImgPath}">
-                            <p th:text="${productList[iterStat.index+1].prodName}"></p>
-                            <p th:text="${#numbers.formatInteger(productList[iterStat.index+1].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
+                            <p class="prod_info" th:text="${productList[iterStat.index+1].prodName}"></p>
+                            <p class="prod_info" th:text="${#numbers.formatInteger(productList[iterStat.index+1].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
                         </div>
                     </a>
                 </td>
@@ -40,8 +40,8 @@
                     <a th:href="'/product/detail/' + ${productList[iterStat.index+2].prodId}">
                         <div class="img_cover">
                             <img class="product_img" alt="" th:src="${productList[iterStat.index+2].prodMainImgPath}">
-                            <p th:text="${productList[iterStat.index+2].prodName}"></p>
-                            <p th:text="${#numbers.formatInteger(productList[iterStat.index+2].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
+                            <p class="prod_info" th:text="${productList[iterStat.index+2].prodName}"></p>
+                            <p class="prod_info" th:text="${#numbers.formatInteger(productList[iterStat.index+2].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
                         </div>
                     </a>
                 </td>

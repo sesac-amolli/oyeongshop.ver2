@@ -4,7 +4,25 @@
 @import url(footer.css);
 @import url(side-nav-for-user.css);
 
-#index_main_img{
-    width: 80%;
+#main_title{
+    margin: 2em;
+    font-size: 18px;
+    font-weight: bold;
 }
 
+#index_main_img{
+    width: 80%;
+    object-fit: cover;
+}
+
+.product_img{
+    margin: 2em;
+    width: 16em;
+    height: 24em;
+    object-fit: cover;
+}
+
+.prod_info{
+    margin-bottom: 1em;
+    text-align: center;
+}
