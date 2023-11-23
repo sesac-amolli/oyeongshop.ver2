@@ -50,7 +50,7 @@
                             <p>첨부한 이미지가 없습니다.</p>
                         </div>
                         <div th:if="${!#lists.isEmpty(reviews.imgs)}">
-                            <div class="img" th:each="imgs : ${reviews.imgs}">
+                            <div class="reviewimg" th:each="imgs : ${reviews.imgs}">
                                 <img th:src="${imgs.reviewImgUrl}"/>
                             </div>
                         </div>
