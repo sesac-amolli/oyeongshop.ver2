@@ -7,9 +7,7 @@ import com.amolli.oyeongshop.ver2.product.dto.ProductImageListResponseDTO;
 import com.amolli.oyeongshop.ver2.product.dto.ProductOptionResponse;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.model.ProductOption;
-import com.amolli.oyeongshop.ver2.product.service.ProductOptionService;
 import com.amolli.oyeongshop.ver2.product.service.ProductService;
-import com.amolli.oyeongshop.ver2.s3.AwsS3Service;
 import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
 import com.amolli.oyeongshop.ver2.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +27,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-    private final ProductOptionService productOptionService;
     private final ReviewService reviewService;
     private final UserService userService;
-    private final AwsS3Service awsS3Service;
 
 
     // [사이드 바] side-nav-for-user.html 에서 a태그 클릭 시 category 정보를 전달해주는 컨트롤러
@@ -45,37 +41,38 @@ public class ProductController {
     }
 
     // [상품 목록] Best 100
-    @GetMapping("/list/best100/{sort}")
+    @GetMapping("/list/BEST100/{sort}")
     public String bestProduct(@PathVariable String sort, Model model) {
         List<ProductOptionResponse> productList = productService.findProduct100(sort);
         model.addAttribute("productList", productList);
-        model.addAttribute("prodCategory", "best100");
+        model.addAttribute("prodCategory", "BEST100");
         return "product/product-list";
     }
 
     // [상품 목록] 신상품
-    @GetMapping("/list/newArrivals/regdate")
+    @GetMapping("/list/New/regdate")
     public String newProduct(Model model) {
         List<ProductOptionResponse> productList = productService.findByNewProdJPQL();
         model.addAttribute("productList", productList);
+        model.addAttribute("prodCategory", "New");
         return "product/product-list";
     }
 
     // [상품 목록] 세일 중인 상품
-    @GetMapping("/list/sale/{sort}")
+    @GetMapping("/list/Sale/{sort}")
     public String saleProduct(@PathVariable String sort, Model model) {
         List<ProductOptionResponse> productList = productService.findBySaleProd(sort);
         model.addAttribute("productList", productList);
-        model.addAttribute("prodCategory", "sale");
+        model.addAttribute("prodCategory", "Sale");
         return "product/product-list";
     }
 
     // [상품 목록] 모든 상품을 조회 및 정렬
-    @GetMapping("/list/all/{sort}")
+    @GetMapping("/list/All/{sort}")
     public String productList(@PathVariable String sort, Model model) {
         List<ProductOptionResponse> productList = productService.findByProdCategoryJPQL(sort);
         model.addAttribute("productList", productList);
-        model.addAttribute("prodCategory", "all");
+        model.addAttribute("prodCategory", "All");
         return "product/product-list";
     }
 

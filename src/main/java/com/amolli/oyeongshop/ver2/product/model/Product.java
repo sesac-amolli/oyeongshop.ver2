@@ -32,6 +32,7 @@ public class Product {
     private Long prodOriginPrice;
     private Long prodSalesPrice;
     private String prodCategory;
+    @Column(length = 1500)
     private String prodDesc;
     private String prodMainImgPath;
     private String prodSalesDist ="NO";
