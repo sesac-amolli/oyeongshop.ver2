@@ -48,8 +48,11 @@
                             <img class="product_img" alt="" th:src="${productList[iterStat.index].prodMainImgPath}">
                             <p th:text="${productList[iterStat.index].prodName}"></p>
                             <p style="text-decoration: line-through;" th:if="${productList[iterStat.index].prodOriginPrice > productList[iterStat.index].prodSalesPrice}"
-                               th:text="${productList[iterStat.index].prodOriginPrice + '원'}"></p>
-                            <p th:text="${productList[iterStat.index].prodSalesPrice + '원'}"></p>
+                               th:text="${#numbers.formatInteger(productList[iterStat.index].prodOriginPrice, 1, 'COMMA')+ '원'}"></p>
+                            <p th:text="${#numbers.formatInteger(productList[iterStat.index].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
+
+                               <!--th:text="${productList[iterStat.index].prodOriginPrice + '원'}"></p>
+                            <p th:text="${productList[iterStat.index].prodSalesPrice + '원'}"></p>-->
                         </div>
                     </a>
                 </td>
@@ -59,8 +62,11 @@
                             <img class="product_img" alt="" th:src="${productList[iterStat.index+1].prodMainImgPath}">
                             <p th:text="${productList[iterStat.index+1].prodName}"></p>
                             <p style="text-decoration: line-through;" th:if="${productList[iterStat.index+1].prodOriginPrice > productList[iterStat.index+1].prodSalesPrice}"
-                               th:text="${productList[iterStat.index+1].prodOriginPrice + '원'}"></p>
-                            <p th:text="${productList[iterStat.index+1].prodSalesPrice + '원'}"></p>
+                               th:text="${#numbers.formatInteger(productList[iterStat.index+1].prodOriginPrice, 1, 'COMMA')+ '원'}"></p>
+                            <p th:text="${#numbers.formatInteger(productList[iterStat.index+1].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
+
+                               <!--th:text="${productList[iterStat.index+1].prodOriginPrice + '원'}"></p>
+                            <p th:text="${productList[iterStat.index+1].prodSalesPrice + '원'}"></p>-->
                         </div>
                     </a>
                 </td>
@@ -70,8 +76,11 @@
                             <img class="product_img" alt="" th:src="${productList[iterStat.index+2].prodMainImgPath}">
                             <p th:text="${productList[iterStat.index+2].prodName}"></p>
                             <p style="text-decoration: line-through;" th:if="${productList[iterStat.index+2].prodOriginPrice > productList[iterStat.index+2].prodSalesPrice}"
-                               th:text="${productList[iterStat.index+2].prodOriginPrice + '원'}"></p>
-                            <p th:text="${productList[iterStat.index+2].prodSalesPrice + '원'}"></p>
+                               th:text="${#numbers.formatInteger(productList[iterStat.index+2].prodOriginPrice, 1, 'COMMA')+ '원'}"></p>
+                            <p th:text="${#numbers.formatInteger(productList[iterStat.index+2].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
+
+                               <!--th:text="${productList[iterStat.index+2].prodOriginPrice + '원'}"></p>
+                            <p th:text="${productList[iterStat.index+2].prodSalesPrice + '원'}"></p>-->
                         </div>
                     </a>
                 </td>

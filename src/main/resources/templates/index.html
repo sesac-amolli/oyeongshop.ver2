@@ -23,7 +23,7 @@
                         <div class="img_cover">
                             <img class="product_img" alt="" th:src="${productList[iterStat.index].prodMainImgPath}">
                             <p th:text="${productList[iterStat.index].prodName}"></p>
-                            <p th:text="${productList[iterStat.index].prodSalesPrice + '원'}"></p>
+                            <p th:text="${#numbers.formatInteger(productList[iterStat.index].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
                         </div>
                     </a>
                 </td>
@@ -32,7 +32,7 @@
                         <div class="img_cover">
                             <img class="product_img" alt="" th:src="${productList[iterStat.index+1].prodMainImgPath}">
                             <p th:text="${productList[iterStat.index+1].prodName}"></p>
-                            <p th:text="${productList[iterStat.index+1].prodSalesPrice + '원'}"></p>
+                            <p th:text="${#numbers.formatInteger(productList[iterStat.index+1].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
                         </div>
                     </a>
                 </td>
@@ -41,7 +41,7 @@
                         <div class="img_cover">
                             <img class="product_img" alt="" th:src="${productList[iterStat.index+2].prodMainImgPath}">
                             <p th:text="${productList[iterStat.index+2].prodName}"></p>
-                            <p th:text="${productList[iterStat.index+2].prodSalesPrice + '원'}"></p>
+                            <p th:text="${#numbers.formatInteger(productList[iterStat.index+2].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
                         </div>
                     </a>
                 </td>
