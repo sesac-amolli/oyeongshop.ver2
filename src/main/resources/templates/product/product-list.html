@@ -15,12 +15,12 @@
 <div style="font-size: 24px; font-weight: bold; margin-bottom: 20px;" th:text="${prodCategory}"></div>
 <div id="right">
     <form id="sortForm" action="/product/list" method="get" style="margin-bottom:10px;">
-        <div class="toggle-btn" th:if="${prodCategory}!=New">
+        <div class="list_order" th:if="${prodCategory}!=New">
             <a th:href="'/product/list/' + ${prodCategory} + '/regdate'" th:class="${sortParam == prodCategory + '/regdate' ? 'selected' : ''}">최근 등록일 순</a><span> | </span>
             <a th:href="'/product/list/' + ${prodCategory} + '/pricelow'" th:class="${sortParam == prodCategory + '/pricelow' ? 'selected' : ''}">가격 낮은 순</a><span> | </span>
             <a th:href="'/product/list/' + ${prodCategory} + '/pricehigh'" th:class="${sortParam == prodCategory + '/pricehigh' ? 'selected' : ''}">가격 높은 순</a>
         </div>
-        <div class="toggle-btn" th:if="${prodCategory}==New">
+        <div class="list_order" th:if="${prodCategory}==New">
             <span style="bold">최근 등록일 순</span>
         </div>
 <!--        <div class="toggle-btn">-->
