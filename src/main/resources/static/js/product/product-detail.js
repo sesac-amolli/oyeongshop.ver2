@@ -1,18 +1,18 @@
-// 개수 입력 값이 변경될 때마다 총 주문금액 계산 및 업데이트
-const quantityInput = document.getElementById('quantityInput');
-const totalAmount = document.getElementById('totalAmount');
+function calculateTotalAmount() {
+  // quantity 입력값 가져오기
+  const quantity = parseInt(document.getElementsByName("quantity")[0].value);
 
-quantityInput.addEventListener('input', function() {
-    const quantity = parseInt(quantityInput.value);
-    const prodSalesPrice = parseInt('${product.prodSalesPrice}'); // 총 주문금액을 계산할 때 사용할 상품 판매가
-    const total = quantity * prodSalesPrice;
+  // 판매가 가져오기
+  const prodSalesPrice = parseFloat(document.getElementById("prodSalesPrice").innerText);
+  console.log("prodSalesPrice" + prodSalesPrice);
 
-    if (!isNaN(total)) {
-        totalAmount.textContent = total;
-    } else {
-        totalAmount.textContent = '0';
-    }
-});
+  // 총 주문금액 계산
+  const totalAmount = quantity * prodSalesPrice;
+  console.log("totalAmount" + totalAmount);
+
+  // 총 주문금액 표시
+  document.getElementById("totalAmount").innerText = totalAmount;
+}
 
 function sendDataToDirectOrder(button) {
 //    console.log(button,"button");
