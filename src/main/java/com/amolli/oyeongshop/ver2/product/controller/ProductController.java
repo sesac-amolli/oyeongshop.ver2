@@ -90,6 +90,14 @@ public class ProductController {
         return "product/product-list";
     }
 
+    // [상품 목록] 상품 리스트를 검색
+    @GetMapping("/list/search")
+    public String productSearchList(@RequestParam String search, Model model) {
+        List<ProductOptionResponse> productListSearch = productService.findByProdNameOrCodeJPQL(search);
+        model.addAttribute("productListSearch", productListSearch);
+        return "product/product-list-search";
+    }
+
     // [상품 상세 정보] 선택한 상품의 상세 정보 보기
     @GetMapping("/detail/{prodId}")
     public ModelAndView productDetail(@PathVariable Long prodId, Model model, @AuthenticationPrincipal PrincipalDetails details) {
