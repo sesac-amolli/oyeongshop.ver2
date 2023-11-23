@@ -166,7 +166,7 @@ select {
 }
 
 .HItitle h3 {
-    font-size : 1.5em;
+    font-size : 1.2em;
     margin-top: 1.5em;
     margin-bottom: 0.7em;
     margin-left: 0.4em;
@@ -248,7 +248,7 @@ img {
     overflow-clip-margin: content-box;
     overflow: clip;
     border: none;
-    width : 1.8em;
+    width : 1.6em;
     object-fit : cover;
 }
 
@@ -261,8 +261,9 @@ img {
 }
 
 .imgProduct {
-    width : 7em;
+    width : 6em;
     object-fit : cover;
+    margin: 1em
 }
 
 .calendarImg {
@@ -298,7 +299,7 @@ img {
 #orderHistoryTb th{
     margin : 0.2em;
     color: #777;
-    font-size: 1.1em;
+    font-size: 1.0em;
     border-bottom: 2px solid #444444;
     text-align: center;
 }
