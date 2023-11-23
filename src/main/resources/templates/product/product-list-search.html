@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/product/product-list.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>상품 리스트 페이지</title>
+</head>
+
+<body layout:fragment="content" th:object="${productListSearch}">
+<div style="font-size: 24px; font-weight: bold; margin-bottom: 20px;" th:text="${prodCategory}"></div>
+<div id="right">
+    <table>
+        <tbody>
+            <tr th:each="product, iterStat : ${productListSearch}" th:if="${iterStat.index%3==0}">
+                <td th:if="${iterStat.index < iterStat.size}">
+                    <a th:href="'/product/detail/' + ${productListSearch[iterStat.index].prodId}">
+                        <div class="img_cover">
+                            <img class="product_img" alt="" th:src="${productListSearch[iterStat.index].prodMainImgPath}">
+                            <p th:text="${productListSearch[iterStat.index].prodName}"></p>
+                            <p style="text-decoration: line-through;" th:if="${productListSearch[iterStat.index].prodOriginPrice > productListSearch[iterStat.index].prodSalesPrice}"
+                               th:text="${#numbers.formatInteger(productListSearch[iterStat.index].prodOriginPrice, 1, 'COMMA')+ '원'}"></p>
+                            <p th:text="${#numbers.formatInteger(productListSearch[iterStat.index].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
+                        </div>
+                    </a>
+                </td>
+                <td th:if="${iterStat.index+1 < iterStat.size}">
+                    <a th:href="'/product/detail/' + ${productListSearch[iterStat.index+1].prodId}">
+                        <div class="img_cover">
+                            <img class="product_img" alt="" th:src="${productListSearch[iterStat.index+1].prodMainImgPath}">
+                            <p th:text="${productListSearch[iterStat.index+1].prodName}"></p>
+                            <p style="text-decoration: line-through;" th:if="${productListSearch[iterStat.index+1].prodOriginPrice > productListSearch[iterStat.index+1].prodSalesPrice}"
+                               th:text="${#numbers.formatInteger(productListSearch[iterStat.index+1].prodOriginPrice, 1, 'COMMA')+ '원'}"></p>
+                            <p th:text="${#numbers.formatInteger(productListSearch[iterStat.index+1].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
+                        </div>
+                    </a>
+                </td>
+                <td th:if="${iterStat.index+2 < iterStat.size}">
+                    <a th:href="'/product/detail/' + ${productListSearch[iterStat.index+2].prodId}">
+                        <div class="img_cover">
+                            <img class="product_img" alt="" th:src="${productListSearch[iterStat.index+2].prodMainImgPath}">
+                            <p th:text="${productListSearch[iterStat.index+2].prodName}"></p>
+                            <p style="text-decoration: line-through;" th:if="${productListSearch[iterStat.index+2].prodOriginPrice > productListSearch[iterStat.index+2].prodSalesPrice}"
+                               th:text="${#numbers.formatInteger(productListSearch[iterStat.index+2].prodOriginPrice, 1, 'COMMA')+ '원'}"></p>
+                            <p th:text="${#numbers.formatInteger(productListSearch[iterStat.index+2].prodSalesPrice, 1, 'COMMA')+ '원'}"></p>
+                        </div>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="/js/product/product-list.js"></script> <!-- 외부 JavaScript 파일 연결 -->
+</body>
+</html>

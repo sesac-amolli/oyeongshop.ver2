@@ -10,10 +10,12 @@
 <body th:fragment="menu">
 	<nav>
 		<div class="toggle-btn" id="search-area">
-			<input type="text" id="search-input" placeholder="상품 검색"/>
-			<button type="button" id="search-btn" onclick="alert('클릭!')">
-				<img src="/images/돋보기.svg"/>
-			</button>
+			<form action="/product/list/search" method="get">
+				<input type="text" id="search" name="search" placeholder="상품 검색"/>
+				<button type="submit" id="search-btn">
+					<img src="/images/돋보기.svg"/>
+				</button>
+			</form>
 		</div>
 		<div class="toggle-btn">
 			<a class="side-menu" href="/product/list/BEST100/regdate">BEST100</a>

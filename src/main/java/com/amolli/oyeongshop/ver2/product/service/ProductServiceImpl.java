@@ -155,6 +155,25 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
     }
 
+    // [상품 목록] 상품명 또는 상품 코드로 상품 목록 검색
+    public List<ProductOptionResponse> findByProdNameOrCodeJPQL(String search) {
+        List<Product> products;
+        products = productRepository.findByProdNameOrCodeJPQL(search);
+
+        return products.stream()
+                .map(product -> {
+                    ProductOptionResponse dto = new ProductOptionResponse();
+                    dto.setProdId(product.getProdId());
+                    dto.setProdName(product.getProdName());
+                    dto.setProdCategory(product.getProdCategory());
+                    dto.setProdOriginPrice(product.getProdOriginPrice());
+                    dto.setProdSalesPrice(product.getProdSalesPrice());
+                    dto.setProdMainImgPath(product.getProdMainImgPath());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
     // [상품 상세 정보] 선택된 상품의 상세 정보 보기
     public Product findById(Long prodId) {
         Optional<Product> OptionalProduct = productRepository.findById(prodId);

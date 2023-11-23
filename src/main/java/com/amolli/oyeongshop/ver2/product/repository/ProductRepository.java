@@ -35,6 +35,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.prodOriginPrice <> p.prodSalesPrice")
     List<Product> findSaleProducts(Sort sort);
 
+    // [상품 목록] 상품명 또는 상품 코드로 상품 목록 검색
+    @Query("SELECT p FROM Product p WHERE p.prodName LIKE %:prodName% OR p.prodCode LIKE %:prodName%")
+    List<Product> findByProdNameOrCodeJPQL(@Param("prodName") String search);
+
     // [상품 관리] 상품판매여부가 YES인 경우의 LIST를 출력
     @Query("SELECT p FROM Product p WHERE p.prodSalesDist = 'YES'")
     List<Product> findByProdJPQL(Sort sort);
