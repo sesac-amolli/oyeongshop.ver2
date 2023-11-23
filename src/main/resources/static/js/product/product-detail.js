@@ -1,3 +1,17 @@
+function calculateTotalAmount() {
+  // quantity 입력값 가져오기
+  const quantity = parseInt(document.getElementsByName("quantity")[0].value);
+
+  // 판매가 가져오기
+  const prodSalesPrice = parseFloat(document.getElementById("prodSalesPrice").innerText);
+
+  // 총 주문금액 계산
+  const totalAmount = quantity * prodSalesPrice;
+
+  // 총 주문금액 표시
+  document.getElementById("totalAmount").innerText = totalAmount;
+}
+
 // 개수 입력 값이 변경될 때마다 총 주문금액 계산 및 업데이트
 const quantityInput = document.getElementById('quantityInput');
 const totalAmount = document.getElementById('totalAmount');

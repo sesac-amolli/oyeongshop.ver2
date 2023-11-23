@@ -44,7 +44,7 @@
                     <li>판매가</li>
                 </div>
                 <div class="flex-items">
-                    <li><div th:data-prod-sales-price="${product.prodSalesPrice}" th:text="${product.prodSalesPrice}"></div></li>
+                    <li><div id="prodSalesPrice" th:data-prod-sales-price="${product.prodSalesPrice}" th:text="${product.prodSalesPrice}"></div></li>
                 </div>
             </ul>
             <ul class="flex-container">
@@ -84,7 +84,7 @@
                     <li>개수</li>
                 </div>
                 <div class="flex-items">
-                    <li><input name="quantity" type="number" style="width: 100px;" value="1"></li>
+                    <li><input id="quantity" name="quantity" type="number" style="width: 100px;" value="1" onchange="calculateTotalAmount()"></li>
                 </div>
             </ul>
             <ul class="flex-container">
@@ -93,7 +93,7 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <span id="totalAmount"></span> <!-- 아 프론트 진짜 싫다 ㅡㅡ -->
+                        <span id="totalAmount" th:text="${product.prodSalesPrice}"></span>
                     </li>
                 </div>
             </ul>
