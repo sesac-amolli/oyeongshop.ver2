@@ -6,7 +6,7 @@
 
 #main_title{
     margin: 2em;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
 }
 
@@ -15,3 +15,14 @@
     object-fit: cover;
 }
 
+.product_img{
+    margin: 2em;
+    width: 16em;
+    height: 24em;
+    object-fit: cover;
+}
+
+.prod_info{
+    margin-bottom: 1em;
+    text-align: center;
+}
