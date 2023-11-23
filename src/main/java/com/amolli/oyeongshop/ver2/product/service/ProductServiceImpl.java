@@ -1,43 +1,19 @@
 package com.amolli.oyeongshop.ver2.product.service;
 
-import com.amolli.oyeongshop.ver2.board.dto.ReviewDTO;
-import com.amolli.oyeongshop.ver2.board.model.Review;
-import com.amolli.oyeongshop.ver2.board.model.ReviewImg;
-import com.amolli.oyeongshop.ver2.order.dto.OrderDeliveryDTO;
-import com.amolli.oyeongshop.ver2.order.dto.OrderItemDTO;
-import com.amolli.oyeongshop.ver2.order.dto.OrderItemsDTO;
-import com.amolli.oyeongshop.ver2.order.dto.OrderPriceDTO;
-import com.amolli.oyeongshop.ver2.order.model.Order;
-import com.amolli.oyeongshop.ver2.order.model.OrderDetail;
-import com.amolli.oyeongshop.ver2.product.dto.ProductDTO;
-import com.amolli.oyeongshop.ver2.product.dto.ProductOptionsDTO;
-import com.amolli.oyeongshop.ver2.product.dto.ProductRegisterRequest;
-import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
+import com.amolli.oyeongshop.ver2.product.dto.ProductOptionResponse;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.model.ProductImage;
-import com.amolli.oyeongshop.ver2.product.model.ProductOption;
-import com.amolli.oyeongshop.ver2.product.repository.ProductImageRepository;
 import com.amolli.oyeongshop.ver2.product.repository.ProductRepository;
-import com.amolli.oyeongshop.ver2.security.config.auth.PrincipalDetails;
-import com.amolli.oyeongshop.ver2.user.model.User;
-import com.amolli.oyeongshop.ver2.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,16 +23,14 @@ import java.util.stream.Collectors;
 // 추상 클래스(abstract class)를 구체적으로 구현한 클래스를 가리킬 때 사용
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
-    private final ProductImageRepository productImageRepository;
-    private final UserRepository userRepository;
 
-    // [상품 등록] - 상품 정보를 저장
+    // [상품 등록] 상품 정보를 저장
     @Override
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
 
-    // [상품
+    // [상품 목록] 상품 목록을 조회
     @Override
     public List<Product> findByProdId(Long prodId) {
         return productRepository.findByProdId(prodId);
@@ -64,11 +38,11 @@ public class ProductServiceImpl implements ProductService {
 
     // [상품 목록] best100 상품 조회
     @Override
-    public List<ProductResponse> findProduct100(String sortValue) {
+    public List<ProductOptionResponse> findProduct100(String sortValue) {
         List<Object[]> products = productRepository.findByTopProdJPQL(PageRequest.of(0, 100));
         return products.stream()
                 .map(product -> {
-                    ProductResponse dto = new ProductResponse();
+                    ProductOptionResponse dto = new ProductOptionResponse();
                     dto.setProdId((Long) product[0]);
                     dto.setProdName((String) product[1]);
                     dto.setProdCategory((String) product[2]);
@@ -82,12 +56,12 @@ public class ProductServiceImpl implements ProductService {
 
     // [상품 목록] 신상품 조회
     @Override
-    public List<ProductResponse> findByNewProdJPQL() {
+    public List<ProductOptionResponse> findByNewProdJPQL() {
         Sort sort = Sort.by(Sort.Direction.DESC, "prodRegDate");
         List<Product> products = productRepository.findByProdJPQL(PageRequest.of(0, 18, sort));
         return products.stream()
                 .map(product -> {
-                    ProductResponse dto = new ProductResponse();
+                    ProductOptionResponse dto = new ProductOptionResponse();
                     dto.setProdId(product.getProdId());
                     dto.setProdName(product.getProdName());
                     dto.setProdCategory(product.getProdCategory());
@@ -101,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
 
     // [상품 목록] 할인 상품 조회
     @Override
-    public List<ProductResponse> findBySaleProd(String sortValue) {
+    public List<ProductOptionResponse> findBySaleProd(String sortValue) {
         List<Product> products;
         if (sortValue.equals("pricelow")) {
             Sort sort = Sort.by(Sort.Direction.ASC, "prodSalesPrice");
@@ -115,7 +89,7 @@ public class ProductServiceImpl implements ProductService {
         }
         return products.stream()
                 .map(product -> {
-                    ProductResponse dto = new ProductResponse();
+                    ProductOptionResponse dto = new ProductOptionResponse();
                     dto.setProdId(product.getProdId());
                     dto.setProdName(product.getProdName());
                     dto.setProdCategory(product.getProdCategory());
@@ -128,7 +102,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     // [상품 목록] 전체 상품(all)을 정렬
-    public List<ProductResponse> findByProdCategoryJPQL(String sortValue) {
+    public List<ProductOptionResponse> findByProdCategoryJPQL(String sortValue) {
         List<Product> products;
         if (sortValue.equals("pricelow")) {
             Sort sort = Sort.by(Sort.Direction.ASC, "prodSalesPrice");
@@ -142,7 +116,7 @@ public class ProductServiceImpl implements ProductService {
         }
         return products.stream()
                 .map(product -> {
-                    ProductResponse dto = new ProductResponse();
+                    ProductOptionResponse dto = new ProductOptionResponse();
                     dto.setProdId(product.getProdId());
                     dto.setProdName(product.getProdName());
                     dto.setProdCategory(product.getProdCategory());
@@ -155,7 +129,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     // [상품 목록] 상품을 카테고리(all 외)별로 분류 및 정렬
-    public List<ProductResponse> findByProdCategoryJPQL(String prodCategory, String sortValue) {
+    public List<ProductOptionResponse> findByProdCategoryJPQL(String prodCategory, String sortValue) {
         List<Product> products;
         if (sortValue.equals("pricelow")) {
             Sort sort = Sort.by(Sort.Direction.ASC, "prodSalesPrice");
@@ -169,7 +143,7 @@ public class ProductServiceImpl implements ProductService {
         }
         return products.stream()
                 .map(product -> {
-                    ProductResponse dto = new ProductResponse();
+                    ProductOptionResponse dto = new ProductOptionResponse();
                     dto.setProdId(product.getProdId());
                     dto.setProdName(product.getProdName());
                     dto.setProdCategory(product.getProdCategory());
@@ -192,31 +166,14 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    // [상품 상세 정보] 상품 옵션의 중복 제거
-    public Product removeDuplicateOptions(Product product) {
-        List<ProductOption> productOptions = product.getProductOptions();
-        Set<String> uniqueColors = new HashSet<>();
-        Set<String> uniqueSizes = new HashSet<>();
-        List<ProductOption> uniqueProductOptions = new ArrayList<>();
-
-        for (ProductOption option : productOptions) {
-            // 색상 중복 확인
-            if (uniqueColors.add(option.getProdOptColor())) {
-                uniqueProductOptions.add(option);
-            }
-        }
-        product.setProductOptions(uniqueProductOptions);
-        return product;
-    }
-
     // [상품 관리] 상품 목록을 페이징 하여 조회
-    public List<ProductResponse> findProductPaged(int page, int itemsPerPage) {
+    public List<ProductOptionResponse> findProductPaged(int page, int itemsPerPage) {
         PageRequest pageRequest = PageRequest.of(page - 1, itemsPerPage);
         Page<Product> productPage = productRepository.findAll(pageRequest);
 
         return productPage.getContent().stream()
                 .map(product -> {
-                    ProductResponse dto = new ProductResponse();
+                    ProductOptionResponse dto = new ProductOptionResponse();
                     dto.setProdId(product.getProdId());
                     dto.setProdName(product.getProdName());
                     dto.setProdCode(product.getProdCode());
@@ -247,7 +204,6 @@ public class ProductServiceImpl implements ProductService {
     public int getTotalProductCount() {
         return productRepository.findAll().size();
     }
-
 
     // [상품 이미지 업로드]
     public void uploadDBForProduct(List<String> imageUrls, Product product) {

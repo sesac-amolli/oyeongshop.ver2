@@ -53,12 +53,12 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <select style="width: 100px;" id="colorSelect" onchange="updateSelect('colorSelect')">
+                        <select style="width: 100px;" id="colorSelect">
                             <option selected disabled>색상</option>
-                            <option th:each="productOption : ${product.productOptions}"
-                                    th:value="${productOption.prodOptColor}"
-                                    th:text="${productOption.prodOptColor}"
-                                    th:data-prod-opt-color="${productOption.prodOptColor}"></option>
+                            <option th:each="color : ${productColorSet}"
+                                    th:value="${color}"
+                                    th:text="${color}"
+                                    th:data-prod-opt-color="${color}"></option>
                         </select>
                     </li>
                 </div>
@@ -69,12 +69,12 @@
                 </div>
                 <div class="flex-items">
                     <li>
-                        <select style="width: 100px;" id="sizeSelect" onchange="updateSelect('sizeSelect')">
+                        <select style="width: 100px;" id="sizeSelect">
                             <option selected disabled>사이즈</option>
-                            <option th:each="productOption : ${product.productOptions}"
-                                    th:value="${productOption.prodOptSize}"
-                                    th:text="${productOption.prodOptSize}"
-                                    th:data-prod-opt-size="${productOption.prodOptSize}"></option>
+                            <option th:each="size : ${productSizeSet}"
+                                    th:value="${size}"
+                                    th:text="${size}"
+                                    th:data-prod-opt-size="${size}"></option>
                         </select>
                     </li>
                 </div>

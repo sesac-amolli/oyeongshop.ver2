@@ -8,12 +8,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 //  JPA(Java Persistence API)를 사용하여 데이터베이스와 상호작용하는 데 사용되는 인터페이스
 public interface ProductRepository extends JpaRepository<Product, Long> {
 //    List<Product> findAll();                           Entity    pk
+
+    // [상품 목록] 상품 목록을 조회
     List<Product> findByProdId(Long prodId);
 
     // [상품 목록] 상품을 카테고리별로 조회, 상품판매구분이 YES 인 경우의 리스트만 보여줌

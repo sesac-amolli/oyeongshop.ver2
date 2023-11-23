@@ -1,7 +1,7 @@
 package com.amolli.oyeongshop.ver2.product.controller;
 
 import com.amolli.oyeongshop.ver2.product.dto.ProductOptionDTO;
-import com.amolli.oyeongshop.ver2.product.dto.ProductResponse;
+import com.amolli.oyeongshop.ver2.product.dto.ProductOptionResponse;
 import com.amolli.oyeongshop.ver2.product.model.Product;
 import com.amolli.oyeongshop.ver2.product.model.ProductOption;
 import com.amolli.oyeongshop.ver2.product.service.ProductOptionService;
@@ -29,11 +29,11 @@ public class ProductAdminController {
     private final ProductOptionService productOptionService;
     private final AwsS3Service awsS3Service;
 
-    @GetMapping("/test")
-    public String adminInitPageOk() {
-        return "admit/product-register";
-    }
 
+    @GetMapping("")
+    public String adminInitPage() {
+        return "admit/admin-index";
+    }
     // [상품 상세 정보 수정] 화면으로 랜더링
     @GetMapping("/edit/{prodId}")
     public String initUpdateOwnerForm(@PathVariable Long prodId, Model model) {
@@ -57,6 +57,7 @@ public class ProductAdminController {
     @PostMapping("/editor/{prodId}")
     public void UpdataSalesStatusYesNo(@PathVariable Long prodId) {
         productService.UpdataSalesStatusYesNo(prodId);
+        System.out.println("상품 판매등록 변경 완료");
     }
 
     // [상품 등록] 화면으로 렌더링
@@ -91,7 +92,7 @@ public class ProductAdminController {
         return "redirect:/admit/product/management";
     }
 
-    // [상품 및 상품 옵션 등록] - POST 요청을 처리하여 상품과 상품 옵션을 등록하는 메서드
+    // [상품 및 상품 옵션 등록] POST 요청을 처리하여 상품과 상품 옵션을 등록하는 메서드
     @PostMapping("/register")
     public String processCreationForm(@Valid Product product, @Valid ProductOptionDTO productOptionDTO, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
@@ -127,7 +128,7 @@ public class ProductAdminController {
         model.addAttribute("currentPage", currentPage);
 
         // 현재 페이지의 상품 목록 조회 (페이징된 결과)
-        List<ProductResponse> productList = productService.findProductPaged(currentPage, itemsPerPage);
+        List<ProductOptionResponse> productList = productService.findProductPaged(currentPage, itemsPerPage);
         model.addAttribute("productList", productList);
 
         return "admit/product-management";
