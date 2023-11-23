@@ -124,8 +124,8 @@ public class CartServiceImpl implements CartService{
         List<CartItem> cartItems = cart.getCartItems();
         List<CartItemResponseDTO> cartItemResponseDTOs = new ArrayList<>();
         for(CartItem cartItem : cartItems){
-            Long prodOptId = cartItem.getProductOption().getProdOptId();
-            Optional<Product> product = productRepository.findById(prodOptId);
+            Long prodId = cartItem.getProductOption().getProduct().getProdId();
+            Optional<Product> product = productRepository.findById(prodId);
 
             CartItemResponseDTO cartItemResponseDTO = CartItemResponseDTO.from(cartItem, product.get());
             cartItemResponseDTOs.add(cartItemResponseDTO);

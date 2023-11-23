@@ -4,7 +4,14 @@
 @import url(footer.css);
 @import url(side-nav-for-user.css);
 
+#main_title{
+    margin: 2em;
+    font-size: 16px;
+    font-weight: bold;
+}
+
 #index_main_img{
     width: 80%;
+    object-fit: cover;
 }
 
