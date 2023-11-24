@@ -7,7 +7,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상품 관리 페이지</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/admit/product-management.css">
 </head>
 <body layout:fragment="content">
@@ -39,7 +38,7 @@
                                 th:data-product-id="${product.prodId}"
                                 onclick="toggleProductStatus(this)"></button>
                     </td>
-                    <td><a th:href="'/admit/product/edit/' + ${product.prodId}" class="btn btn-warning">수정</a></td>
+                    <td><a th:href="'/admin/product/edit/' + ${product.prodId}" class="btn btn-warning">수정</a></td>
                 </tr>
             </tbody>
         </table>
@@ -51,10 +50,10 @@
                     </a>
                 </li>
                 <li th:each="page, iterStat : ${#numbers.sequence(1, totalPages)}" th:class="${page == currentPage} ? 'active' : ''">
-                    <a th:href="'/admit/product/management?page=' + ${page}" th:text="${page}"></a>
+                    <a th:href="'/admin/product/management?page=' + ${page}" th:text="${page}"></a>
                 </li>
                 <li th:if="${currentPage < totalPages}">
-                    <a th:href="'/admit/product/management?page=' + ${totalPages}" aria-label="Last">
+                    <a th:href="'/admin/product/management?page=' + ${totalPages}" aria-label="Last">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>

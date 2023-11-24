@@ -26,11 +26,8 @@ public class IndexController {
     public String main(Model model, @AuthenticationPrincipal PrincipalDetails userDetails){
         List<ProductOptionResponse> productList = productService.findByNewProdJPQL();
         model.addAttribute("productList", productList);
-        if (userDetails!=null){
-            model.addAttribute("userName",userDetails.getUser().getUserName()+"님 환영합니다.");
-            if(userDetails.getUser().getUserGrade().equals("ADMIN")){
-                return "/admin/admin-index";
-            }
+        if (userDetails!=null && userDetails.getUser().getUserGrade().equals("ADMIN")){
+            return "/admin/admin-index";
         }
         return "/index";
     }

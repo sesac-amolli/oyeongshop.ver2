@@ -3,7 +3,10 @@
 @import url(../footer.css);
 @import url(../common.css);
 @import url(../side-nav-for-user.css);
-
+#signup_title{
+    width: 90%;
+    margin-left: 6em;
+}
 #sginup-content{
     justify-content: center;
     min-height: 32em;

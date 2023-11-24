@@ -22,7 +22,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/admit/product")
+@RequestMapping("/admin/product")
 @RequiredArgsConstructor
 public class ProductAdminController {
     private final ProductService productService;
@@ -30,16 +30,12 @@ public class ProductAdminController {
     private final AwsS3Service awsS3Service;
 
 
-    @GetMapping("")
-    public String adminInitPage() {
-        return "admit/admin-index";
-    }
     // [상품 상세 정보 수정] 화면으로 랜더링
     @GetMapping("/edit/{prodId}")
     public String initUpdateOwnerForm(@PathVariable Long prodId, Model model) {
         model.addAttribute("product",productService.findById(prodId));
         model.addAttribute("productOption",productOptionService.findByProduct_ProdId(prodId));
-        return "admit/product-register";
+        return "admin/product-register";
     }
 
     // [상품 상세 정보 수정] 상품 수정 화면의 입력 데이터 보내기
@@ -51,11 +47,11 @@ public class ProductAdminController {
         System.out.println("productOptionDTO.getProdOptId() = " + productOptionDTO.getProdOptId());
         if (productOptionDTO.getProdOptId() == null) {
             System.out.println("상품 상세정보 수정 완료");
-            return "redirect:/admit/product/management";
+            return "redirect:/admin/product/management";
         }
         productOptionService.saveProductOption(productOptionDTO);
         System.out.println("상품 옵션 수정 완료");
-        return "admit/product-register-detail";
+        return "admin/product-register-detail";
     }
 
     // [상품 관리] 상품판매구분 컬럼 YES, NO 업데이트
@@ -71,7 +67,7 @@ public class ProductAdminController {
     public String productRegister(Model model) {
         model.addAttribute("product", Product.builder().build());
         model.addAttribute("productOption", ProductOption.builder().build());
-        return "admit/product-register";
+        return "admin/product-register";
     }
 
     // [상품 등록] 상품 기본 정보, 상품 옵션, 이미지 등록
@@ -95,14 +91,14 @@ public class ProductAdminController {
         productService.uploadDBForProduct(imagepath, product);
 
         System.out.println("이미지 파일 업로드 완료");
-        return "redirect:/admit/product/management";
+        return "redirect:/admin/product/management";
     }
 
     // [상품 및 상품 옵션 등록] POST 요청을 처리하여 상품과 상품 옵션을 등록하는 메서드
     @PostMapping("/register")
     public String processCreationForm(@Valid Product product, @Valid ProductOptionDTO productOptionDTO, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
-            return "admit/product-register";
+            return "admin/product-register";
         } else {
             // productService를 사용하여 상품을 등록
             Product savedProduct=productService.saveProduct(product);
@@ -115,7 +111,7 @@ public class ProductAdminController {
             System.out.println("상품 옵션 등록 완료");
 
             System.out.println(redirectAttributes.addAttribute("prodId", product.getProdId()));
-            return "admit/product-register-detail";
+            return "admin/product-register-detail";
         }
     }
 
@@ -137,7 +133,7 @@ public class ProductAdminController {
         List<ProductOptionResponse> productList = productService.findProductPaged(currentPage, itemsPerPage);
         model.addAttribute("productList", productList);
 
-        return "admit/product-management";
+        return "admin/product-management";
     }
 
     // [상품 관리] 상품 관리 리스트를 검색
@@ -145,6 +141,6 @@ public class ProductAdminController {
     public String productSearchList(@RequestParam String search, Model model) {
         List<ProductOptionResponse> productListSearch = productService.findByProdNameOrCodeManagementJPQL(search);
         model.addAttribute("productListSearch", productListSearch);
-        return "admit/product-management-search";
+        return "admin/product-management-search";
     }
 }
