@@ -22,7 +22,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/admin/product")
+@RequestMapping("/admit/product")
 @RequiredArgsConstructor
 public class ProductAdminController {
     private final ProductService productService;
@@ -113,7 +113,7 @@ public class ProductAdminController {
         }
     }
 
-    // [상품 목록] 상품 관리 리스트 for Paging Navigation
+    // [상품 관리] 상품 관리 리스트 for Paging Navigation
     @GetMapping("/management")
     public String productManagement(Model model, @RequestParam(name = "page", defaultValue = "1") int currentPage) {
         // 페이지당 항목 수
@@ -132,5 +132,13 @@ public class ProductAdminController {
         model.addAttribute("productList", productList);
 
         return "admit/product-management";
+    }
+
+    // [상품 관리] 상품 관리 리스트를 검색
+    @GetMapping("/management/search")
+    public String productSearchList(@RequestParam String search, Model model) {
+        List<ProductOptionResponse> productListSearch = productService.findByProdNameOrCodeManagementJPQL(search);
+        model.addAttribute("productListSearch", productListSearch);
+        return "admit/product-management-search";
     }
 }

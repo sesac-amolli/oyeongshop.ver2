@@ -24,12 +24,6 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
-    // [상품 등록] 상품 정보를 저장
-    @Override
-    public Product saveProduct(Product product) {
-        return productRepository.save(product);
-    }
-
     // [상품 목록] 상품 목록을 조회
     @Override
     public List<Product> findByProdId(Long prodId) {
@@ -185,12 +179,59 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+
+    ////////////////////////////////////////// for Product Management //////////////////////////////////////////
+
+    // [상품 등록] 상품 정보를 저장
+    @Override
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    // [상품 등록] 상품 이미지 업로드
+    public void uploadDBForProduct(List<String> imageUrls, Product product) {
+
+        if (!CollectionUtils.isEmpty(imageUrls)) {
+            String firstImageUrl = imageUrls.get(0);
+            Long prodId = product.getProdId();
+            productRepository.updateMainImagePath(firstImageUrl, prodId);// 옵션
+
+            // ProductImage에 url을 하나씩 prodServerFilePath에 세팅
+            for (String url : imageUrls) {
+                ProductImage productImage = new ProductImage();
+                productImage.setProdServerFilePath(url);
+                product.addProductImage(productImage);
+            }
+        }
+        // ProductImage 테이블에 업로드된 사진을 insert
+        productRepository.save(product);
+    }
+
     // [상품 관리] 상품 목록을 페이징 하여 조회
     public List<ProductOptionResponse> findProductPaged(int page, int itemsPerPage) {
         PageRequest pageRequest = PageRequest.of(page - 1, itemsPerPage);
         Page<Product> productPage = productRepository.findAll(pageRequest);
 
         return productPage.getContent().stream()
+                .map(product -> {
+                    ProductOptionResponse dto = new ProductOptionResponse();
+                    dto.setProdId(product.getProdId());
+                    dto.setProdName(product.getProdName());
+                    dto.setProdCode(product.getProdCode());
+                    dto.setProdCategory(product.getProdCategory());
+                    dto.setProdRegDate(product.getProdRegDate());
+                    dto.setProdSalesDist(product.getProdSalesDist());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    // [상품 관리] 상품명 또는 상품 코드로 상품 목록 검색
+    public List<ProductOptionResponse> findByProdNameOrCodeManagementJPQL(String search) {
+        List<Product> products;
+        products = productRepository.findByProdNameOrCodeJPQL(search);
+
+        return products.stream()
                 .map(product -> {
                     ProductOptionResponse dto = new ProductOptionResponse();
                     dto.setProdId(product.getProdId());
@@ -222,24 +263,5 @@ public class ProductServiceImpl implements ProductService {
     // [상품 관리] 전체 상품의 수 조회(count 함수)
     public int getTotalProductCount() {
         return productRepository.findAll().size();
-    }
-
-    // [상품 이미지 업로드]
-    public void uploadDBForProduct(List<String> imageUrls, Product product) {
-
-        if (!CollectionUtils.isEmpty(imageUrls)) {
-            String firstImageUrl = imageUrls.get(0);
-            Long prodId = product.getProdId();
-            productRepository.updateMainImagePath(firstImageUrl, prodId);// 옵션
-
-            // ProductImage에 url을 하나씩 prodServerFilePath에 세팅
-            for (String url : imageUrls) {
-                ProductImage productImage = new ProductImage();
-                productImage.setProdServerFilePath(url);
-                product.addProductImage(productImage);
-            }
-        }
-        // ProductImage 테이블에 업로드된 사진을 insert
-        productRepository.save(product);
     }
 }
