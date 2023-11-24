@@ -13,7 +13,7 @@
 
 <body layout:fragment="content">
 <section class="main"></section>
-<div th:text="${product.prodId == null} ? '상품 기본 정보 등록' : '상품 기본 정보 수정'" style="font-size: 18px; font-weight: bold;"></div>
+<div class="table-name" th:text="${product.prodId == null} ? '상품 기본 정보 등록' : '상품 기본 정보 수정'"></div>
 
 <form th:action="${product.prodId != null} ? '/admit/product/edit/' + ${product.prodId} : '/admit/product/register'"
       th:object="${product}" class="qna-register" method="post">
@@ -45,7 +45,7 @@
         <tr>
             <td class="title">상품카테고리</td>
             <td class="content">
-                <select th:field="${product.prodCategory}" style="width: 100px;" th:value="${product.prodCategory}">
+                <select th:field="${product.prodCategory}" style="width: 150px;" th:value="${product.prodCategory}">
                     <option value="Top">Top</option>
                     <option value="Bottom">Bottom</option>
                     <option value="Outer">Outer</option>

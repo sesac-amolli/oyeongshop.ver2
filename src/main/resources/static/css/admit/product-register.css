@@ -15,61 +15,21 @@
     margin: 0 auto;
     margin-top: 100px;
     justify-content: space-between;
-    /* padding: 20px; */
 }
 
+
 .buttons {
-    width: auto;
-    height: auto;
     display: flex;
-    right: 1px;
     justify-content: center;
     margin-top: 10px;
     gap: 10px;
 }
 
-.h2 {
-    display: flex;
-    justify-content: flex-start;
-    flex-grow: 0;
-    padding-top: 3.0em;
-    padding-bottom: 1.5em;
-    font-size: 17px;
-}
-
-.headerQna {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 30px;
-}
-
-#combo {
-  width: 15%;
-}
-
-.menu-container {
-    display: flex;
-    /* justify-content: space-between; */
-    /* justify-content: flex-end; */
-    flex-grow: 0;
-}
-
 .menu-item {
     display: flex;
     font-size: 15px;
-    /* justify-content: flex-end; */
     gap: 40px;
 }
-
-h2 {
-  margin-bottom: 2em;
-}
-
-/* .tblQnaList {
-    display: flex;
-    flex-grow: 0;
-    justify-content: center;
-} */
 
 body {
     font-family: 'Nanum Gothic', sans-serif;
@@ -78,15 +38,14 @@ body {
   
 table {
     border: 1px #a39485 solid;
-    margin-left: auto;
     margin-right: auto;
+    margin-left: auto;
     font-size: .9em;
     box-shadow: 0 2px 5px rgba(0,0,0,.25);
-    width: 50rem;
-    border-collapse: collapse;
+    width: 40rem;
     border-radius: 5px;
     overflow: hidden;
-    padding: 20%;
+    padding: 10%;
 }
 
 th {
@@ -96,22 +55,23 @@ th {
 }
 
 .title {
-  padding-left: 2rem;
+    padding-left: 2rem;
+    font-size: 16px;
 }
 
-
 .content {
-  padding-left: 2rem;
+    padding-left: 2rem;
 }
 
 textarea {
-  width: 25rem;
-  height: 15rem;
+    width: 25rem;
+    height: 15rem;
 }
 
 td, th {
     padding: 1em .5em;
     vertical-align: middle;
+    width: 80px;
 }
 
 
@@ -119,16 +79,41 @@ td {
     border-bottom: 1px solid rgba(0,0,0,.1);
     background: #fff;
     font-size: 14px;
-}
-
-.page {
     text-align: center;
 }
 
 input {
     border: 1px solid #000; /* 1px 두께의 검은색 실선 경계선 */
+    width: 150px;
 }
 
 tr.hidden {
     display: none;
+}
+
+.table-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.table-option{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: relative;
+}
+
+.row-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
