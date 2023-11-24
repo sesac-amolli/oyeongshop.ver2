@@ -39,6 +39,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.prodName LIKE %:prodName% OR p.prodCode LIKE %:prodName%")
     List<Product> findByProdNameOrCodeJPQL(@Param("prodName") String search);
 
+
+
+    ////////////////////////////////////////// for Product Management //////////////////////////////////////////
+
     // [상품 관리] 상품판매여부가 YES인 경우의 LIST를 출력
     @Query("SELECT p FROM Product p WHERE p.prodSalesDist = 'YES'")
     List<Product> findByProdJPQL(Sort sort);

@@ -10,19 +10,18 @@
 <body th:fragment="menu">
 	<nav>
 		<div class="toggle-btn" id="search-area">
-			<input type="text" id="search-input" placeholder="상품 검색"/>
-			<button type="button" id="search-btn" onclick="alert('클릭!')">
-				<img src="/images/돋보기.svg"/>
-			</button>
+			<form action="/admit/product/management/search" method="get">
+				<input type="text" id="search" name="search" placeholder="상품명 또는 상품코드 검색"/>
+				<button type="submit" id="search-btn">
+					<img src="/images/돋보기.svg"/>
+				</button>
+			</form>
 		</div>
 		<div class="toggle-btn">
 			<a class="side-menu" href="/admit/product/register">상품 등록</a>
 		</div>
 		<div class="toggle-btn">
 			<a class="side-menu" href="/admit/product/management">상품 관리</a>
-		</div>
-		<div class="toggle-btn">
-			<a class="side-menu" href="/admit/board/">문의 게시판 관리</a>
 		</div>
 	</nav>
 </body>

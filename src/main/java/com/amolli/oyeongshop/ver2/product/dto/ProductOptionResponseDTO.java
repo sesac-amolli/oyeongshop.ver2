@@ -1,7 +1,11 @@
 package com.amolli.oyeongshop.ver2.product.dto;
 
 import com.amolli.oyeongshop.ver2.product.model.ProductOption;
+import lombok.Getter;
+import lombok.ToString;
 
+@Getter
+@ToString
 public class ProductOptionResponseDTO {
     private Long prodOptId;
     private String prodOptColor;
