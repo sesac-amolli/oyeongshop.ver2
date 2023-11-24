@@ -19,8 +19,8 @@
 <body layout:fragment="content">
 <section class="main"></section>
 <!--<form th:action="${product.prodId != null} ? '/admit/edit/' + ${product.prodId} : '/admit/register'"-->
-<div th:text="${product.prodDesc == null} ? '상품 상세정보 등록' : '상품 상세정보 수정'" style="font-size: 18px; font-weight: bold;"></div>
-<form th:action="${product.prodDesc != null} ? '/admit/product/edit/' + ${product.prodId} : '/admit/product/register/' + ${product.prodId}"
+<div th:text="${product.prodRegDate == product.prodEditDate} ? '상품 상세정보 등록' : '상품 상세정보 수정'" style="font-size: 18px; font-weight: bold;"></div>
+<form th:action="${product.prodRegDate != product.prodEditDate} ? '/admit/product/edit/' + ${product.prodId} : '/admit/product/register/' + ${product.prodId}"
       th:object="${product}" class="qna-register" method="post" enctype="multipart/form-data">
     <div class="container">
 
@@ -34,9 +34,32 @@
         <input type="text" th:field="*{prodRegDate}" class="hidden"/>
         <input type="text" th:field="*{prodMainImgPath}" class="hidden"/>
         <input type="text" th:field="*{prodSalesDist}" class="hidden"/>
-        <input type="text" th:field="*{prodId}" class="hidden"/>
 
+        <div>
+            <table>
+                <tr th:if="${!#lists.isEmpty(product.prodDesc)}">
+                    <td th:utext="${product.prodDesc}">
+                        <div class="productDesc" name="summernote" readonly></div>
+                    </td>
+
+                </tr>
+
+                <tr th:each="productImages : ${productImageResponseDTO}">
+                    <td>
+                        <div th:if="${#lists.isEmpty(productImages.productImages)}">
+                            <p>첨부한 이미지가 없습니다.</p>
+                        </div>
+                        <div th:if="${!#lists.isEmpty(productImages.productImages)}">
+                            <div th:each="imgs : ${productImages.productImages}">
+                                <img th:src="${imgs.prodServerFilePath}"/>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
+
     <div class="title">첨부파일</div>
     <div class="content">
         <div class="form-group">

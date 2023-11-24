@@ -32,22 +32,25 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByProdJPQL(Pageable pageable);
 
     // [상품 목록] sales 상품 조회
-    @Query("SELECT p FROM Product p WHERE p.prodOriginPrice <> p.prodSalesPrice")
+    @Query("SELECT p FROM Product p WHERE p.prodOriginPrice <> p.prodSalesPrice AND p.prodSalesDist = 'YES'")
     List<Product> findSaleProducts(Sort sort);
 
-    // [상품 목록] 상품명 또는 상품 코드로 상품 목록 검색
-    @Query("SELECT p FROM Product p WHERE p.prodName LIKE %:prodName% OR p.prodCode LIKE %:prodName%")
+    // [상품 목록] 상품명 또는 상품 코드로 상품 목록 검색(상품 판매 구분 YES)
+    @Query("SELECT p FROM Product p WHERE (p.prodName LIKE %:prodName% OR p.prodCode LIKE %:prodName%) AND p.prodSalesDist = 'YES'")
     List<Product> findByProdNameOrCodeJPQL(@Param("prodName") String search);
 
 
-
     ////////////////////////////////////////// for Product Management //////////////////////////////////////////
+
+    // [상품 관리] 상품명 또는 상품 코드로 상품 관리 목록 검색(상품 판매 구분 상관 X)
+    @Query("SELECT p FROM Product p WHERE p.prodName LIKE %:prodName% OR p.prodCode LIKE %:prodName%")
+    List<Product> findByProdNameOrCodeManageJPQL(@Param("prodName") String search);
 
     // [상품 관리] 상품판매여부가 YES인 경우의 LIST를 출력
     @Query("SELECT p FROM Product p WHERE p.prodSalesDist = 'YES'")
     List<Product> findByProdJPQL(Sort sort);
 
-    // [상품 관리] 상품판매구분 업데이트를 위한 쿼리
+    // [상품 관리] 상품판매구분(prodSalesDist) 업데이트를 위한 쿼리
     @Modifying
     @Query("UPDATE Product p SET p.prodSalesDist = ?2 WHERE p.prodId = ?1")
     void updateSalesDist(Long prodId, String prodSalesDist);

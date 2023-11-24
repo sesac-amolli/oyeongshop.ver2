@@ -1,6 +1,7 @@
 package com.amolli.oyeongshop.ver2.product.model;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Table(name = "tbl_product_image")
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
+@DynamicUpdate
 public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
