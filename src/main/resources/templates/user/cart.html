@@ -12,80 +12,68 @@
 
 </head>
 <body layout:fragment="content">
-
-<div id="content2">
-    <div  id="content3">
-        <form id="modify" action="/user/cart/modify" method="post">
-<!--        <form action="" >-->
-            <div class="title">장바구니</div>
-            <table id="signup" class="table table-bordered">
-
+<div id="cart_content">
+            <h2 class="sub_title">Cart</h2>
+            <table id="cart_prod_info" class="table">
                 <tr>
-                <td><label for="prod-check">선택</label></td>
-                <td><div class="col-md-4">이미지</div></td>
-                <td><label for="prod-id">상품명</label></td>
-                <td><label for="prod-price">가격</label></td>
-                <td><label for="prod-amount">수량</label></td>
-                <td><label for="prod-allprice">합계 금액</label></td>
+                    <td class="cart_title">선택</td>
+                    <td class="cart_title" colspan="2">상품 정보</td>
+                    <td class="cart_title">가격</td>
+                    <td class="cart_title">수량</td>
+                    <td class="cart_title">합계 금액</td>
                 </tr>
-                <tbody id="test_tbody">
                 <!-- 리뷰 id 개수만큼 반복 -->
-                <div class="cart"></div>
                 <tr th:each="cartItem, iterStat : ${cartItems}">
-<!--                    <td>-->
-<!--                        <input type="checkbox" th:id="${'check' + iterStat.index}" class="checkstandard"    name="selectedItems" th:value="${dtos.cartItemId}" th:data-cart-item-id="${dtos.cartItemId}"/>-->
-<!--                        <label th:for="${'check' + iterStat.index}"></label>-->
-<!--                    </td>-->
                     <td>
-                        <input type="checkbox" th:id="${'check' + iterStat.index}" class="checkstandard" name="selectedItems" th:value="${cartItem.cartItemId}" />
-                        <label th:for="${'check' + iterStat.index}"></label>
-                        <input type="hidden" name="cartItemId" th:name="'cartItemUpdates[__${iterStat.index}__].cartItemId'" th:value="${cartItem.cartItemId}" />
-                        <input type="hidden" name="quantity" class="quantity_input" th:name="'cartItemUpdates[__${iterStat.index}__].quantity'" th:value="${cartItem.quantity}" />
-<!--                        <input type="hidden" th:field="*{cartItemUpdates[__${iterStat.index}__].cartItemId}" th:value="${dtos.cartItemId}" />-->
-<!--                        <input type="hidden" th:field="*{cartItemUpdates[__${iterStat.index}__].quantity}" th:value="${dtos.quantity}" />-->
+                        <div class="cart_info_content">
+                            <input type="checkbox" th:id="${'check' + iterStat.index}" class="checkstandard" name="selectedItems" th:value="${cartItem.cartItemId}" />
+                            <label th:for="${'check' + iterStat.index}"></label>
+                            <input type="hidden" name="cartItemId" th:name="'cartItemUpdates[__${iterStat.index}__].cartItemId'" th:value="${cartItem.cartItemId}" />
+                            <input type="hidden" name="quantity" class="quantity_input" th:name="'cartItemUpdates[__${iterStat.index}__].quantity'" th:value="${cartItem.quantity}" />
+                        </div>
                     </td>
-                        <td><div class="col-md-4">
-                            <img th:src="${cartItem.prodImg}" class="img-responsive" alt="Responsive image">
-                        </div></td>
-                        <td>
-                            <div class="id" th:text="${cartItem.prodName}">상품명</div>
-                            <div class="id" th:text="${cartItem.color}">색상</div>
-                            <div class="id" th:text="${cartItem.size}">사이즈</div>
+                        <td class="cart_info_content">
+                            <div>
+                                <img class="cart_prod_img" th:src="${cartItem.prodImg}"  alt="Responsive image">
+                            </div>
                         </td>
                         <td>
-                            <del><div class="content" th:text="${cartItem.prodOriginPrice}">소비자가격</div></del>
-                            <div class="content" th:text="${cartItem.prodSalesPrice}">세일가격</div>
+                            <div>
+                                <p class="cart_info_content" th:text="${cartItem.prodName}">상품명</p>
+                                <p class="cart_info_content" th:text="${cartItem.color}">색상</p>
+                                <p class="cart_info_content"th:text="${cartItem.size}">사이즈</p>
+                            </div>
                         </td>
                         <td>
-                            <input type="text" class="quantity_input" th:value="${cartItem.quantity}" />
-                            <span>
-                                <button type="button" class="plus_btn" onclick="incrementQuantity(this)">+</button>
-                                <button type="button" class="minus_btn" onclick="decrementQuantity(this)">-</button>
-                            </span>
-<!--                            <div>-->
-<!--                                <button onclick="modifyDataToCart(this)">변경</button>-->
-<!--                            </div>-->
+                            <div class="cart_info_content" id="origin_price"
+                                 th:if="${cartItem.prodOriginPrice != cartItem.prodSalesPrice}"
+                                 th:text="${cartItem.prodOriginPrice}">소비자가격</div>
+                            <div class="cart_info_content" th:text="${cartItem.prodSalesPrice}">실제판매가격</div>
                         </td>
                         <td>
-                            <div class="content" th:text="${cartItem.prodSalesPrice * cartItem.quantity}">총가격</div>
+                            <div class="cart_info_content">
+                                <input type="text" class="quantity_input" th:value="${cartItem.quantity}" />
+                                <span>
+                                    <button type="button" class="plus_btn" onclick="incrementQuantity(this)">+</button>
+                                    <button type="button" class="minus_btn" onclick="decrementQuantity(this)">-</button>
+                                </span>
+                            </div>
+                        </td>
+                        <td class="cart_info_content">
+                            <div class="cart_info_content" th:text="${cartItem.prodSalesPrice * cartItem.quantity}">총가격</div>
                         </td>
                     </tr>
-                <tr>
-                    <td>합계 : </td>
-                </tr>
-                </tbody>
+                    <tr>
+                        <td class="cart_info_content">결제 예정 금액 : </td>
+                        <td colspan="5"></td>
+                    </tr>
             </table>
-        </form>
             <div id="submit-btn">
-                <button class="btn btn-default" type="submit" form="modify">개수 변경</button>
                 <button class="btn btn-default" onclick="deleteDataToCart(this)">선택 삭제</button>
-                &emsp;&emsp;&emsp;&emsp;&emsp;
                 <button class="btn btn-default" onclick="sendDataToOrder(this)">주문하기</button>
-<!--                <button class="btn btn-default" type="submit" form="order">주문하기</button>-->
             </div>
-    </div>
-</div>
 
+</div>
 <form id="cartModifyForm" action="/user/cart/modify" method="post">
     <input type="hidden" name="prodId" value="">
     <input type="hidden" name="color" value="">

@@ -12,67 +12,37 @@ function decrementQuantity(btn) {
     }
 }
 
-//function deleteDataToCart(button) {
-//    var prodId = $('.hidden').data('prod-id');
-//    var prodOptColor = $('#colorSelect option:selected').data('prod-opt-color');
-//    var prodOptSize = $('#sizeSelect option:selected').data('prod-opt-size');
-//    var quantity = $('input[name="quantity"]').val();
-//    var prodSalesPrice = $('div[data-prod-sales-price]').data('prod-sales-price');
-//
-//   //폼에 정보 저장하기
-//    $("[name=prodId]").val(prodId);
-//    $("[name=color]").val(prodOptColor);
-//    $("[name=size]").val(prodOptSize);
-//    $("[name=quantity]").val(quantity);
-//    $("[name=prodSalesPrice]").val(prodSalesPrice);
-//
-//    $("#cartDeleteForm").submit();
-//
-//}
-
+// 장바구니에서 삭제하기
 function deleteDataToCart(button) {
     // 폼 데이터 초기화
     var deleteForm = $("#cartDeleteForm");
     deleteForm.empty();
 
-$("input[name='selectedItems']:checked").each(function() {
-    var cartItemId = $(this).val(); // Get the value of the current checkbox
-    // Create a hidden input and append it to the form
-    deleteForm.append('<input type="hidden" name="cartItemIds" value="' + cartItemId + '">');
-});
+    $("input[name='selectedItems']:checked").each(function() {
+        var cartItemId = $(this).val(); // Get the value of the current checkbox
+        // Create a hidden input and append it to the form
+        deleteForm.append('<input type="hidden" name="cartItemIds" value="' + cartItemId + '">');
+    });
 
-deleteForm.submit(); // Submit the form
-
-
-
-    // 체크된 체크박스를 찾아 각각 처리
-//    $("input[name='selectedItems']:checked").each(function() {
-//        var checkbox = $(this);
-//        var row = checkbox.closest('tr'); // 체크박스와 관련된 행을 찾음
-//
-//          var cartItemIds = row.find('.cartItemId').data('cart-item-id');
-//            $("[name=cartItemIds]").val(cartItemIds);
-//
-//        //   //폼에 정보 저장하기
-//        //    $("#cartDeleteForm").submit();
-//    });
-//
-//    deleteForm.submit();
+    deleteForm.submit(); // Submit the form
 }
+
+// 주문하기(주문서 생성)
 function sendDataToOrder(button) {
     // 폼 데이터 초기화
     var orderForm = $("#orderDataForm");
     orderForm.empty();
 
-$("input[name='selectedItems']:checked").each(function() {
-    var cartItemId = $(this).val(); // Get the value of the current checkbox
-    // Create a hidden input and append it to the form
-    orderForm.append('<input type="hidden" name="selectedItems" value="' + cartItemId + '">');
-});
+    $("input[name='selectedItems']:checked").each(function() {
+        var cartItemId = $(this).val(); // Get the value of the current checkbox
+        // Create a hidden input and append it to the form
+        orderForm.append('<input type="hidden" name="selectedItems" value="' + cartItemId + '">');
+    });
 
-orderForm.submit(); // Submit the form
+    orderForm.submit(); // Submit the form
 }
 
+// 장바구니 내역 수정
 function modifyDataToCart(button) {
     // 폼 데이터 초기화
     var modifyForm = $("#cartModifyForm");
