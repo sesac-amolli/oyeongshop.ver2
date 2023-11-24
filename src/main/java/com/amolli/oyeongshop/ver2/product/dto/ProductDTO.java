@@ -20,10 +20,11 @@ public class ProductDTO {
     private String prodCategory;
     private String prodDesc;
     private LocalDateTime prodRegDate;
+    private LocalDateTime prodEditDate;
 
 
     public ProductDTO(Long prodId, String prodName, String prodCode, Long prodOriginPrice, Long prodSalesPrice, String prodCategory,
-                      String prodDesc, LocalDateTime prodRegDate) {
+                      String prodDesc, LocalDateTime prodRegDate, LocalDateTime prodEditDate) {
         super();
         this.prodId = prodId;
         this.prodName = prodName;
@@ -33,6 +34,7 @@ public class ProductDTO {
         this.prodCategory = prodCategory;
         this.prodDesc = prodDesc;
         this.prodRegDate = prodRegDate;
+        this.prodEditDate = prodEditDate;
     }
 
     public Product toEntity() {
@@ -44,6 +46,7 @@ public class ProductDTO {
                 .prodCategory(prodCategory)
                 .prodDesc(prodDesc)
                 .prodRegDate(prodRegDate)
+                .prodEditDate(prodEditDate)
                 .build();
     }
 }

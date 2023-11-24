@@ -34,13 +34,4 @@ public class ProductOption {
         this.prodOptAmount = prodOptAmount;
         this.product = product;
     }
-
-//    public void setProdOptId(Long prodOptId) {
-//        this.prodOptId = prodOptId;
-//    }
-
-
-//    public Long getProdId() {
-//        return (product != null) ? product.getProdId() : null;
-//    }
 }
