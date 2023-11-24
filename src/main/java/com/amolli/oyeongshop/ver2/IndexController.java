@@ -22,7 +22,7 @@ public class IndexController {
     private final ProductService productService;
 
     //메인 페이지
-    @GetMapping("/")
+    @GetMapping
     public String main(Model model, @AuthenticationPrincipal PrincipalDetails userDetails){
         List<ProductOptionResponse> productList = productService.findByNewProdJPQL();
         model.addAttribute("productList", productList);

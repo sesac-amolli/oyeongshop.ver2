@@ -28,7 +28,7 @@ public class ProductOptionServiceImpl implements ProductOptionService {
 
          for(ProductOption  poption : productOptionList) {
              System.out.println("poption.getProduct().getProdId() = "+poption.getProduct().getProdId());
-             productOptionRepository.save(poption);
+             productOptionRepository.save(poption); // insert or update
          }
     }
 

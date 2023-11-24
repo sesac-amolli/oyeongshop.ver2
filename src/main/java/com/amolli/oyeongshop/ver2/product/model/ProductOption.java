@@ -35,9 +35,9 @@ public class ProductOption {
         this.product = product;
     }
 
-    public void setProdOptId(Long prodOptId) {
-        this.prodOptId = prodOptId;
-    }
+//    public void setProdOptId(Long prodOptId) {
+//        this.prodOptId = prodOptId;
+//    }
 
 
 //    public Long getProdId() {

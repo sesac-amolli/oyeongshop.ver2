@@ -45,10 +45,16 @@ public class ProductAdminController {
     // [상품 상세 정보 수정] 상품 수정 화면의 입력 데이터 보내기
     @PostMapping("/edit/{prodId}")
     public String initUpdateForm(@Validated Product product, @Validated ProductOptionDTO productOptionDTO, @PathVariable Long prodId) {
+        System.out.println("상품 정보 수정");
         product.setProdId(prodId);
         productService.saveProduct(product);
+        System.out.println("productOptionDTO.getProdOptId() = " + productOptionDTO.getProdOptId());
+        if (productOptionDTO.getProdOptId() == null) {
+            System.out.println("상품 상세정보 수정 완료");
+            return "redirect:/admit/product/management";
+        }
         productOptionService.saveProductOption(productOptionDTO);
-        System.out.println("aaaaaaaaaaaaaa");
+        System.out.println("상품 옵션 수정 완료");
         return "admit/product-register-detail";
     }
 

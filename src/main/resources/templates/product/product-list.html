@@ -10,16 +10,80 @@
     <link rel="stylesheet" href="/css/product/product-list.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>상품 리스트 페이지</title>
+
+<script>
+<!--    // JavaScript 코드 예시 (jQuery 사용)-->
+<!--    $(document).ready(function() {-->
+<!--      $('.list_order a').click(function() {-->
+<!--        // 클릭된 a 태그에 "selected" 클래스가 있을 때-->
+<!--        if ($(this).hasClass('selected')) {-->
+<!--          // "selected" 클래스 제거하여 bold 스타일 해제-->
+<!--          $(this).removeClass('selected');-->
+<!--        } else {-->
+<!--          // 모든 a 태그에서 "selected" 클래스 제거-->
+<!--          $('.list_order a').removeClass('selected');-->
+<!--          // 클릭된 a 태그에 "selected" 클래스 추가하여 bold 스타일 적용-->
+<!--          $(this).addClass('selected');-->
+<!--        }-->
+<!--      });-->
+<!--    });-->
+    // JavaScript 코드 예시 (jQuery 사용)
+<!--$(document).ready(function() {-->
+<!--  $('.list_order a').click(function() {-->
+<!--    // 클릭된 a 태그에 "selected" 클래스 추가하여 bold 스타일 적용-->
+<!--    $(this).addClass('selected');-->
+<!--  });-->
+<!--});-->
+    console.log(window.location.href);
+<!--    1. 위에를 변수에 담는다-->
+<!--    2. 짜른다 / 뒷부분-->
+<!--    3. 조건문 뒷부분이 ~일때 어떤 id => 볼드-->
+
+  function highlightSelectedLink() {
+    // Step 1: Get the current URL
+    const currentUrl = window.location.href;
+
+    // Step 2: Extract the part of the URL after the last '/'
+    const currentCategory = currentUrl.substring(currentUrl.lastIndexOf('/') + 1);
+
+    // Step 3: Loop through the links and compare with the current category
+    const links = document.querySelectorAll('#right .list_order a');
+    links.forEach(link => {
+      // Step 4: Check if the 'th:data-select-sort' attribute is defined
+      const dataSelectSortAttr = link.getAttribute('th:data-select-sort');
+      if (dataSelectSortAttr) {
+        const linkCategory = dataSelectSortAttr.split('/')[0];
+
+        // Step 5: Check if the link category matches the current category
+        if (linkCategory === currentCategory) {
+          // Step 6: Apply or remove bold style based on the comparison
+          link.style.fontWeight = 'bold';
+        } else {
+          link.style.fontWeight = 'normal';
+        }
+      }
+    });
+  }
+
+  // Call the function when the page is loaded
+  window.onload = highlightSelectedLink;
+</script>
+
 </head>
 <body layout:fragment="content" th:object="${productList}">
 <div style="font-size: 24px; font-weight: bold; margin-bottom: 20px;" th:text="${prodCategory}"></div>
 <div id="right">
     <form id="sortForm" action="/product/list" method="get" style="margin-bottom:10px;">
         <div class="list_order" th:if="${prodCategory}!=New">
-            <a th:href="'/product/list/' + ${prodCategory} + '/regdate'" th:class="${sortParam == prodCategory + '/regdate' ? 'selected' : ''}">최근 등록일 순</a><span> | </span>
-            <a th:href="'/product/list/' + ${prodCategory} + '/pricelow'" th:class="${sortParam == prodCategory + '/pricelow' ? 'selected' : ''}">가격 낮은 순</a><span> | </span>
-            <a th:href="'/product/list/' + ${prodCategory} + '/pricehigh'" th:class="${sortParam == prodCategory + '/pricehigh' ? 'selected' : ''}">가격 높은 순</a>
+            <a id="regdate" th:data-select-sort="${prodCategory} + '/regdate'" th:href="'/product/list/' + ${prodCategory} + '/regdate'">최근 등록일 순</a><span> | </span>
+            <a id="pricelow" th:data-select-sort="${prodCategory} + '/pricelow'" th:href="'/product/list/' + ${prodCategory} + '/pricelow'">가격 낮은 순</a><span> | </span>
+            <a id="pricehigh" th:data-select-sort="${prodCategory} + '/pricehigh'" th:href="'/product/list/' + ${prodCategory} + '/pricehigh'">가격 높은 순</a>
         </div>
+<!--        <div class="list_order" th:if="${prodCategory}!=New">-->
+<!--            <a th:href="'/product/list/' + ${prodCategory} + '/regdate'" th:class="${sortParam == prodCategory + '/regdate' ? 'selected' : ''}">최근 등록일 순</a><span> | </span>-->
+<!--            <a th:href="'/product/list/' + ${prodCategory} + '/pricelow'" th:class="${sortParam == prodCategory + '/pricelow' ? 'selected' : ''}">가격 낮은 순</a><span> | </span>-->
+<!--            <a th:href="'/product/list/' + ${prodCategory} + '/pricehigh'" th:class="${sortParam == prodCategory + '/pricehigh' ? 'selected' : ''}">가격 높은 순</a>-->
+<!--        </div>-->
         <div class="list_order" th:if="${prodCategory}==New">
             <span style="bold">최근 등록일 순</span>
         </div>
