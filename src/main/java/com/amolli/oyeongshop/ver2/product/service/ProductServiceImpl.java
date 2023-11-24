@@ -229,7 +229,7 @@ public class ProductServiceImpl implements ProductService {
     // [상품 관리] 상품명 또는 상품 코드로 상품 목록 검색
     public List<ProductOptionResponse> findByProdNameOrCodeManagementJPQL(String search) {
         List<Product> products;
-        products = productRepository.findByProdNameOrCodeJPQL(search);
+        products = productRepository.findByProdNameOrCodeManageJPQL(search);
 
         return products.stream()
                 .map(product -> {

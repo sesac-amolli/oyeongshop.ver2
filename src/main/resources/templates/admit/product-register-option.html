@@ -48,7 +48,8 @@
             <tr th:if="${product.prodId != null}" th:each="productOptions : ${productOption}">
                 <td><input type="text" th:name="prodOptColor" th:value="${productOptions.prodOptColor}"/></td>
                 <td><input type="text" th:name="prodOptSize" th:value="${productOptions.prodOptSize}"/></td>
-                <td><input type="number" th:name="prodOptAmount" th:value="${productOptions.prodOptAmount}"/></td>
+                <td><input type="number" th:name="prodOptAmount" th:value="${productOptions.prodOptAmount}"/>
+                    <input type="text" th:name="prodOptId" th:value="${productOptions.prodOptId}" class="hidden"/></td>
             </tr>
         </tbody>
 

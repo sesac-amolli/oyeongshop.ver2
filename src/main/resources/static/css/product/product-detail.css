@@ -6,6 +6,11 @@
 /*@import url(../board/review-list.css);*/
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
+a {
+	text-decoration-line: none;
+	color: black;
+}
+
 .main {
     display: flex;
     width: 1000px;
@@ -59,7 +64,7 @@ table {
     margin-left: auto;
     margin-right: auto;
     font-size: .9em;
-    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+/*    box-shadow: 0 2px 5px rgba(0,0,0,.25);*/
     width: 50rem;
     border-collapse: collapse;
     border-radius: 5px;
@@ -67,9 +72,14 @@ table {
     padding: 20%;
 }
 
+pre {
+    background-color: white;
+
+}
+
 th {
     font-size: 16px;
-    background-color: #f5f5f5;
+/*    background-color: #f5f5f5;*/
     text-align: left;
 }
 
@@ -92,20 +102,28 @@ td, th {
     vertical-align: middle;
 }
 
+#div-img {
+    text-align: center;
+    align-items: center;
+}
+
 
 td {
     border-bottom: 1px solid rgba(0,0,0,.1);
     background: #fff;
     font-size: 14px;
+    text-align: center;
+    align-items: center;
 }
 
 .page {
     text-align: center;
 }
 
-input {
-    border: 1px solid #000; /* 1px 두께의 검은색 실선 경계선 */
-}
+/*input {
+    border: 1px solid #000; *//* 1px 두께의 검은색 실선 경계선 *//*
+}*/
+
 .container {
     width: 80%;
     margin: 0 auto;
@@ -174,4 +192,41 @@ input {
    /* justify-content: flex-end;*/
     align-self: flex-start;
     margin-left: auto;
+}
+
+#desc {
+    line-height: 25px;
+}
+
+#td-desc {
+    text-align: center;
+}
+
+#main-img {
+    overflow: hidden;
+    width: 550px;
+    height: 600px;
+    padding: 20px;
+
+}
+
+.detail-imgs{
+    overflow: hidden;
+    width:650px;
+    height:700px;
+    padding: 50px;
+    background-position: center;
+        text-align: center;
+        align-items: center;
+        margin-left: 60px;
+}
+
+/*#jjimContainer{
+    display:flex;
+    justify-content:end;
+}*/
+
+#buttonContainer{
+    display:flex;
+    justify-content:space-between;
 }
