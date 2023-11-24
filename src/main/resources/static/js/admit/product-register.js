@@ -58,7 +58,7 @@ function removeRow() {
     var table = document.getElementById("optionTable");
 
     // 최소 한 행은 유지하기
-    if (table.rows.length > 3) {
+    if (table.rows.length > 2) {
         var lastRow = table.rows[table.rows.length - 1];
         var lastIndex = lastRow.getAttribute("data-index");
 

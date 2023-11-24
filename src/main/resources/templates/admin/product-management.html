@@ -11,37 +11,45 @@
     <link rel="stylesheet" href="/css/admit/product-management.css">
 </head>
 <body layout:fragment="content">
+<<<<<<< HEAD:src/main/resources/templates/admin/product-management.html
 <div id="prod_manage_content">
 <h2 class="sub_title">상품 관리</h2>
         <table class="table">
             <thead>
+=======
+<div class="table-name">상품 관리</div>
+    <section id="main">
+        <table>
+            <tbody>
+>>>>>>> 76e99f559851150e18fc3c5d1781e3b24a7694e8:src/main/resources/templates/admit/product-management.html
                 <tr>
-                    <th>NO</th>
-                    <th>상품명</th>
-                    <th>상품코드</th>
-                    <th>상품분류</th>
-                    <th>등록일</th>
-                    <th>등록자</th>
-                    <th>판매등록</th>
-                    <th>수정</th>
+                    <th style="width: 1rem;">NO</th>
+                    <th style="width: 20rem;">상품명</th>
+                    <th style="width: 7rem;">상품코드</th>
+                    <th style="width: 7rem;">상품분류</th>
+                    <th style="width: 13rem;">등록일</th>
+                    <th style="width: 6rem;">등록자</th>
+                    <th style="width: 5rem;">판매등록</th>
+                    <th style="width: 5rem;">수정</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="product : ${productList}">
                     <td th:text="${product.prodId}"></td>
-                    <td th:text="${product.prodName}"></td>
+                    <td th:text="${product.prodName}" style="text-align: left"></td>
                     <td th:text="${product.prodCode}"></td>
                     <td th:text="${product.prodCategory}"></td>
                     <td th:text="${product.prodRegDate}"></td>
                     <td sec:authentication="name"></td>
                     <td>
                         <button type="submit" style="display: inline;"
-                                th:class="${product.prodSalesDist == 'YES'} ? 'btn btn-success toggleButton' : 'btn btn-danger toggleButton'"
+                                th:class="${product.prodSalesDist == 'YES'} ? 'btn btn-success toggleButton buttons' : 'btn btn-danger toggleButton buttons'"
                                 th:text="${product.prodSalesDist}"
                                 th:data-product-id="${product.prodId}"
                                 onclick="toggleProductStatus(this)"></button>
                     </td>
                     <td><a th:href="'/admin/product/edit/' + ${product.prodId}" class="btn btn-warning">수정</a></td>
+
                 </tr>
             </tbody>
         </table>

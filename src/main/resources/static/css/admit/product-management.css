@@ -4,6 +4,7 @@
 @import url(../footer.css);
 @import url(../side-nav-for-user.css);
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
 #prod_manage_content{
     width: 90%;
     text-align: left;

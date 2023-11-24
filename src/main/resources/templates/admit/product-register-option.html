@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/side-layout-admin}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admit/product-register.css">
+    <script src="/js/admit/product-register.js"></script> <!-- 외부 JavaScript 파일 연결 -->
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
+    <title>상품 등록 페이지</title>
+
+</head>
+<body th:fragment="option" th:object="${productOption}">
+<section class="main"></section>
+<div class="table-name" th:text="${product.prodId == null} ? '상품 옵션 정보 등록' : '상품 옵션 정보 수정'"></div>
+    <div class="table-option">
+        <table id="optionTable">
+            <tbody>
+                <tr>
+                    <td class="title text-center">색상</td>
+                    <td class="title text-center">사이즈</td>
+                    <td class="title text-center">재고</td>
+                </tr>
+                <tr th:if="${product.prodId == null}" th:each="productOptions : ${productOption}">
+                    <td><input type="text" th:field="*{prodOptColor}"/></td>
+                    <td><input type="text" th:field="*{prodOptSize}"/></td>
+                    <td><input type="number" th:field="*{prodOptAmount}"/></td>
+                </tr>
+                <tr th:if="${product.prodId != null}" th:each="productOptions : ${productOption}">
+                    <td><input type="text" th:name="prodOptColor" th:value="${productOptions.prodOptColor}"/></td>
+                    <td><input type="text" th:name="prodOptSize" th:value="${productOptions.prodOptSize}"/></td>
+                    <td><input type="number" th:name="prodOptAmount" th:value="${productOptions.prodOptAmount}"/>
+                        <input type="text" th:name="prodOptId" th:value="${productOptions.prodOptId}" class="hidden"/></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row-button">
+            <button type="button" class="btn btn-success" style="width: 30px; height: 30px;" onclick="addRow()"> + </button>
+            <button type="button" class="btn btn-success" style="width: 30px; height: 30px;" onclick="removeRow()"> - </button>
+        </div>
+    </div>
+</body>
+</html>

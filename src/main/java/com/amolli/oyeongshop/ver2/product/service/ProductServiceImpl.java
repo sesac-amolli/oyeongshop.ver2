@@ -220,6 +220,7 @@ public class ProductServiceImpl implements ProductService {
                     dto.setProdCode(product.getProdCode());
                     dto.setProdCategory(product.getProdCategory());
                     dto.setProdRegDate(product.getProdRegDate());
+                    dto.setProdEditDate(product.getProdEditDate());
                     dto.setProdSalesDist(product.getProdSalesDist());
                     return dto;
                 })
@@ -239,6 +240,7 @@ public class ProductServiceImpl implements ProductService {
                     dto.setProdCode(product.getProdCode());
                     dto.setProdCategory(product.getProdCategory());
                     dto.setProdRegDate(product.getProdRegDate());
+                    dto.setProdEditDate(product.getProdEditDate());
                     dto.setProdSalesDist(product.getProdSalesDist());
                     return dto;
                 })
