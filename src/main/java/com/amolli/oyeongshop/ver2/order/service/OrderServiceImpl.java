@@ -140,7 +140,7 @@ public class OrderServiceImpl implements OrderService{
                 orderDTO.setProdSalesPrice(cartItem.get().getProductOption().getProduct().getProdSalesPrice());
                 orderDTO.setQuantity(Long.valueOf(cartItem.get().getCartItemAmount()));
                 orderDTO.setColor(cartItem.get().getProductOption().getProdOptColor());
-                orderDTO.setSize(cartItem.get().getProductOption().getProdOptColor());
+                orderDTO.setSize(cartItem.get().getProductOption().getProdOptSize());
                 orderDTO.setProdMainImgPath(cartItem.get().getProductOption().getProduct().getProdMainImgPath());
                 orderDTO.setItemAmount(Long.valueOf(cartItem.get().getCartItemAmount())*cartItem.get().getProductOption().getProduct().getProdSalesPrice());
 

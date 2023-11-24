@@ -4,13 +4,30 @@
 @import url(../footer.css);
 @import url(../side-nav-for-user.css);
 
-table{
-	margin: 3em 0;
-	width: 90%;
+#order_content{
+    width: 80%;
+    text-align: left;
+}
+.order_mini_title{
+    font-weight: bold;
+    font-size: 16px;
+    padding-top: 5%;
+    padding-bottom: 2%;
 }
 
 #order_info{
 	text-align: center;
+}
+
+.order_prod_img{
+    margin: 1em;
+    width: 6em;
+    height: 10em;
+    object-fit: cover;
+}
+
+#prodOriginPriceInput{
+    text-decoration:line-through;
 }
 
 tr {
@@ -18,20 +35,17 @@ tr {
 }
 
 .non {
-border: 0;
-text-align: center;
+    width: 10%;
+    border: 0;
+    text-align: center;
 }
 
-input[type="radio"] {
-    transform: scale(0.8); /* 라디오 버튼 크기 조절 */
-}
-
-input {
+input[type="text"]  {
 	width: 85%;
 	height: 2em;
-	font-size: large;
+	font-size: 16px;
 }
 
-.my-btn{
-	margin-right: 10%;
+#paymentBox{
+    text-align: right;
 }
