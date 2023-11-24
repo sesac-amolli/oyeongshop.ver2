@@ -8,6 +8,7 @@
 .product_img {
     width: 350px;
     height: 450px;
+    padding: 10px;
 }
 
 .img_cover {
@@ -25,8 +26,4 @@
 
 .list_order {
     text-align: right;
-}
-
-.list_order_regdate {
-    font-weight: bold;
 }
