@@ -7,63 +7,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/board/my-review-list.css">
 </head>
 <!--<body layout:fragment="reviewlist">-->
 <body layout:fragment="content">
-
-    <div class="title">Review</div>
+<div id="review_lst_content">
+    <h2 class="sub_title">My Review</h2>
     <!-- 리뷰 id 개수만큼 반복 -->
-        <div class="review">
-            <tr th:each="reviews : ${reviewdto}">
-                <div class="review-item">
-                    <td>
-                        <div class="id" th:text="${reviews.userId}">유저아이디</div>
-                    </td>
-                    <td>
-                        <div th:if="${reviews.reviewRate.toString().equals('1')}">
-                            <p>★☆☆☆☆</p>
-                        </div>
-                        <div th:if="${reviews.reviewRate.toString().equals('2')}">
-                            <p>★★☆☆☆</p>
-                        </div>
-                        <div th:if="${reviews.reviewRate.toString().equals('3')}">
-                            <p>★★★☆☆</p>
-                        </div>
-                        <div th:if="${reviews.reviewRate.toString().equals('4')}">
-                            <p>★★★★☆</p>
-                        </div>
-                        <div th:if="${reviews.reviewRate.toString().equals('5')}">
-                            <p>★★★★★</p>
-                        </div>
-                    </td>
-
-                    <td>
-                        <div class="content" th:text="${reviews.reviewContent}">내용</div>
-                    </td>
-                    <td>
-                        <div class="date" th:text="${reviews.reviewWriteDate}">2023.11.11</div>
-                    </td>
-                    <td>
-                        <div th:if="${#lists.isEmpty(reviews.imgs)}">
-                            <p>첨부한 이미지가 없습니다.</p>
-                        </div>
-                        <div th:if="${!#lists.isEmpty(reviews.imgs)}">
-                            <div class="img" th:each="imgs : ${reviews.imgs}">
-                                <img th:src="${imgs.reviewImgUrl}"/>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <form id="deleteForm" th:action="@{'/board/my-review-delete'}" method="POST">
-                            <input type="hidden" name="deleteId" th:value="${reviews.reviewId}"/>
-                            <button type="submit" class="btn btn-default">삭제</button>
-                        </form>
-                    </td>
-                </div>
+    <table>
+        <th:block  th:each="reviews : ${reviewdto}">
+            <tr>
+                <td colspan="5">
+                    <div class="id" th:text="${reviews.userId}+' | '+${reviews.reviewWriteDate}">유저아이디+작성일</div>
+                    <div th:if="${reviews.reviewRate.toString().equals('1')}">
+                        <p id="review_rate">★☆☆☆☆</p>
+                    </div>
+                    <div th:if="${reviews.reviewRate.toString().equals('2')}">
+                        <p id="review_rate">★★☆☆☆</p>
+                    </div>
+                    <div th:if="${reviews.reviewRate.toString().equals('3')}">
+                        <p id="review_rate">★★★☆☆</p>
+                    </div>
+                    <div th:if="${reviews.reviewRate.toString().equals('4')}">
+                        <p id="review_rate">★★★★☆</p>
+                    </div>
+                    <div th:if="${reviews.reviewRate.toString().equals('5')}">
+                        <p id="review_rate">★★★★★</p>
+                    </div>
+                    <div class="content" th:text="${reviews.reviewContent}">내용</div>
+                </td>
+                <td id="delete_btn">
+                    <form id="deleteForm" th:action="@{'/board/my-review-delete'}" method="POST">
+                        <input type="hidden" name="deleteId" th:value="${reviews.reviewId}"/>
+                        <button type="submit" class="btn btn-default">삭제</button>
+                    </form>
+                </td>
             </tr>
-        </div>
-
+            <tr th:if="${!#lists.isEmpty(reviews.imgs)}">
+                <td class="review_img_cover" th:each="imgs : ${reviews.imgs}">
+                    <img class="review_img" th:src="${imgs.reviewImgUrl}"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6"><hr/></td>
+            </tr>
+        </th:block>
+    </table>
+</div>
 </body>
 </html>

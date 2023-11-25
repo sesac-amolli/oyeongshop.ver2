@@ -4,18 +4,9 @@
 @import url(../footer.css);
 @import url(../side-nav-for-user.css);
 
-body {
-    margin: auto;
-}
-
-.title {
-    text-align: center;
-}
-
-.review {
+#review_lst_content {
     width: 90%;
-    margin: 0 auto; /* 화면 가운데로 위치. */
-    padding: 10px;
+    text-align: left;
 }
 
 .review-item {
@@ -28,38 +19,18 @@ body {
     color: #333; /* 글자 색상을 지정 */
 }
 
-.container {
-    margin: 0 auto; /* container 영역을 브라우저에서 가운데 정렬하기 위해 auto설정 */
+#review_rate{
+    margin: 1em 0;
+}
+
+.review_img {
+    margin: 1em 0;
+    width: 8em;
+    height: 12em;
+    object-fit: cover;
+}
+
+#delete_btn{
     text-align: center;
-}
-
-div {
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    display: inline-block;
-}
-
-.img {
-    overflow: hidden;
-    display: inline-block;
-    width: 150px; /* 가로 폭 설정 */
-    height: 200px; /* 세로 높이 설정 */
-    /*  background-size: cover;*/ /* 이미지를 div에 맞게 조정 */
-    background-position: center; /* 이미지를 가운데 정렬 */
-    border: 1px solid #ccc; /* 테두리 추가 */
-    float: left;
-}
-
-tr {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-td {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
+    /* vertical-align: middle; */
 }
