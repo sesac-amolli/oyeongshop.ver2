@@ -3,9 +3,11 @@
 @import url(../header.css);
 @import url(../footer.css);
 @import url(../side-nav-for-user.css);
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
 body {
     margin: auto;
+    font-family: 'Nanum Gothic', sans-serif;
 }
 
 .title {

@@ -9,33 +9,26 @@ body{
     font-family: 'Nanum Gothic', sans-serif;
 }
 
-#review_lst_content {
+
+#prod_manage_content{
     width: 90%;
     text-align: left;
 }
-
-.review-item {
-    width:100%;
-    object-fit:cover;
-}
-
-.content {
-    line-height: 1.5; /* 줄 간격 조정 */
-    color: #333; /* 글자 색상을 지정 */
-}
-
-#review_rate{
-    margin: 1em 0;
-}
-
-.review_img {
-    margin: 1em 0;
-    width: 8em;
-    height: 12em;
-    object-fit: cover;
-}
-
-#delete_btn{
+.page {
     text-align: center;
-    /* vertical-align: middle; */
+}
+.searchth {
+    padding: 10px;
+    text-align: center;
+}
+.searchtr {
+    align-items:center;
+    justify-content: center;
+}
+.searchtd {
+    padding: 10px;
+}
+
+.btn {
+    text-align: center;
 }

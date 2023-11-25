@@ -3,6 +3,7 @@
 @import url(../header.css);
 @import url(../footer.css);
 @import url(../side-nav-for-user.css);
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
 * {
     box-sizing: border-box;
@@ -22,7 +23,9 @@ h2 {
 
 body {
     margin: auto;
+    font-family: 'Nanum Gothic', sans-serif;
 }
+
 
 table {
     border: 1px #a39485 solid;

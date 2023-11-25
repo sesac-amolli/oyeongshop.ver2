@@ -3,6 +3,11 @@
 @import url(../footer.css);
 @import url(../common.css);
 @import url(../side-nav-for-user.css);
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
+body{
+    font-family: 'Nanum Gothic', sans-serif;
+}
 
 #myinfo-content{
     justify-content: center;

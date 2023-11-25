@@ -1,5 +1,5 @@
 @import url(reset.css);
-
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
 header {
 	padding: 2em;
@@ -13,6 +13,7 @@ header a {
     margin-top: 10px;
     margin-right: 10px;
     width: 2.5em;
+    font-family: 'Nanum Gothic', sans-serif;
 }
 
 #shopName {
