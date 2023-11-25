@@ -26,10 +26,10 @@ function toggleProductStatus(button) {
     console.log("id", productId);
     $.ajax({
         type: 'POST',
-        url: '/admit/product/editor/' + productId,
+        url: '/admin/product/editor/' + productId,
         data: {productId: productId}
         ,success: function (result) {
-            console.log("result",result);
+            console.log('상품 판매등록 변경 완료');
             // Update button text and class based on the new status
         },
         error: function () {
