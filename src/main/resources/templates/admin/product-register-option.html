@@ -42,23 +42,13 @@
             <tr th:if="${product.prodId != null}" th:each="productOptions : ${productOption}">
                 <td><input class="opt_regis_input" type="text" th:name="prodOptColor" th:value="${productOptions.prodOptColor}"/></td>
                 <td>
-<!--                    <div th:each = " opt : ${productOptions}">-->
-<!--                        <span th:text="${opt.prodOptSize}"></span>-->
-<!--                    </div>-->
                     <select class="opt_select" th:name="prodOptSize" th:value="${productOptions.prodOptSize}">
-                        <option value="0">Free</option>
-                        <option value="85">xs</option>
-                        <option value="90">s</option>
-                        <option value="95">m</option>
-                        <option value="100">L</option>
+                        <option value="0" th:selected="${productOptions.prodOptSize} == '0' ">Free</option>
+                        <option value="85" th:selected="${productOptions.prodOptSize} == '85' ">xs</option>
+                        <option value="90" th:selected="${productOptions.prodOptSize} == '90' ">s</option>
+                        <option value="95" th:selected="${productOptions.prodOptSize} == '95' ">m</option>
+                        <option value="100" th:selected="${productOptions.prodOptSize} == '100' ">L</option>
                     </select>
-<!--                    <select class="opt_select" th:name="prodOptSize" th:field="${productOptions.prodOptSize}" th:value="${productOptions.prodOptSize}">-->
-<!--                        <option th:value="${productOptions.prodOptSize == '0'} ? 'Free' : 'null'">Free</option>-->
-<!--                        <option th:value="${productOptions.prodOptSize == '85'} ? 'xs' : 'null'">xs</option>-->
-<!--                        <option th:value="${productOptions.prodOptSize == '90'} ? 's' : 'null'">s</option>-->
-<!--                        <option th:value="${productOptions.prodOptSize == '95'} ? 'm' : 'null'">m</option>-->
-<!--                        <option th:value="${productOptions.prodOptSize == '100'} ? 'L' : 'null'">L</option>-->
-<!--                    </select>-->
                 </td>
                 <td>
                     <input class="opt_regis_input" type="number" th:name="prodOptAmount" th:value="${productOptions.prodOptAmount}"/>
