@@ -8,20 +8,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상품 관리 페이지</title>
-    <link rel="stylesheet" href="/css/admit/product-management.css">
+    <link rel="stylesheet" href="/css/admin/product-management.css">
 </head>
 <body layout:fragment="content">
-<<<<<<< HEAD:src/main/resources/templates/admin/product-management.html
 <div id="prod_manage_content">
 <h2 class="sub_title">상품 관리</h2>
-        <table class="table">
-            <thead>
-=======
-<div class="table-name">상품 관리</div>
+<!--<div class="table-name">상품 관리</div>-->
     <section id="main">
-        <table>
+        <table class="table">
             <tbody>
->>>>>>> 76e99f559851150e18fc3c5d1781e3b24a7694e8:src/main/resources/templates/admit/product-management.html
                 <tr>
                     <th style="width: 1rem;">NO</th>
                     <th style="width: 20rem;">상품명</th>
@@ -32,7 +27,6 @@
                     <th style="width: 5rem;">판매등록</th>
                     <th style="width: 5rem;">수정</th>
                 </tr>
-            </thead>
             <tbody>
                 <tr th:each="product : ${productList}">
                     <td th:text="${product.prodId}"></td>
@@ -49,7 +43,6 @@
                                 onclick="toggleProductStatus(this)"></button>
                     </td>
                     <td><a th:href="'/admin/product/edit/' + ${product.prodId}" class="btn btn-warning">수정</a></td>
-
                 </tr>
             </tbody>
         </table>
@@ -70,8 +63,9 @@
                 </li>
             </ul>
         </nav>
+    </section>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="/js/admit/product-management.js"></script> <!-- 외부 JavaScript 파일 연결 -->
+<script src="/js/admin/product-management.js"></script> <!-- 외부 JavaScript 파일 연결 -->
 </body>
 </html>
