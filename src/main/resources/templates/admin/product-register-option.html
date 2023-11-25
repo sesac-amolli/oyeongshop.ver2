@@ -6,8 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/admit/product-register.css">
-    <script src="/js/admit/product-register.js"></script> <!-- 외부 JavaScript 파일 연결 -->
+    <link rel="stylesheet" href="/css/admin/product-register.css">
+    <script src="/js/admin/product-register.js"></script> <!-- 외부 JavaScript 파일 연결 -->
     <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous"> -->
     <title>상품 등록 페이지</title>
@@ -40,10 +40,29 @@
                 <td></td>
             </tr>
             <tr th:if="${product.prodId != null}" th:each="productOptions : ${productOption}">
-                <td><input type="text" th:name="prodOptColor" th:value="${productOptions.prodOptColor}"/></td>
-                <td><input type="text" th:name="prodOptSize" th:value="${productOptions.prodOptSize}"/></td>
+                <td><input class="opt_regis_input" type="text" th:name="prodOptColor" th:value="${productOptions.prodOptColor}"/></td>
                 <td>
-                    <input type="number" th:name="prodOptAmount" th:value="${productOptions.prodOptAmount}"/>
+<!--                    <div th:each = " opt : ${productOptions}">-->
+<!--                        <span th:text="${opt.prodOptSize}"></span>-->
+<!--                    </div>-->
+                    <select class="opt_select" th:name="prodOptSize" th:value="${productOptions.prodOptSize}">
+                        <option value="0">Free</option>
+                        <option value="85">xs</option>
+                        <option value="90">s</option>
+                        <option value="95">m</option>
+                        <option value="100">L</option>
+                    </select>
+<!--                    <select class="opt_select" th:name="prodOptSize" th:field="${productOptions.prodOptSize}" th:value="${productOptions.prodOptSize}">-->
+<!--                        <option th:value="${productOptions.prodOptSize == '0'} ? 'Free' : 'null'">Free</option>-->
+<!--                        <option th:value="${productOptions.prodOptSize == '85'} ? 'xs' : 'null'">xs</option>-->
+<!--                        <option th:value="${productOptions.prodOptSize == '90'} ? 's' : 'null'">s</option>-->
+<!--                        <option th:value="${productOptions.prodOptSize == '95'} ? 'm' : 'null'">m</option>-->
+<!--                        <option th:value="${productOptions.prodOptSize == '100'} ? 'L' : 'null'">L</option>-->
+<!--                    </select>-->
+                </td>
+                <td>
+                    <input class="opt_regis_input" type="number" th:name="prodOptAmount" th:value="${productOptions.prodOptAmount}"/>
+
                     <input type="text" th:name="prodOptId" th:value="${productOptions.prodOptId}" class="hidden"/>
                 </td>
             </tr>
