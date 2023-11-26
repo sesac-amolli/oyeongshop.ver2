@@ -11,8 +11,8 @@ body {
     border-bottom: 2px black solid;
     padding-bottom: 0.5em;
 }
-#search-input{
-    width: 80%;
+#search_input{
+    width: 70%;
 }
 #search-btn{
     width: 15%;
