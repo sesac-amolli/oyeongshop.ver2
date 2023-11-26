@@ -45,6 +45,8 @@ h5{
     font-size: 15px;
     color: #777;
     font-weight: normal;
+    text-align: center;
+    line-height: 25px;
 }
 
 #pointbox{
@@ -132,7 +134,7 @@ li {
 }
 
 #btnprofile, #btnorderlist, #btnwishlist, #btnaddresslist, #btnboardlist{
-    width: 50%;
+    width: 100%;
 	color: black;
 	border: 0;
 	padding: 10px;
@@ -141,4 +143,9 @@ li {
 
 #orderbtn div{
     padding : 10px;
+}
+
+.mypagediv {
+    align-items:center;
+    justify-content:center;
 }
