@@ -131,14 +131,14 @@
     <hr/>
     <div class="sub_title">상세정보</div>
     <div id="div-img">
-        <table>
+        <table id="detailtable">
             <tr th:if="${!#lists.isEmpty(product.prodDesc)}">
                 <td id="td-desc">
                     <div th:utext="${product.prodDesc}" class="desc" id="desc"></div>
                 </td>
             </tr>
             <tr th:each="productImages : ${productImageResponseDTO}">
-                <td>
+                <td id="td-imgs">
                     <div th:if="${#lists.isEmpty(productImages.productImages)}">
                         <p>첨부한 이미지가 없습니다.</p>
                     </div>
