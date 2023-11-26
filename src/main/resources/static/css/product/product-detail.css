@@ -83,6 +83,17 @@ textarea {
 
 #td-desc {
     text-align: center;
+    align:center;
+}
+
+#td-imgs {
+    align:center;
+}
+
+#detailtable {
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
 }
 
 .detail-imgs{
@@ -91,12 +102,15 @@ textarea {
     height:700px;
     padding: 50px;
     background-position: center;
-        text-align: center;
-        align-items: center;
-        margin-left: 60px;
+    text-align: center;
+    align-items: center;
 }
 
 #buttonContainer{
     display:flex;
     justify-content:space-between;
+}
+
+pre {
+    background-color: white;
 }
