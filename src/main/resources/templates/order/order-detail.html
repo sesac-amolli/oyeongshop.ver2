@@ -7,117 +7,128 @@
     <link href="/css/order/order-detail.css" rel="stylesheet" type="text/css"/>
 </head>
 <body layout:fragment="content">
-<div id="container">
-    <!-- right :: 주문정보페이지 -->
-    <div id="right">
-        <table id="orderInfo">
-            <thead>
-            <tr>
-                <th colspan="2">주문정보</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>주문번호</td>
-                <td><div th:text="${Order.orderNumber}"></div></td>
-            </tr>
-            <tr>
-                <td>주문일자</td>
-                <td><div th:text="${Order.orderDate}"></div></td>
-            </tr>
-            <tr>
-                <td>주문처리상태</td>
-                <td><div th:text="${Order.orderStatus}"></div></td>
-            </tr>
-            <tr>
-                <th colspan="2">결제정보</th>
-            </tr>
-            <tr>
-                <td>총 주문금액</td>
-                <td><div th:text="${Order.orderOriginPrice}"></div></td>
-            </tr>
-            <tr>
-                <td>총 할인금액 (할인금액 + 적립금 사용)</td>
-                <td><div th:text="${Order.orderDiscount}"></div></td>
-            </tr>
-            <tr>
-                <td>총 결제금액</td>
-                <td><div th:text="${Order.orderTotalPayment}"></div></td>
-            </tr>
-            <tr>
-                <th colspan="7">주문상품정보</th>
-            </tr>
-            <tr>
-                <td>이미지</td>
-                <td>상품명</td>
-                <td>판매가</td>
-                <td>수량</td>
-                <td>색상</td>
-                <td>사이즈</td>
-                <td>합계</td>
-                <td>리뷰</td>
-            </tr>
+<div id="order_detail_content">
+    <h2 class="sub_title">주문상세내역</h2>
 
-            <div th:each="orderDetailItem : ${OrderDetails.orderDetailItems}">
-            <tr>
-                <td><img alt="이미지" th:src="${orderDetailItem.prodMainImgPath}"></td>
-                <td><input type="text" name="prodName" th:value="${orderDetailItem.prodName}" readonly="readonly"></td>
-                <td><div>
-                    <input type="text" name="originPrice" th:value="${orderDetailItem.prodOriginPrice}" readonly="readonly">
-                    </div>
-                    <div>
-                        <input type="text" name="price" th:value="${orderDetailItem.prodSalesPrice}" readonly="readonly">
-                    </div>
-                </td>
+    <h3 class="mini_title">주문정보</h3>
+    <table id="orderInfo"  class="table">
+        <tr>
+            <td>주문번호</td>
+            <td><div th:text="${Order.orderNumber}"></div></td>
+        </tr>
+        <tr>
+            <td>주문일자</td>
+            <td><div th:text="${Order.orderDate}"></div></td>
+        </tr>
+        <tr>
+            <td>주문처리상태</td>
+            <td><div th:text="${Order.orderStatus}"></div></td>
+        </tr>
+        <tr><td colspan="2"></td></tr>
+    </table>
 
-                <td><input type="text" name="orderQuantity" th:value="${orderDetailItem.quantity}" readonly="readonly"></td>
-                <td><input type="text" name="orderColor" th:value="${orderDetailItem.color}" readonly="readonly"></td>
-                <td><input type="text" name="orderSize" th:value="${orderDetailItem.size}" readonly="readonly"></td>
-                <td><input type="text" name="itemAmount" th:value="${orderDetailItem.itemAmount}" readonly="readonly"></td>
-                <td><form th:action="@{/board/review-write/{prodId}(prodId=${orderDetailItem.prodId})}" method="get">
-                    <button type="submit">리뷰 쓰기</button>
-                </form></td>
-            </tr>
-            </div>
-            <tr>
-                <th colspan="2">배송지정보</th>
-            </tr>
-            <tr>
-                <td>받으시는 분</td>
-                <td><div th:text="${Order.orderAttnName}"></div></td>
-            </tr>
-            <tr>
-                <td>휴대폰</td>
-                <td><div th:text="${Order.orderAttnPhone}"></div></td>
-            </tr>
-            <tr>
-                <td>이메일</td>
-                <td><div th:text="${Order.orderAttnEmail}"></div></td>
-            </tr>
-            <tr>
-                <td>우편번호</td>
-                <td><div th:text="${Order.orderAttnPostcode}"></div></td>
-            </tr>
-            <tr>
-                <td>주소</td>
-                <td><div th:text="${Order.orderAttnAddr1}"></div></td>
-            </tr>
-            <tr>
-                <td>참고주소</td>
-                <td><div th:text="${Order.orderAttnAddr2}"></div></td>
-            </tr>
-            <tr>
-                <td>상세주소</td>
-                <td><div th:text="${Order.orderAttnAddr2}"></div></td>
-            </tr>
-            <tr>
-                <td>배송 요청사항</td>
-                <td><div th:text="${Order.orderAttnRequest}"></div></td>
-            </tr>
-            </tbody>
-        </table>
-        <button type="button">주문목록보기</button>
+    <h3 class="mini_title">주문상품정보</h3>
+    <table class="table" id="order_prod_info">
+        <tr>
+            <td colspan="2">상품 정보</td>
+            <td>판매가</td>
+            <td>수량</td>
+            <td>색상</td>
+            <td>사이즈</td>
+            <td>합계</td>
+            <td>리뷰</td>
+        </tr>
+        <tr th:each="orderDetailItem : ${OrderDetails.orderDetailItems}">
+            <td>
+                <img class="td_prod_img" alt="이미지" th:src="${orderDetailItem.prodMainImgPath}">
+            </td>
+            <td>
+                <p th:text="${orderDetailItem.prodName}"></p>
+            </td>
+            <td>
+                <p id="origin_price" th:text="${#numbers.formatInteger(orderDetailItem.prodOriginPrice, 1, 'COMMA')+ ' 원'}"></p>
+                <p th:text="${#numbers.formatInteger(orderDetailItem.prodSalesPrice, 1, 'COMMA')+ ' 원'}"></p>
+            </td>
+            <td><p th:text="${orderDetailItem.quantity}"></p></td>
+            <td>
+                <span th:text="${orderDetailItem.color}"></span>
+            </td>
+            <td>
+                <span th:text="${orderDetailItem.size}"></span>
+            </td>
+            <td><p th:text="${#numbers.formatInteger(orderDetailItem.itemAmount, 1, 'COMMA')+ ' 원'}"></p></td>
+            <td>
+                <form th:action="@{/board/review-write/{prodId}(prodId=${orderDetailItem.prodId})}" method="get">
+                    <button type="submit" class="btn btn-default">리뷰 쓰기</button>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="8"></td>
+        </tr>
+    </table>
+
+    <h3 class="mini_title">결제정보</h3>
+    <table  class="table">
+        <tr>
+            <td>총 주문금액</td>
+            <td><div th:text="${#numbers.formatInteger(Order.orderOriginPrice, 1, 'COMMA')+ ' 원'}"></div></td>
+        </tr>
+        <tr>
+            <td>총 할인금액 (할인금액 + 적립금 사용)</td>
+            <td><div th:text="${#numbers.formatInteger(Order.orderDiscount, 1, 'COMMA')+ ' 원'}"></div></td>
+        </tr>
+        <tr>
+            <td>총 결제금액</td>
+            <td><div th:text="${#numbers.formatInteger(Order.orderTotalPayment, 1, 'COMMA')+ ' 원'}"></div></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+    </table>
+
+    <h3 class="mini_title">배송지정보</h3>
+    <table  class="table">
+        <tr>
+            <td>받으시는 분</td>
+            <td><div th:text="${Order.orderAttnName}"></div></td>
+        </tr>
+        <tr>
+            <td>휴대폰</td>
+            <td><div th:text="${Order.orderAttnPhone}"></div></td>
+        </tr>
+        <tr>
+            <td>이메일</td>
+            <td><div th:text="${Order.orderAttnEmail}"></div></td>
+        </tr>
+        <tr>
+            <td>우편번호</td>
+            <td><div th:text="${Order.orderAttnPostcode}"></div></td>
+        </tr>
+        <tr>
+            <td>주소</td>
+            <td><div th:text="${Order.orderAttnAddr1}"></div></td>
+        </tr>
+        <tr>
+            <td>참고주소</td>
+            <td><div th:text="${Order.orderAttnAddr2}"></div></td>
+        </tr>
+        <tr>
+            <td>상세주소</td>
+            <td><div th:text="${Order.orderAttnAddr2}"></div></td>
+        </tr>
+        <tr>
+            <td>배송 요청사항</td>
+            <td><div th:text="${Order.orderAttnRequest}"></div></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+    </table>
+    <div id="submit-btn">
+        <button type="button" class="btn btn-default" onclick="location.href='/order/order-list';">주문목록 보기</button>
     </div>
+
 </div>
 </body>
 </html>

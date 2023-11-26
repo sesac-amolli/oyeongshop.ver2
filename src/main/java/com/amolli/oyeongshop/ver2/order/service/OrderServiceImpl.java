@@ -176,7 +176,7 @@ public class OrderServiceImpl implements OrderService{
         orderResponseDTO.setOrderDate(order.get().getOrderDate());
         orderResponseDTO.setOrderStatus(order.get().getOrderStatus());
         orderResponseDTO.setOrderOriginPrice(order.get().getOrderTotalOriginPrice());
-        orderResponseDTO.setOrderOriginPrice(order.get().getOrderTotalPayment());
+        orderResponseDTO.setOrderTotalPayment(order.get().getOrderTotalPayment());
         orderResponseDTO.setOrderDiscount(order.get().getOrderTotalOriginPrice()-order.get().getOrderTotalPayment());
         orderResponseDTO.setOrderAttnName(order.get().getOrderAttnName());
         orderResponseDTO.setOrderAttnPhone(order.get().getOrderAttnPhone());

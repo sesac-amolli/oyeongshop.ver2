@@ -4,3 +4,30 @@
 @import url(../footer.css);
 @import url(../side-nav-for-user.css);
 
+#order_detail_content{
+    width: 90%;
+    text-align: left;
+}
+
+.mini_title{
+    font-weight: bold;
+    font-size: 16px;
+    padding-top: 5%;
+    padding-bottom: 2%;
+}
+#submit-btn{
+    text-align: right;
+}
+#order_prod_info{
+     text-align: center;
+}
+
+.td_prod_img{
+    width: 6em;
+    height: 10em;
+    object-fit: cover;
+}
+
+#origin_price{
+    text-decoration:line-through;
+}
