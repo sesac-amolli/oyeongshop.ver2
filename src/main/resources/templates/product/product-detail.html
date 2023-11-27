@@ -78,8 +78,13 @@
                             <option selected disabled>사이즈</option>
                             <option th:each="size : ${productSizeSet}"
                                     th:value="${size}"
-                                    th:text="${size}"
-                                    th:data-prod-opt-size="${size}"></option>
+                                    th:text="${size.toString().equals('0') ? 'Free' :
+                                               size.toString().equals('85') ? 'XS' :
+                                               size.toString().equals('90') ? 'S' :
+                                               size.toString().equals('95') ? 'M' :
+                                               size.toString().equals('100') ? 'L' : ''}"
+                                    th:data-prod-opt-size="${size}">
+                            </option>
                         </select>
                     </li>
                 </div>
