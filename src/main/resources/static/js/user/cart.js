@@ -68,3 +68,24 @@ function modifyDataToCart(button) {
 
     modifyForm.submit();
 }
+
+$(document).ready(function() {
+            // Update total amount when a checkbox is clicked
+            $(".checkstandard").on("change", function() {
+                calculateTotal();
+            });
+
+            // Function to calculate the total amount
+            function calculateTotal() {
+                var totalAmount = 0;
+
+                // Loop through checked checkboxes and accumulate amounts
+                $(".checkstandard:checked").each(function() {
+                    var amount = parseFloat($(this).data("amount")) || 0;
+                    totalAmount += amount;
+                });
+
+                // Update the total amount in the HTML
+                $("#estimated_payment_amount").text(totalAmount.toLocaleString());
+            }
+});
