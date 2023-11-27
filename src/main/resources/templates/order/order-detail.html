@@ -58,7 +58,8 @@
                                  orderDetailItem.size.toString().equals('85') ? 'XS' :
                                  orderDetailItem.size.toString().equals('90') ? 'S' :
                                  orderDetailItem.size.toString().equals('95') ? 'M' :
-                                 orderDetailItem.size.toString().equals('100') ? 'L' : ''}"></span>
+                                 orderDetailItem.size.toString().equals('100') ? 'L' :
+                                 orderDetailItem.size}"></span>
             </td>
             <td><p th:text="${#numbers.formatInteger(orderDetailItem.itemAmount, 1, 'COMMA')+ ' 원'}"></p></td>
             <td>

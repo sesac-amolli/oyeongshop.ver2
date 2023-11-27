@@ -147,7 +147,8 @@
                                             orderDetail.prodOptSize.toString().equals('85') ? 'XS' :
                                             orderDetail.prodOptSize.toString().equals('90') ? 'S' :
                                             orderDetail.prodOptSize.toString().equals('95') ? 'M' :
-                                            orderDetail.prodOptSize.toString().equals('100') ? 'L' : ''} + ']'"></p>
+                                            orderDetail.prodOptSize.toString().equals('100') ? 'L' :
+                                            orderDetail.prodOptSize} + ']'"></p>
                                 </div>
                             </td>
                             <td class = "mid"><p th:text="${orderDetail.orderDetailAmount}"></p></td>
