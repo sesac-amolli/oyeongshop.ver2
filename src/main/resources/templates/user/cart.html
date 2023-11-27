@@ -41,7 +41,12 @@
                             <div>
                                 <p class="cart_info_content" th:text="${cartItem.prodName}">상품명</p>
                                 <p class="cart_info_content" th:text="${cartItem.color}">색상</p>
-                                <p class="cart_info_content"th:text="${cartItem.size}">사이즈</p>
+                                <p class="cart_info_content"
+                                    th:text="${cartItem.size.toString().equals('0') ? 'Free' :
+                                               cartItem.size.toString().equals('85') ? 'XS' :
+                                               cartItem.size.toString().equals('90') ? 'S' :
+                                               cartItem.size.toString().equals('95') ? 'M' :
+                                               cartItem.size.toString().equals('100') ? 'L' : ''}">사이즈</p>
                             </div>
                         </td>
                         <td>

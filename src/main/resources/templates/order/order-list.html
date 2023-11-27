@@ -142,7 +142,12 @@
                                     <strong id = "prodName" th:text="${orderDetail.prodName}"></strong>
                                 </a>
                                 <div class="Option">
-                                    <p id = "prodOpt" th:text="'[옵션 : ' + ${orderDetail.prodOptColor} + '/' + ${orderDetail.prodOptSize} + ']'"></p>
+                                    <p id = "prodOpt" th:text="'[옵션 : ' + ${orderDetail.prodOptColor} + '/'
+                                        + ${orderDetail.prodOptSize.toString().equals('0') ? 'Free' :
+                                            orderDetail.prodOptSize.toString().equals('85') ? 'XS' :
+                                            orderDetail.prodOptSize.toString().equals('90') ? 'S' :
+                                            orderDetail.prodOptSize.toString().equals('95') ? 'M' :
+                                            orderDetail.prodOptSize.toString().equals('100') ? 'L' : ''} + ']'"></p>
                                 </div>
                             </td>
                             <td class = "mid"><p th:text="${orderDetail.orderDetailAmount}"></p></td>

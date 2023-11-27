@@ -54,7 +54,11 @@
                 <span th:text="${orderDetailItem.color}"></span>
             </td>
             <td>
-                <span th:text="${orderDetailItem.size}"></span>
+                <span th:text="${orderDetailItem.size.toString().equals('0') ? 'Free' :
+                                 orderDetailItem.size.toString().equals('85') ? 'XS' :
+                                 orderDetailItem.size.toString().equals('90') ? 'S' :
+                                 orderDetailItem.size.toString().equals('95') ? 'M' :
+                                 orderDetailItem.size.toString().equals('100') ? 'L' : ''}"></span>
             </td>
             <td><p th:text="${#numbers.formatInteger(orderDetailItem.itemAmount, 1, 'COMMA')+ ' 원'}"></p></td>
             <td>

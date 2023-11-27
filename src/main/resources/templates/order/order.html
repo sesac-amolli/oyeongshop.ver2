@@ -52,7 +52,12 @@
                     <input type="text" id="colorInput" th:name="__${'orderItems[' + itemStat.index + '][color]'}__" th:value="${orderItem.color}" readonly="readonly" class="non">
                 </td>
                 <td>
-                    <input type="text" id="sizeInput" th:name="__${'orderItems[' + itemStat.index + '][size]'}__" th:value="${orderItem.size}" readonly="readonly" class="non">
+                    <p th:text="${orderItem.size.toString().equals('0') ? 'Free' :
+                                  orderItem.size.toString().equals('85') ? 'XS' :
+                                  orderItem.size.toString().equals('90') ? 'S' :
+                                  orderItem.size.toString().equals('95') ? 'M' :
+                                  orderItem.size.toString().equals('100') ? 'L' : ''}"></p>
+                    <input type="text" id="sizeInput" th:name="__${'orderItems[' + itemStat.index + '][size]'}__" th:value="${orderItem.size}" class="non" hidden="hidden">
                 </td>
                 <td id="itemAmount" th:text="${orderItem.itemAmount}"></td>
             </tr>
