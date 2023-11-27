@@ -56,7 +56,8 @@
                                   orderItem.size.toString().equals('85') ? 'XS' :
                                   orderItem.size.toString().equals('90') ? 'S' :
                                   orderItem.size.toString().equals('95') ? 'M' :
-                                  orderItem.size.toString().equals('100') ? 'L' : ''}"></p>
+                                  orderItem.size.toString().equals('100') ? 'L' :
+                                  orderItem.size}"></p>
                     <input type="text" id="sizeInput" th:name="__${'orderItems[' + itemStat.index + '][size]'}__" th:value="${orderItem.size}" class="non" hidden="hidden">
                 </td>
                 <td id="itemAmount" th:text="${orderItem.itemAmount}"></td>
